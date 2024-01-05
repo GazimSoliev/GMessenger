@@ -23,6 +23,6 @@ dependencyResolutionManagement {
 
 include(":app:composeApp")
 include(":app:domain")
-include(":app:shared")
+include(":app:data")
 include(":backend:server")
 include(":backend:api")
