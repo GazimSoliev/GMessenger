@@ -1,5 +1,3 @@
-val ktorVersion = "2.3.7"
-
 plugins {
     alias(libs.plugins.kotlinJvm)
 }
@@ -12,28 +10,28 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation(libs.kotlin.test)
 
     // Ktor Client
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
 
     // ContentNegotiation
-    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
 
     // Kotlin LocalDateTime
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+    implementation(libs.kotlinx.datetime)
 
     // Authentication
-    implementation("io.ktor:ktor-client-auth:$ktorVersion")
+    implementation(libs.ktor.client.auth)
 
     // Logging
-    implementation("ch.qos.logback:logback-classic:1.4.14")
-    implementation("io.ktor:ktor-client-logging:$ktorVersion")
+    implementation(libs.logback)
+    implementation(libs.ktor.client.logging)
 
     // WebSockets
-    implementation("io.ktor:ktor-client-websockets:$ktorVersion")
+    implementation(libs.ktor.client.websockets)
 }
 
 tasks.test {
