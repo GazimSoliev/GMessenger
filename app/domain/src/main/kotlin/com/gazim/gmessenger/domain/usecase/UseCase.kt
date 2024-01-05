@@ -1,6 +1,5 @@
 package com.gazim.gmessenger.domain.usecase
 
-import com.gazim.gmessenger.client.pc.domain.model.*
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 

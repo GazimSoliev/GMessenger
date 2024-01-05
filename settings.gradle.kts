@@ -21,8 +21,8 @@ dependencyResolutionManagement {
     }
 }
 
-include(":composeApp")
-include(":server")
-include(":shared")
-include("domain")
-include("api")
+include(":app:composeApp")
+include(":app:domain")
+include(":app:shared")
+include(":backend:server")
+include(":backend:api")
