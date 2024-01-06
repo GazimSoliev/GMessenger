@@ -1,23 +1,15 @@
 plugins {
-    alias(libs.plugins.kotlinJvm)
+    alias(libs.plugins.kotlinMultiplatform)
 }
 
-group = "com.gazim.gmessenger"
-version = "1.0"
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation(libs.kotlin.test)
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.datetime)
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
 kotlin {
-    jvmToolchain(17)
+    jvm()
+
+    sourceSets {
+        commonMain.dependencies {
+            // put your Multiplatform dependencies here
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.datetime)
+        }
+    }
 }
