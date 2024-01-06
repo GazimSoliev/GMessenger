@@ -31,12 +31,12 @@ kotlin {
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
-            implementation(projects.app.data)
 
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
 
-            implementation(projects.app.domain)
+            api(projects.app.domain)
+            api(projects.app.data)
 
             // Koin
             implementation(libs.koin.core)

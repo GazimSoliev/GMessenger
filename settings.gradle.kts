@@ -21,12 +21,10 @@ dependencyResolutionManagement {
     }
 }
 
-include(":app:composeApp")
+include(":app:app")
 include(":app:domain")
 include(":app:data")
 include(":backend:server")
 include(":backend:api")
-include("app:di")
-findProject(":app:di")?.name = "di"
-include("app:presentation")
-findProject(":app:presentation")?.name = "presentation"
+include(":app:di")
+include(":app:presentation")

@@ -23,7 +23,7 @@ kotlin {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
             implementation(projects.app.domain)
-            implementation(projects.app.composeApp)
+            api(projects.app.presentation)
             api(projects.app.data)
 
             // Koin
