@@ -19,5 +19,6 @@ sealed interface FindUserAction : IAction {
     data class OnFilterChange(val query: TextFieldValue) : FindUserAction
 
     data class OnUserClick(val user: IUserModel) : FindUserAction
+
     object OnBackClick : FindUserAction
 }

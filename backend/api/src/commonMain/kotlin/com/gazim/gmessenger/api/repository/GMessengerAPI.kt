@@ -2,9 +2,9 @@ package com.gazim.gmessenger.api.repository
 
 import com.gazim.gmessenger.api.extensions.configureEngine
 import com.gazim.gmessenger.api.ipServer
+import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.api.plugins.configureContentNegotiation
 import com.gazim.gmessenger.api.plugins.configureWebSockets
-import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.api.urlServer
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -82,15 +82,17 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
                 coroutineScope {
                     val user = whoAmI()
                     httpClient.webSocket(host = ipServer, port = 8080, path = "/chat/${chat.identifier}") {
-                        val input = this@coroutineScope.launch {
-                            for (frame in incoming) converter
-                                ?.deserialize<List<IMessage>>(frame)
-                                ?.map { if (it.user == user) it.toYourMessage() else it }
-                                ?.let { getter.value = it }
-                        }
-                        output = this@coroutineScope.launch {
-                            setter.collect { sendSerialized(it) }
-                        }
+                        val input =
+                            this@coroutineScope.launch {
+                                for (frame in incoming) converter
+                                    ?.deserialize<List<IMessage>>(frame)
+                                    ?.map { if (it.user == user) it.toYourMessage() else it }
+                                    ?.let { getter.value = it }
+                            }
+                        output =
+                            this@coroutineScope.launch {
+                                setter.collect { sendSerialized(it) }
+                            }
                         output?.join()
                         input.cancelAndJoin()
                     }

@@ -21,7 +21,7 @@ abstract class BaseScreen<
     SIDE_EFFECT : ISideEffect,
     ACTION : IAction,
     VIEW_MODEL : IBaseViewModel<STATE, SIDE_EFFECT, ACTION>,
-    >(clazz: KClass<VIEW_MODEL>) : Screen, ABaseScreen<STATE, SIDE_EFFECT, ACTION, VIEW_MODEL>() {
+>(clazz: KClass<VIEW_MODEL>) : Screen, ABaseScreen<STATE, SIDE_EFFECT, ACTION, VIEW_MODEL>() {
     private val viewModel: VIEW_MODEL by inject(clazz.java)
     protected lateinit var navigator: Navigator
         private set

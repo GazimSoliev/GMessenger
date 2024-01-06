@@ -7,7 +7,7 @@ interface IBaseScreen<
     SIDE_EFFECT : ISideEffect,
     ACTION : IAction,
     VIEW_MODEL : IBaseViewModel<STATE, SIDE_EFFECT, ACTION>,
-    > {
+> {
     @Composable
     fun Content()
 }

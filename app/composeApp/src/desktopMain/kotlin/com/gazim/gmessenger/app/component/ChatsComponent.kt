@@ -40,7 +40,7 @@ fun ChatsComponent(
                         IconButton(onClick = lookAtMyAccount) {
                             Icon(
                                 imageVector = Icons.Default.Person,
-                                contentDescription = null
+                                contentDescription = null,
                             )
                         }
                     },

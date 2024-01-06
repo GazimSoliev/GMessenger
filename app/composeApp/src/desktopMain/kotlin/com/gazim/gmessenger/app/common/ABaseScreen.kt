@@ -7,7 +7,7 @@ abstract class ABaseScreen<
     SIDE_EFFECT : ISideEffect,
     ACTION : IAction,
     VIEW_MODEL : IBaseViewModel<STATE, SIDE_EFFECT, ACTION>,
-    > : IBaseScreen<STATE, SIDE_EFFECT, ACTION, VIEW_MODEL> {
+> : IBaseScreen<STATE, SIDE_EFFECT, ACTION, VIEW_MODEL> {
     protected abstract val state: STATE
 
     protected abstract suspend fun handleSideEffect(sideEffect: SIDE_EFFECT)

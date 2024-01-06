@@ -22,6 +22,7 @@ data class RegisterState(
 
 sealed interface RegisterSideEffect : ISideEffect {
     object ToBack : RegisterSideEffect
+
     object UnableConnectToServer : RegisterSideEffect
 }
 
@@ -33,8 +34,12 @@ sealed interface RegisterAction : IAction {
     data class OnChangeLogin(val login: TextFieldValue) : RegisterAction
 
     data class OnChangePassword(val password: TextFieldValue) : RegisterAction
+
     object OnPasswordVisibilityClick : RegisterAction
+
     object OnRegisterClick : RegisterAction
+
     object OnBackClick : RegisterAction
+
     object CancelRegistration : RegisterAction
 }

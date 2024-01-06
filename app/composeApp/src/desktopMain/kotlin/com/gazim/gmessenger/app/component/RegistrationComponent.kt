@@ -48,10 +48,12 @@ fun RegistrationComponent(
             onDismissRequest = { showAlertDialog = false },
             title = { Text("Requirements") },
             text = {
-                Text("Nickname allowed: 0-64 character length, any character.\\n\\nUsername allowed: 4-32 character length, numbers and\n" +
+                Text(
+                    "Nickname allowed: 0-64 character length, any character.\\n\\nUsername allowed: 4-32 character length, numbers and\n" +
                         "        latin symbols.\\n\\nLogin allowed: 8-32 character length, numbers and latin symbols.\\n\\nPassword allowed: 8-128\n" +
                         "        character length, numbers, latin symbols and special characters. Password also required\n" +
-                        "        though: 1 upper case, 1 lowe case, 1 number, 1 special character and entropy.")
+                        "        though: 1 upper case, 1 lowe case, 1 number, 1 special character and entropy.",
+                )
             },
             confirmButton = {
                 Button(onClick = { showAlertDialog = false }) {
@@ -110,11 +112,12 @@ fun RegistrationComponent(
                     visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         if (!showPasswordVisibilityButton) return@TextField
-                        val icon = if (passwordVisibility) {
-                            Icons.Default.VisibilityOff
-                        } else {
-                            Icons.Default.Visibility
-                        }
+                        val icon =
+                            if (passwordVisibility) {
+                                Icons.Default.VisibilityOff
+                            } else {
+                                Icons.Default.Visibility
+                            }
                         IconButton(onClick = onClickPasswordVisibility) {
                             Icon(imageVector = icon, contentDescription = null)
                         }

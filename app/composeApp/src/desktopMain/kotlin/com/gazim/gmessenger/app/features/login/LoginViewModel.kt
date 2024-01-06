@@ -7,8 +7,8 @@ import com.gazim.gmessenger.app.service.INotificationService
 import com.gazim.gmessenger.domain.model.LoginPasswordModel
 import com.gazim.gmessenger.domain.usecase.ICreateAccountScopeUseCase
 import com.gazim.gmessenger.domain.usecase.IOnLogInUseCase
-import notificationsReceiver
 import kotlinx.coroutines.*
+import notificationsReceiver
 import org.koin.java.KoinJavaComponent.inject
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax

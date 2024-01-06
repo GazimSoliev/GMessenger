@@ -50,14 +50,14 @@ fun main() {
     }
 }
 
-//fun main() = application {
+// fun main() = application {
 //    Window(onCloseRequest = ::exitApplication, title = "GMessenger") {
 //        App()
 //    }
-//}
+// }
 //
-//@Preview
-//@Composable
-//fun AppDesktopPreview() {
+// @Preview
+// @Composable
+// fun AppDesktopPreview() {
 //    App()
-//}
+// }

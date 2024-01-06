@@ -56,11 +56,12 @@ fun LoginComponent(
                         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                         trailingIcon = {
                             if (!showPasswordVisibilityButton) return@TextField
-                            val icon = if (passwordVisibility) {
-                                Icons.Default.VisibilityOff
-                            } else {
-                                Icons.Default.Visibility
-                            }
+                            val icon =
+                                if (passwordVisibility) {
+                                    Icons.Default.VisibilityOff
+                                } else {
+                                    Icons.Default.Visibility
+                                }
                             IconButton(onClick = onClickPasswordVisibility) {
                                 Icon(imageVector = icon, contentDescription = null)
                             }

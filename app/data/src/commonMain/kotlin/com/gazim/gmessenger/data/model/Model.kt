@@ -41,7 +41,7 @@ sealed interface IPrivateChatData : IChatData {
 }
 
 // todo: Review
-interface IChatWebSocketData  {
+interface IChatWebSocketData {
     val messages: Flow<IMessageData>
 
     suspend fun sendMessage(msg: ISentMessageData)

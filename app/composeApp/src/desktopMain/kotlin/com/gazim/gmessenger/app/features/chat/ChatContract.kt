@@ -20,8 +20,12 @@ sealed interface ChatSideEffect : ISideEffect {
 
 sealed interface ChatAction : IAction {
     data class OnMessageChange(val message: TextFieldValue) : ChatAction
+
     object OnSendMessage : ChatAction
+
     object OnBack : ChatAction
+
     object OnStart : ChatAction
+
     object OnStop : ChatAction
 }
