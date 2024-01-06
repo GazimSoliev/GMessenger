@@ -1,13 +1,13 @@
 package com.gazim.gmessenger.api.repository
 
+import com.gazim.gmessenger.api.extensions.configureEngine
 import com.gazim.gmessenger.api.ipServer
-import com.gazim.gmessenger.api.ktor_plugins.configureContentNegotiation
-import com.gazim.gmessenger.api.ktor_plugins.configureWebSockets
+import com.gazim.gmessenger.api.plugins.configureContentNegotiation
+import com.gazim.gmessenger.api.plugins.configureWebSockets
 import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.api.urlServer
 import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.auth.*
 import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.plugins.websocket.*
@@ -20,18 +20,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import okhttp3.OkHttpClient
 import java.io.Closeable
-import java.util.concurrent.TimeUnit
+import kotlin.io.println
+import kotlin.use
 
 class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
     private val httpClient: HttpClient =
-        HttpClient(OkHttp) {
-            engine {
-                preconfigured = OkHttpClient.Builder()
-                    .pingInterval(5, TimeUnit.SECONDS)
-                    .build()
-            }
+        HttpClient {
+            configureEngine()
             configureWebSockets()
             configureContentNegotiation()
             install(Auth) {
@@ -45,7 +41,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
 
     companion object : IGMessengerAuthAPI {
         private val httpClient
-            get() = HttpClient(OkHttp) { configureContentNegotiation() }
+            get() = HttpClient { configureContentNegotiation() }
 
         override suspend fun register(account: IAccount): Boolean =
             httpClient.use {

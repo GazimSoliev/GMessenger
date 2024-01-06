@@ -1,4 +1,4 @@
-package com.gazim.gmessenger.api.ktor_plugins
+package com.gazim.gmessenger.api.plugins
 
 import io.ktor.client.*
 import io.ktor.client.engine.*
