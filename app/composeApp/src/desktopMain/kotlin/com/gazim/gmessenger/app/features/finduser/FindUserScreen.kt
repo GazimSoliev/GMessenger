@@ -1,0 +1,31 @@
+package com.gazim.gmessenger.app.features.finduser
+
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.gazim.gmessenger.app.common.BaseScreen
+import com.gazim.gmessenger.app.component.FindUserComponent
+import com.gazim.gmessenger.app.features.finduser.FindUserAction.*
+import com.gazim.gmessenger.app.features.finduser.FindUserSideEffect.ToChatsScreen
+
+class FindUserScreen : BaseScreen<FindUserState, FindUserSideEffect, FindUserAction, FindUserViewModel>(
+    FindUserViewModel::class,
+) {
+    override suspend fun handleSideEffect(sideEffect: FindUserSideEffect) {
+        when (sideEffect) {
+            is ToChatsScreen -> navigator.pop()
+        }
+    }
+
+    @Composable
+    override fun Screen() {
+        FindUserComponent(
+            modifier = Modifier.fillMaxSize(),
+            users = state.users,
+            query = state.query,
+            onQueryChange = { sendAction(OnFilterChange(it)) },
+            createChat = { sendAction(OnUserClick(it)) },
+            back = { sendAction(OnBackClick) },
+        )
+    }
+}

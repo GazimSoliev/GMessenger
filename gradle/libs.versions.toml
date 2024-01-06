@@ -19,6 +19,10 @@ ktor = "2.3.7"
 logback = "1.4.14"
 kotlinx-coroutines-core = "1.8.0-RC2"
 kotlinx-datetime = "0.5.0"
+koin-compose = "1.1.2"
+koin = "3.5.3"
+orbit = "6.1.0"
+voyager = "1.0.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -49,6 +53,12 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-logger = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
+orbit-core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbit" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

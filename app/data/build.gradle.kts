@@ -22,7 +22,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
-            api(projects.app.domain)
+            implementation(projects.app.domain)
             api(projects.backend.api)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)

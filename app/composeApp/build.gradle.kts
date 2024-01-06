@@ -44,6 +44,27 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(projects.app.data)
+
+            implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
+
+            implementation(projects.app.domain)
+            api(projects.app.data)
+
+            // Koin
+            implementation(libs.koin.core)
+            implementation(libs.koin.logger)
+            implementation(libs.koin.compose)
+
+            // DateTime
+            implementation(libs.kotlinx.datetime)
+
+            // Orbit
+            implementation(libs.orbit.core)
+
+            // Voyager
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.transitions)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
