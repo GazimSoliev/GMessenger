@@ -4,10 +4,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.gazim.gmessenger.presentation.App
-import com.gazim.gmessenger.presentation.component.NotificationsWindow
 import com.gazim.gmessenger.di.*
 import com.gazim.gmessenger.domain.model.INotificationModel
+import com.gazim.gmessenger.presentation.App
+import com.gazim.gmessenger.presentation.component.NotificationsWindow
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow

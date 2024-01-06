@@ -1,14 +1,14 @@
 package com.gazim.gmessenger.di
 
+import com.gazim.gmessenger.presentation.features.chat.ChatViewModel
+import com.gazim.gmessenger.presentation.features.chats.ChatsViewModel
+import com.gazim.gmessenger.presentation.features.finduser.FindUserViewModel
+import com.gazim.gmessenger.presentation.features.login.LoginViewModel
+import com.gazim.gmessenger.presentation.features.register.RegisterViewModel
+import com.gazim.gmessenger.presentation.features.user.UserViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
-import com.gazim.gmessenger.presentation.features.login.LoginViewModel
-import com.gazim.gmessenger.presentation.features.register.RegisterViewModel
-import com.gazim.gmessenger.presentation.features.chats.ChatsViewModel
-import com.gazim.gmessenger.presentation.features.finduser.FindUserViewModel
-import com.gazim.gmessenger.presentation.features.chat.ChatViewModel
-import com.gazim.gmessenger.presentation.features.user.UserViewModel
 
 actual val viewModelModule: Module =
     module {

@@ -42,7 +42,6 @@ kotlin {
 
             implementation(libs.koin.core)
             implementation(libs.koin.logger)
-
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -96,6 +95,6 @@ compose.desktop {
     }
 }
 
-//compose.experimental {
+// compose.experimental {
 //    web.application {}
-//}
+// }

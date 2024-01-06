@@ -51,6 +51,9 @@ kotlin {
             // Voyager
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.transitions)
+
+            // Utils
+            implementation(projects.utils)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
