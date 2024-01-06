@@ -1,9 +1,9 @@
 package com.gazim.gmessenger.data.repository
 
-import com.gazim.gmessenger.client.pc.domain.model.IChatWebSocketModel
-import com.gazim.gmessenger.client.pc.domain.model.IMessageModel
-import com.gazim.gmessenger.client.pc.domain.model.ISentMessageModel
-import com.gazim.gmessenger.client.pc.domain.repository.IChatRepository
+import com.gazim.gmessenger.domain.model.IChatWebSocketModel
+import com.gazim.gmessenger.domain.model.IMessageModel
+import com.gazim.gmessenger.domain.model.ISentMessageModel
+import com.gazim.gmessenger.domain.repository.IChatRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

@@ -53,6 +53,8 @@ interface IChatWebSocketModel {
     suspend fun sendMessage(msg: ISentMessageModel)
 
     suspend fun openConnection()
+
+    fun close()
 }
 
 interface INotificationWebSocketModel {

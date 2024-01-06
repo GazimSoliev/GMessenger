@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.data.repository
 
-import com.gazim.gmessenger.client.pc.domain.repository.ISessionRepository
+import com.gazim.gmessenger.domain.repository.ISessionRepository
 
 // todo: Take out into UseCase
 class SessionRepository : ISessionRepository {

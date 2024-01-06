@@ -1,11 +1,11 @@
 package com.gazim.gmessenger.data.repository
 
-import com.gazim.api.gmessenger.model.Account
-import com.gazim.api.gmessenger.model.LoginPassword
-import com.gazim.api.gmessenger.repository.GMessengerAPI
-import com.gazim.gmessenger.client.pc.domain.model.IAccountModel
-import com.gazim.gmessenger.client.pc.domain.model.ILoginPasswordModel
-import com.gazim.gmessenger.client.pc.domain.repository.IGMessengerAuthRepository
+import com.gazim.gmessenger.api.model.Account
+import com.gazim.gmessenger.api.model.LoginPassword
+import com.gazim.gmessenger.api.repository.GMessengerAPI
+import com.gazim.gmessenger.domain.model.IAccountModel
+import com.gazim.gmessenger.domain.model.ILoginPasswordModel
+import com.gazim.gmessenger.domain.repository.IGMessengerAuthRepository
 
 class GMessengerAuthRepository : IGMessengerAuthRepository {
     override suspend fun register(accountModel: IAccountModel): Boolean =

@@ -1,14 +1,12 @@
 package com.gazim.gmessenger.data.repository
 
-import com.gazim.api.gmessenger.model.IChat
-import com.gazim.api.gmessenger.model.IUser
-import com.gazim.api.gmessenger.repository.GMessengerAPI
-import com.gazim.api.gmessenger.repository.IGMessengerAPI
-import com.gazim.gmessenger.client.pc.data.model.*
-import com.gazim.gmessenger.client.pc.domain.model.*
-import com.gazim.gmessenger.client.pc.domain.repository.IGMessengerRepository
-import com.gazim.gmessenger.data.model.toChatModel
-import com.gazim.gmessenger.data.model.toUserModel
+import com.gazim.gmessenger.api.model.IChat
+import com.gazim.gmessenger.api.model.IUser
+import com.gazim.gmessenger.api.repository.GMessengerAPI
+import com.gazim.gmessenger.api.repository.IGMessengerAPI
+import com.gazim.gmessenger.data.model.*
+import com.gazim.gmessenger.domain.model.*
+import com.gazim.gmessenger.domain.repository.IGMessengerRepository
 
 class GMessengerRepository(token: String) : IGMessengerRepository {
     private val gMessengerAPI: IGMessengerAPI = GMessengerAPI(token)
