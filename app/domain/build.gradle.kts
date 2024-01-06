@@ -31,7 +31,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.gazim.gmessenger.shared"
+    namespace = "com.gazim.gmessenger.domain"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

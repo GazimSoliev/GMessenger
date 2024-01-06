@@ -36,13 +36,13 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
-            api(projects.app.presentation)
-            api(projects.app.di)
+            implementation(projects.app.presentation)
+            implementation(projects.app.domain)
+            implementation(projects.app.di)
 
             implementation(libs.koin.core)
             implementation(libs.koin.logger)
 
-            implementation(projects.app.domain)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -96,6 +96,6 @@ compose.desktop {
     }
 }
 
-compose.experimental {
-    web.application {}
-}
+//compose.experimental {
+//    web.application {}
+//}

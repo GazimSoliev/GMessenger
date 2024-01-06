@@ -23,7 +23,7 @@ kotlin {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
             implementation(projects.app.domain)
-            api(projects.backend.api)
+            implementation(projects.backend.api)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
         }
@@ -31,7 +31,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.gazim.gmessenger.shared"
+    namespace = "com.gazim.gmessenger.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

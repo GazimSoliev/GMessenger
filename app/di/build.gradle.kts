@@ -23,8 +23,8 @@ kotlin {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
             implementation(projects.app.domain)
-            api(projects.app.presentation)
-            api(projects.app.data)
+            implementation(projects.app.presentation)
+            implementation(projects.app.data)
 
             // Koin
             implementation(libs.koin.core)
@@ -36,7 +36,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.gazim.gmessenger.shared"
+    namespace = "com.gazim.gmessenger.di"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
