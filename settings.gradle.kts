@@ -26,3 +26,5 @@ include(":app:domain")
 include(":app:data")
 include(":backend:server")
 include(":backend:api")
+include("app:di")
+findProject(":app:di")?.name = "di"
