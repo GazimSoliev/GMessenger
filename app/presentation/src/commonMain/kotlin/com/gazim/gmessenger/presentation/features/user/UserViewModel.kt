@@ -4,6 +4,7 @@ import com.gazim.gmessenger.domain.usecase.IGetOwnUser
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.user.UserAction.OnBack
 import com.gazim.gmessenger.presentation.features.user.UserSideEffect.ToBack
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -25,7 +26,7 @@ class UserViewModel(private val getUserUseCase: IGetOwnUser) : BaseViewModel<Use
 
     override val container: Container<UserState, UserSideEffect> =
         container(initialState = UserState()) {
-            scope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 val user = getUserUseCase()
                 reduce { UserState(nickname = user.nickname, username = "@${user.username}") }
             }

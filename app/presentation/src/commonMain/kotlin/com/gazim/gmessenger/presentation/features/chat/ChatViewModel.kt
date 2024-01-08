@@ -30,11 +30,11 @@ class ChatViewModel(
 ) : BaseViewModel<ChatState, ChatSideEffect, ChatAction>() {
     override val container: Container<ChatState, ChatSideEffect> =
         container(initialState = ChatState()) {
-            scope.launch {
+            viewModelScope.launch {
                 val chatTitle = getChatNameUseCase()
                 reduce { state.copy(chatTitle = chatTitle) }
             }
-            scope.launch {
+            viewModelScope.launch {
                 getMessagesUseCase().collectLatest { ms ->
                     val groupedMessages = ms.groupBy({ GroupedMessagesDateUI(it.sentAt.date) }, { it.toMessageUI() })
                     val mutableList = mutableListOf<IMessageItemUI>()
@@ -51,7 +51,7 @@ class ChatViewModel(
         intent {
             when (action) {
                 is OnStart -> openConnection()
-                is OnStop -> scope.launch { closeChatUseCase() }
+                is OnStop -> viewModelScope.launch { closeChatUseCase() }
                 is OnMessageChange -> reduce { state.copy(message = action.message) }
                 is OnSendMessage -> {
                     sendMessage(state.message.text)
@@ -74,11 +74,11 @@ class ChatViewModel(
     }
 
     private suspend fun IntentScope.openConnection() {
-        scope.launch(
+        viewModelScope.launch(
             CoroutineExceptionHandler { _, e ->
                 e.printStackTrace()
                 if (e is CancellationException) return@CoroutineExceptionHandler
-                scope.launch {
+                viewModelScope.launch {
                     reduce { state.copy(showReconnectionTimer = true, reconnectionTimerSeconds = 5) }
                     for (count in 5 downTo 0) {
                         delay(1000)

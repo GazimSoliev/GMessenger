@@ -81,7 +81,8 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             override suspend fun openConnection() {
                 coroutineScope {
                     val user = whoAmI()
-                    httpClient.webSocket(host = ipServer, port = 8080, path = "/chat/${chat.identifier}") {
+                    httpClient.wss(host = ipServer, path = "/chat/${chat.identifier}") {
+                        println(this.call.request.url)
                         val input =
                             this@coroutineScope.launch {
                                 for (frame in incoming) converter

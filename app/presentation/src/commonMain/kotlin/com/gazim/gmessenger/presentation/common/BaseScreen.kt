@@ -12,8 +12,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
-import org.koin.java.KoinJavaComponent.inject
-import kotlin.reflect.KClass
 
 // todo: make some implementation final?
 abstract class BaseScreen<
@@ -21,8 +19,8 @@ abstract class BaseScreen<
     SIDE_EFFECT : ISideEffect,
     ACTION : IAction,
     VIEW_MODEL : IBaseViewModel<STATE, SIDE_EFFECT, ACTION>,
->(clazz: KClass<VIEW_MODEL>) : Screen, ABaseScreen<STATE, SIDE_EFFECT, ACTION, VIEW_MODEL>() {
-    private val viewModel: VIEW_MODEL by inject(clazz.java)
+> : Screen, ABaseScreen<STATE, SIDE_EFFECT, ACTION, VIEW_MODEL>() {
+    private lateinit var viewModel: VIEW_MODEL
     protected lateinit var navigator: Navigator
         private set
     private lateinit var _state: State<STATE>
@@ -33,6 +31,7 @@ abstract class BaseScreen<
 
     @Composable
     override fun Content() {
+        viewModel = createViewModel()
         navigator = LocalNavigator.currentOrThrow
         _state = viewModel.state.collectAsState()
         LaunchedEffect(viewModel) {
@@ -44,4 +43,7 @@ abstract class BaseScreen<
         )
         Screen()
     }
+
+    @Composable
+    protected abstract fun createViewModel(): VIEW_MODEL
 }

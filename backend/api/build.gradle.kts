@@ -21,6 +21,7 @@ kotlin {
         }
         jvmMain.dependencies {
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.logback)
         }
         commonMain.dependencies {
             // Ktor Client
@@ -37,7 +38,6 @@ kotlin {
             implementation(libs.ktor.client.auth)
 
             // Logging
-            implementation(libs.logback)
             implementation(libs.ktor.client.logging)
 
             // WebSockets

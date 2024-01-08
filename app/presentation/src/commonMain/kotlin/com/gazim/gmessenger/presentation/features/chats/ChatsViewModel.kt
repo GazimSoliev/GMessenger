@@ -10,7 +10,6 @@ import com.gazim.gmessenger.presentation.features.chats.ChatsAction.*
 import com.gazim.gmessenger.presentation.features.chats.ChatsSideEffect.*
 import com.gazim.gmessenger.presentation.model.toChatModel
 import com.gazim.gmessenger.presentation.model.toChatUI
-import com.gazim.gmessenger.presentation.service.INotificationService
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -23,7 +22,7 @@ class ChatsViewModel(
     private val sendChatUseCase: ISendChatUseCase,
     private val closeAccountScopeUseCase: ICloseAccountScopeUseCase,
     private val createChatScopeUseCase: ICreateChatScopeUseCase,
-    private val notificationService: INotificationService,
+//    private val notificationService: INotificationService,
 ) : BaseViewModel<ChatsState, ChatsSideEffect, ChatsAction>() {
     override val container: Container<ChatsState, ChatsSideEffect> =
         container(initialState = ChatsState()) {
@@ -44,7 +43,7 @@ class ChatsViewModel(
                 is OnAccountInfoClick -> postSideEffect(ToAccountInfoScreen)
                 is OnLogOutClick -> {
                     postSideEffect(ToLoginScreen)
-                    notificationService.stop()
+//                    notificationService.stop()
                     closeAccountScopeUseCase()
                     destroyViewModel()
                 }

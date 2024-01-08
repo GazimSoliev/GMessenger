@@ -24,9 +24,9 @@ val useCaseModule =
         factoryOf(::ValidatePassword) bind IValidatePassword::class
         factoryOf(::ValidateNickname) bind IValidateNickname::class
         factoryOf(::ValidateUsername) bind IValidateUsername::class
-        factoryOf(::OpenNotificationUseCase) bind IOpenNotificationUseCase::class
-        factoryOf(::CloseNotificationUseCase) bind ICloseNotificationUseCase::class
-        factoryOf(::GetNotificationsUseCase) bind IGetNotificationsUseCase::class
+//        factoryOf(::OpenNotificationUseCase) bind IOpenNotificationUseCase::class
+//        factoryOf(::CloseNotificationUseCase) bind ICloseNotificationUseCase::class
+//        factoryOf(::GetNotificationsUseCase) bind IGetNotificationsUseCase::class
         factory { ICreateAccountScopeUseCase { getKoin().createScope<AccountScope>(scopeId = getCurrentToken()) } }
         factory { ICloseAccountScopeUseCase { getCurrentAccountScope().close() } }
         factory { ICreateChatScopeUseCase { getKoin().createScope<ChatScope>(scopeId = getCurrentChatId()) } }

@@ -6,10 +6,7 @@ import com.gazim.gmessenger.domain.usecase.IOnLogInUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
-import com.gazim.gmessenger.presentation.service.INotificationService
-import com.gazim.gmessenger.presentation.service.notificationsReceiver
 import kotlinx.coroutines.*
-import org.koin.java.KoinJavaComponent.inject
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -23,7 +20,7 @@ class LoginViewModel(
     private val onLogInUseCase: IOnLogInUseCase,
     private val createAccountScopeUseCase: ICreateAccountScopeUseCase,
 ) : BaseViewModel<LoginState, LoginSideEffect, LoginAction>() {
-    private val notificationService: INotificationService by inject(INotificationService::class.java)
+//    private val notificationService: INotificationService by inject(INotificationService::class.java)
     override val container: Container<LoginState, LoginSideEffect> = container(initialState = LoginState())
 
     private var loggingJob: Job = Job()
@@ -67,8 +64,8 @@ class LoginViewModel(
                     }.onSuccess {
                         if (!it) return@onSuccess postSideEffect(WrongLoginOrPassword)
                         createAccountScopeUseCase()
-                        notificationService.subscribe(notificationsReceiver)
-                        notificationService.start()
+//                        notificationService.subscribe(notificationsReceiver)
+//                        notificationService.start()
                         postSideEffect(ToChatsScreen)
                         destroyViewModel()
                     }

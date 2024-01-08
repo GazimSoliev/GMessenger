@@ -5,27 +5,29 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import cafe.adriel.voyager.koin.getScreenModel
 import com.gazim.gmessenger.presentation.common.BaseScreen
 import com.gazim.gmessenger.presentation.component.RegistrationComponent
 import com.gazim.gmessenger.presentation.features.register.RegisterAction.*
 import com.gazim.gmessenger.presentation.features.register.RegisterSideEffect.ToBack
 import com.gazim.gmessenger.presentation.features.register.RegisterSideEffect.UnableConnectToServer
 
-class RegisterScreen : BaseScreen<RegisterState, RegisterSideEffect, RegisterAction, RegisterViewModel>(
-    RegisterViewModel::class,
-) {
-    private lateinit var snackbarHostState: SnackbarHostState
+class RegisterScreen : BaseScreen<RegisterState, RegisterSideEffect, RegisterAction, RegisterViewModel>() {
+    private lateinit var snackBarHostState: SnackbarHostState
 
     override suspend fun handleSideEffect(sideEffect: RegisterSideEffect) {
         when (sideEffect) {
             is ToBack -> navigator.pop()
-            is UnableConnectToServer -> snackbarHostState.showSnackbar("Unable connect to server")
+            is UnableConnectToServer -> snackBarHostState.showSnackbar("Unable connect to server")
         }
     }
 
     @Composable
+    override fun createViewModel(): RegisterViewModel = getScreenModel<RegisterViewModel>()
+
+    @Composable
     override fun Screen() {
-        snackbarHostState = remember { SnackbarHostState() }
+        snackBarHostState = remember { SnackbarHostState() }
         RegistrationComponent(
             modifier = Modifier.fillMaxSize(),
             nickname = state.nickname,
@@ -47,7 +49,7 @@ class RegisterScreen : BaseScreen<RegisterState, RegisterSideEffect, RegisterAct
             back = { sendAction(OnBackClick) },
             registrationInProgress = state.registrationInProgress,
             cancel = { sendAction(CancelRegistration) },
-            snackbarHostState = snackbarHostState,
+            snackbarHostState = snackBarHostState,
         )
     }
 }
