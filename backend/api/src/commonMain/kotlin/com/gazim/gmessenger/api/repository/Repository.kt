@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.api.repository
 
-import com.gazim.gmessenger.api.model.*
+import com.gazim.gmessenger.backend.common.model.*
 import kotlinx.coroutines.flow.Flow
 import java.io.Closeable
 

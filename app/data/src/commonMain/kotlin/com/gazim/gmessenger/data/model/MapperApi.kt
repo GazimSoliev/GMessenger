@@ -1,8 +1,8 @@
 package com.gazim.gmessenger.data.model
 
-import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.api.repository.IChatWebSocket
 import com.gazim.gmessenger.api.repository.INotificationSocket
+import com.gazim.gmessenger.backend.common.model.*
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

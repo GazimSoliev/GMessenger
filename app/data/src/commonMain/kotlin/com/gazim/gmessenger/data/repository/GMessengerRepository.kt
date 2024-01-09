@@ -1,9 +1,9 @@
 package com.gazim.gmessenger.data.repository
 
-import com.gazim.gmessenger.api.model.IChat
-import com.gazim.gmessenger.api.model.IUser
 import com.gazim.gmessenger.api.repository.GMessengerAPI
 import com.gazim.gmessenger.api.repository.IGMessengerAPI
+import com.gazim.gmessenger.backend.common.model.IChat
+import com.gazim.gmessenger.backend.common.model.IUser
 import com.gazim.gmessenger.data.model.*
 import com.gazim.gmessenger.domain.model.*
 import com.gazim.gmessenger.domain.repository.IGMessengerRepository

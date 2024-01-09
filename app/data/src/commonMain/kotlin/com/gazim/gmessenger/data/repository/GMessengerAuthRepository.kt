@@ -1,8 +1,8 @@
 package com.gazim.gmessenger.data.repository
 
-import com.gazim.gmessenger.api.model.Account
-import com.gazim.gmessenger.api.model.LoginPassword
 import com.gazim.gmessenger.api.repository.GMessengerAPI
+import com.gazim.gmessenger.backend.common.model.Account
+import com.gazim.gmessenger.backend.common.model.LoginPassword
 import com.gazim.gmessenger.domain.model.IAccountModel
 import com.gazim.gmessenger.domain.model.ILoginPasswordModel
 import com.gazim.gmessenger.domain.repository.IGMessengerAuthRepository

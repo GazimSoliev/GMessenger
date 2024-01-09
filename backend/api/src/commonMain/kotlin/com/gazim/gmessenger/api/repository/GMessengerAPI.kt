@@ -2,10 +2,11 @@ package com.gazim.gmessenger.api.repository
 
 import com.gazim.gmessenger.api.extensions.configureEngine
 import com.gazim.gmessenger.api.ipServer
-import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.api.plugins.configureContentNegotiation
 import com.gazim.gmessenger.api.plugins.configureWebSockets
 import com.gazim.gmessenger.api.urlServer
+import com.gazim.gmessenger.backend.common.model.*
+import com.gazim.gmessenger.backend.common.route.*
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.auth.*
@@ -45,7 +46,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
 
         override suspend fun register(account: IAccount): Boolean =
             httpClient.use {
-                it.post("$urlServer/registration".also(::println)) {
+                it.post("$urlServer$registrationRoute".also(::println)) {
                     contentType(ContentType.Application.Json)
                     setBody(account)
                 }.status == HttpStatusCode.OK
@@ -53,19 +54,19 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
 
         override suspend fun login(loginPassword: ILoginPassword): String =
             httpClient.use {
-                httpClient.post("$urlServer/login".also { println(it) }) {
+                httpClient.post("$urlServer$loginRoute".also { println(it) }) {
                     contentType(ContentType.Application.Json)
                     setBody(loginPassword)
                 }.bodyAsText()
             }
     }
 
-    override suspend fun whoAmI(): IUser = httpClient.get("$urlServer/user").body()
+    override suspend fun whoAmI(): IUser = httpClient.get("$urlServer$userRoute").body()
 
-    override suspend fun getChats(): List<IChat> = httpClient.get("$urlServer/chats").body()
+    override suspend fun getChats(): List<IChat> = httpClient.get("$urlServer$chatsRoute").body()
 
     override suspend fun createChat(user: IUser): Boolean =
-        httpClient.post("$urlServer/create_chat") {
+        httpClient.post("$urlServer$createChatRoute") {
             contentType(ContentType.Application.Json)
             setBody(user)
         }.status == HttpStatusCode.OK
@@ -81,7 +82,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             override suspend fun openConnection() {
                 coroutineScope {
                     val user = whoAmI()
-                    httpClient.wss(host = ipServer, path = "/chat/${chat.identifier}") {
+                    httpClient.wss(host = ipServer, path = "$chatRoute/${chat.identifier}") {
                         println(this.call.request.url)
                         val input =
                             this@coroutineScope.launch {
@@ -109,7 +110,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             }
         }
 
-    override suspend fun findUser(username: String): List<IUser> = httpClient.get("$urlServer/find_user?filter=$username").body()
+    override suspend fun findUser(username: String): List<IUser> = httpClient.get("$urlServer$findUserRoute?filter=$username").body()
 
     override suspend fun getNotifications(): INotificationSocket =
         object : INotificationSocket {
@@ -122,7 +123,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
                 coroutineScope {
                     job =
                         launch(Dispatchers.IO) {
-                            httpClient.webSocket(host = ipServer, port = 8080, path = "/notifications") {
+                            httpClient.wss(host = ipServer, path = notificationRoute) {
                                 withContext(Dispatchers.IO) {
                                     for (frame in incoming) {
                                         val notification = converter?.deserialize<INotification>(frame) ?: continue
