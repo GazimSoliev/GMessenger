@@ -5,35 +5,35 @@ import kotlinx.coroutines.flow.Flow
 import java.io.Closeable
 
 interface IGMessengerAPI {
-    suspend fun whoAmI(): IUser
+    suspend fun whoAmI(): IUserPresent
 
-    suspend fun getChats(): List<IChat>
+    suspend fun getChats(): List<IChatPresent>
 
-    suspend fun createChat(user: IUser): Boolean
+    suspend fun createChat(user: IUserPresent): Boolean
 
-    fun getChatWebSocket(chat: IChat): IChatWebSocket
+    fun getChatWebSocket(chat: IChatPresent): IChatWebSocket
 
-    suspend fun findUser(username: String): List<IUser>
+    suspend fun findUser(username: String): List<IUserPresent>
 
     suspend fun getNotifications(): INotificationSocket
 }
 
 interface IGMessengerAuthAPI {
-    suspend fun register(account: IAccount): Boolean
+    suspend fun register(account: IAccountPresent): Boolean
 
-    suspend fun login(loginPassword: ILoginPassword): String?
+    suspend fun login(loginPassword: ILoginPasswordPresent): String?
 }
 
 interface IChatWebSocket : Closeable {
-    val messages: Flow<List<IMessage>>
+    val messages: Flow<List<IMessagePresent>>
 
     suspend fun openConnection()
 
-    suspend fun sendMessage(message: ISentMessage)
+    suspend fun sendMessage(message: ISentMessagePresent)
 }
 
 interface INotificationSocket {
-    val notifications: Flow<INotification>
+    val notifications: Flow<INotificationPresent>
 
     suspend fun openConnection()
 

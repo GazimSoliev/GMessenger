@@ -7,39 +7,39 @@ import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-fun IUser.toUserModel(): IUserModel = UserModel(nickname = nickname, username = username)
+fun IUserPresent.toUserModel(): IUserModel = UserModel(nickname = nickname, username = username)
 
-fun IUserModel.toUser(): IUser = User(nickname = nickname, username = username)
+fun IUserModel.toUser(): IUserPresent = UserPresent(nickname = nickname, username = username)
 
-fun IChat.toChatModel(): IChatModel =
-    if (this is IPrivateChat) {
+fun IChatPresent.toChatModel(): IChatModel =
+    if (this is IPrivateChatPresent) {
         PrivateChatModel(identifier = identifier, title = title, user = user.toUserModel())
     } else {
         ChatModel(identifier = identifier, title = title)
     }
 
-fun IChatModel.toChat(): IChat =
+fun IChatModel.toChat(): IChatPresent =
     if (this is IPrivateChatModel) {
-        PrivateChat(identifier = identifier, title = title, user = user.toUser())
+        PrivateChatPresent(identifier = identifier, title = title, user = user.toUser())
     } else {
-        Chat(identifier = identifier, title = title)
+        ChatPresent(identifier = identifier, title = title)
     }
 
-fun IMessage.toMessageModel() =
-    if (this is IYourMessage) {
+fun IMessagePresent.toMessageModel() =
+    if (this is IYourMessagePresent) {
         YourMessageModel(message = message, sentAt = sentAt, user = user.toUserModel())
     } else {
         MessageModel(message = message, sentAt = sentAt, user = user.toUserModel())
     }
 
-fun ISentMessageModel.toSentMessage() = SentMessage(message = message)
+fun ISentMessageModel.toSentMessage() = SentMessagePresent(message = message)
 
 fun IChatWebSocket.toChatWebSocketModel(chatName: String) =
     object : IChatWebSocketModel {
         override val chatName: String = chatName
 
         override val messages: Flow<List<IMessageModel>> =
-            this@toChatWebSocketModel.messages.map { it.map(IMessage::toMessageModel) }
+            this@toChatWebSocketModel.messages.map { it.map(IMessagePresent::toMessageModel) }
 
         override suspend fun sendMessage(msg: ISentMessageModel) = this@toChatWebSocketModel.sendMessage(msg.toSentMessage())
 
@@ -52,7 +52,7 @@ fun INotificationSocket.toNotificationWebSocketModel() =
     object : INotificationWebSocketModel {
         override val notifications: Flow<INotificationModel> =
             this@toNotificationWebSocketModel.notifications.map(
-                INotification::toNotificationModel,
+                INotificationPresent::toNotificationModel,
             )
 
         override suspend fun openConnection() = this@toNotificationWebSocketModel.openConnection()
@@ -60,9 +60,9 @@ fun INotificationSocket.toNotificationWebSocketModel() =
         override suspend fun closeConnection() = this@toNotificationWebSocketModel.closeConnection()
     }
 
-fun INotification.toNotificationModel() =
+fun INotificationPresent.toNotificationModel() =
     when (this) {
-        is INotificationMessage ->
+        is INotificationMessagePresent ->
             NotificationMessageModel(
                 message = message,
                 sentAt = sentAt,

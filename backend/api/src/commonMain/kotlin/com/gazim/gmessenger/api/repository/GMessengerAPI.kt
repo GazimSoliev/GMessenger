@@ -44,7 +44,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
         private val httpClient
             get() = HttpClient { configureContentNegotiation() }
 
-        override suspend fun register(account: IAccount): Boolean =
+        override suspend fun register(account: IAccountPresent): Boolean =
             httpClient.use {
                 it.post("$urlServer$registrationRoute".also(::println)) {
                     contentType(ContentType.Application.Json)
@@ -52,7 +52,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
                 }.status == HttpStatusCode.OK
             }
 
-        override suspend fun login(loginPassword: ILoginPassword): String =
+        override suspend fun login(loginPassword: ILoginPasswordPresent): String =
             httpClient.use {
                 httpClient.post("$urlServer$loginRoute".also { println(it) }) {
                     contentType(ContentType.Application.Json)
@@ -61,22 +61,22 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             }
     }
 
-    override suspend fun whoAmI(): IUser = httpClient.get("$urlServer$userRoute").body()
+    override suspend fun whoAmI(): IUserPresent = httpClient.get("$urlServer$userRoute").body()
 
-    override suspend fun getChats(): List<IChat> = httpClient.get("$urlServer$chatsRoute").body()
+    override suspend fun getChats(): List<IChatPresent> = httpClient.get("$urlServer$chatsRoute").body()
 
-    override suspend fun createChat(user: IUser): Boolean =
+    override suspend fun createChat(user: IUserPresent): Boolean =
         httpClient.post("$urlServer$createChatRoute") {
             contentType(ContentType.Application.Json)
             setBody(user)
         }.status == HttpStatusCode.OK
 
-    override fun getChatWebSocket(chat: IChat): IChatWebSocket =
+    override fun getChatWebSocket(chat: IChatPresent): IChatWebSocket =
         object : IChatWebSocket {
-            val getter = MutableStateFlow(emptyList<IMessage>())
-            val setter = MutableSharedFlow<ISentMessage>()
+            val getter = MutableStateFlow(emptyList<IMessagePresent>())
+            val setter = MutableSharedFlow<ISentMessagePresent>()
             var output: Job? = null
-            override val messages: Flow<List<IMessage>>
+            override val messages: Flow<List<IMessagePresent>>
                 get() = getter
 
             override suspend fun openConnection() {
@@ -87,7 +87,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
                         val input =
                             this@coroutineScope.launch {
                                 for (frame in incoming) converter
-                                    ?.deserialize<List<IMessage>>(frame)
+                                    ?.deserialize<List<IMessagePresent>>(frame)
                                     ?.map { if (it.user == user) it.toYourMessage() else it }
                                     ?.let { getter.value = it }
                             }
@@ -101,7 +101,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
                 }
             }
 
-            override suspend fun sendMessage(message: ISentMessage) {
+            override suspend fun sendMessage(message: ISentMessagePresent) {
                 setter.emit(message)
             }
 
@@ -110,14 +110,14 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             }
         }
 
-    override suspend fun findUser(username: String): List<IUser> = httpClient.get("$urlServer$findUserRoute?filter=$username").body()
+    override suspend fun findUser(username: String): List<IUserPresent> = httpClient.get("$urlServer$findUserRoute?filter=$username").body()
 
     override suspend fun getNotifications(): INotificationSocket =
         object : INotificationSocket {
-            private val _notifications = MutableSharedFlow<INotification>()
+            private val _notifications = MutableSharedFlow<INotificationPresent>()
             private var job: Job? = null
 
-            override val notifications: Flow<INotification> = _notifications.asSharedFlow()
+            override val notifications: Flow<INotificationPresent> = _notifications.asSharedFlow()
 
             override suspend fun openConnection() {
                 coroutineScope {
@@ -126,7 +126,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
                             httpClient.wss(host = ipServer, path = notificationRoute) {
                                 withContext(Dispatchers.IO) {
                                     for (frame in incoming) {
-                                        val notification = converter?.deserialize<INotification>(frame) ?: continue
+                                        val notification = converter?.deserialize<INotificationPresent>(frame) ?: continue
                                         _notifications.emit(notification)
                                     }
                                 }

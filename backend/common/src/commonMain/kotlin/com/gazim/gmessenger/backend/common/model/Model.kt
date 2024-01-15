@@ -4,62 +4,62 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface IUser {
+sealed interface IUserPresent {
     val nickname: String
     val username: String
 }
 
 @Serializable
-sealed interface ILogin {
+sealed interface ILoginPresent {
     val login: String
 }
 
 @Serializable
-sealed interface IPassword {
+sealed interface IPasswordPresent {
     val password: String
 }
 
 @Serializable
-sealed interface ILoginPassword : ILogin, IPassword
+sealed interface ILoginPasswordPresent : ILoginPresent, IPasswordPresent
 
 @Serializable
-sealed interface IAccount : IUser, ILoginPassword
+sealed interface IAccountPresent : IUserPresent, ILoginPasswordPresent
 
 @Serializable
-sealed interface ISentMessage {
+sealed interface ISentMessagePresent {
     val message: String
 }
 
 @Serializable
-sealed interface IMessage : ISentMessage {
+sealed interface IMessagePresent : ISentMessagePresent {
     val sentAt: LocalDateTime
-    val user: IUser
+    val user: IUserPresent
 }
 
 @Serializable
-sealed interface IYourMessage : IMessage
+sealed interface IYourMessagePresent : IMessagePresent
 
 @Serializable
-sealed interface INotification
+sealed interface INotificationPresent
 
 @Serializable
-sealed interface INotificationMessage : IMessage, INotification {
+sealed interface INotificationMessagePresent : IMessagePresent, INotificationPresent {
     val chatName: String
 }
 
 @Serializable
-sealed interface IChat {
+sealed interface IChatPresent {
     val identifier: String
     val title: String
 }
 
 @Serializable
-sealed interface IPrivateChat : IChat {
-    val user: IUser
+sealed interface IPrivateChatPresent : IChatPresent {
+    val user: IUserPresent
 }
 
 @Serializable
-sealed interface IPage<T> {
+sealed interface IPagePresent<T> {
     val next: Int?
     val previous: Int?
     val list: List<T>

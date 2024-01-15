@@ -2,8 +2,8 @@ package com.gazim.gmessenger.data.repository
 
 import com.gazim.gmessenger.api.repository.GMessengerAPI
 import com.gazim.gmessenger.api.repository.IGMessengerAPI
-import com.gazim.gmessenger.backend.common.model.IChat
-import com.gazim.gmessenger.backend.common.model.IUser
+import com.gazim.gmessenger.backend.common.model.IChatPresent
+import com.gazim.gmessenger.backend.common.model.IUserPresent
 import com.gazim.gmessenger.data.model.*
 import com.gazim.gmessenger.domain.model.*
 import com.gazim.gmessenger.domain.repository.IGMessengerRepository
@@ -11,9 +11,9 @@ import com.gazim.gmessenger.domain.repository.IGMessengerRepository
 class GMessengerRepository(token: String) : IGMessengerRepository {
     private val gMessengerAPI: IGMessengerAPI = GMessengerAPI(token)
 
-    override suspend fun getChats(): List<IChatModel> = gMessengerAPI.getChats().map(IChat::toChatModel)
+    override suspend fun getChats(): List<IChatModel> = gMessengerAPI.getChats().map(IChatPresent::toChatModel)
 
-    override suspend fun filterUsers(query: String): List<IUserModel> = gMessengerAPI.findUser(query).map(IUser::toUserModel)
+    override suspend fun filterUsers(query: String): List<IUserModel> = gMessengerAPI.findUser(query).map(IUserPresent::toUserModel)
 
     override suspend fun getChat(chatModel: IChatModel): IChatWebSocketModel =
         gMessengerAPI.getChatWebSocket(chatModel.toChat())
