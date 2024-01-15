@@ -15,6 +15,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
+const val helpDialogText =
+    """Nickname allowed: 0-64 character length, any character.
+
+Username allowed: 4-32 character length, numbers and latin symbols.
+
+Login allowed: 8-32 character length, numbers and latin symbols.
+
+Password allowed: 8-128 character length, numbers, latin symbols and special characters. Password also required though: 1 upper case, 1 lowe case, 1 number, 1 special character and entropy."""
+
 // todo: Rename a preview and change a composition
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,12 +57,7 @@ fun RegistrationComponent(
             onDismissRequest = { showAlertDialog = false },
             title = { Text("Requirements") },
             text = {
-                Text(
-                    "Nickname allowed: 0-64 character length, any character.\\n\\nUsername allowed: 4-32 character length, numbers and\n" +
-                        "        latin symbols.\\n\\nLogin allowed: 8-32 character length, numbers and latin symbols.\\n\\nPassword allowed: 8-128\n" +
-                        "        character length, numbers, latin symbols and special characters. Password also required\n" +
-                        "        though: 1 upper case, 1 lowe case, 1 number, 1 special character and entropy.",
-                )
+                Text(helpDialogText)
             },
             confirmButton = {
                 Button(onClick = { showAlertDialog = false }) {
