@@ -83,6 +83,7 @@ fun ChatComponent(
                     onValueChange = onMessageChange,
                     modifier =
                         Modifier.fillMaxWidth().background(colorScheme.surface.copy(alpha = 0.95f)).padding(8.dp)
+                            .navigationBarsPadding()
                             .background(colorScheme.surfaceVariant, RoundedCornerShape(24.dp))
                             .onPreviewKeyEvent {
                                 if (it.key != Key.Enter || it.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
