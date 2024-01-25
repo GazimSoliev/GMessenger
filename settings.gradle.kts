@@ -21,14 +21,16 @@ dependencyResolutionManagement {
     }
 }
 
-include(":app:app")
-include(":app:domain")
-include(":app:data")
-include(":backend:api")
-include(":app:di")
-include(":app:presentation")
-include(":utils")
-include("backend:common")
-include("backend:server:domain")
-include("backend:server:data")
-include("backend:server:presentation")
+include(
+    ":app:app",
+    ":app:domain",
+    ":app:data",
+    ":backend:api",
+    ":app:di",
+    ":app:presentation",
+    ":utils",
+    ":backend:common",
+    ":backend:server:domain",
+    ":backend:server:data",
+    ":backend:server:presentation",
+)

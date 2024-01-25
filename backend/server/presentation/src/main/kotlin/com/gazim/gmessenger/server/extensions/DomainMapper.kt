@@ -1,15 +1,12 @@
 package com.gazim.gmessenger.server.extensions
 
-import com.gazim.gmessenger.backend.common.model.IAccountPresent
-import com.gazim.gmessenger.backend.common.model.ILoginPasswordPresent
-import com.gazim.gmessenger.backend.common.model.IUserPresent
-import com.gazim.gmessenger.backend.common.model.UserPresent
+import com.gazim.gmessenger.backend.common.model.*
 import com.gazim.gmessenger.server.domain.model.*
 
 fun ILoginPasswordPresent.toDomain(): ILoginPassword =
     LoginPassword(
         login = login,
-        password = password
+        password = password,
     )
 
 fun IAccountPresent.toDomain(): IAccount =
@@ -17,11 +14,27 @@ fun IAccountPresent.toDomain(): IAccount =
         nickname = nickname,
         username = username,
         login = login,
-        password = password
+        password = password,
     )
 
 fun IUser.toPresent(): IUserPresent =
     UserPresent(
         nickname = nickname,
-        username = username
+        username = username,
     )
+
+fun IUserPresent.toDomain(): IUser =
+    User(
+        nickname = nickname,
+        username = username,
+    )
+
+fun IChat.toPresent(): IChatPresent =
+    ChatPresent(
+        identifier = identifier,
+        title = title,
+    )
+
+fun ISentMessagePresent.toDomain(): ISentMessage = SentMessage(message = message)
+
+fun IMessage.toPresent(): IMessagePresent = MessagePresent(message = message, sentAt = sentAt, user = user.toPresent())

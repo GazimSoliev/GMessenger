@@ -1,6 +1,7 @@
 package com.gazim.gmessenger.server.domain.usecase
 
 import com.gazim.gmessenger.server.domain.model.*
+import kotlinx.coroutines.flow.Flow
 
 interface IGetUserUseCase {
     operator fun invoke(id: Long): IUser
@@ -11,11 +12,20 @@ interface IGetChatsUseCase {
 }
 
 interface ISendMessageUseCase {
-    operator fun invoke(user: IUser, chat: IChat, message: IMessage)
+    operator fun invoke(
+        user: IUser,
+        chat: IChat,
+        message: ISentMessage,
+    )
 }
 
 interface IGetMessagesUseCase {
-    operator fun invoke(user: IUser, chat: IChat, limit: Int = 64, startFrom: Long? = null): List<IMessage>
+    operator fun invoke(
+        user: IUser,
+        chat: IChat,
+        limit: Int = 64,
+        startFrom: Long? = null,
+    ): Flow<List<IMessage>>
 }
 
 interface ILoginUseCase {
@@ -31,5 +41,19 @@ interface IFindUserUseCase {
 }
 
 interface IGetChatUseCase {
-    operator fun invoke(user: IUser, chatId: Long): IChat
+    operator fun invoke(
+        user: IUser,
+        chatId: Long,
+    ): IChat
+}
+
+interface ICreateChatUseCase {
+    operator fun invoke(
+        owner: IUser,
+        users: List<IUser>,
+    ): IChat?
+}
+
+interface IGetNotifications {
+    operator fun invoke(user: IUser): Flow<IMessage>
 }
