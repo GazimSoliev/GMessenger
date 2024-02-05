@@ -48,8 +48,6 @@ fun RenderOnTopWindows(
             val placeableList = measurableList.map { it.measure(childConstraints) }
             val layoutWidth = placeableList.maxByOrNull { it.width }?.width ?: 0
             val layoutHeight = placeableList.maxByOrNull { it.height }?.height ?: 0
-            println(layoutWidth)
-            println(layoutHeight)
             windowHeight = if (layoutWidth == 0) 0.dp else layoutHeight.toDp()
             windowWidth = if (layoutHeight == 0) 0.dp else layoutWidth.toDp()
             layout(layoutWidth, layoutHeight) {

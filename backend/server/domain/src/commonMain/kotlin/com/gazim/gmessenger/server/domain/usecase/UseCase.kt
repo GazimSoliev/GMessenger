@@ -2,13 +2,14 @@ package com.gazim.gmessenger.server.domain.usecase
 
 import com.gazim.gmessenger.server.domain.model.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.datetime.LocalDateTime
 
 interface IGetUserUseCase {
-    operator fun invoke(id: Long): IUser
+    suspend operator fun invoke(tokenId: Int): IUser
 }
 
 interface IGetChatsUseCase {
-    operator fun invoke(user: IUser): List<IChat>
+    suspend operator fun invoke(user: IUser): List<IChat>
 }
 
 interface ISendMessageUseCase {
@@ -29,26 +30,26 @@ interface IGetMessagesUseCase {
 }
 
 interface ILoginUseCase {
-    operator fun invoke(loginPassword: ILoginPassword): Long?
+    suspend operator fun invoke(loginPassword: ILoginPassword, createdAt: LocalDateTime, expiredAt: LocalDateTime): Int?
 }
 
 interface IRegisterUseCase {
-    operator fun invoke(loginPassword: IAccount): Boolean
+    suspend operator fun invoke(account: IAccount): Boolean
 }
 
 interface IFindUserUseCase {
-    operator fun invoke(username: String): List<IUser>
+    suspend operator fun invoke(username: String): List<IUser>
 }
 
 interface IGetChatUseCase {
-    operator fun invoke(
+    suspend operator fun invoke(
         user: IUser,
-        chatId: Long,
-    ): IChat
+        chatId: Int,
+    ): IChat?
 }
 
 interface ICreateChatUseCase {
-    operator fun invoke(
+    suspend operator fun invoke(
         owner: IUser,
         users: List<IUser>,
     ): IChat?

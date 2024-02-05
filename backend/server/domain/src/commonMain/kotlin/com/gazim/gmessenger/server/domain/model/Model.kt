@@ -12,6 +12,10 @@ interface IChat {
     val title: String
 }
 
+interface IPrivateChat : IChat {
+    val user: IUser
+}
+
 interface ISentMessage {
     val message: String
 }
