@@ -2,8 +2,10 @@ package com.gazim.gmessenger.server.data.mapper
 
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.ChatEntity
+import com.gazim.gmessenger.server.data.database.model.MessageEntity
 import com.gazim.gmessenger.server.data.database.table.AccountTable
 import com.gazim.gmessenger.server.domain.model.*
+import kotlinx.datetime.toKotlinLocalDateTime
 
 fun AccountEntity.toUser() =
     User(
@@ -24,3 +26,6 @@ fun ChatEntity.toChat(currentUser: AccountEntity): IChat =
         2 -> toPrivateChat(members.single { it != currentUser })
         else -> toChat()
     }
+
+fun MessageEntity.toMessage(): IMessage =
+    Message(message = message, user = account.toUser(), sentAt = sentAt.toKotlinLocalDateTime())

@@ -1,9 +1,7 @@
 package com.gazim.gmessenger.server.domain.service
 
-import com.gazim.gmessenger.server.domain.model.IAccount
-import com.gazim.gmessenger.server.domain.model.IChat
-import com.gazim.gmessenger.server.domain.model.ILoginPassword
-import com.gazim.gmessenger.server.domain.model.IUser
+import com.gazim.gmessenger.server.domain.model.*
+import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
 
 interface IUserService {
@@ -39,4 +37,24 @@ interface IChatService {
         user: IUser,
         chatId: Int
     ): IChat?
+}
+
+interface IMessagingService {
+    suspend fun sendMessage(
+        user: IUser,
+        chat: IChat,
+        sentMessage: ISentMessage,
+    ): IMessage
+
+    suspend fun getMessages(
+        user: IUser,
+        chat: IChat,
+        limit: Int = 64,
+        startFrom: Long? = null,
+    ): List<IMessage>
+
+    suspend fun getMessageFlow(
+        user: IUser,
+        chat: IChat,
+    ): Flow<IMessage>
 }

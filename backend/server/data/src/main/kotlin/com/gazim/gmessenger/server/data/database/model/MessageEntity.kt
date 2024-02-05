@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.server.data.database.model
 
-import com.gazim.gmessenger.server.database.table.MessageTable
+import com.gazim.gmessenger.server.data.database.table.MessageTable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

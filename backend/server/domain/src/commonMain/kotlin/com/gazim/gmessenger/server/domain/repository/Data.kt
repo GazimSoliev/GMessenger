@@ -1,9 +1,6 @@
 package com.gazim.gmessenger.server.domain.repository
 
-import com.gazim.gmessenger.server.domain.model.IAccount
-import com.gazim.gmessenger.server.domain.model.IChat
-import com.gazim.gmessenger.server.domain.model.ILoginPassword
-import com.gazim.gmessenger.server.domain.model.IUser
+import com.gazim.gmessenger.server.domain.model.*
 import kotlinx.datetime.LocalDateTime
 
 
@@ -24,11 +21,26 @@ interface ILoginPasswordRepository {
 }
 
 interface IChatRepository {
-    suspend fun getChats(user: IUser) : List<IChat>
+    suspend fun getChats(user: IUser): List<IChat>
 
     suspend fun getMembers(user: IUser, chat: IChat): List<IUser>
 
     suspend fun createChat(users: List<IUser>): IChat?
 
     suspend fun getChat(user: IUser, chatId: Int): IChat?
+}
+
+interface IMessageRepository {
+    suspend fun getMessages(
+        user: IUser,
+        chat: IChat,
+        limit: Int = 64,
+        startFrom: Long? = null,
+    ): List<IMessage>
+
+    suspend fun sendMessage(
+        user: IUser,
+        chat: IChat,
+        message: IMessage,
+    ): Boolean
 }
