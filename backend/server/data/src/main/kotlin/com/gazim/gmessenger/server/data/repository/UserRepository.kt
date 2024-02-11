@@ -4,7 +4,7 @@ import com.gazim.gmessenger.server.data.database.GMessengerDatabase.dbQuery
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.TokenEntity
 import com.gazim.gmessenger.server.data.database.table.AccountTable
-import com.gazim.gmessenger.server.data.mapper.toAccount
+import com.gazim.gmessenger.server.data.mapper.toUser
 import com.gazim.gmessenger.server.domain.model.IUser
 import com.gazim.gmessenger.server.domain.repository.IUserRepository
 
@@ -26,7 +26,7 @@ class UserRepository : IUserRepository {
         dbQuery {
             AccountEntity.find {
                 AccountTable.username like "%$username%"
-            }.limit(limit).map(AccountEntity::toAccount)
+            }.limit(limit).map(AccountEntity::toUser)
         }
 
     override suspend fun getUser(idToken: Int): IUser =
