@@ -33,4 +33,5 @@ include(
     ":backend:server:domain",
     ":backend:server:data",
     ":backend:server:presentation",
+    ":backend:server:di",
 )

@@ -27,5 +27,4 @@ fun ChatEntity.toChat(currentUser: AccountEntity): IChat =
         else -> toChat()
     }
 
-fun MessageEntity.toMessage(): IMessage =
-    Message(message = message, user = account.toUser(), sentAt = sentAt.toKotlinLocalDateTime())
+fun MessageEntity.toMessage(): IMessage = Message(message = message, user = account.toUser(), sentAt = sentAt.toKotlinLocalDateTime())

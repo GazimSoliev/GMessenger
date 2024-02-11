@@ -52,4 +52,7 @@ dependencies {
 
     // Domain
     implementation(projects.backend.server.domain)
+
+    // DI
+    implementation(projects.backend.server.di)
 }

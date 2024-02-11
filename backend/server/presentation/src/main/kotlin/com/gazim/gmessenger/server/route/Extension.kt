@@ -8,9 +8,9 @@ import io.ktor.server.websocket.*
 import io.ktor.util.pipeline.*
 import org.koin.ktor.plugin.scope
 
-suspend fun PipelineContext<Unit, ApplicationCall>.getTokenId(): Long = call.scope.get<ISecurityUtils>().getUserTokenId(call)
+suspend fun PipelineContext<Unit, ApplicationCall>.getTokenId(): Int = call.scope.get<ISecurityUtils>().getUserTokenId(call)
 
-suspend fun ApplicationCall.getTokenId(): Long = scope.get<ISecurityUtils>().getUserTokenId(this)
+suspend fun ApplicationCall.getTokenId(): Int = scope.get<ISecurityUtils>().getUserTokenId(this)
 
 suspend fun PipelineContext<*, ApplicationCall>.getUser(): IUser = call.scope.get<IGetUserUseCase>().invoke(call.getTokenId())
 

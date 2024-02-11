@@ -1,6 +1,5 @@
 package com.gazim.gmessenger.server
 
-import com.gazim.gmessenger.server.di.configureInjections
 import com.gazim.gmessenger.server.plugins.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -17,14 +16,8 @@ fun main() {
 
 private fun Application.generalModule() {
     configureKoin()
-    configureExposed()
-    configureKtorPlugins()
-    configureInjections()
-    configureRouting()
-}
-
-fun Application.configureKtorPlugins() {
     configureContentNegotiation()
     configureJWT()
     configureWebSockets()
+    configureRouting()
 }

@@ -8,7 +8,6 @@ class LoginUseCase(private val authorizationService: IAuthorizationService) : IL
     override suspend fun invoke(
         loginPassword: ILoginPassword,
         createdAt: LocalDateTime,
-        expiredAt: LocalDateTime
-    ): Int? =
-        authorizationService.login(loginPassword, createdAt, expiredAt)
+        expiredAt: LocalDateTime,
+    ): Int? = authorizationService.login(loginPassword, createdAt, expiredAt)
 }

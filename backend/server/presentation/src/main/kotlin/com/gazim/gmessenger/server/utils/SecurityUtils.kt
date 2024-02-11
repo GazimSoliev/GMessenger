@@ -6,6 +6,6 @@ import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 
 class SecurityUtils : ISecurityUtils {
-    override suspend fun getUserTokenId(call: ApplicationCall): Long =
-        call.principal<JWTPrincipal>()!!.payload.getClaim(claimTokenId).asLong()
+    override suspend fun getUserTokenId(call: ApplicationCall): Int =
+        call.principal<JWTPrincipal>()!!.payload.getClaim(claimTokenId).asInt()
 }

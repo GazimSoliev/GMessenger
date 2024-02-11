@@ -13,7 +13,7 @@ fun Route.findUserRoute() {
     val findUserUseCase by inject<IFindUserUseCase>()
     get(findUserRoute) {
         val filterRequest = call.parameters["filter"]
-        val users = filterRequest?.let(findUserUseCase::invoke) ?: emptyList()
+        val users = filterRequest?.let { findUserUseCase(it) } ?: emptyList()
         call.respond(users.map(IUser::toPresent))
     }
 }

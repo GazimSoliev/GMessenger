@@ -6,6 +6,7 @@ import kotlinx.datetime.LocalDateTime
 
 interface IUserService {
     suspend fun findUser(username: String): List<IUser>
+
     suspend fun getUser(idToken: Int): IUser
 }
 
@@ -35,7 +36,7 @@ interface IChatService {
 
     suspend fun getChat(
         user: IUser,
-        chatId: Int
+        chatId: Int,
     ): IChat?
 }
 
@@ -56,5 +57,5 @@ interface IMessagingService {
     suspend fun getMessageFlow(
         user: IUser,
         chat: IChat,
-    ): Flow<IMessage>
+    ): Flow<IMessage>?
 }

@@ -2,7 +2,6 @@ package com.gazim.gmessenger.server.route
 
 import com.gazim.gmessenger.backend.common.model.ISentMessagePresent
 import com.gazim.gmessenger.backend.common.route.chatRoute
-import com.gazim.gmessenger.server.domain.model.IMessage
 import com.gazim.gmessenger.server.domain.usecase.IGetChatUseCase
 import com.gazim.gmessenger.server.domain.usecase.IGetMessagesUseCase
 import com.gazim.gmessenger.server.domain.usecase.ISendMessageUseCase
@@ -21,10 +20,10 @@ fun Route.chatRoute() {
     webSocket(chatRoute) {
         val user = getUser()
         val chat =
-            call.parameters["id"]?.toLong()?.let { getChatUseCase(user, it) }
+            call.parameters["id"]?.toInt()?.let { getChatUseCase(user, it) }
                 ?: return@webSocket println("Can't find chat")
         launch(Dispatchers.IO) {
-            getMessagesUseCase(user, chat).collect { sendSerialized(it.map(IMessage::toPresent)) }
+            getMessagesUseCase(user, chat)?.collect { sendSerialized(it.toPresent()) }
         }
         while (true) {
             val message = receiveDeserialized<ISentMessagePresent>()

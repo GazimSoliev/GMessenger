@@ -19,7 +19,10 @@ class UserRepository : IUserRepository {
         return true
     }
 
-    override suspend fun findByUsername(username: String, limit: Int): List<IUser> =
+    override suspend fun findByUsername(
+        username: String,
+        limit: Int,
+    ): List<IUser> =
         dbQuery {
             AccountEntity.find {
                 AccountTable.username like "%$username%"
@@ -30,5 +33,4 @@ class UserRepository : IUserRepository {
         dbQuery {
             TokenEntity[idToken].account.toUser()
         }
-
 }

@@ -19,7 +19,7 @@ class MessageRepository : IMessageRepository {
         user: IUser,
         chat: IChat,
         limit: Int,
-        startFrom: Long?
+        startFrom: Long?,
     ): List<IMessage> =
         dbQuery {
             MessageEntity.find { MessageTable.idChat eq chat.identifier.toInt() }
@@ -27,7 +27,11 @@ class MessageRepository : IMessageRepository {
                 .map(MessageEntity::toMessage)
         }
 
-    override suspend fun sendMessage(user: IUser, chat: IChat, message: IMessage): Boolean {
+    override suspend fun sendMessage(
+        user: IUser,
+        chat: IChat,
+        message: IMessage,
+    ): Boolean {
         dbQuery {
             MessageEntity.new {
                 chatEntity = ChatEntity[chat.identifier.toInt()]

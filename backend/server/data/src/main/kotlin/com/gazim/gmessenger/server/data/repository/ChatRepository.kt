@@ -12,7 +12,9 @@ import com.gazim.gmessenger.server.data.mapper.toUser
 import com.gazim.gmessenger.server.domain.model.IChat
 import com.gazim.gmessenger.server.domain.model.IUser
 import com.gazim.gmessenger.server.domain.repository.IChatRepository
+import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.emptySized
 
 class ChatRepository : IChatRepository {
     override suspend fun getChats(user: IUser): List<IChat> =
@@ -21,9 +23,12 @@ class ChatRepository : IChatRepository {
             accountEntity.chats.map { it.toChat(accountEntity) }
         }
 
-    override suspend fun getMembers(user: IUser, chat: IChat): List<IUser> =
+    override suspend fun getMembers(
+        user: IUser,
+        chat: IChat,
+    ): List<IUser> =
         dbQuery {
-            getRawChat(user, chat.identifier.toInt())?.members?.map(AccountEntity::toUser) ?: emptyList()
+            getEntityChat(user, chat.identifier.toInt())?.members?.map(AccountEntity::toUser) ?: emptyList()
         }
 
     override suspend fun createChat(users: List<IUser>): IChat? =
@@ -46,21 +51,34 @@ class ChatRepository : IChatRepository {
             return@dbQuery chat.toChat()
         }
 
-    override suspend fun getChat(user: IUser, chatId: Int): IChat? {
-        val account = user.toAccountEntity() ?: return null
-        return ChatAccountEntity.find {
-            (ChatAccountTable.idAccount eq account.id) and (ChatAccountTable.idChat eq chatId)
-        }.singleOrNull()?.chatEntity
-    }
-
-
-    private fun getRawChat(
+    override suspend fun getChat(
         user: IUser,
         chatId: Int,
-    ): ChatEntity? {
-        val account = user.toAccountEntity() ?: return null
+    ): IChat? =
+        dbQuery {
+            val account = user.toAccountEntity() ?: return@dbQuery null
+            getEntityChat(user, chatId)?.toChat(account)
+        }
+
+    override suspend fun existInChat(
+        user: IUser,
+        chat: IChat,
+    ) = dbQuery {
+        getChatAccountEntity(user, chat.identifier.toInt()).empty()
+    }
+
+    private fun getEntityChat(
+        user: IUser,
+        chatId: Int,
+    ): ChatEntity? = getChatAccountEntity(user, chatId).singleOrNull()?.chatEntity
+
+    private fun getChatAccountEntity(
+        user: IUser,
+        chatId: Int,
+    ): SizedIterable<ChatAccountEntity> {
+        val account = user.toAccountEntity() ?: return emptySized()
         return ChatAccountEntity.find {
             (ChatAccountTable.idAccount eq account.id) and (ChatAccountTable.idChat eq chatId)
-        }.singleOrNull()?.chatEntity
+        }
     }
 }

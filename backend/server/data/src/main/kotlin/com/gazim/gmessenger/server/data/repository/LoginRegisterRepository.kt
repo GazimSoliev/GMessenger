@@ -10,34 +10,34 @@ import com.gazim.gmessenger.server.data.database.table.LoginTable
 import com.gazim.gmessenger.server.data.database.table.PasswordTable
 import com.gazim.gmessenger.server.domain.model.IAccount
 import com.gazim.gmessenger.server.domain.model.ILoginPassword
-import com.gazim.gmessenger.server.domain.repository.ILoginPasswordRepository
+import com.gazim.gmessenger.server.domain.repository.ILoginRegisterRepository
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 
-class LoginPasswordRepository : ILoginPasswordRepository {
+class LoginRegisterRepository : ILoginRegisterRepository {
     override suspend fun login(
         loginPassword: ILoginPassword,
         createdAt: LocalDateTime,
-        expiredAt: LocalDateTime
+        expiredAt: LocalDateTime,
     ): Int? =
         dbQuery {
-            val accountEntity = AccountTable.innerJoin(LoginTable)
-                .innerJoin(PasswordTable).select {
-                    (AccountTable.id eq LoginTable.idAccount)
-                        .and(AccountTable.id eq PasswordTable.idAccount)
-                        .and(LoginTable.login eq loginPassword.login)
-                        .and(PasswordTable.password eq loginPassword.password)
-                }.singleOrNull()?.let(AccountEntity.Companion::wrapRow)
-                ?: return@dbQuery null
+            val accountEntity =
+                AccountTable.innerJoin(LoginTable)
+                    .innerJoin(PasswordTable).select {
+                        (AccountTable.id eq LoginTable.idAccount)
+                            .and(AccountTable.id eq PasswordTable.idAccount)
+                            .and(LoginTable.login eq loginPassword.login)
+                            .and(PasswordTable.password eq loginPassword.password)
+                    }.singleOrNull()?.let(AccountEntity.Companion::wrapRow)
+                    ?: return@dbQuery null
             TokenEntity.new {
                 this.createdAt = createdAt.toJavaLocalDateTime()
                 this.expiredAt = expiredAt.toJavaLocalDateTime()
                 this.account = accountEntity
             }.id.value
         }
-
 
     override suspend fun register(account: IAccount): Boolean =
         dbQuery {

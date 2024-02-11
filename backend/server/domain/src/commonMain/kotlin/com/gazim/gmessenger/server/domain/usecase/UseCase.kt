@@ -13,7 +13,7 @@ interface IGetChatsUseCase {
 }
 
 interface ISendMessageUseCase {
-    operator fun invoke(
+    suspend operator fun invoke(
         user: IUser,
         chat: IChat,
         message: ISentMessage,
@@ -21,16 +21,20 @@ interface ISendMessageUseCase {
 }
 
 interface IGetMessagesUseCase {
-    operator fun invoke(
+    suspend operator fun invoke(
         user: IUser,
         chat: IChat,
         limit: Int = 64,
         startFrom: Long? = null,
-    ): Flow<List<IMessage>>
+    ): Flow<IMessage>?
 }
 
 interface ILoginUseCase {
-    suspend operator fun invoke(loginPassword: ILoginPassword, createdAt: LocalDateTime, expiredAt: LocalDateTime): Int?
+    suspend operator fun invoke(
+        loginPassword: ILoginPassword,
+        createdAt: LocalDateTime,
+        expiredAt: LocalDateTime,
+    ): Int?
 }
 
 interface IRegisterUseCase {

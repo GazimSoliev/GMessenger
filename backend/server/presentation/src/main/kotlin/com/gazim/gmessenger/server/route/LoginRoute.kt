@@ -14,6 +14,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.datetime.toKotlinLocalDateTime
 import org.koin.ktor.ext.inject
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -22,14 +23,16 @@ fun Routing.loginRoute() {
     val loginUseCase by inject<ILoginUseCase>()
     post(loginRoute) {
         val loginPassword = call.receive<ILoginPasswordPresent>().toDomain()
-        val tokenId = loginUseCase(loginPassword)
-        val token = tokenId?.let(::generateJWT)
+        val createAt = LocalDateTime.now()
+        val expiredAt = LocalDateTime.now().plusDays(7)
+        val tokenId = loginUseCase(loginPassword, createAt.toKotlinLocalDateTime(), expiredAt.toKotlinLocalDateTime())
+        val token = tokenId?.let { generateJWT(it, expiredAt) }
         call.respondNullable(token)
     }
 }
 
 private fun generateJWT(
-    tokenId: Long,
+    tokenId: Int,
     expiredAt: LocalDateTime = LocalDateTime.now().plusDays(7),
 ) = JWT.create()
     .withAudience(audience)
