@@ -18,6 +18,7 @@ dependencies {
 
     implementation(projects.backend.server.domain)
     implementation(projects.backend.server.data)
+    implementation(projects.backend.server.presentation)
 }
 
 tasks.test {

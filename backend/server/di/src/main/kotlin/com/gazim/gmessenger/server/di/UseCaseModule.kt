@@ -1,4 +1,4 @@
-package com.gazim.utils.com.gazim.gmessenger.server.di
+package com.gazim.gmessenger.server.di
 
 import com.gazim.gmessenger.server.domain.usecase.*
 import org.koin.core.module.dsl.factoryOf

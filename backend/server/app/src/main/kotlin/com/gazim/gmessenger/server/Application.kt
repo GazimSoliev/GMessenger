@@ -1,6 +1,10 @@
 package com.gazim.gmessenger.server
 
-import com.gazim.gmessenger.server.plugins.*
+import com.gazim.gmessenger.server.di.configureKoin
+import com.gazim.gmessenger.server.plugins.configureContentNegotiation
+import com.gazim.gmessenger.server.plugins.configureJWT
+import com.gazim.gmessenger.server.plugins.configureRouting
+import com.gazim.gmessenger.server.plugins.configureWebSockets
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*

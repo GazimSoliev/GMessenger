@@ -2,5 +2,7 @@
 
 package com.gazim.gmessenger.api
 
-var ipServer = "gazim.space/gmessenger/api"
-var urlServer = "https://$ipServer"
+import com.gmessenger.backend.config.BuildKonfig
+
+var ipServer = BuildKonfig.host
+var urlServer = "${BuildKonfig.hostPrefix}$ipServer"
