@@ -30,7 +30,12 @@ fun IUserPresent.toDomain(): IUser =
     )
 
 fun IChat.toPresent(): IChatPresent =
-    ChatPresent(
+    if (this is IPrivateChat) PrivateChatPresent(
+        identifier = identifier,
+        title = title,
+        user = user.toPresent()
+    )
+    else ChatPresent(
         identifier = identifier,
         title = title,
     )
