@@ -27,7 +27,8 @@ class MessagingService(
                 sentAt = now().toKotlinLocalDateTime(),
             )
         messageRepository.sendMessage(user, chat, message)
-        chatsFlow[chat]?.emit(message)
+        chatsFlow[chat].also { println("Sent 30: $it") }?.emit(message)
+        chatsFlow.also { println("Sent 31: $it") }
         return message
     }
 
@@ -42,8 +43,9 @@ class MessagingService(
         user: IUser,
         chat: IChat,
     ): Flow<IMessage>? {
-        if (!chatRepository.existInChat(user, chat)) return null
+        if (!chatRepository.existInChat(user, chat).also { println("Sent 46: $it") }) return null
         val flow = chatsFlow[chat] ?: MutableSharedFlow<IMessage>().also { chatsFlow[chat] = it }
+        flow.also { println("Sent 48: $it") }
         return flow.asSharedFlow()
     }
 }

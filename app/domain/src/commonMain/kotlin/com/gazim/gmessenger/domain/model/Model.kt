@@ -48,7 +48,7 @@ sealed interface IPrivateChatModel : IChatModel {
 
 interface IChatWebSocketModel {
     val chatName: String
-    val messages: Flow<List<IMessageModel>>
+    val messages: Flow<IMessageModel>
 
     suspend fun sendMessage(msg: ISentMessageModel)
 

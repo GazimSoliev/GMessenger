@@ -17,13 +17,18 @@ fun Route.chatRoute() {
     val sendMessageUseCase by inject<ISendMessageUseCase>()
     val getMessagesUseCase by inject<IGetMessagesUseCase>()
     val getChatUseCase by inject<IGetChatUseCase>()
-    webSocket(chatRoute) {
+    webSocket("$chatRoute/{id}") {
         val user = getUser()
         val chat =
             call.parameters["id"]?.toInt()?.let { getChatUseCase(user, it) }
                 ?: return@webSocket println("Can't find chat")
         launch(Dispatchers.IO) {
-            getMessagesUseCase(user, chat)?.collect { sendSerialized(it.toPresent()) }
+            getMessagesUseCase(user, chat)
+                .also { println("Sent: $it") }
+                ?.collect {
+                it.also { println("Sent: $it") }
+                sendSerialized(it.toPresent())
+            }
         }
         while (true) {
             val message = receiveDeserialized<ISentMessagePresent>()

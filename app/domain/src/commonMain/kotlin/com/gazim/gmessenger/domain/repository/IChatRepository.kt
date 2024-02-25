@@ -5,7 +5,7 @@ import com.gazim.gmessenger.domain.model.ISentMessageModel
 import kotlinx.coroutines.flow.Flow
 
 interface IChatRepository {
-    val messages: Flow<List<IMessageModel>>
+    val messages: Flow<IMessageModel>
 
     suspend fun sendMessage(msg: ISentMessageModel)
 

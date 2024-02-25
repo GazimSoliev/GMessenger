@@ -64,7 +64,7 @@ class ChatRepository : IChatRepository {
         user: IUser,
         chat: IChat,
     ) = dbQuery {
-        getChatAccountEntity(user, chat.identifier.toInt()).empty()
+        !getChatAccountEntity(user, chat.identifier.toInt()).empty()
     }
 
     private fun getEntityChat(

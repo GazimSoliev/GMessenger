@@ -38,8 +38,8 @@ fun IChatWebSocket.toChatWebSocketModel(chatName: String) =
     object : IChatWebSocketModel {
         override val chatName: String = chatName
 
-        override val messages: Flow<List<IMessageModel>> =
-            this@toChatWebSocketModel.messages.map { it.map(IMessagePresent::toMessageModel) }
+        override val messages: Flow<IMessageModel> =
+            this@toChatWebSocketModel.messages.map { it.toMessageModel() }
 
         override suspend fun sendMessage(msg: ISentMessageModel) = this@toChatWebSocketModel.sendMessage(msg.toSentMessage())
 

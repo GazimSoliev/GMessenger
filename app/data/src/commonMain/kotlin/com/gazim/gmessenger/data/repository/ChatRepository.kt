@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class ChatRepository(private val chatWebSocket: IChatWebSocketModel) : IChatRepository {
-    override val messages: Flow<List<IMessageModel>> = chatWebSocket.messages
+    override val messages: Flow<IMessageModel> = chatWebSocket.messages
 
     override suspend fun sendMessage(msg: ISentMessageModel) = chatWebSocket.sendMessage(msg)
 

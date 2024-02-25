@@ -25,7 +25,7 @@ interface IGMessengerAuthAPI {
 }
 
 interface IChatWebSocket : Closeable {
-    val messages: Flow<List<IMessagePresent>>
+    val messages: Flow<IMessagePresent>
 
     suspend fun openConnection()
 

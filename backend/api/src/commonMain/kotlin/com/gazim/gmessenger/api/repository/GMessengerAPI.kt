@@ -5,6 +5,7 @@ import com.gazim.gmessenger.api.ipServer
 import com.gazim.gmessenger.api.plugins.configureContentNegotiation
 import com.gazim.gmessenger.api.plugins.configureWebSockets
 import com.gazim.gmessenger.api.urlServer
+import com.gazim.gmessenger.api.wsServer
 import com.gazim.gmessenger.backend.common.model.*
 import com.gazim.gmessenger.backend.common.route.*
 import io.ktor.client.*
@@ -19,7 +20,6 @@ import io.ktor.serialization.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import java.io.Closeable
 import kotlin.io.println
@@ -73,23 +73,23 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
 
     override fun getChatWebSocket(chat: IChatPresent): IChatWebSocket =
         object : IChatWebSocket {
-            val getter = MutableStateFlow(emptyList<IMessagePresent>())
+            val getter = MutableSharedFlow<IMessagePresent>()
             val setter = MutableSharedFlow<ISentMessagePresent>()
             var output: Job? = null
-            override val messages: Flow<List<IMessagePresent>>
+            override val messages: Flow<IMessagePresent>
                 get() = getter
 
             override suspend fun openConnection() {
                 coroutineScope {
                     val user = whoAmI()
-                    httpClient.wss(host = ipServer, path = "$chatRoute/${chat.identifier}") {
+                    httpClient.webSocket("$wsServer$chatRoute/${chat.identifier}") {
                         println(this.call.request.url)
                         val input =
                             this@coroutineScope.launch {
                                 for (frame in incoming) converter
-                                    ?.deserialize<List<IMessagePresent>>(frame)
-                                    ?.map { if (it.user == user) it.toYourMessage() else it }
-                                    ?.let { getter.value = it }
+                                    ?.deserialize<IMessagePresent>(frame)
+                                    ?.let { if (it.user == user) it.toYourMessage() else it }
+                                    ?.let { getter.emit(it) }
                             }
                         output =
                             this@coroutineScope.launch {

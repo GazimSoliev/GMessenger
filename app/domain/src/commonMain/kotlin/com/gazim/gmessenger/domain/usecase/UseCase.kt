@@ -44,7 +44,7 @@ fun interface ISendMessageUseCase {
 }
 
 fun interface IGetMessagesUseCase {
-    suspend operator fun invoke(): Flow<List<IMessageModel>>
+    suspend operator fun invoke(): Flow<IMessageModel>
 }
 
 fun interface IGetChatNameUseCase {

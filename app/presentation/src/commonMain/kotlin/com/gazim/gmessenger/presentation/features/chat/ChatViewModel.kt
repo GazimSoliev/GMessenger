@@ -1,6 +1,7 @@
 package com.gazim.gmessenger.presentation.features.chat
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.gazim.gmessenger.domain.model.IMessageModel
 import com.gazim.gmessenger.domain.usecase.*
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
@@ -28,6 +29,7 @@ class ChatViewModel(
     private val getChatNameUseCase: IGetChatNameUseCase,
     private val closeChatScopeUseCase: ICloseChatScopeUseCase,
 ) : BaseViewModel<ChatState, ChatSideEffect, ChatAction>() {
+    private val ms = mutableListOf<IMessageModel>()
     override val container: Container<ChatState, ChatSideEffect> =
         container(initialState = ChatState()) {
             viewModelScope.launch {
@@ -35,7 +37,8 @@ class ChatViewModel(
                 reduce { state.copy(chatTitle = chatTitle) }
             }
             viewModelScope.launch {
-                getMessagesUseCase().collectLatest { ms ->
+                getMessagesUseCase().collectLatest { m ->
+                    ms.add(0, m)
                     val groupedMessages = ms.groupBy({ GroupedMessagesDateUI(it.sentAt.date) }, { it.toMessageUI() })
                     val mutableList = mutableListOf<IMessageItemUI>()
                     groupedMessages.forEach {
