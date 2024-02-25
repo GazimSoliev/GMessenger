@@ -26,9 +26,9 @@ fun Route.chatRoute() {
             getMessagesUseCase(user, chat)
                 .also { println("Sent: $it") }
                 ?.collect {
-                it.also { println("Sent: $it") }
-                sendSerialized(it.toPresent())
-            }
+                    it.also { println("Sent: $it") }
+                    sendSerialized(it.toPresent())
+                }
         }
         while (true) {
             val message = receiveDeserialized<ISentMessagePresent>()

@@ -30,15 +30,18 @@ fun IUserPresent.toDomain(): IUser =
     )
 
 fun IChat.toPresent(): IChatPresent =
-    if (this is IPrivateChat) PrivateChatPresent(
-        identifier = identifier,
-        title = title,
-        user = user.toPresent()
-    )
-    else ChatPresent(
-        identifier = identifier,
-        title = title,
-    )
+    if (this is IPrivateChat) {
+        PrivateChatPresent(
+            identifier = identifier,
+            title = title,
+            user = user.toPresent(),
+        )
+    } else {
+        ChatPresent(
+            identifier = identifier,
+            title = title,
+        )
+    }
 
 fun ISentMessagePresent.toDomain(): ISentMessage = SentMessage(message = message)
 
