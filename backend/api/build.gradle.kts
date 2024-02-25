@@ -13,11 +13,14 @@ buildkonfig {
 
     defaultConfigs {
         val hostPrefixProp = "hostPrefix"
+        val wsPrefixProp = "wsPrefix"
         val hostProp = "host"
         val localProperties = gradleLocalProperties(rootDir)
         val hostPrefix = localProperties.getProperty(hostPrefixProp)
+        val wsPrefix = localProperties.getProperty(wsPrefixProp)
         val host = localProperties.getProperty(hostProp)
         buildConfigField(STRING, hostPrefixProp, hostPrefix)
+        buildConfigField(STRING, wsPrefixProp, wsPrefix)
         buildConfigField(STRING, hostProp, host)
     }
 }
