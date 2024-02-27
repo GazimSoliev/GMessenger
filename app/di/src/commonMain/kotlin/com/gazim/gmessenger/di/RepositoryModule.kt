@@ -1,8 +1,8 @@
 package com.gazim.gmessenger.di
 
-import com.gazim.gmessenger.data.repository.GMessengerAuthRepository
-import com.gazim.gmessenger.data.repository.SessionRepository
-import com.gazim.gmessenger.domain.repository.*
+import com.gazim.gmessenger.data.service.GMessengerAuthService
+import com.gazim.gmessenger.data.service.SessionService
+import com.gazim.gmessenger.domain.service.*
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.scope.Scope
 import org.koin.dsl.bind
@@ -10,26 +10,26 @@ import org.koin.dsl.module
 
 val repositoryModule =
     module {
-        singleOf(::SessionRepository) bind ISessionRepository::class
-        singleOf(::GMessengerAuthRepository) bind IGMessengerAuthRepository::class
-        factory<IGMessengerRepository> {
+        singleOf(::SessionService) bind ISessionService::class
+        singleOf(::GMessengerAuthService) bind IGMessengerAuthService::class
+        factory<IGMessengerService> {
             getCurrentAccountScope().get()
         }
-        factory<IChatSessionRepository> {
+        factory<IChatSessionService> {
             getCurrentAccountScope().get()
         }
-        factory<IChatRepository> {
+        factory<IChatService> {
             getCurrentChatScope().get()
         }
-        factory<INotificationRepository> {
+        factory<INotificationService> {
             getCurrentAccountScope().get()
         }
     }
 
-fun Scope.getCurrentToken() = get<ISessionRepository>().token
+fun Scope.getCurrentToken() = get<ISessionService>().token
 
 fun Scope.getCurrentAccountScope() = getScope(getCurrentToken())
 
-fun Scope.getCurrentChatId() = getCurrentAccountScope().get<IChatSessionRepository>().currentChat.identifier
+fun Scope.getCurrentChatId() = getCurrentAccountScope().get<IChatSessionService>().currentChat.identifier
 
 fun Scope.getCurrentChatScope() = getScope(getCurrentChatId())

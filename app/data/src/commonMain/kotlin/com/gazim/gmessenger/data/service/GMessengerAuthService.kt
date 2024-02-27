@@ -1,13 +1,13 @@
-package com.gazim.gmessenger.data.repository
+package com.gazim.gmessenger.data.service
 
 import com.gazim.gmessenger.api.repository.GMessengerAPI
 import com.gazim.gmessenger.backend.common.model.AccountPresent
 import com.gazim.gmessenger.backend.common.model.LoginPasswordPresentPresentPresent
 import com.gazim.gmessenger.domain.model.IAccountModel
 import com.gazim.gmessenger.domain.model.ILoginPasswordModel
-import com.gazim.gmessenger.domain.repository.IGMessengerAuthRepository
+import com.gazim.gmessenger.domain.service.IGMessengerAuthService
 
-class GMessengerAuthRepository : IGMessengerAuthRepository {
+class GMessengerAuthService : IGMessengerAuthService {
     override suspend fun register(accountModel: IAccountModel): Boolean =
         GMessengerAPI.register(
             account =

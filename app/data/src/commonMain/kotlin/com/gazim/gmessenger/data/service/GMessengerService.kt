@@ -1,4 +1,4 @@
-package com.gazim.gmessenger.data.repository
+package com.gazim.gmessenger.data.service
 
 import com.gazim.gmessenger.api.repository.GMessengerAPI
 import com.gazim.gmessenger.api.repository.IGMessengerAPI
@@ -6,9 +6,9 @@ import com.gazim.gmessenger.backend.common.model.IChatPresent
 import com.gazim.gmessenger.backend.common.model.IUserPresent
 import com.gazim.gmessenger.data.model.*
 import com.gazim.gmessenger.domain.model.*
-import com.gazim.gmessenger.domain.repository.IGMessengerRepository
+import com.gazim.gmessenger.domain.service.IGMessengerService
 
-class GMessengerRepository(token: String) : IGMessengerRepository {
+class GMessengerService(token: String) : IGMessengerService {
     private val gMessengerAPI: IGMessengerAPI = GMessengerAPI(token)
 
     override suspend fun getChats(): List<IChatModel> = gMessengerAPI.getChats().map(IChatPresent::toChatModel)

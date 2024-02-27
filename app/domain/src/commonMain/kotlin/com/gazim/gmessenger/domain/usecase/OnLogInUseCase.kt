@@ -1,12 +1,12 @@
 package com.gazim.gmessenger.domain.usecase
 
 import com.gazim.gmessenger.domain.model.ILoginPasswordModel
-import com.gazim.gmessenger.domain.repository.IGMessengerAuthRepository
-import com.gazim.gmessenger.domain.repository.ISessionRepository
+import com.gazim.gmessenger.domain.service.IGMessengerAuthService
+import com.gazim.gmessenger.domain.service.ISessionService
 
 class OnLogInUseCase(
-    private val gMessengerAuthRepository: IGMessengerAuthRepository,
-    private val sessionRepository: ISessionRepository,
+    private val gMessengerAuthRepository: IGMessengerAuthService,
+    private val sessionRepository: ISessionService,
 ) : IOnLogInUseCase {
     override suspend fun invoke(loginPassword: ILoginPasswordModel): Boolean {
         val token = gMessengerAuthRepository.login(loginPassword)

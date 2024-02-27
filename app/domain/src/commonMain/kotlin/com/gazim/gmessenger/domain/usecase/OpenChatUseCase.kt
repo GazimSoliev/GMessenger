@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.domain.usecase
 
-import com.gazim.gmessenger.domain.repository.IChatRepository
+import com.gazim.gmessenger.domain.service.IChatService
 
-class OpenChatUseCase(private val chatRepository: IChatRepository) : IOpenChatUseCase {
+class OpenChatUseCase(private val chatRepository: IChatService) : IOpenChatUseCase {
     override suspend fun invoke() = chatRepository.openConnection()
 }

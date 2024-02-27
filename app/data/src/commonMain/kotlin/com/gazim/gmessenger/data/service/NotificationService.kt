@@ -1,12 +1,12 @@
-package com.gazim.gmessenger.data.repository
+package com.gazim.gmessenger.data.service
 
 import com.gazim.gmessenger.domain.model.INotificationModel
 import com.gazim.gmessenger.domain.model.INotificationWebSocketModel
-import com.gazim.gmessenger.domain.repository.INotificationRepository
+import com.gazim.gmessenger.domain.service.INotificationService
 import kotlinx.coroutines.flow.Flow
 
 // todo: Take out into UseCase
-class NotificationRepository(private val notificationWebSocket: INotificationWebSocketModel) : INotificationRepository {
+class NotificationService(private val notificationWebSocket: INotificationWebSocketModel) : INotificationService {
     override val notifications: Flow<INotificationModel> =
         notificationWebSocket.notifications
 

@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.domain.usecase
 
-import com.gazim.gmessenger.domain.repository.IChatRepository
+import com.gazim.gmessenger.domain.service.IChatService
 
-class GetChatNameUseCase(private val chatRepository: IChatRepository) : IGetChatNameUseCase {
+class GetChatNameUseCase(private val chatRepository: IChatService) : IGetChatNameUseCase {
     override suspend fun invoke(): String = chatRepository.getChatName()
 }
