@@ -4,7 +4,7 @@ import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
 fun interface IOnLogInUseCase {
-    suspend operator fun invoke(loginPassword: ILoginPasswordModel): Boolean
+    suspend operator fun invoke(loginPassword: ILoginPasswordModel): String?
 }
 
 fun interface IOnRegisterUseCase {
@@ -85,10 +85,6 @@ fun interface ICloseNotificationUseCase {
 
 fun interface IGetNotificationsUseCase {
     suspend operator fun invoke(): Flow<INotificationModel>
-}
-
-fun interface ICreateAccountScopeUseCase {
-    operator fun invoke()
 }
 
 fun interface ICloseAccountScopeUseCase {

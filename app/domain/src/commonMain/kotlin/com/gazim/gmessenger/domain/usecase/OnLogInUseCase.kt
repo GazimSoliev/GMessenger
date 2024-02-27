@@ -8,10 +8,10 @@ class OnLogInUseCase(
     private val gMessengerAuthRepository: IGMessengerAuthService,
     private val sessionRepository: ISessionService,
 ) : IOnLogInUseCase {
-    override suspend fun invoke(loginPassword: ILoginPasswordModel): Boolean {
+    override suspend fun invoke(loginPassword: ILoginPasswordModel): String? {
         val token = gMessengerAuthRepository.login(loginPassword)
-        if (token == "null" || token.isEmpty()) return false
+        if (token == "null" || token.isEmpty()) return null
         sessionRepository.token = token
-        return true
+        return token
     }
 }

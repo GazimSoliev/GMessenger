@@ -6,19 +6,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.koin.getScreenModel
+import com.gazim.gmessenger.di.AccountScope
 import com.gazim.gmessenger.presentation.common.BaseScreen
 import com.gazim.gmessenger.presentation.component.LoginComponent
 import com.gazim.gmessenger.presentation.features.chats.ChatsScreen
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
 import com.gazim.gmessenger.presentation.features.register.RegisterScreen
+import org.koin.compose.getKoin
+import org.koin.core.Koin
 
 class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginViewModel>() {
     private lateinit var snackBarHostState: SnackbarHostState
+    private lateinit var koin: Koin
 
     override suspend fun handleSideEffect(sideEffect: LoginSideEffect) {
         when (sideEffect) {
-            is ToChatsScreen -> navigator.replace(ChatsScreen())
+            is ToChatsScreen -> {
+                koin.createScope<AccountScope>(scopeId = sideEffect.token)
+                navigator.replace(ChatsScreen())
+            }
             is ToRegisterScreen -> navigator.push(RegisterScreen())
             is UnableConnectToServer -> snackBarHostState.showSnackbar("Unable connect to server")
             is WrongLoginOrPassword -> snackBarHostState.showSnackbar("Wrong login or password")
@@ -30,6 +37,7 @@ class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginVi
 
     @Composable
     override fun Screen() {
+        koin = getKoin()
         snackBarHostState = remember { SnackbarHostState() }
         LoginComponent(
             modifier = Modifier.fillMaxSize(),

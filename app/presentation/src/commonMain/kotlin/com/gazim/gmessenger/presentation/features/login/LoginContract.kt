@@ -15,7 +15,7 @@ data class LoginState(
 ) : IState
 
 sealed interface LoginSideEffect : ISideEffect {
-    data object ToChatsScreen : LoginSideEffect
+    data class ToChatsScreen(val token: String) : LoginSideEffect
 
     data object ToRegisterScreen : LoginSideEffect
 

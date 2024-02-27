@@ -1,7 +1,6 @@
 package com.gazim.gmessenger.presentation.features.login
 
 import com.gazim.gmessenger.domain.model.LoginPasswordModel
-import com.gazim.gmessenger.domain.usecase.ICreateAccountScopeUseCase
 import com.gazim.gmessenger.domain.usecase.IOnLogInUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
@@ -18,7 +17,6 @@ private typealias IntentScope = SimpleSyntax<LoginState, LoginSideEffect>
 // todo: Take out actions
 class LoginViewModel(
     private val onLogInUseCase: IOnLogInUseCase,
-    private val createAccountScopeUseCase: ICreateAccountScopeUseCase,
 ) : BaseViewModel<LoginState, LoginSideEffect, LoginAction>() {
 //    private val notificationService: INotificationService by inject(INotificationService::class.java)
     override val container: Container<LoginState, LoginSideEffect> = container(initialState = LoginState())
@@ -62,11 +60,10 @@ class LoginViewModel(
                         postSideEffect(UnableConnectToServer)
                         it.printStackTrace()
                     }.onSuccess {
-                        if (!it) return@onSuccess postSideEffect(WrongLoginOrPassword)
-                        createAccountScopeUseCase()
+                        val token = it ?: return@onSuccess postSideEffect(WrongLoginOrPassword)
 //                        notificationService.subscribe(notificationsReceiver)
 //                        notificationService.start()
-                        postSideEffect(ToChatsScreen)
+                        postSideEffect(ToChatsScreen(token))
                         destroyViewModel()
                     }
                 }
