@@ -1,6 +1,5 @@
 package com.gazim.gmessenger.data.model
 
-import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
 
 sealed interface IUserData {
@@ -38,15 +37,4 @@ sealed interface IChatData {
 
 sealed interface IPrivateChatData : IChatData {
     val user: IUserData
-}
-
-// todo: Review
-interface IChatWebSocketData {
-    val messages: Flow<IMessageData>
-
-    suspend fun sendMessage(msg: ISentMessageData)
-
-    suspend fun openConnection()
-
-    fun close()
 }
