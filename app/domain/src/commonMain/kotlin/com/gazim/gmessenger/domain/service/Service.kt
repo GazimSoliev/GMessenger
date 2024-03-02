@@ -40,19 +40,3 @@ interface IGMessengerAuthService {
 
     suspend fun login(loginPasswordModel: ILoginPasswordModel): String
 }
-
-interface IChatSessionService {
-    var currentChat: IChatModel
-}
-
-interface IChatService {
-    val messages: Flow<IMessageModel>
-
-    suspend fun sendMessage(msg: ISentMessageModel)
-
-    suspend fun openConnection()
-
-    suspend fun close()
-
-    suspend fun getChatName(): String
-}

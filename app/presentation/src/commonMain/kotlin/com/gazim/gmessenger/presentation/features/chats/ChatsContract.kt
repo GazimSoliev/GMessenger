@@ -8,7 +8,7 @@ import com.gazim.gmessenger.presentation.model.IChatUI
 data class ChatsState(val list: List<IChatUI> = emptyList()) : IState
 
 sealed interface ChatsSideEffect : ISideEffect {
-    data object ToChatScreen : ChatsSideEffect
+    data class ToChatScreen(val chat: IChatUI) : ChatsSideEffect
 
     data object ToFindUser : ChatsSideEffect
 

@@ -8,8 +8,11 @@ import com.gazim.gmessenger.presentation.common.BaseScreen
 import com.gazim.gmessenger.presentation.component.ChatComponent
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
+import com.gazim.gmessenger.presentation.model.IChatUI
 
-class ChatScreen : BaseScreen<ChatState, ChatSideEffect, ChatAction, ChatViewModel>() {
+class ChatScreen(
+    private val chat: IChatUI,
+) : BaseScreen<ChatState, ChatSideEffect, ChatAction, ChatViewModel>() {
     override suspend fun handleSideEffect(sideEffect: ChatSideEffect) {
         when (sideEffect) {
             is ToBack -> navigator.pop()
@@ -34,7 +37,7 @@ class ChatScreen : BaseScreen<ChatState, ChatSideEffect, ChatAction, ChatViewMod
         )
     }
 
-    override fun onStart() = sendAction(OnStart)
+    override fun onStart() = sendAction(OnStart(chat))
 
     override fun onStop() = sendAction(OnStop)
 }

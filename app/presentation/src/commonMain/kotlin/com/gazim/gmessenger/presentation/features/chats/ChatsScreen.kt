@@ -20,7 +20,7 @@ class ChatsScreen : BaseScreen<ChatsState, ChatsSideEffect, ChatsAction, ChatsVi
 
     override suspend fun handleSideEffect(sideEffect: ChatsSideEffect) {
         when (sideEffect) {
-            is ToChatScreen -> navigator.push(ChatScreen())
+            is ToChatScreen -> navigator.push(ChatScreen(sideEffect.chat))
             is ToFindUser -> navigator.push(FindUserScreen())
             is ToAccountInfoScreen -> navigator.push(UserScreen())
             is ToLoginScreen -> {

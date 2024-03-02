@@ -1,8 +1,10 @@
 package com.gazim.gmessenger.presentation.features.chat
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.gazim.gmessenger.domain.model.IChatModel
+import com.gazim.gmessenger.domain.model.IChatWebSocketModel
 import com.gazim.gmessenger.domain.model.IMessageModel
-import com.gazim.gmessenger.domain.usecase.*
+import com.gazim.gmessenger.domain.usecase.IGetChatUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
@@ -22,38 +24,17 @@ typealias IntentScope = SimpleSyntax<ChatState, ChatSideEffect>
 
 // todo: take out functions
 class ChatViewModel(
-    private val openChatUseCase: IOpenChatUseCase,
-    private val closeChatUseCase: ICloseChatUseCase,
-    private val getMessagesUseCase: IGetMessagesUseCase,
-    private val sendMessageUseCase: ISendMessageUseCase,
-    private val getChatNameUseCase: IGetChatNameUseCase,
+    private val getChatUseCase: IGetChatUseCase,
 ) : BaseViewModel<ChatState, ChatSideEffect, ChatAction>() {
+    private lateinit var chatModel: IChatWebSocketModel
     private val ms = mutableListOf<IMessageModel>()
-    override val container: Container<ChatState, ChatSideEffect> =
-        container(initialState = ChatState()) {
-            viewModelScope.launch {
-                val chatTitle = getChatNameUseCase()
-                reduce { state.copy(chatTitle = chatTitle) }
-            }
-            viewModelScope.launch {
-                getMessagesUseCase().collectLatest { m ->
-                    ms.add(0, m)
-                    val groupedMessages = ms.groupBy({ GroupedMessagesDateUI(it.sentAt.date) }, { it.toMessageUI() })
-                    val mutableList = mutableListOf<IMessageItemUI>()
-                    groupedMessages.forEach {
-                        mutableList.addAll(it.value)
-                        mutableList.add(it.key)
-                    }
-                    reduce { state.copy(messages = mutableList) }
-                }
-            }
-        }
+    override val container: Container<ChatState, ChatSideEffect> = container(ChatState())
 
     override fun handleAction(action: ChatAction) {
         intent {
             when (action) {
-                is OnStart -> openConnection()
-                is OnStop -> viewModelScope.launch { closeChatUseCase() }
+                is OnStart -> loadChat(action.chat.toChatModel())
+                is OnStop -> viewModelScope.launch { chatModel.close() }
                 is OnMessageChange -> reduce { state.copy(message = action.message) }
                 is OnSendMessage -> {
                     sendMessage(state.message.text)
@@ -68,9 +49,29 @@ class ChatViewModel(
         }
     }
 
+    private suspend fun IntentScope.loadChat(chat: IChatModel) {
+        chatModel = getChatUseCase(chat)
+        viewModelScope.launch {
+            reduce { state.copy(chatTitle = chatModel.chatName) }
+        }
+        viewModelScope.launch {
+            chatModel.messages.collectLatest { m ->
+                ms.add(0, m)
+                val groupedMessages = ms.groupBy({ GroupedMessagesDateUI(it.sentAt.date) }, { it.toMessageUI() })
+                val mutableList = mutableListOf<IMessageItemUI>()
+                groupedMessages.forEach {
+                    mutableList.addAll(it.value)
+                    mutableList.add(it.key)
+                }
+                reduce { state.copy(messages = mutableList) }
+            }
+        }
+        openConnection()
+    }
+
     private suspend fun IntentScope.sendMessage(message: String) {
         runCatching {
-            sendMessageUseCase(SentMessageUI(message = message).toSentMessageUI())
+            chatModel.sendMessage(SentMessageUI(message = message).toSentMessageUI())
         }.onFailure(Throwable::printStackTrace)
     }
 
@@ -90,7 +91,7 @@ class ChatViewModel(
                 }
             },
         ) {
-            openChatUseCase()
+            chatModel.openConnection()
         }
     }
 }

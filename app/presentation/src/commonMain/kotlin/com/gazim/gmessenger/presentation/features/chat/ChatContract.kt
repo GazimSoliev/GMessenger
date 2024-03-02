@@ -4,6 +4,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.gazim.gmessenger.presentation.common.IAction
 import com.gazim.gmessenger.presentation.common.ISideEffect
 import com.gazim.gmessenger.presentation.common.IState
+import com.gazim.gmessenger.presentation.model.IChatUI
 import com.gazim.gmessenger.presentation.model.IMessageItemUI
 
 data class ChatState(
@@ -25,7 +26,7 @@ sealed interface ChatAction : IAction {
 
     data object OnBack : ChatAction
 
-    data object OnStart : ChatAction
+    data class OnStart(val chat: IChatUI) : ChatAction
 
     data object OnStop : ChatAction
 }
