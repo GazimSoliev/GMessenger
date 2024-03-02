@@ -23,7 +23,7 @@ class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginVi
     override suspend fun handleSideEffect(sideEffect: LoginSideEffect) {
         when (sideEffect) {
             is ToChatsScreen -> {
-                koin.createScope<AccountScope>(scopeId = sideEffect.token)
+                koin.createScope<AccountScope>(scopeId = sideEffect.session)
                 navigator.replace(ChatsScreen())
             }
             is ToRegisterScreen -> navigator.push(RegisterScreen())

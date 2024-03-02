@@ -4,7 +4,13 @@ import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
 interface ISessionService {
-    var token: String
+    fun currentToken(): String?
+
+    fun currentSession(): String?
+
+    fun setSession(token: String)
+
+    fun clearSession()
 }
 
 interface INotificationService {

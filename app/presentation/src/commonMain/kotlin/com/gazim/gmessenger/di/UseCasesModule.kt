@@ -24,10 +24,10 @@ val useCaseModule =
         factoryOf(::ValidatePassword) bind IValidatePassword::class
         factoryOf(::ValidateNickname) bind IValidateNickname::class
         factoryOf(::ValidateUsername) bind IValidateUsername::class
+        factoryOf(::GetSessionUseCase) bind IGetSessionUseCase::class
 //        factoryOf(::OpenNotificationUseCase) bind IOpenNotificationUseCase::class
 //        factoryOf(::CloseNotificationUseCase) bind ICloseNotificationUseCase::class
 //        factoryOf(::GetNotificationsUseCase) bind IGetNotificationsUseCase::class
-        factory { ICloseAccountScopeUseCase { getCurrentAccountScope().close() } }
         factory { ICreateChatScopeUseCase { getKoin().createScope<ChatScope>(scopeId = getCurrentChatId()) } }
         factory { ICloseChatScopeUseCase { getCurrentChatScope().close() } }
     }

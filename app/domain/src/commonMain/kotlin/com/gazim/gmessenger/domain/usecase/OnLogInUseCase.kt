@@ -6,12 +6,12 @@ import com.gazim.gmessenger.domain.service.ISessionService
 
 class OnLogInUseCase(
     private val gMessengerAuthRepository: IGMessengerAuthService,
-    private val sessionRepository: ISessionService,
+    private val sessionService: ISessionService,
 ) : IOnLogInUseCase {
-    override suspend fun invoke(loginPassword: ILoginPasswordModel): String? {
+    override suspend fun invoke(loginPassword: ILoginPasswordModel): Boolean {
         val token = gMessengerAuthRepository.login(loginPassword)
-        if (token == "null" || token.isEmpty()) return null
-        sessionRepository.token = token
-        return token
+        if (token == "null" || token.isEmpty()) return false
+        sessionService.setSession(token)
+        return true
     }
 }

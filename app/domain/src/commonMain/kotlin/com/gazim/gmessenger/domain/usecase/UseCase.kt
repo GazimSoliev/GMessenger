@@ -4,7 +4,7 @@ import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
 fun interface IOnLogInUseCase {
-    suspend operator fun invoke(loginPassword: ILoginPasswordModel): String?
+    suspend operator fun invoke(loginPassword: ILoginPasswordModel): Boolean
 }
 
 fun interface IOnRegisterUseCase {
@@ -97,4 +97,8 @@ fun interface ICreateChatScopeUseCase {
 
 fun interface ICloseChatScopeUseCase {
     operator fun invoke()
+}
+
+fun interface IGetSessionUseCase {
+    operator fun invoke(): String?
 }

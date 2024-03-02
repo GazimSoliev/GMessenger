@@ -1,9 +1,9 @@
 package com.gazim.gmessenger.presentation.features.chats
 
 import com.gazim.gmessenger.domain.model.IChatModel
-import com.gazim.gmessenger.domain.usecase.ICloseAccountScopeUseCase
 import com.gazim.gmessenger.domain.usecase.ICreateChatScopeUseCase
 import com.gazim.gmessenger.domain.usecase.IGetChatsUseCase
+import com.gazim.gmessenger.domain.usecase.IGetSessionUseCase
 import com.gazim.gmessenger.domain.usecase.ISendChatUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chats.ChatsAction.*
@@ -20,8 +20,8 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 class ChatsViewModel(
     private val getChatsUseCase: IGetChatsUseCase,
     private val sendChatUseCase: ISendChatUseCase,
-    private val closeAccountScopeUseCase: ICloseAccountScopeUseCase,
     private val createChatScopeUseCase: ICreateChatScopeUseCase,
+    private val getSessionUseCase: IGetSessionUseCase,
 //    private val notificationService: INotificationService,
 ) : BaseViewModel<ChatsState, ChatsSideEffect, ChatsAction>() {
     override val container: Container<ChatsState, ChatsSideEffect> =
@@ -42,9 +42,8 @@ class ChatsViewModel(
                 is OnCreateNewChat -> postSideEffect(ToFindUser)
                 is OnAccountInfoClick -> postSideEffect(ToAccountInfoScreen)
                 is OnLogOutClick -> {
-                    postSideEffect(ToLoginScreen)
-//                    notificationService.stop()
-                    closeAccountScopeUseCase()
+                    val session = getSessionUseCase() ?: return@intent
+                    postSideEffect(ToLoginScreen(session))
                     destroyViewModel()
                 }
             }

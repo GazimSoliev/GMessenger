@@ -1,8 +1,8 @@
 package com.gazim.gmessenger
 
 import android.app.Application
-import com.gazim.gmessenger.di.repositoryModule
 import com.gazim.gmessenger.di.scopeModule
+import com.gazim.gmessenger.di.serviceModule
 import com.gazim.gmessenger.di.useCaseModule
 import com.gazim.gmessenger.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -16,7 +16,7 @@ class MainApplication : Application() {
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@MainApplication)
-            modules(repositoryModule, useCaseModule, viewModelModule, scopeModule)
+            modules(serviceModule, useCaseModule, viewModelModule, scopeModule)
         }
     }
 }

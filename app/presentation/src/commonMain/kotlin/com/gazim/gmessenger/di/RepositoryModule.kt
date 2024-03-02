@@ -8,7 +8,7 @@ import org.koin.core.scope.Scope
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val repositoryModule =
+val serviceModule =
     module {
         singleOf(::SessionService) bind ISessionService::class
         singleOf(::GMessengerAuthService) bind IGMessengerAuthService::class
@@ -26,9 +26,11 @@ val repositoryModule =
         }
     }
 
-fun Scope.getCurrentToken() = get<ISessionService>().token
+fun Scope.getCurrentSession() = get<ISessionService>().currentSession()!!
 
-fun Scope.getCurrentAccountScope() = getScope(getCurrentToken())
+fun Scope.getCurrentToken() = get<ISessionService>().currentToken()!!
+
+fun Scope.getCurrentAccountScope() = getScope(getCurrentSession())
 
 fun Scope.getCurrentChatId() = getCurrentAccountScope().get<IChatSessionService>().currentChat.identifier
 

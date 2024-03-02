@@ -27,7 +27,6 @@ class ChatViewModel(
     private val getMessagesUseCase: IGetMessagesUseCase,
     private val sendMessageUseCase: ISendMessageUseCase,
     private val getChatNameUseCase: IGetChatNameUseCase,
-    private val closeChatScopeUseCase: ICloseChatScopeUseCase,
 ) : BaseViewModel<ChatState, ChatSideEffect, ChatAction>() {
     private val ms = mutableListOf<IMessageModel>()
     override val container: Container<ChatState, ChatSideEffect> =
@@ -63,7 +62,6 @@ class ChatViewModel(
 
                 is OnBack -> {
                     postSideEffect(ToBack)
-                    closeChatScopeUseCase()
                     destroyViewModel()
                 }
             }

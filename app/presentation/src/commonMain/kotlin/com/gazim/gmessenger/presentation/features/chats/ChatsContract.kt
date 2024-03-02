@@ -14,7 +14,9 @@ sealed interface ChatsSideEffect : ISideEffect {
 
     data object ToAccountInfoScreen : ChatsSideEffect
 
-    data object ToLoginScreen : ChatsSideEffect
+    data class ToLoginScreen(
+        val session: String,
+    ) : ChatsSideEffect
 }
 
 sealed interface ChatsAction : IAction {
