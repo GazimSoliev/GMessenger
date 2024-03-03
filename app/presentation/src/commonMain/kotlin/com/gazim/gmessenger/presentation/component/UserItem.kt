@@ -30,6 +30,7 @@ fun UserItem(
 fun UserItemPreview() {
     UserItem(
         UserModel(
+            id = "some id",
             nickname = "Nickname",
             username = "Username",
         ),

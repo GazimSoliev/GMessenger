@@ -1,6 +1,9 @@
 package com.gazim.gmessenger.server.domain.model
 
+import java.util.*
+
 data class User(
-    override val nickname: String,
-    override val username: String,
-) : IUser
+    val id: UUID,
+    val nickname: String,
+    val username: String,
+)

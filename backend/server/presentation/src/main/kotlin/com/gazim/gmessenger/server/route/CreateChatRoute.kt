@@ -1,10 +1,10 @@
 package com.gazim.gmessenger.server.route
 
-import com.gazim.gmessenger.backend.common.model.IUserPresent
-import com.gazim.gmessenger.backend.common.route.createChatRoute
+import com.gazim.gmessenger.api.model.User
+import com.gazim.gmessenger.api.route.createChatRoute
 import com.gazim.gmessenger.server.domain.usecase.ICreateChatUseCase
+import com.gazim.gmessenger.server.extensions.toAPI
 import com.gazim.gmessenger.server.extensions.toDomain
-import com.gazim.gmessenger.server.extensions.toPresent
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -14,8 +14,8 @@ import org.koin.ktor.ext.inject
 fun Route.createChatRoute() {
     val createChatUseCase by inject<ICreateChatUseCase>()
     post(createChatRoute) {
-        val user = call.receive<IUserPresent>()
+        val user = call.receive<User>()
         val chat = createChatUseCase(getUser(), listOf(user.toDomain()))
-        call.respondNullable(chat?.toPresent())
+        call.respondNullable(chat?.toAPI())
     }
 }

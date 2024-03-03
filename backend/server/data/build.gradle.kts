@@ -21,8 +21,6 @@ dependencies {
 
     // Mariadb
     implementation(libs.mariaddb.java.client)
-
-    implementation(libs.kotlinx.datetime)
 }
 
 tasks.test {

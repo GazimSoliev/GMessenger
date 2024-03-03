@@ -1,18 +1,19 @@
 package com.gazim.gmessenger.server.domain.service
 
-import com.gazim.gmessenger.server.domain.model.IAccount
-import com.gazim.gmessenger.server.domain.model.ILoginPassword
+import com.gazim.gmessenger.server.domain.model.AuthenticationForm
+import com.gazim.gmessenger.server.domain.model.RegistrationForm
+import com.gazim.gmessenger.server.domain.model.Token
 import com.gazim.gmessenger.server.domain.repository.ILoginRegisterRepository
-import kotlinx.datetime.LocalDateTime
+import java.time.LocalDateTime
 
 class AuthorizationService(
     private val loginPasswordRepository: ILoginRegisterRepository,
 ) : IAuthorizationService {
     override suspend fun login(
-        loginPassword: ILoginPassword,
+        loginPassword: AuthenticationForm,
         createdAt: LocalDateTime,
         expiredAt: LocalDateTime,
-    ): Int? = loginPasswordRepository.login(loginPassword, createdAt, expiredAt)
+    ): Token? = loginPasswordRepository.login(loginPassword, createdAt, expiredAt)
 
-    override suspend fun register(account: IAccount): Boolean = loginPasswordRepository.register(account)
+    override suspend fun register(account: RegistrationForm): Boolean = loginPasswordRepository.register(account)
 }

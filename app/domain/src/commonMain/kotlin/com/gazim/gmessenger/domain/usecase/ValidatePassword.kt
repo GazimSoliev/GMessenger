@@ -12,7 +12,7 @@ class ValidatePassword : IValidatePassword {
     private fun calculateEntropy(input: String): Double {
         val charCounts: MutableMap<Char, Int> = HashMap()
         input.forEach {
-            charCounts[it] = charCounts.getOrDefault(it, 0) + 1
+            charCounts[it] = charCounts.getOrElse(it) { 0 } + 1
         }
         var entropy = 0.0
         var isOrdered = true

@@ -1,8 +1,8 @@
 package com.gazim.gmessenger.presentation.model
 
 data class AccountUI(
-    override val nickname: String,
-    override val username: String,
-    override val login: String,
-    override val password: String,
-) : IAccountUI
+    val nickname: String,
+    val username: String,
+    val login: String,
+    val password: String,
+)

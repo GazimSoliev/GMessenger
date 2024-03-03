@@ -1,11 +1,11 @@
 package com.gazim.gmessenger.server.domain.usecase
 
-import com.gazim.gmessenger.server.domain.model.IMessage
-import com.gazim.gmessenger.server.domain.model.IUser
+import com.gazim.gmessenger.server.domain.model.Message
+import com.gazim.gmessenger.server.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
 class GetNotifications : IGetNotifications {
-    override fun invoke(user: IUser): Flow<IMessage> {
+    override fun invoke(user: User): Flow<Message> {
         TODO("Not yet implemented")
     }
 }

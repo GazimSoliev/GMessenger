@@ -10,37 +10,37 @@ import com.gazim.gmessenger.server.data.mapper.toAccountEntity
 import com.gazim.gmessenger.server.data.mapper.toChat
 import com.gazim.gmessenger.server.data.mapper.toUser
 import com.gazim.gmessenger.server.domain.model.IChat
-import com.gazim.gmessenger.server.domain.model.IUser
+import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.IChatRepository
 import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.emptySized
+import java.util.*
 
 class ChatRepository : IChatRepository {
-    override suspend fun getChats(user: IUser): List<IChat> =
+    override suspend fun getChats(user: User): List<IChat> =
         dbQuery {
-            val accountEntity = user.toAccountEntity() ?: return@dbQuery emptyList()
+            val accountEntity = user.toAccountEntity()
             accountEntity.chats.map { it.toChat(accountEntity) }
         }
 
     override suspend fun getMembers(
-        user: IUser,
+        user: User,
         chat: IChat,
-    ): List<IUser> =
+    ): List<User> =
         dbQuery {
-            getEntityChat(user, chat.identifier.toInt())?.members?.map(AccountEntity::toUser) ?: emptyList()
+            getEntityChat(user, chat.id)?.members?.map(AccountEntity::toUser) ?: emptyList()
         }
 
-    override suspend fun createChat(users: List<IUser>): IChat? =
+    override suspend fun createChat(users: List<User>): IChat? =
         dbQuery {
             val accounts =
                 AccountEntity.find {
-                    AccountTable.username.inList(users.map(IUser::username))
+                    AccountTable.username.inList(users.map(User::username))
                 }
             if (accounts.count().toInt() != users.count()) return@dbQuery null
             val chat =
                 ChatEntity.new {
-                    title = users.joinToString(transform = IUser::nickname)
+                    title = users.joinToString(transform = User::nickname)
                 }
             accounts.forEach {
                 ChatAccountEntity.new {
@@ -52,33 +52,34 @@ class ChatRepository : IChatRepository {
         }
 
     override suspend fun getChat(
-        user: IUser,
-        chatId: Int,
+        user: User,
+        id: UUID,
     ): IChat? =
         dbQuery {
-            val account = user.toAccountEntity() ?: return@dbQuery null
-            getEntityChat(user, chatId)?.toChat(account)
+            val account = user.toAccountEntity()
+            getEntityChat(user, id)?.toChat(account)
         }
 
     override suspend fun existInChat(
-        user: IUser,
+        user: User,
         chat: IChat,
-    ) = dbQuery {
-        !getChatAccountEntity(user, chat.identifier.toInt()).empty()
-    }
+    ): Boolean =
+        dbQuery {
+            !getChatAccountEntity(user, chat.id).empty()
+        }
 
     private fun getEntityChat(
-        user: IUser,
-        chatId: Int,
-    ): ChatEntity? = getChatAccountEntity(user, chatId).singleOrNull()?.chatEntity
+        user: User,
+        id: UUID,
+    ): ChatEntity? = getChatAccountEntity(user, id).singleOrNull()?.chatEntity
 
     private fun getChatAccountEntity(
-        user: IUser,
-        chatId: Int,
+        user: User,
+        id: UUID,
     ): SizedIterable<ChatAccountEntity> {
-        val account = user.toAccountEntity() ?: return emptySized()
+        val account = user.toAccountEntity()
         return ChatAccountEntity.find {
-            (ChatAccountTable.idAccount eq account.id) and (ChatAccountTable.idChat eq chatId)
+            (ChatAccountTable.idAccount eq account.id) and (ChatAccountTable.idChat eq id)
         }
     }
 }

@@ -5,6 +5,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
 sealed interface IUserUI {
+    val id: String
     val nickname: String
     val username: String
 }

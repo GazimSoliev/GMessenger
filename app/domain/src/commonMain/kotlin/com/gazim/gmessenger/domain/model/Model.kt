@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
 
 sealed interface IUserModel {
+    val id: String
     val nickname: String
     val username: String
 }
@@ -17,8 +18,6 @@ sealed interface IPasswordModel {
 }
 
 sealed interface ILoginPasswordModel : ILoginModel, IPasswordModel
-
-sealed interface IAccountModel : IUserModel, ILoginPasswordModel
 
 sealed interface ISentMessageModel {
     val message: String
@@ -38,7 +37,7 @@ sealed interface INotificationMessageModel : IMessageModel, INotificationModel {
 sealed interface IYourMessageModel : IMessageModel
 
 sealed interface IChatModel {
-    val identifier: String
+    val id: String
     val title: String
 }
 

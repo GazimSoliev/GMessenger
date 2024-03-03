@@ -7,8 +7,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            // Kotlin LocalDateTime
-            implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.coroutines.core)
         }
     }

@@ -1,12 +1,13 @@
 package com.gazim.gmessenger.server.data.database.model
 
 import com.gazim.gmessenger.server.data.database.table.TokenTable
-import org.jetbrains.exposed.dao.IntEntity
-import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.UUIDEntity
+import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
+import java.util.*
 
-class TokenEntity(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<TokenEntity>(TokenTable)
+class TokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+    companion object : UUIDEntityClass<TokenEntity>(TokenTable)
 
     var createdAt by TokenTable.createdAt
     var expiredAt by TokenTable.expiredAt

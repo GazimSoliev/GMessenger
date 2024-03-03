@@ -2,60 +2,61 @@ package com.gazim.gmessenger.server.domain.service
 
 import com.gazim.gmessenger.server.domain.model.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.datetime.LocalDateTime
+import java.time.LocalDateTime
+import java.util.*
 
 interface IUserService {
-    suspend fun findUser(username: String): List<IUser>
+    suspend fun findUser(username: String): List<User>
 
-    suspend fun getUser(idToken: Int): IUser
+    suspend fun getUser(tokenId: UUID): User
 }
 
 interface IAuthorizationService {
     suspend fun login(
-        loginPassword: ILoginPassword,
+        loginPassword: AuthenticationForm,
         createdAt: LocalDateTime,
         expiredAt: LocalDateTime,
-    ): Int?
+    ): Token?
 
-    suspend fun register(account: IAccount): Boolean
+    suspend fun register(account: RegistrationForm): Boolean
 }
 
 interface IChatService {
     suspend fun getChats(
-        user: IUser,
+        user: User,
         limit: Int = 64,
         startFrom: Long? = null,
     ): List<IChat>
 
     suspend fun getMembers(
-        user: IUser,
+        user: User,
         chat: IChat,
-    ): List<IUser>
+    ): List<User>
 
-    suspend fun createChat(user: List<IUser>): IChat?
+    suspend fun createChat(user: List<User>): IChat?
 
     suspend fun getChat(
-        user: IUser,
-        chatId: Int,
+        user: User,
+        chatId: UUID,
     ): IChat?
 }
 
 interface IMessagingService {
     suspend fun sendMessage(
-        user: IUser,
+        user: User,
         chat: IChat,
-        sentMessage: ISentMessage,
-    ): IMessage
+        messageForm: MessageForm,
+    )
 
     suspend fun getMessages(
-        user: IUser,
+        user: User,
         chat: IChat,
         limit: Int = 64,
         startFrom: Long? = null,
-    ): List<IMessage>
+    ): List<Message>
 
     suspend fun getMessageFlow(
-        user: IUser,
+        user: User,
         chat: IChat,
-    ): Flow<IMessage>?
+    ): Flow<Message>?
 }

@@ -1,11 +1,12 @@
 package com.gazim.gmessenger.server.data.database.table
 
-import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.javatime.datetime
+import java.time.Clock
 import java.time.LocalDateTime
 
-object LoginTable : IntIdTable("login") {
-    val login = varchar("login", 128)
-    val setAt = datetime("set_at").default(LocalDateTime.now())
+object LoginTable : UUIDTable("login") {
     val idAccount = reference("id_account", AccountTable)
+    val login = varchar("login", 128)
+    val createdAt = datetime("created_at").default(LocalDateTime.now(Clock.systemUTC()))
 }

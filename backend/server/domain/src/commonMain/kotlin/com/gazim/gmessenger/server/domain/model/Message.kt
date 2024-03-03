@@ -1,9 +1,11 @@
 package com.gazim.gmessenger.server.domain.model
 
-import kotlinx.datetime.LocalDateTime
+import java.time.LocalDateTime
+import java.util.*
 
 data class Message(
-    override val message: String,
-    override val user: IUser,
-    override val sentAt: LocalDateTime,
-) : IMessage
+    val id: UUID,
+    val message: String,
+    val user: User,
+    val sentAt: LocalDateTime,
+)

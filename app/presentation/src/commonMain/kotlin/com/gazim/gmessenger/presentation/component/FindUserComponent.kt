@@ -80,6 +80,7 @@ fun FindUserComponentPreview() {
         users =
             List(10) {
                 UserModel(
+                    id = "some",
                     nickname = "Name $it",
                     username = "Username $it",
                 )

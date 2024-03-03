@@ -1,4 +1,4 @@
-package com.gazim.gmessenger.backend.common.route
+package com.gazim.gmessenger.api.route
 
 const val chatRoute = "/chat"
 const val chatsRoute = "/chats"

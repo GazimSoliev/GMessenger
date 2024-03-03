@@ -2,7 +2,7 @@ package com.gazim.gmessenger.presentation.model
 
 import com.gazim.gmessenger.domain.model.*
 
-fun IUserModel.toUserUI(): IUserUI = UserUI(nickname = nickname, username = username)
+fun IUserModel.toUserUI(): IUserUI = UserUI(id = id, nickname = nickname, username = username)
 
 fun IMessageModel.toMessageUI(): IFullMessageUI =
     if (this is IYourMessageModel) {
@@ -16,7 +16,7 @@ fun IMessageUI.toSentMessageUI(): ISentMessageModel = SentMessageModel(message =
 fun IChatModel.toChatUI(): IChatUI =
     if (this is IPrivateChatModel) {
         PrivateChatUI(
-            identifier = identifier,
+            identifier = id,
             title = title,
             chatName = user.nickname,
             chatLink = "@${user.username}",
@@ -24,25 +24,25 @@ fun IChatModel.toChatUI(): IChatUI =
         )
     } else {
         ChatUI(
-            identifier = identifier,
+            identifier = id,
             title = title,
             chatName = title,
             chatLink = "",
         )
     }
 
-fun IUserUI.toUserModel() = UserModel(nickname = nickname, username = username)
+fun IUserUI.toUserModel() = UserModel(id = id, nickname = nickname, username = username)
 
 fun IChatUI.toChatModel(): IChatModel =
     if (this is IPrivateChatUI) {
         PrivateChatModel(
-            identifier = identifier,
+            id = identifier,
             title = title,
             user = user.toUserModel(),
         )
     } else {
         ChatModel(
-            identifier = identifier,
+            id = identifier,
             title = title,
         )
     }

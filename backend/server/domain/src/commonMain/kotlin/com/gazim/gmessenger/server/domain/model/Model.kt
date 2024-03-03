@@ -1,33 +1,8 @@
 package com.gazim.gmessenger.server.domain.model
 
-import kotlinx.datetime.LocalDateTime
-
-interface IUser {
-    val nickname: String
-    val username: String
-}
+import java.util.*
 
 interface IChat {
-    val identifier: String
+    val id: UUID
     val title: String
 }
-
-interface IPrivateChat : IChat {
-    val user: IUser
-}
-
-interface ISentMessage {
-    val message: String
-}
-
-interface IMessage : ISentMessage {
-    val user: IUser
-    val sentAt: LocalDateTime
-}
-
-interface ILoginPassword {
-    val login: String
-    val password: String
-}
-
-interface IAccount : IUser, ILoginPassword

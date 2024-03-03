@@ -36,7 +36,7 @@ interface IGMessengerService {
 }
 
 interface IGMessengerAuthService {
-    suspend fun register(accountModel: IAccountModel): Boolean
+    suspend fun register(accountModel: AccountModel): Boolean
 
     suspend fun login(loginPasswordModel: ILoginPasswordModel): String
 }

@@ -1,8 +1,8 @@
 package com.gazim.gmessenger.domain.model
 
 data class AccountModel(
-    override val nickname: String,
-    override val username: String,
-    override val login: String,
-    override val password: String,
-) : IAccountModel
+    val nickname: String,
+    val username: String,
+    val login: String,
+    val password: String,
+)

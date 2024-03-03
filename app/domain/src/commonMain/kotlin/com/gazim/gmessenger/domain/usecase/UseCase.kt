@@ -8,7 +8,7 @@ fun interface IOnLogInUseCase {
 }
 
 fun interface IOnRegisterUseCase {
-    suspend operator fun invoke(account: IAccountModel): Boolean
+    suspend operator fun invoke(account: AccountModel): Boolean
 }
 
 fun interface IGetOwnAccountUseCase {

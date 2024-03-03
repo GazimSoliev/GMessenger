@@ -1,45 +1,46 @@
 package com.gazim.gmessenger.data.model
 
-import com.gazim.gmessenger.api.repository.IChatWebSocket
-import com.gazim.gmessenger.api.repository.INotificationSocket
-import com.gazim.gmessenger.backend.common.model.*
+import com.gazim.gmessenger.api.IChatWebSocket
+import com.gazim.gmessenger.api.INotificationSocket
+import com.gazim.gmessenger.api.message.MyMessage
+import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-fun IUserPresent.toUserModel(): IUserModel = UserModel(nickname = nickname, username = username)
+fun User.toDomain() = UserModel(id = id, nickname = nickname, username = username)
 
-fun IUserModel.toUser(): IUserPresent = UserPresent(nickname = nickname, username = username)
+fun IUserModel.toAPI() = User(id = id, nickname = nickname, username = username)
 
-fun IChatPresent.toChatModel(): IChatModel =
-    if (this is IPrivateChatPresent) {
-        PrivateChatModel(identifier = identifier, title = title, user = user.toUserModel())
+fun IChat.toDomain() =
+    if (this is PrivateChat) {
+        PrivateChatModel(id = id, title = title, user = user.toDomain())
     } else {
-        ChatModel(identifier = identifier, title = title)
+        ChatModel(id = id, title = title)
     }
 
-fun IChatModel.toChat(): IChatPresent =
+fun IChatModel.toAPI() =
     if (this is IPrivateChatModel) {
-        PrivateChatPresent(identifier = identifier, title = title, user = user.toUser())
+        PrivateChat(id = id, title = title, user = user.toAPI())
     } else {
-        ChatPresent(identifier = identifier, title = title)
+        Chat(id = id, title = title)
     }
 
-fun IMessagePresent.toMessageModel() =
-    if (this is IYourMessagePresent) {
-        YourMessageModel(message = message, sentAt = sentAt, user = user.toUserModel())
+fun IMessage.toAPI() =
+    if (this is MyMessage) {
+        YourMessageModel(message = message, sentAt = sentAt, user = user.toDomain())
     } else {
-        MessageModel(message = message, sentAt = sentAt, user = user.toUserModel())
+        MessageModel(message = message, sentAt = sentAt, user = user.toDomain())
     }
 
-fun ISentMessageModel.toSentMessage() = SentMessagePresent(message = message)
+fun ISentMessageModel.toSentMessage() = MessageForm(message = message)
 
 fun IChatWebSocket.toChatWebSocketModel(chatName: String) =
     object : IChatWebSocketModel {
         override val chatName: String = chatName
 
         override val messages: Flow<IMessageModel> =
-            this@toChatWebSocketModel.messages.map { it.toMessageModel() }
+            this@toChatWebSocketModel.messages.map { it.toAPI() }
 
         override suspend fun sendMessage(msg: ISentMessageModel) = this@toChatWebSocketModel.sendMessage(msg.toSentMessage())
 
@@ -52,7 +53,7 @@ fun INotificationSocket.toNotificationWebSocketModel() =
     object : INotificationWebSocketModel {
         override val notifications: Flow<INotificationModel> =
             this@toNotificationWebSocketModel.notifications.map(
-                INotificationPresent::toNotificationModel,
+                MessageNotification::toNotificationModel,
             )
 
         override suspend fun openConnection() = this@toNotificationWebSocketModel.openConnection()
@@ -60,13 +61,14 @@ fun INotificationSocket.toNotificationWebSocketModel() =
         override suspend fun closeConnection() = this@toNotificationWebSocketModel.closeConnection()
     }
 
-fun INotificationPresent.toNotificationModel() =
+@Suppress("USELESS_IS_CHECK")
+fun MessageNotification.toNotificationModel() =
     when (this) {
-        is INotificationMessagePresent ->
+        is MessageNotification ->
             NotificationMessageModel(
                 message = message,
                 sentAt = sentAt,
-                user = user.toUserModel(),
+                user = user.toDomain(),
                 chatName = chatName,
             )
 

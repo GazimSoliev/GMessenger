@@ -13,7 +13,7 @@ const val issuer = "Gazim Developer"
 const val secret = "GMessengerServer_secret"
 const val realm = "GMessengerServer"
 const val jwtName = "GMessengerServerAuth"
-const val claimTokenId = "tokenId"
+const val claimTokenId = "id"
 
 fun Application.configureJWT() {
     install(Authentication) {
@@ -26,7 +26,7 @@ fun Application.configureJWT() {
                     .build(),
             )
             validate { credential ->
-                if (credential.payload.getClaim(claimTokenId).asInt() != null) {
+                if (credential.payload.getClaim(claimTokenId).asString() != null) {
                     JWTPrincipal(credential.payload)
                 } else {
                     null

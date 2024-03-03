@@ -178,7 +178,7 @@ fun ChatComponentPreview() {
                 TheirMessageUI(
                     message = "Msg $it",
                     sentAt = LocalDateTime.now().toKotlinLocalDateTime(),
-                    user = UserUI(nickname = "Test", "test"),
+                    user = UserUI(id = "some id", nickname = "Test", username = "test"),
                 )
             },
         reconnectionTimerSeconds = 3,

@@ -8,20 +8,20 @@ import com.gazim.gmessenger.server.data.database.model.TokenEntity
 import com.gazim.gmessenger.server.data.database.table.AccountTable
 import com.gazim.gmessenger.server.data.database.table.LoginTable
 import com.gazim.gmessenger.server.data.database.table.PasswordTable
-import com.gazim.gmessenger.server.domain.model.IAccount
-import com.gazim.gmessenger.server.domain.model.ILoginPassword
+import com.gazim.gmessenger.server.domain.model.AuthenticationForm
+import com.gazim.gmessenger.server.domain.model.RegistrationForm
+import com.gazim.gmessenger.server.domain.model.Token
 import com.gazim.gmessenger.server.domain.repository.ILoginRegisterRepository
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.toJavaLocalDateTime
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
+import java.time.LocalDateTime
 
 class LoginRegisterRepository : ILoginRegisterRepository {
     override suspend fun login(
-        loginPassword: ILoginPassword,
+        loginPassword: AuthenticationForm,
         createdAt: LocalDateTime,
         expiredAt: LocalDateTime,
-    ): Int? =
+    ): Token? =
         dbQuery {
             val accountEntity =
                 AccountTable.innerJoin(LoginTable)
@@ -32,14 +32,19 @@ class LoginRegisterRepository : ILoginRegisterRepository {
                             .and(PasswordTable.password eq loginPassword.password)
                     }.singleOrNull()?.let(AccountEntity.Companion::wrapRow)
                     ?: return@dbQuery null
-            TokenEntity.new {
-                this.createdAt = createdAt.toJavaLocalDateTime()
-                this.expiredAt = expiredAt.toJavaLocalDateTime()
-                this.account = accountEntity
-            }.id.value
+            val tokenEntity =
+                TokenEntity.new {
+                    this.createdAt = createdAt
+                    this.expiredAt = expiredAt
+                    this.account = accountEntity
+                }
+            Token(
+                id = tokenEntity.id.value,
+                expiredAt = tokenEntity.expiredAt,
+            )
         }
 
-    override suspend fun register(account: IAccount): Boolean =
+    override suspend fun register(account: RegistrationForm): Boolean =
         dbQuery {
             if (!AccountEntity.find { AccountTable.username eq account.username }.empty()) {
                 return@dbQuery false
