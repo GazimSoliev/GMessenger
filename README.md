@@ -18,3 +18,6 @@ TODO:
 8. Voice messages
 9. Use Docker
 10. Profile photo
+11. DateTime in UTC in server side
+12. Add ids for all elements
+13. Renaming
