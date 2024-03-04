@@ -1,11 +1,10 @@
 package com.gazim.gmessenger.server.data.repository
 
 import com.gazim.gmessenger.server.data.database.GMessengerDatabase.dbQuery
-import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.ChatEntity
 import com.gazim.gmessenger.server.data.database.model.MessageEntity
-import com.gazim.gmessenger.server.data.database.table.AccountTable
 import com.gazim.gmessenger.server.data.database.table.MessageTable
+import com.gazim.gmessenger.server.data.mapper.toAccountEntity
 import com.gazim.gmessenger.server.data.mapper.toMessage
 import com.gazim.gmessenger.server.domain.model.IChat
 import com.gazim.gmessenger.server.domain.model.Message
@@ -36,7 +35,7 @@ class MessageRepository : IMessageRepository {
             MessageEntity.new {
                 chatEntity = ChatEntity[chat.id]
                 this.message = message.message
-                account = AccountEntity.find { AccountTable.username eq user.username }.single()
+                account = user.toAccountEntity()
             }.toMessage()
         }
 }
