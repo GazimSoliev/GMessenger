@@ -26,23 +26,23 @@ fun IChatModel.toAPI() =
         Chat(id = id, title = title)
     }
 
-fun IMessage.toAPI() =
+fun IMessage.toDomain() =
     if (this is MyMessage) {
         YourMessageModel(message = message, sentAt = sentAt, user = user.toDomain())
     } else {
         MessageModel(message = message, sentAt = sentAt, user = user.toDomain())
     }
 
-fun ISentMessageModel.toSentMessage() = MessageForm(message = message)
+fun ISentMessageModel.toAPI() = MessageForm(message = message)
 
 fun IChatWebSocket.toChatWebSocketModel(chatName: String) =
     object : IChatWebSocketModel {
         override val chatName: String = chatName
 
         override val messages: Flow<IMessageModel> =
-            this@toChatWebSocketModel.messages.map { it.toAPI() }
+            this@toChatWebSocketModel.messages.map { it.toDomain() }
 
-        override suspend fun sendMessage(msg: ISentMessageModel) = this@toChatWebSocketModel.sendMessage(msg.toSentMessage())
+        override suspend fun sendMessage(msg: ISentMessageModel) = this@toChatWebSocketModel.sendMessage(msg.toAPI())
 
         override suspend fun openConnection() = this@toChatWebSocketModel.openConnection()
 

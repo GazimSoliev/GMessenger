@@ -9,12 +9,13 @@ import com.gazim.gmessenger.server.domain.repository.IMessageRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import java.util.*
 
 class MessagingService(
     private val messageRepository: IMessageRepository,
     private val chatRepository: IChatRepository,
 ) : IMessagingService {
-    private val chatsFlow = mutableMapOf<IChat, MutableSharedFlow<Message>>()
+    private val chatsFlow = mutableMapOf<UUID, MutableSharedFlow<Message>>()
 
     override suspend fun sendMessage(
         user: User,
@@ -22,8 +23,7 @@ class MessagingService(
         messageForm: MessageForm,
     ) {
         val message = messageRepository.sendMessage(user, chat, messageForm)
-        chatsFlow[chat].also { println("Sent 30: $it") }?.emit(message)
-        chatsFlow.also { println("Sent 31: $it") }
+        chatsFlow[chat.id]?.emit(message)
     }
 
     override suspend fun getMessages(
@@ -37,9 +37,8 @@ class MessagingService(
         user: User,
         chat: IChat,
     ): Flow<Message>? {
-        if (!chatRepository.existInChat(user, chat).also { println("Sent 46: $it") }) return null
-        val flow = chatsFlow[chat] ?: MutableSharedFlow<Message>().also { chatsFlow[chat] = it }
-        flow.also { println("Sent 48: $it") }
+        if (!chatRepository.existInChat(user, chat)) return null
+        val flow = chatsFlow[chat.id] ?: MutableSharedFlow<Message>().also { chatsFlow[chat.id] = it }
         return flow.asSharedFlow()
     }
 }
