@@ -1,6 +1,7 @@
 package com.gazim.gmessenger.api.model
 
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
 interface IMessage {
     val id: String
@@ -9,7 +10,8 @@ interface IMessage {
     val user: User
 }
 
-interface IChat {
+@Serializable
+sealed interface IChat {
     val id: String
     val title: String
 }
