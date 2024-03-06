@@ -28,8 +28,8 @@ class LoginRegisterRepository : ILoginRegisterRepository {
                     .innerJoin(PasswordTable).select {
                         (AccountTable.id eq LoginTable.idAccount)
                             .and(AccountTable.id eq PasswordTable.idAccount)
-                            .and(LoginTable.login eq loginPassword.login)
-                            .and(PasswordTable.password eq loginPassword.password)
+                            .and(LoginTable.login eq loginPassword.login.encodeToByteArray())
+                            .and(PasswordTable.password eq loginPassword.password.encodeToByteArray())
                     }.singleOrNull()?.let(AccountEntity.Companion::wrapRow)
                     ?: return@dbQuery null
             val tokenEntity =
@@ -55,11 +55,11 @@ class LoginRegisterRepository : ILoginRegisterRepository {
                     username = account.username
                 }
             LoginEntity.new {
-                login = account.login
+                login = account.login.encodeToByteArray()
                 this.account = accountEntity
             }
             PasswordEntity.new {
-                password = account.password
+                password = account.password.encodeToByteArray()
                 this.account = accountEntity
             }
             true

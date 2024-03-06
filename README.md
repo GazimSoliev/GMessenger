@@ -19,4 +19,3 @@ TODO:
 9. Use Docker
 10. Profile photo
 11. Renaming
-12. Fix upper and under in login

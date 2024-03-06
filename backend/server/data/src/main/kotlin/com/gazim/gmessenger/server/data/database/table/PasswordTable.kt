@@ -7,6 +7,6 @@ import java.time.LocalDateTime
 
 object PasswordTable : UUIDTable("password") {
     val idAccount = reference("id_account", AccountTable)
-    val password = varchar("password", 128)
+    val password = binary("password", 1024)
     val createdAt = datetime("created_at").default(LocalDateTime.now(Clock.systemUTC()))
 }
