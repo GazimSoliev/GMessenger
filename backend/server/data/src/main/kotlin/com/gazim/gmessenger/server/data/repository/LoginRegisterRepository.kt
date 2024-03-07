@@ -14,6 +14,7 @@ import com.gazim.gmessenger.server.domain.model.Token
 import com.gazim.gmessenger.server.domain.repository.ILoginRegisterRepository
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
+import java.security.MessageDigest
 import java.time.LocalDateTime
 
 class LoginRegisterRepository : ILoginRegisterRepository {
@@ -23,13 +24,16 @@ class LoginRegisterRepository : ILoginRegisterRepository {
         expiredAt: LocalDateTime,
     ): Token? =
         dbQuery {
+            val sha256 = MessageDigest.getInstance("SHA-256")
+            val login = sha256.digest(loginPassword.login.encodeToByteArray())
+            val password = sha256.digest(loginPassword.password.encodeToByteArray())
             val accountEntity =
                 AccountTable.innerJoin(LoginTable)
                     .innerJoin(PasswordTable).select {
                         (AccountTable.id eq LoginTable.idAccount)
                             .and(AccountTable.id eq PasswordTable.idAccount)
-                            .and(LoginTable.login eq loginPassword.login.encodeToByteArray())
-                            .and(PasswordTable.password eq loginPassword.password.encodeToByteArray())
+                            .and(LoginTable.login eq login)
+                            .and(PasswordTable.password eq password)
                     }.singleOrNull()?.let(AccountEntity.Companion::wrapRow)
                     ?: return@dbQuery null
             val tokenEntity =
@@ -46,6 +50,9 @@ class LoginRegisterRepository : ILoginRegisterRepository {
 
     override suspend fun register(account: RegistrationForm): Boolean =
         dbQuery {
+            val sha256 = MessageDigest.getInstance("SHA-256")
+            val login = sha256.digest(account.login.encodeToByteArray())
+            val password = sha256.digest(account.password.encodeToByteArray())
             if (!AccountEntity.find { AccountTable.username eq account.username }.empty()) {
                 return@dbQuery false
             }
@@ -55,11 +62,11 @@ class LoginRegisterRepository : ILoginRegisterRepository {
                     username = account.username
                 }
             LoginEntity.new {
-                login = account.login.encodeToByteArray()
+                this.login = login
                 this.account = accountEntity
             }
             PasswordEntity.new {
-                password = account.password.encodeToByteArray()
+                this.password = password
                 this.account = accountEntity
             }
             true
