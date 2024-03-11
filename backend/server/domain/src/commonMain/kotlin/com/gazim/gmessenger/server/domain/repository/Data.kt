@@ -47,16 +47,27 @@ interface IChatRepository {
 }
 
 interface IMessageRepository {
-    suspend fun getMessages(
-        user: User,
-        chat: IChat,
-        limit: Int = 64,
-        startFrom: Long? = null,
-    ): List<Message>
-
     suspend fun sendMessage(
         user: User,
         chat: IChat,
         message: MessageForm,
     ): Message
+
+    suspend fun getMessages(
+        chat: IChat,
+        start: LocalDateTime,
+        end: LocalDateTime,
+    ): List<Message>
+
+    suspend fun nextPage(
+        chat: IChat,
+        offset: Long,
+        start: LocalDateTime,
+    ): LocalDateTime?
+
+    suspend fun prevPage(
+        chat: IChat,
+        offset: Long,
+        end: LocalDateTime,
+    ): LocalDateTime?
 }

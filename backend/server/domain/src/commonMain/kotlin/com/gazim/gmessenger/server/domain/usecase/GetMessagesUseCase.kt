@@ -1,16 +1,17 @@
 package com.gazim.gmessenger.server.domain.usecase
 
 import com.gazim.gmessenger.server.domain.model.IChat
-import com.gazim.gmessenger.server.domain.model.Message
+import com.gazim.gmessenger.server.domain.model.MessagePage
+import com.gazim.gmessenger.server.domain.model.MessagePageKey
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.service.IMessagingService
-import kotlinx.coroutines.flow.Flow
 
-class GetMessagesUseCase(private val messagingService: IMessagingService) : IGetMessagesUseCase {
+class GetMessagesUseCase(
+    private val messagingService: IMessagingService,
+) : IGetMessagesUseCase {
     override suspend fun invoke(
         user: User,
         chat: IChat,
-        limit: Int,
-        startFrom: Long?,
-    ): Flow<Message>? = messagingService.getMessageFlow(user, chat)
+        key: MessagePageKey?,
+    ): MessagePage = messagingService.getMessages(user, chat, key)
 }

@@ -30,10 +30,10 @@ class LoginRegisterRepository : ILoginRegisterRepository {
             val accountEntity =
                 AccountTable.innerJoin(LoginTable)
                     .innerJoin(PasswordTable).select {
-                        (AccountTable.id eq LoginTable.idAccount)
-                            .and(AccountTable.id eq PasswordTable.idAccount)
-                            .and(LoginTable.login eq login)
-                            .and(PasswordTable.password eq password)
+                        (AccountTable.id eq LoginTable.idAccount) and
+                            (AccountTable.id eq PasswordTable.idAccount) and
+                            (LoginTable.login eq login) and
+                            (PasswordTable.password eq password)
                     }.singleOrNull()?.let(AccountEntity.Companion::wrapRow)
                     ?: return@dbQuery null
             val tokenEntity =

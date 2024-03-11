@@ -51,9 +51,8 @@ interface IMessagingService {
     suspend fun getMessages(
         user: User,
         chat: IChat,
-        limit: Int = 64,
-        startFrom: Long? = null,
-    ): List<Message>
+        key: MessagePageKey?,
+    ): MessagePage
 
     suspend fun getMessageFlow(
         user: User,

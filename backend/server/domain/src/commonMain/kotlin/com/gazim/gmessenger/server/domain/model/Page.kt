@@ -1,4 +1,4 @@
-package com.gazim.gmessenger.api.model
+package com.gazim.gmessenger.server.domain.model
 
 interface Page<Key, Data> {
     val data: Data

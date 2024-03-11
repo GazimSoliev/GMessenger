@@ -10,6 +10,7 @@ fun Routing.generalRoute() {
         userRoute()
         createChatRoute()
         chatRoute()
+        messagesRoute()
         findUserRoute()
         notificationRoute()
     }
