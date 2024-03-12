@@ -19,3 +19,10 @@ TODO:
 9. Use Docker
 10. Profile photo
 11. Renaming
+
+College:
+1. Russian lang
+2. Fill profile (photo)
+3. Edit profile
+4. Logo
+5. Splash screen
