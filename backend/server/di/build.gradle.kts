@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.21"
+    alias(libs.plugins.kotlinJvm)
 }
 
 group = "com.gazim.utils"
