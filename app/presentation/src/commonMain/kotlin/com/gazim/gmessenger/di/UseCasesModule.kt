@@ -20,6 +20,7 @@ val useCaseModule =
         factoryOf(::ValidateUsername) bind IValidateUsername::class
         factoryOf(::GetSessionUseCase) bind IGetSessionUseCase::class
         factoryOf(::GetChatUseCase) bind IGetChatUseCase::class
+        factoryOf(::GetMessagesUseCase) bind IGetMessagesUseCase::class
 //        factoryOf(::OpenNotificationUseCase) bind IOpenNotificationUseCase::class
 //        factoryOf(::CloseNotificationUseCase) bind ICloseNotificationUseCase::class
 //        factoryOf(::GetNotificationsUseCase) bind IGetNotificationsUseCase::class

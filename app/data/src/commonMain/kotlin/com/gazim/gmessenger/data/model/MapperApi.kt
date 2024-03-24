@@ -5,8 +5,24 @@ import com.gazim.gmessenger.api.INotificationSocket
 import com.gazim.gmessenger.api.message.MyMessage
 import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.domain.model.*
+import com.gazim.gmessenger.domain.model.MessagePageKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import com.gazim.gmessenger.api.model.MessagePage as MessagePageAPI
+import com.gazim.gmessenger.api.model.MessagePageKey as MessagePageKeyAPI
+
+fun MessagePageAPI.toDomain() = MessagePage(
+    data = data.map { it.toDomain() },
+    next = next?.toDomain(),
+    prev = prev?.toDomain(),
+)
+
+fun MessagePageKeyAPI.toDomain() = MessagePageKey(
+    start = start,
+    end = end,
+)
+
+fun MessagePageKey.toAPI() = MessagePageKeyAPI(start = start, end = end)
 
 fun User.toDomain() = UserModel(id = id, nickname = nickname, username = username)
 

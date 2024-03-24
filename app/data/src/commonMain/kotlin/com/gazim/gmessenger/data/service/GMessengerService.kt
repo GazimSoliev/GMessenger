@@ -28,5 +28,9 @@ class GMessengerService(token: String) : IGMessengerService {
         gMessengerAPI.createChat(user = user.toAPI())
     }
 
-    override suspend fun getNotifications(): INotificationWebSocketModel = gMessengerAPI.getNotifications().toNotificationWebSocketModel()
+    override suspend fun getNotifications(): INotificationWebSocketModel =
+        gMessengerAPI.getNotifications().toNotificationWebSocketModel()
+
+    override suspend fun getMessages(chatModel: IChatModel, key: MessagePageKey?): MessagePage =
+        gMessengerAPI.getMessages(chatModel.toAPI(), key?.toAPI()).toDomain()
 }

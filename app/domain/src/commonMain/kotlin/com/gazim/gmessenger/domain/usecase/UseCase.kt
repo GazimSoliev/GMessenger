@@ -70,3 +70,10 @@ fun interface IGetSessionUseCase {
 fun interface IGetChatUseCase {
     suspend operator fun invoke(chat: IChatModel): IChatWebSocketModel
 }
+
+interface IGetMessagesUseCase {
+    suspend operator fun invoke(
+        chat: IChatModel,
+        key: MessagePageKey?,
+    ): MessagePage
+}
