@@ -16,6 +16,8 @@ interface IGMessengerAPI {
     suspend fun findUser(username: String): List<User>
 
     suspend fun getNotifications(): INotificationSocket
+
+    suspend fun getMessages(chat: IChat, key: MessagePageKey): MessagePage
 }
 
 interface IGMessengerAuthAPI {

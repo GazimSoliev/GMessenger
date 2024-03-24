@@ -136,5 +136,13 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             override suspend fun closeConnection() = job?.cancel() ?: Unit
         }
 
+    override suspend fun getMessages(chat: IChat, key: MessagePageKey): MessagePage {
+        val page = httpClient.post("$messagesRoute/${chat.id}") {
+            contentType(ContentType.Application.Json)
+            setBody(key)
+        }.body<MessagePage>()
+        return page
+    }
+
     override fun close() = httpClient.close()
 }
