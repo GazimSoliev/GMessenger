@@ -38,8 +38,6 @@ class MessageRepository : IMessageRepository {
             MessageEntity
                 .find {
                     (MessageTable.idChat eq chat.id) and
-                        (MessageTable.createdAt greaterEq start) and
-                        (MessageTable.createdAt lessEq end)
                         (MessageTable.createdAt lessEq start) and
                         (MessageTable.createdAt greaterEq end)
                 }

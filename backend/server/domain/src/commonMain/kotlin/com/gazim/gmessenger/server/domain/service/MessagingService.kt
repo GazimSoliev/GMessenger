@@ -30,7 +30,6 @@ class MessagingService(
         chat: IChat,
         key: MessagePageKey?,
     ): MessagePage {
-        if (chatRepository.existInChat(user, chat)) return MessagePage(emptyList())
         if (!chatRepository.existInChat(user, chat)) return MessagePage(emptyList())
         val start: LocalDateTime
         val end: LocalDateTime?

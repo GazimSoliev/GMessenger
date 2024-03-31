@@ -17,11 +17,9 @@ fun Route.messagesRoute() {
     val getMessagesUseCase by inject<IGetMessagesUseCase>()
     val getChatUseCase by inject<IGetChatUseCase>()
     post("$messagesRoute/{chatId}") {
-        val chatId = call.parameters["chadId"]
         val chatId = call.parameters["chatId"]
         val user = getUser()
         val chat = getChatUseCase(user, UUID.fromString(chatId)) ?: return@post println("Can't find chat")
-        val key = call.receiveNullable<MessagePageKey>()
         val key = call.receiveNullable<MessagePageKey?>()
         val page = getMessagesUseCase(user, chat, key?.toDomain()).toAPI()
         call.respond(page)
