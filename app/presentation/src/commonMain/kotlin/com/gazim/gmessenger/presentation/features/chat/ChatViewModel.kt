@@ -65,7 +65,6 @@ class ChatViewModel(
                         config = PagingConfig(20),
                         pagingSourceFactory = { MessagePagerSource(chat, getMessages, ms) }
                     ).flow
-//                        .cachedIn(viewModelScope)
                 )
             }
         }

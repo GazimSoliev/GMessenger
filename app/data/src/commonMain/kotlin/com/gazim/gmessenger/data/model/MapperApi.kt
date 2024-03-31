@@ -44,9 +44,19 @@ fun IChatModel.toAPI() =
 
 fun IMessage.toDomain() =
     if (this is MyMessage) {
-        YourMessageModel(message = message, sentAt = sentAt, user = user.toDomain())
+        YourMessageModel(
+            id = id,
+            message = message,
+            sentAt = sentAt,
+            user = user.toDomain()
+        )
     } else {
-        MessageModel(message = message, sentAt = sentAt, user = user.toDomain())
+        MessageModel(
+            id = id,
+            message = message,
+            sentAt = sentAt,
+            user = user.toDomain()
+        )
     }
 
 fun ISentMessageModel.toAPI() = MessageForm(message = message)
@@ -77,11 +87,12 @@ fun INotificationSocket.toNotificationWebSocketModel() =
         override suspend fun closeConnection() = this@toNotificationWebSocketModel.closeConnection()
     }
 
-@Suppress("USELESS_IS_CHECK")
+@Suppress("USELESS_IS_CHECK", "UNREACHABLE_CODE")
 fun MessageNotification.toNotificationModel() =
     when (this) {
         is MessageNotification ->
             NotificationMessageModel(
+                id = TODO("Fix it later"),
                 message = message,
                 sentAt = sentAt,
                 user = user.toDomain(),

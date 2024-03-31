@@ -35,6 +35,7 @@ sealed interface IMessageUI {
 sealed interface ISentMessageUI : IMessageUI
 
 sealed interface IFullMessageUI : IMessageUI, IMessageItemUI {
+    val id: String
     val sentAt: LocalDateTime
     val user: IUserUI
 }

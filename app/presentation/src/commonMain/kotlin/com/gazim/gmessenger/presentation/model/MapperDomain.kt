@@ -6,9 +6,19 @@ fun IUserModel.toUserUI(): IUserUI = UserUI(id = id, nickname = nickname, userna
 
 fun IMessageModel.toMessageUI(): IFullMessageUI =
     if (this is IYourMessageModel) {
-        YourMessageUI(message = message, sentAt = sentAt, user = user.toUserUI())
+        YourMessageUI(
+            id = id,
+            message = message,
+            sentAt = sentAt,
+            user = user.toUserUI()
+        )
     } else {
-        TheirMessageUI(message = message, sentAt = sentAt, user = user.toUserUI())
+        TheirMessageUI(
+            id = id,
+            message = message,
+            sentAt = sentAt,
+            user = user.toUserUI()
+        )
     }
 
 fun IMessageUI.toSentMessageUI(): ISentMessageModel = SentMessageModel(message = message)

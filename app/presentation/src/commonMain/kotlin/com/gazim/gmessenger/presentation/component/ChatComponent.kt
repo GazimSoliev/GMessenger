@@ -33,6 +33,7 @@ import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 // todo: Rename preview and maybe change a composition
 @OptIn(ExperimentalMaterial3Api::class)
@@ -143,7 +144,12 @@ fun ChatComponent(
             ) {
                 items(
                     count = pagingMessages.itemCount,
-                    key = { it.hashCode() }
+//                    key = {
+//                        when(val msg = pagingMessages[it]) {
+//                            is IFullMessageUI -> msg.id
+//                            else -> msg.hashCode()
+//                        }
+//                    }
                 ) { index ->
                     val msg = pagingMessages[index]
                     if (msg is IGroupedMessagesDateUI) {
@@ -187,6 +193,7 @@ fun ChatComponentPreview() {
             PagingData.from(
                 List(3) {
                     TheirMessageUI(
+                        id = UUID.randomUUID().toString(),
                         message = "Msg $it",
                         sentAt = LocalDateTime.now().toKotlinLocalDateTime(),
                         user = UserUI(id = "some id", nickname = "Test", username = "test"),
