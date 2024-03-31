@@ -14,6 +14,7 @@ import com.gazim.gmessenger.server.domain.repository.IMessageRepository
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 class MessageRepository : IMessageRepository {
     override suspend fun sendMessage(
@@ -26,6 +27,7 @@ class MessageRepository : IMessageRepository {
                 chatEntity = ChatEntity[chat.id]
                 this.message = message.message
                 account = user.toAccountEntity()
+                sentAt = LocalDateTime.now(ZoneOffset.UTC)
             }.toMessage()
         }
 

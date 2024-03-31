@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 interface IUserRepository {
-    suspend fun insert(user: User): Boolean
+//    suspend fun insert(user: User): Boolean
 
     suspend fun findByUsername(
         username: String,

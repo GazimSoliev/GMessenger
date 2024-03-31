@@ -10,15 +10,16 @@ import com.gazim.gmessenger.server.domain.repository.IUserRepository
 import java.util.*
 
 class UserRepository : IUserRepository {
-    override suspend fun insert(user: User): Boolean {
-        dbQuery {
-            AccountEntity.new {
-                nickname = user.nickname
-                username = user.username
-            }
-        }
-        return true
-    }
+//    override suspend fun insert(user: User): Boolean {
+//        dbQuery {
+//            AccountEntity.new {
+//                nickname = user.nickname
+//                username = user.username
+//                createdAt = LocalDateTime.now(ZoneOffset.UTC)
+//            }
+//        }
+//        return true
+//    }
 
     override suspend fun findByUsername(
         username: String,
