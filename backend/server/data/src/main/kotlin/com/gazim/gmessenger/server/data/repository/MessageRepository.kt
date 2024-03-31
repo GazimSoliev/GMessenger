@@ -40,6 +40,8 @@ class MessageRepository : IMessageRepository {
                     (MessageTable.idChat eq chat.id) and
                         (MessageTable.createdAt greaterEq start) and
                         (MessageTable.createdAt lessEq end)
+                        (MessageTable.createdAt lessEq start) and
+                        (MessageTable.createdAt greaterEq end)
                 }
                 .orderBy(MessageTable.createdAt to SortOrder.DESC)
                 .map(MessageEntity::toMessage)
@@ -57,8 +59,8 @@ class MessageRepository : IMessageRepository {
                         (MessageTable.createdAt less start)
                 }
                 .orderBy(MessageTable.createdAt to SortOrder.DESC)
-                .limit(1, offset)
-                .singleOrNull()
+                .limit(offset.toInt())
+                .firstOrNull()
                 ?.sentAt
         }
 
