@@ -17,7 +17,7 @@ interface IGMessengerAPI {
 
     suspend fun getNotifications(): INotificationSocket
 
-    suspend fun getMessages(chat: IChat, key: MessagePageKey?): MessagePage
+    suspend fun getMessages(chat: IChat, key: MessagePageKey?): MyMessagePage
 }
 
 interface IGMessengerAuthAPI {

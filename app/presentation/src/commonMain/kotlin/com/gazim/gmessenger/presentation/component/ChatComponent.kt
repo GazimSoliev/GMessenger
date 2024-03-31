@@ -141,7 +141,10 @@ fun ChatComponent(
                 contentPadding = contentPadding,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                items(pagingMessages.itemCount) { index ->
+                items(
+                    count = pagingMessages.itemCount,
+                    key = { it.hashCode() }
+                ) { index ->
                     val msg = pagingMessages[index]
                     if (msg is IGroupedMessagesDateUI) {
                         val groupedDate =

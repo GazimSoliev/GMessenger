@@ -2,14 +2,14 @@ package com.gazim.gmessenger.data.model
 
 import com.gazim.gmessenger.api.IChatWebSocket
 import com.gazim.gmessenger.api.INotificationSocket
-import com.gazim.gmessenger.api.message.MyMessage
 import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.domain.model.*
+import com.gazim.gmessenger.domain.model.MessagePage
 import com.gazim.gmessenger.domain.model.MessagePageKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import com.gazim.gmessenger.api.model.MessagePage as MessagePageAPI
 import com.gazim.gmessenger.api.model.MessagePageKey as MessagePageKeyAPI
+import com.gazim.gmessenger.api.model.MyMessagePage as MessagePageAPI
 
 fun MessagePageAPI.toDomain() = MessagePage(
     data = data.map { it.toDomain() },

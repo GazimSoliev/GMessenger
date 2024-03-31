@@ -1,7 +1,0 @@
-package com.gazim.gmessenger.api.model
-
-interface Page<Key, Data> {
-    val data: Data
-    val next: Key?
-    val prev: Key?
-}

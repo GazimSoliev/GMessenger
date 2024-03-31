@@ -15,3 +15,9 @@ sealed interface IChat {
     val id: String
     val title: String
 }
+
+interface Page<Key, Data> {
+    val data: Data
+    val next: Key?
+    val prev: Key?
+}

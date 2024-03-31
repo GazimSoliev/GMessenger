@@ -1,7 +1,5 @@
-package com.gazim.gmessenger.api.message
+package com.gazim.gmessenger.api.model
 
-import com.gazim.gmessenger.api.model.IMessage
-import com.gazim.gmessenger.api.model.User
 import kotlinx.datetime.LocalDateTime
 
 data class MyMessage(

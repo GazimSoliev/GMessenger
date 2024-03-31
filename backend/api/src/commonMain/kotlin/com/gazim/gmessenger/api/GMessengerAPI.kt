@@ -1,7 +1,6 @@
 package com.gazim.gmessenger.api
 
 import com.gazim.gmessenger.api.extensions.configureEngine
-import com.gazim.gmessenger.api.message.toMyMessage
 import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.api.plugins.configureContentNegotiation
 import com.gazim.gmessenger.api.plugins.configureWebSockets
@@ -19,6 +18,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.serialization.json.Json
 import java.io.Closeable
 import kotlin.io.println
 import kotlin.use
@@ -38,7 +39,23 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             }
         }
 
+
+    private var _userId = ""
+
+    suspend fun getUserId(): String {
+        if (_userId.isNotBlank()) return _userId
+        val mutex = Mutex()
+        mutex.lock(this)
+        if (_userId.isNotBlank()) return _userId
+        val user = whoAmI()
+        _userId = user.id
+        mutex.unlock(this)
+        return _userId
+    }
+
     companion object : IGMessengerAuthAPI {
+        private val tokenParseJson = Json { ignoreUnknownKeys = true }
+
         private val httpClient
             get() = HttpClient { configureContentNegotiation() }
 
@@ -79,14 +96,13 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
 
             override suspend fun openConnection() {
                 coroutineScope {
-                    val user = whoAmI()
                     httpClient.webSocket("$wsServer$chatRoute/${chat.id}") {
                         println(this.call.request.url)
                         val input =
                             this@coroutineScope.launch {
                                 for (frame in incoming) converter
                                     ?.deserialize<Message>(frame)
-                                    ?.let { if (it.user == user) it.toMyMessage() else it }
+                                    ?.let { if (it.user.id == getUserId()) it.toMyMessage() else it }
                                     ?.let { getter.emit(it) }
                             }
                         output =
@@ -108,7 +124,8 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             }
         }
 
-    override suspend fun findUser(username: String): List<User> = httpClient.get("$urlServer$findUserRoute?filter=$username").body()
+    override suspend fun findUser(username: String): List<User> =
+        httpClient.get("$urlServer$findUserRoute?filter=$username").body()
 
     override suspend fun getNotifications(): INotificationSocket =
         object : INotificationSocket {
@@ -124,7 +141,8 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
                             httpClient.wss(host = ipServer, path = notificationRoute) {
                                 withContext(Dispatchers.IO) {
                                     for (frame in incoming) {
-                                        val notification = converter?.deserialize<MessageNotification>(frame) ?: continue
+                                        val notification =
+                                            converter?.deserialize<MessageNotification>(frame) ?: continue
                                         _notifications.emit(notification)
                                     }
                                 }
@@ -136,12 +154,12 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             override suspend fun closeConnection() = job?.cancel() ?: Unit
         }
 
-    override suspend fun getMessages(chat: IChat, key: MessagePageKey?): MessagePage {
+    override suspend fun getMessages(chat: IChat, key: MessagePageKey?): MyMessagePage {
         val page = httpClient.post("$urlServer$messagesRoute/${chat.id}") {
             contentType(ContentType.Application.Json)
             setBody(key)
         }.body<MessagePage>()
-        return page
+        return page.toMyPage(getUserId())
     }
 
     override fun close() = httpClient.close()

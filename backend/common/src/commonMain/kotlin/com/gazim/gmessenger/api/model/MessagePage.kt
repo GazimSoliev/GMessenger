@@ -3,7 +3,7 @@ package com.gazim.gmessenger.api.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-class MessagePage(
+data class MessagePage(
     override val data: List<Message>,
     override val next: MessagePageKey? = null,
     override val prev: MessagePageKey? = null,
