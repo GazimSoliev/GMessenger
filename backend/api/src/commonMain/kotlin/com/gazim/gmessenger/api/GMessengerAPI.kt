@@ -137,7 +137,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
         }
 
     override suspend fun getMessages(chat: IChat, key: MessagePageKey?): MessagePage {
-        val page = httpClient.post("$messagesRoute/${chat.id}") {
+        val page = httpClient.post("$urlServer$messagesRoute/${chat.id}") {
             contentType(ContentType.Application.Json)
             setBody(key)
         }.body<MessagePage>()

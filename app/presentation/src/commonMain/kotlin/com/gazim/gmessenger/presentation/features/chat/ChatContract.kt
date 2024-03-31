@@ -1,15 +1,18 @@
 package com.gazim.gmessenger.presentation.features.chat
 
 import androidx.compose.ui.text.input.TextFieldValue
+import app.cash.paging.PagingData
 import com.gazim.gmessenger.presentation.common.IAction
 import com.gazim.gmessenger.presentation.common.ISideEffect
 import com.gazim.gmessenger.presentation.common.IState
 import com.gazim.gmessenger.presentation.model.IChatUI
 import com.gazim.gmessenger.presentation.model.IMessageItemUI
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 data class ChatState(
     val chatTitle: String = "",
-    val messages: List<IMessageItemUI> = emptyList(),
+    val messages: Flow<PagingData<IMessageItemUI>> = emptyFlow(),
     val message: TextFieldValue = TextFieldValue(),
     val showReconnectionTimer: Boolean = false,
     val reconnectionTimerSeconds: Int = 0,

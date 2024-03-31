@@ -1,18 +1,23 @@
 package com.gazim.gmessenger.presentation.features.chat
 
 import androidx.compose.ui.text.input.TextFieldValue
+import app.cash.paging.Pager
+import app.cash.paging.PagingConfig
 import com.gazim.gmessenger.domain.model.IChatModel
 import com.gazim.gmessenger.domain.model.IChatWebSocketModel
 import com.gazim.gmessenger.domain.model.IMessageModel
 import com.gazim.gmessenger.domain.usecase.IGetChatUseCase
+import com.gazim.gmessenger.domain.usecase.IGetMessagesUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
-import com.gazim.gmessenger.presentation.model.*
+import com.gazim.gmessenger.presentation.model.SentMessageUI
+import com.gazim.gmessenger.presentation.model.toChatModel
+import com.gazim.gmessenger.presentation.model.toSentMessageUI
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
@@ -25,9 +30,10 @@ typealias IntentScope = SimpleSyntax<ChatState, ChatSideEffect>
 // todo: take out functions
 class ChatViewModel(
     private val getChatUseCase: IGetChatUseCase,
+    private val getMessages: IGetMessagesUseCase,
 ) : BaseViewModel<ChatState, ChatSideEffect, ChatAction>() {
     private lateinit var chatModel: IChatWebSocketModel
-    private val ms = mutableListOf<IMessageModel>()
+    private val ms = Channel<IMessageModel>(Channel.UNLIMITED)
     override val container: Container<ChatState, ChatSideEffect> = container(ChatState())
 
     override fun handleAction(action: ChatAction) {
@@ -52,19 +58,19 @@ class ChatViewModel(
     private suspend fun IntentScope.loadChat(chat: IChatModel) {
         chatModel = getChatUseCase(chat)
         viewModelScope.launch {
-            reduce { state.copy(chatTitle = chatModel.chatName) }
+            reduce {
+                state.copy(
+                    chatTitle = chatModel.chatName,
+                    messages = Pager(
+                        config = PagingConfig(20),
+                        pagingSourceFactory = { MessagePagerSource(chat, getMessages, ms) }
+                    ).flow
+//                        .cachedIn(viewModelScope)
+                )
+            }
         }
         viewModelScope.launch {
-            chatModel.messages.collectLatest { m ->
-                ms.add(0, m)
-                val groupedMessages = ms.groupBy({ GroupedMessagesDateUI(it.sentAt.date) }, { it.toMessageUI() })
-                val mutableList = mutableListOf<IMessageItemUI>()
-                groupedMessages.forEach {
-                    mutableList.addAll(it.value)
-                    mutableList.add(it.key)
-                }
-                reduce { state.copy(messages = mutableList) }
-            }
+            chatModel.messages.collect { ms.send(it) }
         }
         openConnection()
     }

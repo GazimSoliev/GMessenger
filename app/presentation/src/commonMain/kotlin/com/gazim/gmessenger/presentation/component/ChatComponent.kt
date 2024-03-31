@@ -5,7 +5,6 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -23,8 +22,12 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import app.cash.paging.PagingData
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.gazim.gmessenger.presentation.model.*
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
@@ -37,7 +40,7 @@ import java.time.format.DateTimeFormatter
 fun ChatComponent(
     modifier: Modifier = Modifier,
     chatTitle: String,
-    messages: List<IMessageItemUI>,
+    messages: Flow<PagingData<IMessageItemUI>>,
     message: TextFieldValue,
     showReconnectScreen: Boolean,
     reconnectionTimerSeconds: Int,
@@ -45,6 +48,7 @@ fun ChatComponent(
     sendMsg: () -> Unit,
     back: () -> Unit,
 ) {
+    val pagingMessages = messages.collectAsLazyPagingItems()
     val timeFormatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
     val dateFormatter = remember { DateTimeFormatter.ofPattern("MMM dd yyyy") }
     Surface {
@@ -72,9 +76,9 @@ fun ChatComponent(
                         }
                     },
                     colors =
-                        TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = colorScheme.surface.copy(alpha = 0.95f),
-                        ),
+                    TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = colorScheme.surface.copy(alpha = 0.95f),
+                    ),
                 )
             },
             bottomBar = {
@@ -82,26 +86,26 @@ fun ChatComponent(
                     value = message,
                     onValueChange = onMessageChange,
                     modifier =
-                        Modifier.fillMaxWidth().background(colorScheme.surface.copy(alpha = 0.95f)).padding(8.dp)
-                            .navigationBarsPadding()
-                            .background(colorScheme.surfaceVariant, RoundedCornerShape(24.dp))
-                            .onPreviewKeyEvent {
-                                if (it.key != Key.Enter || it.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
-                                sendMsg()
-                                true
-                            },
+                    Modifier.fillMaxWidth().background(colorScheme.surface.copy(alpha = 0.95f)).padding(8.dp)
+                        .navigationBarsPadding()
+                        .background(colorScheme.surfaceVariant, RoundedCornerShape(24.dp))
+                        .onPreviewKeyEvent {
+                            if (it.key != Key.Enter || it.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
+                            sendMsg()
+                            true
+                        },
                     textStyle = typography.bodyLarge.copy(color = colorScheme.onSurfaceVariant),
                     cursorBrush = SolidColor(colorScheme.onBackground),
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier =
-                                Modifier.padding(
-                                    start = 24.dp,
-                                    end = 8.dp,
-                                    top = 8.dp,
-                                    bottom = 8.dp,
-                                ).weight(1f).heightIn(max = 128.dp),
+                            Modifier.padding(
+                                start = 24.dp,
+                                end = 8.dp,
+                                top = 8.dp,
+                                bottom = 8.dp,
+                            ).weight(1f).heightIn(max = 128.dp),
                         ) {
                             it()
                             if (message.text.isEmpty()) {
@@ -137,26 +141,29 @@ fun ChatComponent(
                 contentPadding = contentPadding,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                items(messages) {
-                    if (it is IGroupedMessagesDateUI) {
-                        val groupedDate = rememberSaveable(it) { dateFormatter.format(it.date.toJavaLocalDate()) }
+                items(pagingMessages.itemCount) { index ->
+                    val msg = pagingMessages[index]
+                    if (msg is IGroupedMessagesDateUI) {
+                        val groupedDate =
+                            rememberSaveable(msg) { dateFormatter.format(msg.date.toJavaLocalDate()) }
                         Text(
                             groupedDate,
                             modifier = Modifier.padding(16.dp),
                         )
-                    } else if (it is IFullMessageUI) {
+                    } else if (msg is IFullMessageUI) {
                         Box(Modifier.fillMaxWidth()) {
                             val msgModifier =
-                                if (it is IYourMessageUI) {
+                                if (msg is IYourMessageUI) {
                                     Modifier.align(Alignment.CenterEnd).padding(start = 64.dp)
                                 } else {
                                     Modifier.align(Alignment.CenterStart).padding(end = 64.dp)
                                 }
-                            val sentAt = rememberSaveable(it) { timeFormatter.format(it.sentAt.toJavaLocalDateTime()) }
+                            val sentAt =
+                                rememberSaveable(msg) { timeFormatter.format(msg.sentAt.toJavaLocalDateTime()) }
                             MessageItem(
                                 modifier = msgModifier,
-                                message = it.message,
-                                nickname = it.user.nickname,
+                                message = msg.message,
+                                nickname = msg.user.nickname,
                                 sentAt = sentAt,
                             )
                         }
@@ -173,14 +180,17 @@ fun ChatComponentPreview() {
     ChatComponent(
         modifier = Modifier.fillMaxSize(),
         chatTitle = "Chat",
-        messages =
-            List(3) {
-                TheirMessageUI(
-                    message = "Msg $it",
-                    sentAt = LocalDateTime.now().toKotlinLocalDateTime(),
-                    user = UserUI(id = "some id", nickname = "Test", username = "test"),
-                )
-            },
+        messages = flowOf(
+            PagingData.from(
+                List(3) {
+                    TheirMessageUI(
+                        message = "Msg $it",
+                        sentAt = LocalDateTime.now().toKotlinLocalDateTime(),
+                        user = UserUI(id = "some id", nickname = "Test", username = "test"),
+                    )
+                }
+            )
+        ),
         reconnectionTimerSeconds = 3,
         message = TextFieldValue(),
         onMessageChange = {},
