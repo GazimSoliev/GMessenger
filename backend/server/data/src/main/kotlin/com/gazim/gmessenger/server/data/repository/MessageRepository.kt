@@ -58,7 +58,7 @@ class MessageRepository : IMessageRepository {
                     (MessageTable.idChat eq chat.id) and
                         (MessageTable.createdAt less start)
                 }
-                .orderBy(MessageTable.createdAt to SortOrder.DESC)
+                .orderBy(MessageTable.createdAt to SortOrder.ASC)
                 .limit(offset.toInt())
                 .firstOrNull()
                 ?.sentAt
