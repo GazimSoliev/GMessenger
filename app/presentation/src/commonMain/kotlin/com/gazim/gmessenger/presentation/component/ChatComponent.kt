@@ -144,12 +144,12 @@ fun ChatComponent(
             ) {
                 items(
                     count = pagingMessages.itemCount,
-//                    key = {
-//                        when(val msg = pagingMessages[it]) {
-//                            is IFullMessageUI -> msg.id
-//                            else -> msg.hashCode()
-//                        }
-//                    }
+                    key = {
+                        when(val msg = pagingMessages[it]) {
+                            is IFullMessageUI -> msg.id
+                            else -> msg.hashCode()
+                        }
+                    }
                 ) { index ->
                     val msg = pagingMessages[index]
                     if (msg is IGroupedMessagesDateUI) {
