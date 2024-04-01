@@ -40,7 +40,7 @@ class MessageRepository : IMessageRepository {
             MessageEntity
                 .find {
                     (MessageTable.idChat eq chat.id) and
-                        (MessageTable.createdAt lessEq start) and
+                        (MessageTable.createdAt less start) and
                         (MessageTable.createdAt greaterEq end)
                 }
                 .orderBy(MessageTable.createdAt to SortOrder.DESC)
