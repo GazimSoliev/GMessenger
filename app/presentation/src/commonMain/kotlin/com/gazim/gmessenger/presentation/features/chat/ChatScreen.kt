@@ -16,7 +16,6 @@ import kotlinx.coroutines.delay
 class ChatScreen(
     private val chat: IChatUI,
 ) : BaseScreen<ChatState, ChatSideEffect, ChatAction, ChatViewModel>() {
-
     private val lazyListState = LazyListState()
 
     override suspend fun handleSideEffect(sideEffect: ChatSideEffect) {
@@ -45,7 +44,7 @@ class ChatScreen(
             onMessageChange = { sendAction(OnMessageChange(it)) },
             sendMsg = { sendAction(OnSendMessage) },
             back = { sendAction(OnBack) },
-            onFollowMessage = { sendAction(OnFollowMessage(it)) }
+            onFollowMessage = { sendAction(OnFollowMessage(it)) },
         )
     }
 

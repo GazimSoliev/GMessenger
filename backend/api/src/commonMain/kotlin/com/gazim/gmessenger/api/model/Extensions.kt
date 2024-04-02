@@ -8,12 +8,14 @@ fun Message.toMyMessage() =
         user = user,
     )
 
-fun MessagePage.toMyPage(userId: String) = MyMessagePage(
-    data = data.map {
-        println(it.user.id)
-        println(userId)
-        if (it.user.id == userId) it.toMyMessage() else it
-                    },
-    next = next,
-    prev = prev,
-)
+fun MessagePage.toMyPage(userId: String) =
+    MyMessagePage(
+        data =
+            data.map {
+                println(it.user.id)
+                println(userId)
+                if (it.user.id == userId) it.toMyMessage() else it
+            },
+        next = next,
+        prev = prev,
+    )

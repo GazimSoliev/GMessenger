@@ -67,10 +67,11 @@ class ChatViewModel(
             reduce {
                 state.copy(
                     chatTitle = chatModel.chatName,
-                    messages = Pager(
-                        config = PagingConfig(20),
-                        pagingSourceFactory = { MessagePagerSource(chat, getMessages, ms) }
-                    ).flow
+                    messages =
+                        Pager(
+                            config = PagingConfig(20),
+                            pagingSourceFactory = { MessagePagerSource(chat, getMessages, ms) },
+                        ).flow,
                 )
             }
         }

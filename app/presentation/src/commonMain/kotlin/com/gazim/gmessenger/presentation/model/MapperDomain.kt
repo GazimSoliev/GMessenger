@@ -10,14 +10,14 @@ fun IMessageModel.toMessageUI(): IFullMessageUI =
             id = id,
             message = message,
             sentAt = sentAt,
-            user = user.toUserUI()
+            user = user.toUserUI(),
         )
     } else {
         TheirMessageUI(
             id = id,
             message = message,
             sentAt = sentAt,
-            user = user.toUserUI()
+            user = user.toUserUI(),
         )
     }
 

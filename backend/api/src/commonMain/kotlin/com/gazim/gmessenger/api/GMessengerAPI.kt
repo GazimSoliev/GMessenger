@@ -39,7 +39,6 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             }
         }
 
-
     private var _userId = ""
 
     suspend fun getUserId(): String {
@@ -124,8 +123,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             }
         }
 
-    override suspend fun findUser(username: String): List<User> =
-        httpClient.get("$urlServer$findUserRoute?filter=$username").body()
+    override suspend fun findUser(username: String): List<User> = httpClient.get("$urlServer$findUserRoute?filter=$username").body()
 
     override suspend fun getNotifications(): INotificationSocket =
         object : INotificationSocket {
@@ -154,11 +152,15 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             override suspend fun closeConnection() = job?.cancel() ?: Unit
         }
 
-    override suspend fun getMessages(chat: IChat, key: MessagePageKey?): MyMessagePage {
-        val page = httpClient.post("$urlServer$messagesRoute/${chat.id}") {
-            contentType(ContentType.Application.Json)
-            setBody(key)
-        }.body<MessagePage>()
+    override suspend fun getMessages(
+        chat: IChat,
+        key: MessagePageKey?,
+    ): MyMessagePage {
+        val page =
+            httpClient.post("$urlServer$messagesRoute/${chat.id}") {
+                contentType(ContentType.Application.Json)
+                setBody(key)
+            }.body<MessagePage>()
         return page.toMyPage(getUserId())
     }
 

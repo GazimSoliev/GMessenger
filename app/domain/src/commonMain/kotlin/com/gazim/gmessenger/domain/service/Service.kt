@@ -34,7 +34,10 @@ interface IGMessengerService {
 
     suspend fun getNotifications(): INotificationWebSocketModel
 
-    suspend fun getMessages(chatModel: IChatModel, key: MessagePageKey?): MessagePage
+    suspend fun getMessages(
+        chatModel: IChatModel,
+        key: MessagePageKey?,
+    ): MessagePage
 }
 
 interface IGMessengerAuthService {

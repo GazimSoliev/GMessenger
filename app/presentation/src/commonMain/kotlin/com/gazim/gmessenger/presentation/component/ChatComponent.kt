@@ -82,9 +82,9 @@ fun ChatComponent(
                         }
                     },
                     colors =
-                    TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = colorScheme.surface.copy(alpha = 0.95f),
-                    ),
+                        TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = colorScheme.surface.copy(alpha = 0.95f),
+                        ),
                 )
             },
             bottomBar = {
@@ -92,26 +92,26 @@ fun ChatComponent(
                     value = message,
                     onValueChange = onMessageChange,
                     modifier =
-                    Modifier.fillMaxWidth().background(colorScheme.surface.copy(alpha = 0.95f)).padding(8.dp)
-                        .navigationBarsPadding()
-                        .background(colorScheme.surfaceVariant, RoundedCornerShape(24.dp))
-                        .onPreviewKeyEvent {
-                            if (it.key != Key.Enter || it.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
-                            sendMsg()
-                            true
-                        },
+                        Modifier.fillMaxWidth().background(colorScheme.surface.copy(alpha = 0.95f)).padding(8.dp)
+                            .navigationBarsPadding()
+                            .background(colorScheme.surfaceVariant, RoundedCornerShape(24.dp))
+                            .onPreviewKeyEvent {
+                                if (it.key != Key.Enter || it.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
+                                sendMsg()
+                                true
+                            },
                     textStyle = typography.bodyLarge.copy(color = colorScheme.onSurfaceVariant),
                     cursorBrush = SolidColor(colorScheme.onBackground),
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier =
-                            Modifier.padding(
-                                start = 24.dp,
-                                end = 8.dp,
-                                top = 8.dp,
-                                bottom = 8.dp,
-                            ).weight(1f).heightIn(max = 128.dp),
+                                Modifier.padding(
+                                    start = 24.dp,
+                                    end = 8.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp,
+                                ).weight(1f).heightIn(max = 128.dp),
                         ) {
                             it()
                             if (message.text.isEmpty()) {
@@ -155,7 +155,7 @@ fun ChatComponent(
                             is IFullMessageUI -> msg.id
                             else -> msg.hashCode()
                         }
-                    }
+                    },
                 ) { index ->
                     val msg = pagingMessages[index]
                     if (msg is IGroupedMessagesDateUI) {
@@ -196,18 +196,19 @@ fun ChatComponentPreview() {
         modifier = Modifier.fillMaxSize(),
         chatTitle = "Chat",
         lazyListState = rememberLazyListState(),
-        messages = flowOf(
-            PagingData.from(
-                List(3) {
-                    TheirMessageUI(
-                        id = UUID.randomUUID().toString(),
-                        message = "Msg $it",
-                        sentAt = LocalDateTime.now().toKotlinLocalDateTime(),
-                        user = UserUI(id = "some id", nickname = "Test", username = "test"),
-                    )
-                }
-            )
-        ),
+        messages =
+            flowOf(
+                PagingData.from(
+                    List(3) {
+                        TheirMessageUI(
+                            id = UUID.randomUUID().toString(),
+                            message = "Msg $it",
+                            sentAt = LocalDateTime.now().toKotlinLocalDateTime(),
+                            user = UserUI(id = "some id", nickname = "Test", username = "test"),
+                        )
+                    },
+                ),
+            ),
         reconnectionTimerSeconds = 3,
         message = TextFieldValue(),
         onMessageChange = {},

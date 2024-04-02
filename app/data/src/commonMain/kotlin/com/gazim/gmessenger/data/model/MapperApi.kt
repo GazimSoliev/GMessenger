@@ -11,16 +11,18 @@ import kotlinx.coroutines.flow.map
 import com.gazim.gmessenger.api.model.MessagePageKey as MessagePageKeyAPI
 import com.gazim.gmessenger.api.model.MyMessagePage as MessagePageAPI
 
-fun MessagePageAPI.toDomain() = MessagePage(
-    data = data.map { it.toDomain() },
-    next = next?.toDomain(),
-    prev = prev?.toDomain(),
-)
+fun MessagePageAPI.toDomain() =
+    MessagePage(
+        data = data.map { it.toDomain() },
+        next = next?.toDomain(),
+        prev = prev?.toDomain(),
+    )
 
-fun MessagePageKeyAPI.toDomain() = MessagePageKey(
-    start = start,
-    end = end,
-)
+fun MessagePageKeyAPI.toDomain() =
+    MessagePageKey(
+        start = start,
+        end = end,
+    )
 
 fun MessagePageKey.toAPI() = MessagePageKeyAPI(start = start, end = end)
 
@@ -48,14 +50,14 @@ fun IMessage.toDomain() =
             id = id,
             message = message,
             sentAt = sentAt,
-            user = user.toDomain()
+            user = user.toDomain(),
         )
     } else {
         MessageModel(
             id = id,
             message = message,
             sentAt = sentAt,
-            user = user.toDomain()
+            user = user.toDomain(),
         )
     }
 

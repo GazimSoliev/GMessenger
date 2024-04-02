@@ -6,8 +6,10 @@ import com.gazim.gmessenger.domain.model.MessagePageKey
 import com.gazim.gmessenger.domain.service.IGMessengerService
 
 class GetMessagesUseCase(
-    private val gMessengerService: IGMessengerService
+    private val gMessengerService: IGMessengerService,
 ) : IGetMessagesUseCase {
-    override suspend fun invoke(chat: IChatModel, key: MessagePageKey?): MessagePage =
-        gMessengerService.getMessages(chat, key)
+    override suspend fun invoke(
+        chat: IChatModel,
+        key: MessagePageKey?,
+    ): MessagePage = gMessengerService.getMessages(chat, key)
 }
