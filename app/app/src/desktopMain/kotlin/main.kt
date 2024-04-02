@@ -1,15 +1,7 @@
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.gazim.gmessenger.di.scopeModule
@@ -55,20 +47,8 @@ fun main() {
             lazyListState = lazyListState,
             visible = notifications.isNotEmpty(),
         )
-        Window(
-            onCloseRequest = ::exitApplication,
-            title = "GMessenger",
-            transparent = true,
-            undecorated = true,
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .border(1.dp, Color.Gray.copy(alpha = 0.1f), RoundedCornerShape(16.dp))
-                    .clip(RoundedCornerShape(16.dp))
-            ) {
-                App()
-            }
+        Window(onCloseRequest = ::exitApplication, title = "GMessenger") {
+            App()
         }
     }
 }
