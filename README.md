@@ -9,16 +9,16 @@ Functional:
 
 TODO:
 1. Requirements for login and password from server side
-2. Paging for messages
-3. Paging for chats
-4. Notifications
-5. Attachments
-6. Migrations
-7. Local database
-8. Voice messages
-9. Use Docker
-10. Profile photo
-11. Renaming
+2. Paging for chats
+3. Notifications
+4. Attachments
+5. Migrations
+6. Local database
+7. Voice messages
+8. Use Docker
+9. Profile photo
+10. Renaming
+11. Add internet connection checker in chat
 
 College:
 1. Russian lang
