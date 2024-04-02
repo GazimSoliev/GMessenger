@@ -5,6 +5,8 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -13,8 +15,7 @@ import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +41,7 @@ import java.util.*
 @Composable
 fun ChatComponent(
     modifier: Modifier = Modifier,
+    lazyListState: LazyListState,
     chatTitle: String,
     messages: Flow<PagingData<IMessageItemUI>>,
     message: TextFieldValue,
@@ -47,11 +49,14 @@ fun ChatComponent(
     reconnectionTimerSeconds: Int,
     onMessageChange: (TextFieldValue) -> Unit,
     sendMsg: () -> Unit,
+    onFollowMessage: (Boolean) -> Unit,
     back: () -> Unit,
 ) {
     val pagingMessages = messages.collectAsLazyPagingItems()
     val timeFormatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
     val dateFormatter = remember { DateTimeFormatter.ofPattern("MMM dd yyyy") }
+    val followAddingNewMsg by remember { derivedStateOf { lazyListState.firstVisibleItemIndex == 0 } }
+    LaunchedEffect(followAddingNewMsg) { onFollowMessage(followAddingNewMsg) }
     Surface {
         Scaffold(
             modifier = modifier,
@@ -137,6 +142,7 @@ fun ChatComponent(
                 )
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
+                state = lazyListState,
                 verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
                 reverseLayout = true,
                 contentPadding = contentPadding,
@@ -145,7 +151,7 @@ fun ChatComponent(
                 items(
                     count = pagingMessages.itemCount,
                     key = {
-                        when(val msg = pagingMessages[it]) {
+                        when (val msg = pagingMessages[it]) {
                             is IFullMessageUI -> msg.id
                             else -> msg.hashCode()
                         }
@@ -189,6 +195,7 @@ fun ChatComponentPreview() {
     ChatComponent(
         modifier = Modifier.fillMaxSize(),
         chatTitle = "Chat",
+        lazyListState = rememberLazyListState(),
         messages = flowOf(
             PagingData.from(
                 List(3) {
@@ -206,6 +213,7 @@ fun ChatComponentPreview() {
         onMessageChange = {},
         sendMsg = {},
         showReconnectScreen = true,
+        onFollowMessage = {},
         back = {},
     )
 }

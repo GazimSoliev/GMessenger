@@ -10,6 +10,7 @@ import com.gazim.gmessenger.domain.usecase.IGetChatUseCase
 import com.gazim.gmessenger.domain.usecase.IGetMessagesUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
+import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.FollowMessage
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
 import com.gazim.gmessenger.presentation.model.SentMessageUI
 import com.gazim.gmessenger.presentation.model.toChatModel
@@ -32,6 +33,7 @@ class ChatViewModel(
     private val getChatUseCase: IGetChatUseCase,
     private val getMessages: IGetMessagesUseCase,
 ) : BaseViewModel<ChatState, ChatSideEffect, ChatAction>() {
+    private var followMessage = false
     private lateinit var chatModel: IChatWebSocketModel
     private val ms = Channel<IMessageModel>(Channel.UNLIMITED)
     override val container: Container<ChatState, ChatSideEffect> = container(ChatState())
@@ -51,6 +53,10 @@ class ChatViewModel(
                     postSideEffect(ToBack)
                     destroyViewModel()
                 }
+
+                is OnFollowMessage -> {
+                    followMessage = action.value
+                }
             }
         }
     }
@@ -69,7 +75,10 @@ class ChatViewModel(
             }
         }
         viewModelScope.launch {
-            chatModel.messages.collect { ms.send(it) }
+            chatModel.messages.collect {
+                ms.send(it)
+                if (followMessage) postSideEffect(FollowMessage)
+            }
         }
         openConnection()
     }

@@ -20,6 +20,8 @@ data class ChatState(
 
 sealed interface ChatSideEffect : ISideEffect {
     data object ToBack : ChatSideEffect
+
+    data object FollowMessage : ChatSideEffect
 }
 
 sealed interface ChatAction : IAction {
@@ -32,4 +34,6 @@ sealed interface ChatAction : IAction {
     data class OnStart(val chat: IChatUI) : ChatAction
 
     data object OnStop : ChatAction
+
+    data class OnFollowMessage(val value: Boolean) : ChatAction
 }
