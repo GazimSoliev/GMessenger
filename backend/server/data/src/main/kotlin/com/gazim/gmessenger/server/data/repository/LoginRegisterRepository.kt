@@ -16,6 +16,7 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import java.security.MessageDigest
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 class LoginRegisterRepository : ILoginRegisterRepository {
     override suspend fun login(
@@ -30,10 +31,10 @@ class LoginRegisterRepository : ILoginRegisterRepository {
             val accountEntity =
                 AccountTable.innerJoin(LoginTable)
                     .innerJoin(PasswordTable).select {
-                        (AccountTable.id eq LoginTable.idAccount)
-                            .and(AccountTable.id eq PasswordTable.idAccount)
-                            .and(LoginTable.login eq login)
-                            .and(PasswordTable.password eq password)
+                        (AccountTable.id eq LoginTable.idAccount) and
+                            (AccountTable.id eq PasswordTable.idAccount) and
+                            (LoginTable.login eq login) and
+                            (PasswordTable.password eq password)
                     }.singleOrNull()?.let(AccountEntity.Companion::wrapRow)
                     ?: return@dbQuery null
             val tokenEntity =
@@ -60,14 +61,17 @@ class LoginRegisterRepository : ILoginRegisterRepository {
                 AccountEntity.new {
                     nickname = account.nickname
                     username = account.username
+                    createdAt = LocalDateTime.now(ZoneOffset.UTC)
                 }
             LoginEntity.new {
                 this.login = login
                 this.account = accountEntity
+                createdAt = LocalDateTime.now(ZoneOffset.UTC)
             }
             PasswordEntity.new {
                 this.password = password
                 this.account = accountEntity
+                createdAt = LocalDateTime.now(ZoneOffset.UTC)
             }
             true
         }

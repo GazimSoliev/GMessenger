@@ -1,0 +1,57 @@
+package com.gazim.gmessenger.presentation.features.chat
+
+import app.cash.paging.PagingSource
+import app.cash.paging.PagingSourceLoadResultPage
+import app.cash.paging.PagingState
+import com.gazim.gmessenger.domain.model.IChatModel
+import com.gazim.gmessenger.domain.model.IMessageModel
+import com.gazim.gmessenger.domain.model.MessagePageKey
+import com.gazim.gmessenger.domain.usecase.IGetMessagesUseCase
+import com.gazim.gmessenger.presentation.model.IMessageItemUI
+import com.gazim.gmessenger.presentation.model.toMessageUI
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.withContext
+
+class MessagePagerSource(
+    private val chatModel: IChatModel,
+    private val getMessages: IGetMessagesUseCase,
+    private val ms: Channel<IMessageModel>,
+) : PagingSource<MessagePagerSource.Key, IMessageItemUI>() {
+    override fun getRefreshKey(state: PagingState<Key, IMessageItemUI>): Key? = null
+
+    override suspend fun load(params: LoadParams<Key>): LoadResult<Key, IMessageItemUI> =
+        withContext(Dispatchers.IO) {
+            when (val currentKey = params.key) {
+                is LiveKey -> {
+                    PagingSourceLoadResultPage(
+                        data = listOf(ms.receive().toMessageUI()),
+                        nextKey = if (currentKey.index == 0) PagedKey(null) else LiveKey(currentKey.index - 1),
+                        prevKey = LiveKey(currentKey.index + 1),
+                    )
+                }
+
+                else -> {
+                    val pagedKey = (currentKey as? PagedKey)
+                    val page = getMessages.invoke(chatModel, pagedKey?.key)
+                    PagingSourceLoadResultPage(
+                        data = page.data.map { it.toMessageUI() },
+                        prevKey = if (pagedKey == null) LiveKey(0) else PagedKey(page.prev),
+                        nextKey = page.next?.let(::PagedKey),
+                    )
+                }
+            }
+        }
+
+    sealed interface Key
+
+    @JvmInline
+    value class PagedKey(
+        val key: MessagePageKey?,
+    ) : Key
+
+    @JvmInline
+    value class LiveKey(
+        val index: Int,
+    ) : Key
+}

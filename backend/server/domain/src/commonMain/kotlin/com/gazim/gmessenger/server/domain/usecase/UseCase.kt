@@ -21,7 +21,7 @@ interface ISendMessageUseCase {
     )
 }
 
-interface IGetMessagesUseCase {
+interface IGetMessageFlowUseCase {
     suspend operator fun invoke(
         user: User,
         chat: IChat,
@@ -62,4 +62,12 @@ interface ICreateChatUseCase {
 
 interface IGetNotifications {
     operator fun invoke(user: User): Flow<Message>
+}
+
+interface IGetMessagesUseCase {
+    suspend operator fun invoke(
+        user: User,
+        chat: IChat,
+        key: MessagePageKey?,
+    ): MessagePage
 }

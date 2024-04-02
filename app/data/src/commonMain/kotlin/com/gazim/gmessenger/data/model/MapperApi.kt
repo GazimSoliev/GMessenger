@@ -2,11 +2,29 @@ package com.gazim.gmessenger.data.model
 
 import com.gazim.gmessenger.api.IChatWebSocket
 import com.gazim.gmessenger.api.INotificationSocket
-import com.gazim.gmessenger.api.message.MyMessage
 import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.domain.model.*
+import com.gazim.gmessenger.domain.model.MessagePage
+import com.gazim.gmessenger.domain.model.MessagePageKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import com.gazim.gmessenger.api.model.MessagePageKey as MessagePageKeyAPI
+import com.gazim.gmessenger.api.model.MyMessagePage as MessagePageAPI
+
+fun MessagePageAPI.toDomain() =
+    MessagePage(
+        data = data.map { it.toDomain() },
+        next = next?.toDomain(),
+        prev = prev?.toDomain(),
+    )
+
+fun MessagePageKeyAPI.toDomain() =
+    MessagePageKey(
+        start = start,
+        end = end,
+    )
+
+fun MessagePageKey.toAPI() = MessagePageKeyAPI(start = start, end = end)
 
 fun User.toDomain() = UserModel(id = id, nickname = nickname, username = username)
 
@@ -28,9 +46,19 @@ fun IChatModel.toAPI() =
 
 fun IMessage.toDomain() =
     if (this is MyMessage) {
-        YourMessageModel(message = message, sentAt = sentAt, user = user.toDomain())
+        YourMessageModel(
+            id = id,
+            message = message,
+            sentAt = sentAt,
+            user = user.toDomain(),
+        )
     } else {
-        MessageModel(message = message, sentAt = sentAt, user = user.toDomain())
+        MessageModel(
+            id = id,
+            message = message,
+            sentAt = sentAt,
+            user = user.toDomain(),
+        )
     }
 
 fun ISentMessageModel.toAPI() = MessageForm(message = message)
@@ -61,11 +89,12 @@ fun INotificationSocket.toNotificationWebSocketModel() =
         override suspend fun closeConnection() = this@toNotificationWebSocketModel.closeConnection()
     }
 
-@Suppress("USELESS_IS_CHECK")
+@Suppress("USELESS_IS_CHECK", "UNREACHABLE_CODE")
 fun MessageNotification.toNotificationModel() =
     when (this) {
         is MessageNotification ->
             NotificationMessageModel(
+                id = TODO("Fix it later"),
                 message = message,
                 sentAt = sentAt,
                 user = user.toDomain(),

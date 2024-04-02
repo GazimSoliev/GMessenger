@@ -14,6 +14,8 @@ import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.IChatRepository
 import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.and
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.util.*
 
 class ChatRepository : IChatRepository {
@@ -41,11 +43,13 @@ class ChatRepository : IChatRepository {
             val chat =
                 ChatEntity.new {
                     title = users.joinToString(transform = User::nickname)
+                    createdAt = LocalDateTime.now(ZoneOffset.UTC)
                 }
             accounts.forEach {
                 ChatAccountEntity.new {
                     account = it
                     chatEntity = chat
+                    createdAt = LocalDateTime.now(ZoneOffset.UTC)
                 }
             }
             return@dbQuery chat.toChat()

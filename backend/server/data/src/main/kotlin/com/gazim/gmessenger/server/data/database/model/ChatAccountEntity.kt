@@ -11,4 +11,5 @@ class ChatAccountEntity(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var account by AccountEntity referencedOn ChatAccountTable.idAccount
     var chatEntity by ChatEntity referencedOn ChatAccountTable.idChat
+    var createdAt by ChatAccountTable.createdAt
 }

@@ -5,7 +5,8 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -14,8 +15,7 @@ import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,30 +23,40 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import app.cash.paging.PagingData
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.gazim.gmessenger.presentation.model.*
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 // todo: Rename preview and maybe change a composition
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatComponent(
     modifier: Modifier = Modifier,
+    lazyListState: LazyListState,
     chatTitle: String,
-    messages: List<IMessageItemUI>,
+    messages: Flow<PagingData<IMessageItemUI>>,
     message: TextFieldValue,
     showReconnectScreen: Boolean,
     reconnectionTimerSeconds: Int,
     onMessageChange: (TextFieldValue) -> Unit,
     sendMsg: () -> Unit,
+    onFollowMessage: (Boolean) -> Unit,
     back: () -> Unit,
 ) {
+    val pagingMessages = messages.collectAsLazyPagingItems()
     val timeFormatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
     val dateFormatter = remember { DateTimeFormatter.ofPattern("MMM dd yyyy") }
+    val followAddingNewMsg by remember { derivedStateOf { lazyListState.firstVisibleItemIndex == 0 } }
+    LaunchedEffect(followAddingNewMsg) { onFollowMessage(followAddingNewMsg) }
     Surface {
         Scaffold(
             modifier = modifier,
@@ -132,31 +142,43 @@ fun ChatComponent(
                 )
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
+                state = lazyListState,
                 verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
                 reverseLayout = true,
                 contentPadding = contentPadding,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                items(messages) {
-                    if (it is IGroupedMessagesDateUI) {
-                        val groupedDate = rememberSaveable(it) { dateFormatter.format(it.date.toJavaLocalDate()) }
+                items(
+                    count = pagingMessages.itemCount,
+                    key = {
+                        when (val msg = pagingMessages[it]) {
+                            is IFullMessageUI -> msg.id
+                            else -> msg.hashCode()
+                        }
+                    },
+                ) { index ->
+                    val msg = pagingMessages[index]
+                    if (msg is IGroupedMessagesDateUI) {
+                        val groupedDate =
+                            rememberSaveable(msg) { dateFormatter.format(msg.date.toJavaLocalDate()) }
                         Text(
                             groupedDate,
                             modifier = Modifier.padding(16.dp),
                         )
-                    } else if (it is IFullMessageUI) {
+                    } else if (msg is IFullMessageUI) {
                         Box(Modifier.fillMaxWidth()) {
                             val msgModifier =
-                                if (it is IYourMessageUI) {
+                                if (msg is IYourMessageUI) {
                                     Modifier.align(Alignment.CenterEnd).padding(start = 64.dp)
                                 } else {
                                     Modifier.align(Alignment.CenterStart).padding(end = 64.dp)
                                 }
-                            val sentAt = rememberSaveable(it) { timeFormatter.format(it.sentAt.toJavaLocalDateTime()) }
+                            val sentAt =
+                                rememberSaveable(msg) { timeFormatter.format(msg.sentAt.toJavaLocalDateTime()) }
                             MessageItem(
                                 modifier = msgModifier,
-                                message = it.message,
-                                nickname = it.user.nickname,
+                                message = msg.message,
+                                nickname = msg.user.nickname,
                                 sentAt = sentAt,
                             )
                         }
@@ -173,19 +195,26 @@ fun ChatComponentPreview() {
     ChatComponent(
         modifier = Modifier.fillMaxSize(),
         chatTitle = "Chat",
+        lazyListState = rememberLazyListState(),
         messages =
-            List(3) {
-                TheirMessageUI(
-                    message = "Msg $it",
-                    sentAt = LocalDateTime.now().toKotlinLocalDateTime(),
-                    user = UserUI(id = "some id", nickname = "Test", username = "test"),
-                )
-            },
+            flowOf(
+                PagingData.from(
+                    List(3) {
+                        TheirMessageUI(
+                            id = UUID.randomUUID().toString(),
+                            message = "Msg $it",
+                            sentAt = LocalDateTime.now().toKotlinLocalDateTime(),
+                            user = UserUI(id = "some id", nickname = "Test", username = "test"),
+                        )
+                    },
+                ),
+            ),
         reconnectionTimerSeconds = 3,
         message = TextFieldValue(),
         onMessageChange = {},
         sendMsg = {},
         showReconnectScreen = true,
+        onFollowMessage = {},
         back = {},
     )
 }

@@ -3,7 +3,7 @@ package com.gazim.gmessenger.server.route
 import com.gazim.gmessenger.api.model.MessageForm
 import com.gazim.gmessenger.api.route.chatRoute
 import com.gazim.gmessenger.server.domain.usecase.IGetChatUseCase
-import com.gazim.gmessenger.server.domain.usecase.IGetMessagesUseCase
+import com.gazim.gmessenger.server.domain.usecase.IGetMessageFlowUseCase
 import com.gazim.gmessenger.server.domain.usecase.ISendMessageUseCase
 import com.gazim.gmessenger.server.extensions.toAPI
 import com.gazim.gmessenger.server.extensions.toDomain
@@ -16,7 +16,7 @@ import java.util.*
 
 fun Route.chatRoute() {
     val sendMessageUseCase by inject<ISendMessageUseCase>()
-    val getMessagesUseCase by inject<IGetMessagesUseCase>()
+    val getMessageFlowUseCase by inject<IGetMessageFlowUseCase>()
     val getChatUseCase by inject<IGetChatUseCase>()
     webSocket("$chatRoute/{id}") {
         val user = getUser()
@@ -24,7 +24,7 @@ fun Route.chatRoute() {
             call.parameters["id"]?.let { getChatUseCase(user, UUID.fromString(it)) }
                 ?: return@webSocket println("Can't find chat")
         launch(Dispatchers.IO) {
-            getMessagesUseCase(user, chat)
+            getMessageFlowUseCase(user, chat)
                 .also { println("Sent: $it") }
                 ?.collect {
                     it.also { println("Sent: $it") }

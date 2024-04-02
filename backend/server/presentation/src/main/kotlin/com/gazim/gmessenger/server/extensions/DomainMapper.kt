@@ -1,12 +1,15 @@
 package com.gazim.gmessenger.server.extensions
 
 import com.gazim.gmessenger.server.domain.model.*
+import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
 import java.util.*
 import com.gazim.gmessenger.api.model.AuthenticationForm as AuthenticationFormAPI
 import com.gazim.gmessenger.api.model.Chat as ChatAPI
 import com.gazim.gmessenger.api.model.Message as MessageAPI
 import com.gazim.gmessenger.api.model.MessageForm as MessageFormAPI
+import com.gazim.gmessenger.api.model.MessagePage as MessagePageAPI
+import com.gazim.gmessenger.api.model.MessagePageKey as MessagePageKeyAPI
 import com.gazim.gmessenger.api.model.PrivateChat as PrivateChatAPI
 import com.gazim.gmessenger.api.model.RegistrationForm as RegistrationFormAPI
 import com.gazim.gmessenger.api.model.User as UserAPI
@@ -61,4 +64,23 @@ fun Message.toAPI() =
         message = message,
         sentAt = sentAt.toKotlinLocalDateTime(),
         user = user.toAPI(),
+    )
+
+fun MessagePageKeyAPI.toDomain() =
+    MessagePageKey(
+        start = start.toJavaLocalDateTime(),
+        end = end.toJavaLocalDateTime(),
+    )
+
+fun MessagePageKey.toAPI() =
+    MessagePageKeyAPI(
+        start = start.toKotlinLocalDateTime(),
+        end = end.toKotlinLocalDateTime(),
+    )
+
+fun MessagePage.toAPI() =
+    MessagePageAPI(
+        data = data.map(Message::toAPI),
+        next = next?.toAPI(),
+        prev = prev?.toAPI(),
     )

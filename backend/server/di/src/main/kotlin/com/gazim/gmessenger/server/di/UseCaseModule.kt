@@ -11,11 +11,12 @@ val useCaseModule =
         factoryOf(::FindUserUseCase) bind IFindUserUseCase::class
         factoryOf(::GetUserUseCase) bind IGetUserUseCase::class
         factoryOf(::GetChatUseCase) bind IGetChatUseCase::class
-        factoryOf(::GetMessagesUseCase) bind IGetMessagesUseCase::class
+        factoryOf(::GetMessageFlowUseCase) bind IGetMessageFlowUseCase::class
         factoryOf(::GetChatsUseCase) bind IGetChatsUseCase::class
         factoryOf(::GetNotifications) bind IGetNotifications::class
         factoryOf(::GetUserUseCase) bind IGetUserUseCase::class
         factoryOf(::LoginUseCase) bind ILoginUseCase::class
         factoryOf(::RegisterUseCase) bind IRegisterUseCase::class
         factoryOf(::SendMessageUseCase) bind ISendMessageUseCase::class
+        factoryOf(::GetMessagesUseCase) bind IGetMessagesUseCase::class
     }

@@ -56,9 +56,13 @@ kotlin {
 
             // Utils
             implementation(projects.utils)
+
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose.common)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }

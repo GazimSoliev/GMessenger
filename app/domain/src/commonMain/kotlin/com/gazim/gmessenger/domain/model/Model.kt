@@ -24,6 +24,7 @@ sealed interface ISentMessageModel {
 }
 
 sealed interface IMessageModel : ISentMessageModel {
+    val id: String
     val sentAt: LocalDateTime
     val user: IUserModel
 }
