@@ -1,6 +1,5 @@
 package com.gazim.gmessenger.presentation.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -78,10 +77,10 @@ fun GMessengerTheme(
     content: @Composable () -> Unit,
 ) {
     val colors =
-        if (!useDarkTheme) {
-            LightColors
-        } else {
+        if (useDarkTheme) {
             DarkColors
+        } else {
+            LightColors
         }
 
     MaterialTheme(
@@ -89,3 +88,6 @@ fun GMessengerTheme(
         content = content,
     )
 }
+
+@Composable
+expect fun isSystemInDarkTheme(): Boolean
