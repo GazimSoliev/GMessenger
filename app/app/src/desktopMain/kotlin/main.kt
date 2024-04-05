@@ -83,17 +83,19 @@ fun main() {
                 val corner = if (isMaximized) RoundedCornerShape(0) else shapes.large
                 val border = if (isMaximized) Modifier else Modifier.border(1.dp, colorScheme.surfaceVariant, corner)
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(corner)
-                        .then(border)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .clip(corner)
+                            .then(border),
                 ) {
                     Surface {
                         Column {
                             WindowDraggableArea {
                                 Box(
-                                    modifier = Modifier.fillMaxWidth()
-                                        .background(colorScheme.outlineVariant.copy(alpha = 0.1f)).height(36.dp),
+                                    modifier =
+                                        Modifier.fillMaxWidth()
+                                            .background(colorScheme.outlineVariant.copy(alpha = 0.1f)).height(36.dp),
                                 ) {
                                     Text("GMessenger", modifier = Modifier.align(Alignment.Center))
                                     Row(
@@ -107,32 +109,39 @@ fun main() {
                                             Icon(
                                                 modifier = Modifier.size(16.dp),
                                                 imageVector = Icons.Rounded.Remove,
-                                                contentDescription = null
+                                                contentDescription = null,
                                             )
                                         }
                                         FilledTonalIconButton(
                                             modifier = Modifier.size(24.dp),
                                             onClick = {
                                                 windowState.placement =
-                                                    if (windowState.placement == WindowPlacement.Maximized)
-                                                        WindowPlacement.Floating else WindowPlacement.Maximized
-                                            }
+                                                    if (windowState.placement == WindowPlacement.Maximized) {
+                                                        WindowPlacement.Floating
+                                                    } else {
+                                                        WindowPlacement.Maximized
+                                                    }
+                                            },
                                         ) {
                                             Icon(
                                                 modifier = Modifier.size(16.dp),
-                                                imageVector = if (windowState.placement == WindowPlacement.Maximized)
-                                                    Icons.Rounded.FullscreenExit else Icons.Rounded.Fullscreen,
-                                                contentDescription = null
+                                                imageVector =
+                                                    if (windowState.placement == WindowPlacement.Maximized) {
+                                                        Icons.Rounded.FullscreenExit
+                                                    } else {
+                                                        Icons.Rounded.Fullscreen
+                                                    },
+                                                contentDescription = null,
                                             )
                                         }
                                         FilledTonalIconButton(
                                             modifier = Modifier.size(24.dp),
-                                            onClick = ::exitApplication
+                                            onClick = ::exitApplication,
                                         ) {
                                             Icon(
                                                 modifier = Modifier.size(16.dp),
                                                 imageVector = Icons.Rounded.Close,
-                                                contentDescription = null
+                                                contentDescription = null,
                                             )
                                         }
                                     }
