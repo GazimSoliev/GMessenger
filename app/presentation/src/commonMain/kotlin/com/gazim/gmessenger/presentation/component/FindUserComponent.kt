@@ -21,9 +21,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.domain.model.IUserModel
 import com.gazim.gmessenger.domain.model.UserModel
+import gmessenger.app.presentation.generated.resources.Res
+import gmessenger.app.presentation.generated.resources.back
+import gmessenger.app.presentation.generated.resources.search
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
 // todo: Rename a preview and change a composition?
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun FindUserComponent(
     modifier: Modifier = Modifier,
@@ -33,6 +38,8 @@ fun FindUserComponent(
     createChat: (IUserModel) -> Unit,
     back: () -> Unit,
 ) {
+    val strBack = stringResource(Res.string.back)
+    val strSearch = stringResource(Res.string.search)
     Surface(modifier = modifier) {
         Scaffold(
             topBar = {
@@ -47,7 +54,7 @@ fun FindUserComponent(
                         it()
                         if (query.text.isEmpty()) {
                             Text(
-                                "Search",
+                                text = strSearch,
                                 style = typography.bodyLarge,
                                 color = colorScheme.onBackground.copy(alpha = 0.5f),
                             )
@@ -55,7 +62,7 @@ fun FindUserComponent(
                     }
                 }, navigationIcon = {
                     IconButton(onClick = back) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = strBack)
                     }
                 })
             },

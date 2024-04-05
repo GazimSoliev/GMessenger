@@ -21,9 +21,9 @@ fun ChatItem(
     onClickChat: () -> Unit,
 ) {
     ElevatedCard(modifier = Modifier.fillMaxWidth().clickable(onClick = onClickChat)) {
-        Row(Modifier.padding(16.dp).height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        Row(modifier = Modifier.padding(16.dp).height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Surface(shape = CircleShape, modifier = Modifier.size(64.dp), border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline)) {
-                Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "Chat icon")
+                Icon(imageVector = Icons.Default.AccountCircle, contentDescription = null)
             }
             Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceEvenly) {
                 Text(chatName)

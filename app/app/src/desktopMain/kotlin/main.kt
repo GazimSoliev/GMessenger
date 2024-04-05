@@ -34,16 +34,21 @@ import com.gazim.gmessenger.domain.model.INotificationModel
 import com.gazim.gmessenger.presentation.App
 import com.gazim.gmessenger.presentation.component.NotificationsWindow
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
+import gmessenger.app.app.generated.resources.Res
+import gmessenger.app.app.generated.resources.app_name
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.logger.SLF4JLogger
 
 val notificationsReceiver = MutableSharedFlow<INotificationModel>()
 
+@OptIn(ExperimentalResourceApi::class)
 @DelicateCoroutinesApi
 fun main() {
     startKoin {
@@ -72,10 +77,11 @@ fun main() {
         )
         val windowState = rememberWindowState()
         val isMaximized = windowState.placement == WindowPlacement.Maximized
+        val appName = stringResource(Res.string.app_name)
         Window(
             state = windowState,
             onCloseRequest = ::exitApplication,
-            title = "GMessenger",
+            title = appName,
             transparent = true,
             undecorated = true,
         ) {
@@ -97,7 +103,7 @@ fun main() {
                                         Modifier.fillMaxWidth()
                                             .background(colorScheme.outlineVariant.copy(alpha = 0.1f)).height(36.dp),
                                 ) {
-                                    Text("GMessenger", modifier = Modifier.align(Alignment.Center))
+                                    Text(appName, modifier = Modifier.align(Alignment.Center))
                                     Row(
                                         modifier = Modifier.align(Alignment.CenterEnd).padding(horizontal = 8.dp),
                                         horizontalArrangement = Arrangement.spacedBy(8.dp),

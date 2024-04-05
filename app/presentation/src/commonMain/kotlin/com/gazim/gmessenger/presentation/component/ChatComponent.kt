@@ -27,17 +27,20 @@ import app.cash.paging.PagingData
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.gazim.gmessenger.presentation.model.*
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
+import gmessenger.app.presentation.generated.resources.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 // todo: Rename preview and maybe change a composition
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun ChatComponent(
     modifier: Modifier = Modifier,
@@ -52,6 +55,10 @@ fun ChatComponent(
     onFollowMessage: (Boolean) -> Unit,
     back: () -> Unit,
 ) {
+    val strBack = stringResource(Res.string.back)
+    val strReconnectIn = stringResource(Res.string.reconect_in)
+    val strSend = stringResource(Res.string.send)
+    val strMessage = stringResource(Res.string.message)
     val pagingMessages = messages.collectAsLazyPagingItems()
     val timeFormatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
     val dateFormatter = remember { DateTimeFormatter.ofPattern("MMM dd yyyy") }
@@ -69,7 +76,7 @@ fun ChatComponent(
                                 modifier = Modifier.background(colorScheme.surface).padding(8.dp),
                             )
                             AnimatedVisibility(visible = showReconnectScreen) {
-                                Text("Reconnect in $reconnectionTimerSeconds", style = typography.labelSmall)
+                                Text("$strReconnectIn $reconnectionTimerSeconds", style = typography.labelSmall)
                             }
                         }
                     },
@@ -77,7 +84,7 @@ fun ChatComponent(
                         IconButton(onClick = back) {
                             Icon(
                                 imageVector = Icons.Rounded.ArrowBack,
-                                contentDescription = null,
+                                contentDescription = strBack,
                             )
                         }
                     },
@@ -116,7 +123,7 @@ fun ChatComponent(
                             it()
                             if (message.text.isEmpty()) {
                                 Text(
-                                    "Message",
+                                    text = strMessage,
                                     style = typography.bodyLarge,
                                     color = colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
                                 )
@@ -125,7 +132,7 @@ fun ChatComponent(
                         IconButton(onClick = sendMsg) {
                             Icon(
                                 imageVector = Icons.Rounded.Send,
-                                contentDescription = null,
+                                contentDescription = strSend,
                                 tint = colorScheme.onSurfaceVariant,
                             )
                         }
