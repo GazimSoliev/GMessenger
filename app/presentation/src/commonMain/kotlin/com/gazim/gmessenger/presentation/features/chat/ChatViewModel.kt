@@ -18,6 +18,8 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
@@ -35,7 +37,7 @@ class ChatViewModel(
     private lateinit var chatModel: IChatWebSocketModel
     private lateinit var pagingSource: MessagePagerSource
     private var followMessage = false
-    private val errors: Channel<Throwable> = Channel(Channel.UNLIMITED)
+    private val errors = MutableSharedFlow<Throwable>()
     private val ms = Channel<IMessageModel>(Channel.UNLIMITED)
     override val container: Container<ChatState, ChatSideEffect> = container(ChatState())
 
@@ -75,7 +77,7 @@ class ChatViewModel(
 
     private suspend fun IntentScope.setPaging(chat: IChatModel) {
         viewModelScope.launch {
-            for (e in errors) {
+            errors.collectLatest { e ->
                 e.printStackTrace()
                 delay(5_000)
                 pagingSource.invalidate()
@@ -85,12 +87,13 @@ class ChatViewModel(
             state.copy(
                 chatTitle = chatModel.chatName,
                 messages =
-                Pager(
-                    config = PagingConfig(20),
-                    pagingSourceFactory = {
-                        pagingSource = MessagePagerSource(chat, getMessages, ms, errors); pagingSource
-                    },
-                ).flow
+                    Pager(
+                        config = PagingConfig(20),
+                        pagingSourceFactory = {
+                            pagingSource = MessagePagerSource(chat, getMessages, ms, errors)
+                            pagingSource
+                        },
+                    ).flow,
             )
         }
     }
