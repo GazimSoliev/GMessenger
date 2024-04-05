@@ -10,22 +10,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-
-const val helpDialogText =
-    """Nickname allowed: 0-64 character length, any character.
-
-Username allowed: 4-32 character length, numbers and latin symbols.
-
-Login allowed: 8-32 character length, numbers and latin symbols.
-
-Password allowed: 8-128 character length, numbers, latin symbols and special characters. Password also required though: 1 upper case, 1 lowe case, 1 number, 1 special character and entropy."""
+import gmessenger.app.presentation.generated.resources.*
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
 // todo: Rename a preview and change a composition
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun RegistrationComponent(
     modifier: Modifier = Modifier,
@@ -50,18 +45,31 @@ fun RegistrationComponent(
     cancel: () -> Unit,
     snackbarHostState: SnackbarHostState,
 ) {
-    val incorrectInput = "Incorrect input. Look at \"Help?\""
+    val strRequirementsDetails = stringResource(Res.string.requirements_details)
+    val strIncorrectInput = stringResource(Res.string.incorrect_input)
+    val strRequirements = stringResource(Res.string.requirements)
+    val strOk = stringResource(Res.string.ok)
+    val strRegistration = stringResource(Res.string.registration)
+    val strNickname = stringResource(Res.string.nickname)
+    val strUsername = stringResource(Res.string.username)
+    val strLogin = stringResource(Res.string.login)
+    val strPassword = stringResource(Res.string.password)
+    val strShowPassword = stringResource(Res.string.show_password)
+    val strHidePassword = stringResource(Res.string.hide_password)
+    val strRegister = stringResource(Res.string.register)
+    val strCancel = stringResource(Res.string.cancel)
+    val strHelp = stringResource(Res.string.help)
     var showAlertDialog by remember { mutableStateOf(false) }
     if (showAlertDialog) {
         AlertDialog(
             onDismissRequest = { showAlertDialog = false },
-            title = { Text("Requirements") },
+            title = { Text(strRequirements) },
             text = {
-                Text(helpDialogText)
+                Text(strRequirementsDetails)
             },
             confirmButton = {
                 Button(onClick = { showAlertDialog = false }) {
-                    Text("OK")
+                    Text(strOk)
                 }
             },
         )
@@ -70,7 +78,7 @@ fun RegistrationComponent(
         Scaffold(
             modifier = modifier,
             topBar = {
-                CenterAlignedTopAppBar(title = { Text("Registration") }, navigationIcon = {
+                CenterAlignedTopAppBar(title = { Text(strRegistration) }, navigationIcon = {
                     IconButton(onClick = back, enabled = !registrationInProgress) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                     }
@@ -87,43 +95,46 @@ fun RegistrationComponent(
                     value = nickname,
                     onValueChange = onNicknameChange,
                     isError = isWrongNickname,
-                    label = { Text("Nickname") },
-                    supportingText = { if (isWrongNickname) Text(incorrectInput) },
+                    label = { Text(strNickname) },
+                    supportingText = { if (isWrongNickname) Text(strIncorrectInput) },
                 )
                 Spacer(Modifier.height(16.dp))
                 TextField(
                     value = username,
                     onValueChange = onUsernameChange,
                     isError = isWrongUsername,
-                    label = { Text("Username") },
-                    supportingText = { if (isWrongUsername) Text(incorrectInput) },
+                    label = { Text(strUsername) },
+                    supportingText = { if (isWrongUsername) Text(strIncorrectInput) },
                 )
                 Spacer(Modifier.height(16.dp))
                 TextField(
                     value = login,
                     onValueChange = onLoginChange,
                     isError = isWrongLogin,
-                    label = { Text("Login") },
-                    supportingText = { if (isWrongLogin) Text(incorrectInput) },
+                    label = { Text(strLogin) },
+                    supportingText = { if (isWrongLogin) Text(strIncorrectInput) },
                 )
                 Spacer(Modifier.height(16.dp))
                 TextField(
                     value = password,
                     onValueChange = onPasswordChange,
-                    label = { Text("Password") },
+                    label = { Text(strPassword) },
                     isError = isWrongPassword,
-                    supportingText = { if (isWrongPassword) Text(incorrectInput) },
+                    supportingText = { if (isWrongPassword) Text(strIncorrectInput) },
                     visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         if (!showPasswordVisibilityButton) return@TextField
-                        val icon =
-                            if (passwordVisibility) {
-                                Icons.Default.VisibilityOff
-                            } else {
-                                Icons.Default.Visibility
-                            }
+                        val contentDescription: String
+                        val icon: ImageVector
+                        if (passwordVisibility) {
+                            contentDescription = strHidePassword
+                            icon = Icons.Default.VisibilityOff
+                        } else {
+                            contentDescription = strShowPassword
+                            icon = Icons.Default.Visibility
+                        }
                         IconButton(onClick = onClickPasswordVisibility) {
-                            Icon(imageVector = icon, contentDescription = null)
+                            Icon(imageVector = icon, contentDescription = contentDescription)
                         }
                     },
                 )
@@ -140,16 +151,16 @@ fun RegistrationComponent(
                                 strokeWidth = 2.dp,
                             )
                             Spacer(Modifier.width(8.dp))
-                            Text("Cancel")
+                            Text(strCancel)
                         } else {
-                            Text("Register")
+                            Text(strRegister)
                         }
                     }
                     Spacer(Modifier.height(8.dp))
                     TextButton(modifier = Modifier.fillMaxWidth(), onClick = {
                         showAlertDialog = true
                     }) {
-                        Text("Help?")
+                        Text(strHelp)
                     }
                 }
             }

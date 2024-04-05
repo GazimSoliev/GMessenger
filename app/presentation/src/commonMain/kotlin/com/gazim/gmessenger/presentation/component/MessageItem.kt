@@ -18,7 +18,7 @@ fun MessageItem(
     sentAt: String,
 ) {
     Card(
-        modifier,
+        modifier = modifier,
         colors =
             CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -28,7 +28,7 @@ fun MessageItem(
             Text(message)
             Spacer(Modifier.height(8.dp))
             Text(
-                "$sentAt, $nickname",
+                text = "$sentAt, $nickname",
                 modifier = Modifier.align(Alignment.End),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,

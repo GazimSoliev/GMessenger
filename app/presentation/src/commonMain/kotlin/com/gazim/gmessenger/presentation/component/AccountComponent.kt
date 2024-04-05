@@ -10,9 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import gmessenger.app.presentation.generated.resources.Res
+import gmessenger.app.presentation.generated.resources.account_info
+import gmessenger.app.presentation.generated.resources.back
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
 // todo: Change this screen and rename preview
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun AccountComponent(
     modifier: Modifier = Modifier,
@@ -20,13 +25,15 @@ fun AccountComponent(
     username: String,
     back: () -> Unit,
 ) {
+    val strAccountInfo = stringResource(Res.string.account_info)
+    val strBack = stringResource(Res.string.back)
     Surface {
         Scaffold(
             modifier = modifier,
             topBar = {
-                CenterAlignedTopAppBar(title = { Text("Account info") }, navigationIcon = {
+                CenterAlignedTopAppBar(title = { Text(strAccountInfo) }, navigationIcon = {
                     IconButton(onClick = back) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = strBack)
                     }
                 })
             },

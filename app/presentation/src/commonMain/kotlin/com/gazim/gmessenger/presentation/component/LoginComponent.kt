@@ -9,12 +9,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import gmessenger.app.presentation.generated.resources.*
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
 // todo: Rename a preview and change a composition
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun LoginComponent(
     modifier: Modifier = Modifier,
@@ -31,19 +36,31 @@ fun LoginComponent(
     snackbarHostState: SnackbarHostState,
     loggingInProgress: Boolean,
 ) {
+    val strAppName = stringResource(Res.string.app_name)
+    val strLogin = stringResource(Res.string.login)
+    val strPassword = stringResource(Res.string.password)
+    val strLogIn = stringResource(Res.string.log_in)
+    val strCancel = stringResource(Res.string.cancel)
+    val strCreateAccount = stringResource(Res.string.create_account)
+    val strShowPassword = stringResource(Res.string.show_password)
+    val strHidePassword = stringResource(Res.string.hide_password)
     Surface {
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) },
         ) {
-            Column(modifier, verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("GMessenger", style = MaterialTheme.typography.displayLarge)
+            Column(
+                modifier,
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(strAppName, style = MaterialTheme.typography.displayLarge)
                 Spacer(Modifier.height(64.dp))
                 Column {
                     TextField(
                         value = login,
                         onValueChange = onLoginChange,
                         label = {
-                            Text("Login")
+                            Text(strLogin)
                         },
                     )
                     Spacer(Modifier.height(16.dp))
@@ -51,19 +68,22 @@ fun LoginComponent(
                         value = password,
                         onValueChange = onPasswordChange,
                         label = {
-                            Text("Password")
+                            Text(strPassword)
                         },
                         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                         trailingIcon = {
                             if (!showPasswordVisibilityButton) return@TextField
-                            val icon =
-                                if (passwordVisibility) {
-                                    Icons.Default.VisibilityOff
-                                } else {
-                                    Icons.Default.Visibility
-                                }
+                            val contentDescription: String
+                            val icon: ImageVector
+                            if (passwordVisibility) {
+                                contentDescription = strHidePassword
+                                icon = Icons.Default.VisibilityOff
+                            } else {
+                                contentDescription = strShowPassword
+                                icon = Icons.Default.Visibility
+                            }
                             IconButton(onClick = onClickPasswordVisibility) {
-                                Icon(imageVector = icon, contentDescription = null)
+                                Icon(imageVector = icon, contentDescription = contentDescription)
                             }
                         },
                     )
@@ -75,11 +95,15 @@ fun LoginComponent(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         if (loggingInProgress) {
-                            CircularProgressIndicator(Modifier.size(16.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.dp)
+                            CircularProgressIndicator(
+                                Modifier.size(16.dp),
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                strokeWidth = 2.dp,
+                            )
                             Spacer(Modifier.width(8.dp))
-                            Text("Cancel")
+                            Text(strCancel)
                         } else {
-                            Text("Log in")
+                            Text(strLogIn)
                         }
                     }
                     Spacer(Modifier.height(8.dp))
@@ -88,7 +112,7 @@ fun LoginComponent(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !loggingInProgress,
                     ) {
-                        Text("Create account")
+                        Text(strCreateAccount)
                     }
                 }
             }

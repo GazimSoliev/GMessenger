@@ -38,6 +38,8 @@ kotlin {
             implementation(libs.koin.android)
         }
         commonMain.dependencies {
+            implementation(compose.components.resources)
+
             implementation(projects.app.presentation)
             implementation(projects.app.domain)
 //            implementation(projects.app.di)
@@ -99,6 +101,12 @@ compose.desktop {
     }
 }
 
-// compose.experimental {
-//    web.application {}
-// }
+// TODO: Wait when JetBrains will add multimodule support for resources
+checkAndCopy()
+
+fun checkAndCopy() {
+    val resFrom = file("../presentation/src/commonMain/composeResources")
+    if (!resFrom.exists()) return
+    val resTo = file("src/commonMain/composeResources")
+    resFrom.copyRecursively(resTo, true)
+}
