@@ -18,7 +18,6 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
@@ -36,6 +35,7 @@ class ChatViewModel(
     private lateinit var chatModel: IChatWebSocketModel
     private lateinit var pagingSource: MessagePagerSource
     private var followMessage = false
+    private val errors: Channel<Throwable> = Channel(Channel.UNLIMITED)
     private val ms = Channel<IMessageModel>(Channel.UNLIMITED)
     override val container: Container<ChatState, ChatSideEffect> = container(ChatState())
 
@@ -64,27 +64,33 @@ class ChatViewModel(
 
     private suspend fun IntentScope.loadChat(chat: IChatModel) {
         defineValues(chat)
-        setPaging()
+        setPaging(chat)
         launchCollectingMessages()
         openConnection()
     }
 
     private suspend fun defineValues(chat: IChatModel) {
         chatModel = getChatUseCase(chat)
-        pagingSource = MessagePagerSource(chat, getMessages, ms)
     }
 
-    private suspend fun IntentScope.setPaging() {
+    private suspend fun IntentScope.setPaging(chat: IChatModel) {
+        viewModelScope.launch {
+            for (e in errors) {
+                e.printStackTrace()
+                delay(5_000)
+                pagingSource.invalidate()
+            }
+        }
         reduce {
             state.copy(
                 chatTitle = chatModel.chatName,
                 messages =
                 Pager(
                     config = PagingConfig(20),
-                    pagingSourceFactory = { pagingSource },
-                ).flow.onEach {
-
-                },
+                    pagingSourceFactory = {
+                        pagingSource = MessagePagerSource(chat, getMessages, ms, errors); pagingSource
+                    },
+                ).flow
             )
         }
     }
@@ -118,26 +124,6 @@ class ChatViewModel(
             chatModel.openConnection()
         }
     }
-
-//    private suspend fun IntentScope.tryReconnect(block: suspend () -> Unit) {
-//        viewModelScope.launch(
-//            CoroutineExceptionHandler { _, e ->
-//                e.printStackTrace()
-//                if (e is CancellationException) return@CoroutineExceptionHandler
-//                viewModelScope.launch {
-//                    reduce { state.copy(showReconnectionTimer = true, reconnectionTimerSeconds = 5) }
-//                    for (count in 5 downTo 0) {
-//                        delay(1000)
-//                        reduce { state.copy(reconnectionTimerSeconds = count) }
-//                    }
-//                    tryReconnect(block)
-//                    reduce { state.copy(showReconnectionTimer = false) }
-//                }
-//            },
-//        ) {
-//            block()
-//        }
-//    }
 
     private suspend fun IntentScope.showReconnection() {
         reduce { state.copy(showReconnectionTimer = true, reconnectionTimerSeconds = 5) }
