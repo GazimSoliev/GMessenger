@@ -38,6 +38,8 @@ interface IGMessengerService {
         chatModel: IChatModel,
         key: MessagePageKey?,
     ): MessagePage
+
+    suspend fun editProfile(profileForm: ProfileForm)
 }
 
 interface IGMessengerAuthService {

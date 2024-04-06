@@ -77,3 +77,7 @@ interface IGetMessagesUseCase {
         key: MessagePageKey?,
     ): MessagePage
 }
+
+interface EditProfileForm {
+    suspend operator fun invoke(profileForm: ProfileForm)
+}
