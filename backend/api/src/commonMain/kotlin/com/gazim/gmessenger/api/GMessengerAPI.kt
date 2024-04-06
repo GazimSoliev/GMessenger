@@ -164,5 +164,12 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
         return page.toMyPage(getUserId())
     }
 
+    override suspend fun editProfile(profileForm: ProfileForm) {
+        httpClient.post(editProfileRoute) {
+            contentType(ContentType.Application.Json)
+            setBody(profileForm)
+        }
+    }
+
     override fun close() = httpClient.close()
 }

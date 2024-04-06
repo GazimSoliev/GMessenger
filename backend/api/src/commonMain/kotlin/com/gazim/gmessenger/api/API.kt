@@ -21,6 +21,8 @@ interface IGMessengerAPI {
         chat: IChat,
         key: MessagePageKey?,
     ): MyMessagePage
+
+    suspend fun editProfile(profileForm: ProfileForm)
 }
 
 interface IGMessengerAuthAPI {

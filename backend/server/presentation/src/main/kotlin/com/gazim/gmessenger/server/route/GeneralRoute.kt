@@ -13,6 +13,7 @@ fun Routing.generalRoute() {
         messagesRoute()
         findUserRoute()
         notificationRoute()
+        editProfileRoute()
     }
     registrationRoute()
     loginRoute()
