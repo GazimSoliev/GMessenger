@@ -12,12 +12,7 @@
     <string name="register">Register</string>
     <string name="help">Help?</string>
     <string name="requirements">Requirements</string>
-    <string name="requirements_details">
-        Nickname allowed: 0-64 character length, any character.\n\nUsername allowed: 4-32 character length, numbers and
-        latin symbols.\n\nLogin allowed: 8-32 character length, numbers and latin symbols.\n\nPassword allowed: 8-128
-        character length, numbers, latin symbols and special characters. Password also required
-        though: 1 upper case, 1 lowe case, 1 number, 1 special character and entropy.
-    </string>
+    <string name="requirements_details">Nickname allowed: 0-64 character length, any character.\n\nUsername allowed: 4-32 character length, numbers and latin symbols.\n\nLogin allowed: 8-32 character length, numbers and latin symbols.\n\nPassword allowed: 8-128 character length, numbers, latin symbols and special characters. Password also required though: 1 upper case, 1 lowe case, 1 number, 1 special character and entropy.</string>
     <string name="incorrect_input">Incorrect input. Look at "Help?"</string>
     <string name="chats">Chats</string>
     <string name="new_chat">New chat</string>

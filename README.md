@@ -21,8 +21,7 @@ TODO:
 11. Add internet connection checker in chat
 
 College:
-1. Russian lang
-2. Fill profile (photo)
-3. Edit profile
-4. Logo
-5. Splash screen
+1. Fill profile (photo)
+2. Edit profile
+3. Logo
+4. Splash screen
