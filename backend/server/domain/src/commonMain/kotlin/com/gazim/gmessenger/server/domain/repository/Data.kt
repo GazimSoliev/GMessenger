@@ -13,6 +13,8 @@ interface IUserRepository {
     ): List<User>
 
     suspend fun getUser(tokenId: UUID): User
+
+    suspend fun editProfile(user: User, profileForm: ProfileForm)
 }
 
 interface ILoginRegisterRepository {

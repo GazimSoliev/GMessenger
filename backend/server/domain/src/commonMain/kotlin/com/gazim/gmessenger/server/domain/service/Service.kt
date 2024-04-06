@@ -9,6 +9,8 @@ interface IUserService {
     suspend fun findUser(username: String): List<User>
 
     suspend fun getUser(tokenId: UUID): User
+
+    suspend fun editProfile(user: User, profileForm: ProfileForm)
 }
 
 interface IAuthorizationService {

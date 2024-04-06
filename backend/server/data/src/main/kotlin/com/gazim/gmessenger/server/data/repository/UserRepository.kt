@@ -5,6 +5,7 @@ import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.TokenEntity
 import com.gazim.gmessenger.server.data.database.table.AccountTable
 import com.gazim.gmessenger.server.data.mapper.toUser
+import com.gazim.gmessenger.server.domain.model.ProfileForm
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.IUserRepository
 import java.util.*
@@ -34,5 +35,12 @@ class UserRepository : IUserRepository {
     override suspend fun getUser(tokenId: UUID): User =
         dbQuery {
             TokenEntity[tokenId].account.toUser()
+        }
+
+    override suspend fun editProfile(user: User, profileForm: ProfileForm) =
+        dbQuery {
+            val account = AccountEntity[user.id]
+            account.nickname = profileForm.nickname
+            account.username = profileForm.username
         }
 }
