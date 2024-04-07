@@ -27,5 +27,8 @@
     <string name="wrong_password_or_login">Wrong password or login</string>
     <string name="logging_in">Logging in</string>
     <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
     <string name="reconect_in">Reconnect in</string>
+    <string name="edit_account">Edit account</string>
+    <string name="edit">Edit</string>
 </resources>
