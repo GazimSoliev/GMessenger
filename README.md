@@ -22,6 +22,5 @@ TODO:
 
 College:
 1. Fill profile (photo)
-2. Edit profile
-3. Logo
-4. Splash screen
+2. Logo
+3. Splash screen

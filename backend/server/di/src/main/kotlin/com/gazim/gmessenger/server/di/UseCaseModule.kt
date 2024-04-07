@@ -19,4 +19,5 @@ val useCaseModule =
         factoryOf(::RegisterUseCase) bind IRegisterUseCase::class
         factoryOf(::SendMessageUseCase) bind ISendMessageUseCase::class
         factoryOf(::GetMessagesUseCase) bind IGetMessagesUseCase::class
+        factoryOf(::EditProfileUseCaseImpl) bind EditProfileUseCase::class
     }

@@ -34,4 +34,6 @@ class GMessengerService(token: String) : IGMessengerService {
         chatModel: IChatModel,
         key: MessagePageKey?,
     ): MessagePage = gMessengerAPI.getMessages(chatModel.toAPI(), key?.toAPI()).toDomain()
+
+    override suspend fun editProfile(profileForm: ProfileForm) = gMessengerAPI.editProfile(profileForm.toAPI())
 }

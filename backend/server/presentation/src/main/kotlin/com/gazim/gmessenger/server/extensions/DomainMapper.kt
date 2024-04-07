@@ -11,6 +11,7 @@ import com.gazim.gmessenger.api.model.MessageForm as MessageFormAPI
 import com.gazim.gmessenger.api.model.MessagePage as MessagePageAPI
 import com.gazim.gmessenger.api.model.MessagePageKey as MessagePageKeyAPI
 import com.gazim.gmessenger.api.model.PrivateChat as PrivateChatAPI
+import com.gazim.gmessenger.api.model.ProfileForm as ProfileFormAPI
 import com.gazim.gmessenger.api.model.RegistrationForm as RegistrationFormAPI
 import com.gazim.gmessenger.api.model.User as UserAPI
 
@@ -83,4 +84,10 @@ fun MessagePage.toAPI() =
         data = data.map(Message::toAPI),
         next = next?.toAPI(),
         prev = prev?.toAPI(),
+    )
+
+fun ProfileFormAPI.toDomain() =
+    ProfileForm(
+        nickname = nickname,
+        username = username,
     )

@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.sync.Mutex
-import kotlinx.serialization.json.Json
 import java.io.Closeable
 import kotlin.io.println
 import kotlin.use
@@ -53,8 +52,6 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
     }
 
     companion object : IGMessengerAuthAPI {
-        private val tokenParseJson = Json { ignoreUnknownKeys = true }
-
         private val httpClient
             get() = HttpClient { configureContentNegotiation() }
 
@@ -162,6 +159,13 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
                 setBody(key)
             }.body<MessagePage>()
         return page.toMyPage(getUserId())
+    }
+
+    override suspend fun editProfile(profileForm: ProfileForm) {
+        httpClient.post("$urlServer$editProfileRoute") {
+            contentType(ContentType.Application.Json)
+            setBody(profileForm)
+        }
     }
 
     override fun close() = httpClient.close()
