@@ -68,7 +68,7 @@ fun AccountComponent(
                                 Icon(imageVector = Icons.Rounded.Edit, contentDescription = strEdit)
                             }
                         }
-                    }
+                    },
                 )
             },
         ) {
@@ -78,12 +78,14 @@ fun AccountComponent(
                         TextField(
                             value = nicknameValue,
                             onValueChange = onNicknameChange,
-                            label = { Text(strNickname) })
+                            label = { Text(strNickname) },
+                        )
                         Spacer(Modifier.height(16.dp))
                         TextField(
                             value = usernameValue,
                             onValueChange = onUsernameChange,
-                            label = { Text(strUsername) })
+                            label = { Text(strUsername) },
+                        )
                     } else {
                         Text(nickname, style = typography.displayLarge)
                         Spacer(Modifier.height(32.dp))
@@ -110,7 +112,7 @@ fun EditModeAccountComponentPreview() {
         AccountComponent(
             usernameValue = TextFieldValue("Steve"),
             nicknameValue = TextFieldValue("@steve123"),
-            editMode = true
+            editMode = true,
         )
     }
 }

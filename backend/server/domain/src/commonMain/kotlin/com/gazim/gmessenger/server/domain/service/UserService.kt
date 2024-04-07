@@ -12,5 +12,8 @@ class UserService(
 
     override suspend fun getUser(tokenId: UUID): User = userRepository.getUser(tokenId)
 
-    override suspend fun editProfile(user: User, profileForm: ProfileForm) = userRepository.editProfile(user, profileForm)
+    override suspend fun editProfile(
+        user: User,
+        profileForm: ProfileForm,
+    ) = userRepository.editProfile(user, profileForm)
 }

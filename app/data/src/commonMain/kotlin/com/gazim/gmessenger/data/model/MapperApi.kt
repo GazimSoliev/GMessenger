@@ -71,7 +71,6 @@ fun ProfileForm.toAPI() =
         username = username,
     )
 
-
 fun IChatWebSocket.toChatWebSocketModel(chatName: String) =
     object : IChatWebSocketModel {
         override val chatName: String = chatName

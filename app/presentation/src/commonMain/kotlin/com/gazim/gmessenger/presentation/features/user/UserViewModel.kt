@@ -22,9 +22,8 @@ typealias IntentScope = SimpleSyntax<UserState, UserSideEffect>
 // todo: Take out actions
 class UserViewModel(
     private val editProfileFormUseCase: EditProfileFormUseCase,
-    private val getUserUseCase: IGetOwnUser
+    private val getUserUseCase: IGetOwnUser,
 ) : BaseViewModel<UserState, UserSideEffect, UserAction>() {
-
     private var user: IUserUI = UserUI()
 
     override fun handleAction(action: UserAction) {
@@ -61,8 +60,8 @@ class UserViewModel(
                 editProfileFormUseCase(
                     ProfileForm(
                         nickname = state.nicknameValue.text,
-                        username = state.usernameValue.text
-                    )
+                        username = state.usernameValue.text,
+                    ),
                 )
                 updateUserProfile()
             }.onFailure(Throwable::printStackTrace)

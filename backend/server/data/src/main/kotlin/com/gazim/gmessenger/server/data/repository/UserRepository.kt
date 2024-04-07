@@ -37,10 +37,12 @@ class UserRepository : IUserRepository {
             TokenEntity[tokenId].account.toUser()
         }
 
-    override suspend fun editProfile(user: User, profileForm: ProfileForm) =
-        dbQuery {
-            val account = AccountEntity[user.id]
-            account.nickname = profileForm.nickname
-            account.username = profileForm.username
-        }
+    override suspend fun editProfile(
+        user: User,
+        profileForm: ProfileForm,
+    ) = dbQuery {
+        val account = AccountEntity[user.id]
+        account.nickname = profileForm.nickname
+        account.username = profileForm.username
+    }
 }

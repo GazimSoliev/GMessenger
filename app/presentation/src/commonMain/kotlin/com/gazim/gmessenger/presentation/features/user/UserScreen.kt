@@ -33,7 +33,7 @@ class UserScreen : BaseScreen<UserState, UserSideEffect, UserAction, UserViewMod
             back = { sendAction(OnBack) },
             onEditClick = { sendAction(OnEditClick) },
             onCancelClick = { sendAction(OnCancelClick) },
-            onSaveClick = { sendAction(OnSaveClick) }
+            onSaveClick = { sendAction(OnSaveClick) },
         )
     }
 }

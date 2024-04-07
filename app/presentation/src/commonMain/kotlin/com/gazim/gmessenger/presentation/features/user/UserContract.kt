@@ -10,7 +10,7 @@ data class UserState(
     val username: String = "",
     val nicknameValue: TextFieldValue = TextFieldValue(),
     val usernameValue: TextFieldValue = TextFieldValue(),
-    val editMode: Boolean = false
+    val editMode: Boolean = false,
 ) : IState
 
 sealed interface UserSideEffect : ISideEffect {
@@ -19,9 +19,14 @@ sealed interface UserSideEffect : ISideEffect {
 
 sealed interface UserAction : IAction {
     data object OnBack : UserAction
+
     data class OnNicknameChange(val value: TextFieldValue) : UserAction
+
     data class OnUsernameChange(val value: TextFieldValue) : UserAction
+
     data object OnEditClick : UserAction
+
     data object OnCancelClick : UserAction
+
     data object OnSaveClick : UserAction
 }
