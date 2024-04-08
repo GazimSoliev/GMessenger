@@ -18,6 +18,8 @@ interface IUserRepository {
         user: User,
         profileForm: ProfileForm,
     )
+
+    suspend fun setProfilePhoto(user: User, image: Image)
 }
 
 interface ILoginRegisterRepository {
@@ -75,4 +77,10 @@ interface IMessageRepository {
         offset: Long,
         end: LocalDateTime,
     ): LocalDateTime?
+}
+
+interface FileRepository {
+    suspend fun getImageContent(photoId: UUID): ByteArray
+
+    suspend fun uploadImage(user: User, type: String, content: ByteArray): Image
 }

@@ -3,9 +3,7 @@ package com.gazim.gmessenger.api.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class User(
+data class Image(
     val id: String,
-    val nickname: String,
-    val username: String,
-    val photo: Image?,
+    val type: String
 )

@@ -41,7 +41,7 @@ fun IChatModel.toChatUI(): IChatUI =
         )
     }
 
-fun IUserUI.toUserModel() = UserModel(id = id, nickname = nickname, username = username)
+fun IUserUI.toUserModel() = UserModel(id = id, nickname = nickname, username = username, null)
 
 fun IChatUI.toChatModel(): IChatModel =
     if (this is IPrivateChatUI) {

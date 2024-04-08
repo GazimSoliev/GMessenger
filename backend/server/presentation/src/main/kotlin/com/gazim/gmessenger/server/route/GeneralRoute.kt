@@ -14,6 +14,8 @@ fun Routing.generalRoute() {
         findUserRoute()
         notificationRoute()
         editProfileRoute()
+        uploadProfilePhotoRoute()
+        imageRoute()
     }
     registrationRoute()
     loginRoute()

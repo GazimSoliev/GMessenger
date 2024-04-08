@@ -81,3 +81,11 @@ interface IGetMessagesUseCase {
 interface EditProfileFormUseCase {
     suspend operator fun invoke(profileForm: ProfileForm)
 }
+
+interface UploadProfilePhotoUseCase {
+    suspend operator fun invoke(type: String, bytes: ByteArray): Image
+}
+
+interface GetImageContentUseCase {
+    suspend operator fun invoke(photoId: String): ByteArray
+}

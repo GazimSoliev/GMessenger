@@ -16,7 +16,8 @@ class GMessengerService(token: String) : IGMessengerService {
 
     override suspend fun getChats(): List<IChatModel> = gMessengerAPI.getChats().map(IChat::toDomain)
 
-    override suspend fun filterUsers(query: String): List<IUserModel> = gMessengerAPI.findUser(query).map(User::toDomain)
+    override suspend fun filterUsers(query: String): List<IUserModel> =
+        gMessengerAPI.findUser(query).map(User::toDomain)
 
     override suspend fun getChat(chatModel: IChatModel): IChatWebSocketModel =
         gMessengerAPI.getChatWebSocket(chatModel.toAPI())
@@ -28,7 +29,8 @@ class GMessengerService(token: String) : IGMessengerService {
         gMessengerAPI.createChat(user = user.toAPI())
     }
 
-    override suspend fun getNotifications(): INotificationWebSocketModel = gMessengerAPI.getNotifications().toNotificationWebSocketModel()
+    override suspend fun getNotifications(): INotificationWebSocketModel =
+        gMessengerAPI.getNotifications().toNotificationWebSocketModel()
 
     override suspend fun getMessages(
         chatModel: IChatModel,
@@ -36,4 +38,9 @@ class GMessengerService(token: String) : IGMessengerService {
     ): MessagePage = gMessengerAPI.getMessages(chatModel.toAPI(), key?.toAPI()).toDomain()
 
     override suspend fun editProfile(profileForm: ProfileForm) = gMessengerAPI.editProfile(profileForm.toAPI())
+
+    override suspend fun uploadProfilePhoto(type: String, bytes: ByteArray): Image =
+        gMessengerAPI.uploadProfilePhoto(type, bytes).toDomain()
+
+    override suspend fun getImageContent(photoId: String): ByteArray = gMessengerAPI.getImageContent(photoId)
 }

@@ -40,6 +40,10 @@ interface IGMessengerService {
     ): MessagePage
 
     suspend fun editProfile(profileForm: ProfileForm)
+
+    suspend fun uploadProfilePhoto(type: String, bytes: ByteArray): Image
+
+    suspend fun getImageContent(photoId: String): ByteArray
 }
 
 interface IGMessengerAuthService {

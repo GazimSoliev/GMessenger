@@ -90,6 +90,7 @@ fun FindUserComponentPreview() {
                     id = "some",
                     nickname = "Name $it",
                     username = "Username $it",
+                    null
                 )
             },
         query = TextFieldValue(),

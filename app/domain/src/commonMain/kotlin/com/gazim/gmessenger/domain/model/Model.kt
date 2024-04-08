@@ -7,6 +7,7 @@ sealed interface IUserModel {
     val id: String
     val nickname: String
     val username: String
+    val photo: Image?
 }
 
 sealed interface ILoginModel {

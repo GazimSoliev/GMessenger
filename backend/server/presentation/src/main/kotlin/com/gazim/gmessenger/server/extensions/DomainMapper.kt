@@ -6,6 +6,7 @@ import kotlinx.datetime.toKotlinLocalDateTime
 import java.util.*
 import com.gazim.gmessenger.api.model.AuthenticationForm as AuthenticationFormAPI
 import com.gazim.gmessenger.api.model.Chat as ChatAPI
+import com.gazim.gmessenger.api.model.Image as ImageAPI
 import com.gazim.gmessenger.api.model.Message as MessageAPI
 import com.gazim.gmessenger.api.model.MessageForm as MessageFormAPI
 import com.gazim.gmessenger.api.model.MessagePage as MessagePageAPI
@@ -34,6 +35,7 @@ fun User.toAPI() =
         id = id.toString(),
         nickname = nickname,
         username = username,
+        photo = photo?.toAPI(),
     )
 
 fun UserAPI.toDomain() =
@@ -41,6 +43,8 @@ fun UserAPI.toDomain() =
         id = UUID.fromString(id),
         nickname = nickname,
         username = username,
+        // TODO: Solve it
+        photo = null
     )
 
 fun IChat.toAPI() =
@@ -90,4 +94,10 @@ fun ProfileFormAPI.toDomain() =
     ProfileForm(
         nickname = nickname,
         username = username,
+    )
+
+fun Image.toAPI() =
+    ImageAPI(
+        id = id.toString(),
+        type = type,
     )

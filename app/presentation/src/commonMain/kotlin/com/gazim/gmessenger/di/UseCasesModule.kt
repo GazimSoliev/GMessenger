@@ -22,6 +22,8 @@ val useCaseModule =
         factoryOf(::GetChatUseCase) bind IGetChatUseCase::class
         factoryOf(::GetMessagesUseCase) bind IGetMessagesUseCase::class
         factoryOf(::EditProfileFormUseCaseImpl) bind EditProfileFormUseCase::class
+        factoryOf(::UploadProfilePhotoUseCaseImpl) bind UploadProfilePhotoUseCase::class
+        factoryOf(::GetImageContentUseCaseImpl) bind GetImageContentUseCase::class
 //        factoryOf(::OpenNotificationUseCase) bind IOpenNotificationUseCase::class
 //        factoryOf(::CloseNotificationUseCase) bind ICloseNotificationUseCase::class
 //        factoryOf(::GetNotificationsUseCase) bind IGetNotificationsUseCase::class
