@@ -1,5 +1,6 @@
 package com.gazim.gmessenger.presentation.features.user
 
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.input.TextFieldValue
 import com.gazim.gmessenger.presentation.common.IAction
 import com.gazim.gmessenger.presentation.common.ISideEffect
@@ -11,6 +12,7 @@ data class UserState(
     val nicknameValue: TextFieldValue = TextFieldValue(),
     val usernameValue: TextFieldValue = TextFieldValue(),
     val editMode: Boolean = false,
+    val imageBitmap: ImageBitmap? = null
 ) : IState
 
 sealed interface UserSideEffect : ISideEffect {
@@ -29,4 +31,6 @@ sealed interface UserAction : IAction {
     data object OnCancelClick : UserAction
 
     data object OnSaveClick : UserAction
+
+    data object UploadProfilePhoto : UserAction
 }
