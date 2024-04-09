@@ -49,6 +49,7 @@ sealed interface IChatUI {
     val title: String
     val chatName: String
     val chatLink: String
+    val image: String?
 }
 
 sealed interface IPrivateChatUI : IChatUI {

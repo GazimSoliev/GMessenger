@@ -137,9 +137,9 @@ fun AccountComponent(
                                 )
                             }
                         }
-                        Spacer(Modifier.height(64.dp))
-                        Text(nickname, style = typography.displayLarge)
                         Spacer(Modifier.height(32.dp))
+                        Text(nickname, style = typography.displayLarge)
+                        Spacer(Modifier.height(16.dp))
                         Text(username, style = typography.displayLarge)
                     }
                 }
