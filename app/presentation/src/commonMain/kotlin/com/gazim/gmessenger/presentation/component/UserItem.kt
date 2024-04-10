@@ -33,7 +33,7 @@ fun UserItemPreview() {
             id = "some id",
             nickname = "Nickname",
             username = "Username",
-            null
+            null,
         ),
     )
 }

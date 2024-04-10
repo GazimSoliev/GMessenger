@@ -51,7 +51,10 @@ class UserRepository : IUserRepository {
         account.username = profileForm.username
     }
 
-    override suspend fun setProfilePhoto(user: User, image: Image) = dbQuery {
+    override suspend fun setProfilePhoto(
+        user: User,
+        image: Image,
+    ) = dbQuery {
         val accountEntity = user.toAccountEntity()
         val imageEntity = image.toImageEntity()
         ProfilePhotoEntity.new {

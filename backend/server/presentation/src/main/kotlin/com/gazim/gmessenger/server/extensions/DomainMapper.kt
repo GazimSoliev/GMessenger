@@ -44,7 +44,7 @@ fun UserAPI.toDomain() =
         nickname = nickname,
         username = username,
         // TODO: Solve it
-        photo = null
+        photo = null,
     )
 
 fun IChat.toAPI() =

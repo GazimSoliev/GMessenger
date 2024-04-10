@@ -4,5 +4,5 @@ import java.util.*
 
 data class Image(
     val id: UUID,
-    val type: String
+    val type: String,
 )

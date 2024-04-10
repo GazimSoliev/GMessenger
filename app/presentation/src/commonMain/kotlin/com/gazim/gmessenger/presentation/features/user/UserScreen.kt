@@ -35,7 +35,7 @@ class UserScreen : BaseScreen<UserState, UserSideEffect, UserAction, UserViewMod
             onCancelClick = { sendAction(OnCancelClick) },
             onSaveClick = { sendAction(OnSaveClick) },
             uploadNewPhoto = { sendAction(UploadProfilePhoto) },
-            back = { sendAction(OnBack) }
+            back = { sendAction(OnBack) },
         )
     }
 }

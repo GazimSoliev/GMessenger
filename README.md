@@ -16,11 +16,12 @@ TODO:
 6. Local database
 7. Voice messages
 8. Use Docker
-9. Profile photo
-10. Renaming
-11. Add internet connection checker in chat
+9. Renaming
+10. Add internet connection checker in chat
+11. Add chat photo in chat
+12. Add user photo in searching
+13. Add photo picker for android
 
 College:
-1. Fill profile (photo)
-2. Logo
-3. Splash screen
+1. Logo
+2. Splash screen

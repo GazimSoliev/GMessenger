@@ -84,5 +84,9 @@ interface GetImageContentUseCase {
 }
 
 interface UploadProfilePhotoUseCase {
-    suspend operator fun invoke(user: User, type: String, content: ByteArray): Image
+    suspend operator fun invoke(
+        user: User,
+        type: String,
+        content: ByteArray,
+    ): Image
 }

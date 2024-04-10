@@ -15,7 +15,11 @@ interface IUserService {
         profileForm: ProfileForm,
     )
 
-    suspend fun uploadProfilePhoto(user: User, type: String, content: ByteArray): Image
+    suspend fun uploadProfilePhoto(
+        user: User,
+        type: String,
+        content: ByteArray,
+    ): Image
 }
 
 interface IAuthorizationService {
@@ -70,5 +74,9 @@ interface IMessagingService {
 interface FileService {
     suspend fun getImageContent(photoId: UUID): ByteArray
 
-    suspend fun uploadImage(user: User, type: String, content: ByteArray): Image
+    suspend fun uploadImage(
+        user: User,
+        type: String,
+        content: ByteArray,
+    ): Image
 }

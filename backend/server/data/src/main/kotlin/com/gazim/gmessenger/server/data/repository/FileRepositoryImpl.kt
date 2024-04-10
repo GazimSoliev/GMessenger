@@ -14,17 +14,22 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 
 @OptIn(ExperimentalEncodingApi::class)
 class FileRepositoryImpl : FileRepository {
-    override suspend fun getImageContent(photoId: UUID): ByteArray =
-        dbQuery { ImageEntity[photoId].content }.let { Base64.decode(it) }
+    override suspend fun getImageContent(photoId: UUID): ByteArray = dbQuery { ImageEntity[photoId].content }.let { Base64.decode(it) }
 
-    override suspend fun uploadImage(user: User, type: String, content: ByteArray): Image = dbQuery {
-        val account = user.toAccountEntity()
-        val image = ImageEntity.new {
-            this.account = account
-            this.type = type
-            this.content = Base64.encode(content)
-            createdAt = nowInUTC()
+    override suspend fun uploadImage(
+        user: User,
+        type: String,
+        content: ByteArray,
+    ): Image =
+        dbQuery {
+            val account = user.toAccountEntity()
+            val image =
+                ImageEntity.new {
+                    this.account = account
+                    this.type = type
+                    this.content = Base64.encode(content)
+                    createdAt = nowInUTC()
+                }
+            image.toImage()
         }
-        image.toImage()
-    }
 }

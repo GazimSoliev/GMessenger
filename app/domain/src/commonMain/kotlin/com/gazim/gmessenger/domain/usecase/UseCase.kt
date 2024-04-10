@@ -83,7 +83,10 @@ interface EditProfileFormUseCase {
 }
 
 interface UploadProfilePhotoUseCase {
-    suspend operator fun invoke(type: String, bytes: ByteArray): Image
+    suspend operator fun invoke(
+        type: String,
+        bytes: ByteArray,
+    ): Image
 }
 
 interface GetImageContentUseCase {

@@ -13,11 +13,12 @@ fun AccountEntity.toUser() =
         id = id.value,
         nickname = nickname,
         username = username,
-        photo = photos
-            .orderBy(ImageTable.createdAt to SortOrder.DESC)
-            .limit(1)
-            .singleOrNull()
-            ?.toImage(),
+        photo =
+            photos
+                .orderBy(ImageTable.createdAt to SortOrder.DESC)
+                .limit(1)
+                .singleOrNull()
+                ?.toImage(),
     )
 
 fun User.toAccountEntity() = AccountEntity[id]
@@ -26,8 +27,7 @@ fun Image.toImageEntity() = ImageEntity[id]
 
 fun ChatEntity.toChat(): IChat = Chat(id = id.value, title = title)
 
-fun ChatEntity.toPrivateChat(partner: AccountEntity): PrivateChat =
-    PrivateChat(id = id.value, title = title, user = partner.toUser())
+fun ChatEntity.toPrivateChat(partner: AccountEntity): PrivateChat = PrivateChat(id = id.value, title = title, user = partner.toUser())
 
 fun ChatEntity.toChat(currentUser: AccountEntity): IChat =
     when (members.count().toInt()) {

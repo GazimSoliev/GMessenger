@@ -101,39 +101,42 @@ fun AccountComponent(
                     } else {
                         Box {
                             Box(
-                                modifier = Modifier
-                                    .size(256.dp)
-                                    .border(4.dp, colorScheme.outline, CircleShape)
-                                    .clip(CircleShape)
+                                modifier =
+                                    Modifier
+                                        .size(256.dp)
+                                        .border(4.dp, colorScheme.outline, CircleShape)
+                                        .clip(CircleShape),
                             ) {
                                 if (imageBitmap != null) {
                                     Image(
                                         bitmap = imageBitmap,
                                         modifier = Modifier.fillMaxSize().blur(1.dp),
                                         contentScale = ContentScale.Crop,
-                                        contentDescription = null
+                                        contentDescription = null,
                                     )
                                     Image(
                                         bitmap = imageBitmap,
                                         modifier = Modifier.fillMaxSize(),
-                                        contentDescription = null
+                                        contentDescription = null,
                                     )
-                                } else
+                                } else {
                                     Icon(
                                         imageVector = Icons.Default.AccountCircle,
                                         contentDescription = null,
-                                        modifier = Modifier.fillMaxSize()
+                                        modifier = Modifier.fillMaxSize(),
                                     )
+                                }
                             }
                             FilledTonalIconButton(
                                 onClick = uploadNewPhoto,
-                                modifier = Modifier
-                                    .align(Alignment.BottomEnd)
-                                    .padding(12.dp)
+                                modifier =
+                                    Modifier
+                                        .align(Alignment.BottomEnd)
+                                        .padding(12.dp),
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.PhotoCamera,
-                                    contentDescription = null
+                                    contentDescription = null,
                                 )
                             }
                         }

@@ -31,7 +31,7 @@ fun IChatModel.toChatUI(): IChatUI =
             chatName = user.nickname,
             chatLink = "@${user.username}",
             user = user.toUserUI(),
-            image = user.photo?.id
+            image = user.photo?.id,
         )
     } else {
         ChatUI(
@@ -39,7 +39,7 @@ fun IChatModel.toChatUI(): IChatUI =
             title = title,
             chatName = title,
             chatLink = "",
-            image = null
+            image = null,
         )
     }
 

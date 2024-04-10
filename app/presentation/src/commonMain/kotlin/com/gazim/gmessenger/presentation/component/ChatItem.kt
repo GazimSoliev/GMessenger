@@ -48,19 +48,20 @@ fun ChatItem(
                         bitmap = imageBitmap,
                         modifier = Modifier.fillMaxSize().blur(1.dp),
                         contentScale = ContentScale.Crop,
-                        contentDescription = null
+                        contentDescription = null,
                     )
                     Image(
                         bitmap = imageBitmap,
                         modifier = Modifier.fillMaxSize(),
-                        contentDescription = null
+                        contentDescription = null,
                     )
-                } else
+                } else {
                     Icon(
                         imageVector = Icons.Default.AccountCircle,
                         contentDescription = null,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
                     )
+                }
             }
             Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceEvenly) {
                 Text(chatName)

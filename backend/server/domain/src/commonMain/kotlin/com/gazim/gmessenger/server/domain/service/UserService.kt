@@ -20,7 +20,11 @@ class UserService(
         profileForm: ProfileForm,
     ) = userRepository.editProfile(user, profileForm)
 
-    override suspend fun uploadProfilePhoto(user: User, type: String, content: ByteArray): Image {
+    override suspend fun uploadProfilePhoto(
+        user: User,
+        type: String,
+        content: ByteArray,
+    ): Image {
         val image = fileRepository.uploadImage(user, type, content)
         userRepository.setProfilePhoto(user, image)
         return image

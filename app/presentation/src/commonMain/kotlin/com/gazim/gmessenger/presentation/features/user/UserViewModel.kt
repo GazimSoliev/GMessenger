@@ -57,9 +57,10 @@ class UserViewModel(
     }
 
     private suspend fun IntentScope.uploadProfilePhoto() {
-        val bytes = runCatching { pickPhoto() }
-            .onFailure(Throwable::printStackTrace)
-            .getOrNull()
+        val bytes =
+            runCatching { pickPhoto() }
+                .onFailure(Throwable::printStackTrace)
+                .getOrNull()
         if (bytes == null) return
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {

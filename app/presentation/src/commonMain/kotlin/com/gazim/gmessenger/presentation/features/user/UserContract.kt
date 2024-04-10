@@ -12,7 +12,7 @@ data class UserState(
     val nicknameValue: TextFieldValue = TextFieldValue(),
     val usernameValue: TextFieldValue = TextFieldValue(),
     val editMode: Boolean = false,
-    val imageBitmap: ImageBitmap? = null
+    val imageBitmap: ImageBitmap? = null,
 ) : IState
 
 sealed interface UserSideEffect : ISideEffect {
