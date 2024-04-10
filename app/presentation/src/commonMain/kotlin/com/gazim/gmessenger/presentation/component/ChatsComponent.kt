@@ -73,6 +73,7 @@ fun ChatsComponent(
                     ChatItem(
                         chatName = it.chatName,
                         chatLink = it.chatLink,
+                        image = it.image,
                     ) { nextToChat(it) }
                 }
             }
@@ -91,6 +92,7 @@ fun ChatsComponentPreview() {
                 title = "Chat name",
                 chatName = "Chat name",
                 chatLink = "@identifier",
+                image = null,
             )
         },
         {},

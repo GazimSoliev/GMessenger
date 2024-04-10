@@ -9,6 +9,7 @@ import com.gazim.gmessenger.domain.model.MessagePageKey
 import com.gazim.gmessenger.domain.model.ProfileForm
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import com.gazim.gmessenger.api.model.Image as ImageAPI
 import com.gazim.gmessenger.api.model.MessagePageKey as MessagePageKeyAPI
 import com.gazim.gmessenger.api.model.MyMessagePage as MessagePageAPI
 import com.gazim.gmessenger.api.model.ProfileForm as ProfileFormAPI
@@ -28,9 +29,11 @@ fun MessagePageKeyAPI.toDomain() =
 
 fun MessagePageKey.toAPI() = MessagePageKeyAPI(start = start, end = end)
 
-fun User.toDomain() = UserModel(id = id, nickname = nickname, username = username)
+fun User.toDomain() = UserModel(id = id, nickname = nickname, username = username, photo = photo?.toDomain())
 
-fun IUserModel.toAPI() = User(id = id, nickname = nickname, username = username)
+fun ImageAPI.toDomain() = Image(id = id, type = type)
+
+fun IUserModel.toAPI() = User(id = id, nickname = nickname, username = username, photo = null)
 
 fun IChat.toDomain() =
     if (this is PrivateChat) {

@@ -2,28 +2,66 @@ package com.gazim.gmessenger.presentation.component
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.gazim.gmessenger.domain.usecase.GetImageContentUseCase
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
+import com.gazim.gmessenger.utils.toComposeBitmapImage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 
 // todo: Rename a preview
 @Composable
 fun ChatItem(
-    chatName: String,
-    chatLink: String,
+    chatName: String = "",
+    chatLink: String = "",
+    image: String? = null,
     onClickChat: () -> Unit,
 ) {
+    var bitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+    if (image != null) {
+        val getImageContentUseCase = koinInject<GetImageContentUseCase>()
+        LaunchedEffect(image) {
+            launch(Dispatchers.IO) {
+                bitmap = getImageContentUseCase(image).toComposeBitmapImage()
+            }
+        }
+    }
     ElevatedCard(modifier = Modifier.fillMaxWidth().clickable(onClick = onClickChat)) {
         Row(modifier = Modifier.padding(16.dp).height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Surface(shape = CircleShape, modifier = Modifier.size(64.dp), border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline)) {
-                Icon(imageVector = Icons.Default.AccountCircle, contentDescription = null)
+                val imageBitmap = bitmap
+                if (imageBitmap != null) {
+                    Image(
+                        bitmap = imageBitmap,
+                        modifier = Modifier.fillMaxSize().blur(1.dp),
+                        contentScale = ContentScale.Crop,
+                        contentDescription = null,
+                    )
+                    Image(
+                        bitmap = imageBitmap,
+                        modifier = Modifier.fillMaxSize(),
+                        contentDescription = null,
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.AccountCircle,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
             }
             Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceEvenly) {
                 Text(chatName)

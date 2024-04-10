@@ -11,4 +11,5 @@ val serviceModule =
         singleOf(::ChatService) bind IChatService::class
         singleOf(::MessagingService) bind IMessagingService::class
         singleOf(::UserService) bind IUserService::class
+        singleOf(::FileServiceImpl) bind FileService::class
     }

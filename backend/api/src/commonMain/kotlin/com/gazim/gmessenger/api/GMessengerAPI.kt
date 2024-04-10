@@ -14,6 +14,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.*
+import io.ktor.util.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -167,6 +168,17 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             setBody(profileForm)
         }
     }
+
+    override suspend fun uploadProfilePhoto(
+        type: String,
+        bytes: ByteArray,
+    ): Image =
+        httpClient.post("$urlServer$uploadProfilePhotoRoute/$type") {
+            setBody(bytes)
+        }.body()
+
+    override suspend fun getImageContent(photoId: String): ByteArray =
+        httpClient.get("$urlServer$imageRoute/$photoId").bodyAsChannel().toByteArray()
 
     override fun close() = httpClient.close()
 }

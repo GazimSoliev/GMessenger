@@ -22,6 +22,8 @@ object GMessengerDatabase {
             SchemaUtils.create(ChatTable)
             SchemaUtils.create(MessageTable)
             SchemaUtils.create(ChatAccountTable)
+            SchemaUtils.create(ImageTable)
+            SchemaUtils.create(ProfilePhotoTable)
         }
     }
 

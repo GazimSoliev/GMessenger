@@ -1,17 +1,27 @@
 package com.gazim.gmessenger.presentation.component
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
@@ -24,17 +34,19 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun AccountComponent(
     modifier: Modifier = Modifier,
+    imageBitmap: ImageBitmap? = null,
     nickname: String = "",
     username: String = "",
     usernameValue: TextFieldValue = TextFieldValue(),
     nicknameValue: TextFieldValue = TextFieldValue(),
+    editMode: Boolean = false,
     onNicknameChange: (TextFieldValue) -> Unit = {},
     onUsernameChange: (TextFieldValue) -> Unit = {},
-    editMode: Boolean = false,
-    back: () -> Unit = {},
     onEditClick: () -> Unit = {},
     onCancelClick: () -> Unit = {},
     onSaveClick: () -> Unit = {},
+    uploadNewPhoto: () -> Unit = {},
+    back: () -> Unit = {},
 ) {
     val strAccountInfo = stringResource(Res.string.account_info)
     val strBack = stringResource(Res.string.back)
@@ -87,8 +99,50 @@ fun AccountComponent(
                             label = { Text(strUsername) },
                         )
                     } else {
-                        Text(nickname, style = typography.displayLarge)
+                        Box {
+                            Box(
+                                modifier =
+                                    Modifier
+                                        .size(256.dp)
+                                        .border(4.dp, colorScheme.outline, CircleShape)
+                                        .clip(CircleShape),
+                            ) {
+                                if (imageBitmap != null) {
+                                    Image(
+                                        bitmap = imageBitmap,
+                                        modifier = Modifier.fillMaxSize().blur(1.dp),
+                                        contentScale = ContentScale.Crop,
+                                        contentDescription = null,
+                                    )
+                                    Image(
+                                        bitmap = imageBitmap,
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentDescription = null,
+                                    )
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Default.AccountCircle,
+                                        contentDescription = null,
+                                        modifier = Modifier.fillMaxSize(),
+                                    )
+                                }
+                            }
+                            FilledTonalIconButton(
+                                onClick = uploadNewPhoto,
+                                modifier =
+                                    Modifier
+                                        .align(Alignment.BottomEnd)
+                                        .padding(12.dp),
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.PhotoCamera,
+                                    contentDescription = null,
+                                )
+                            }
+                        }
                         Spacer(Modifier.height(32.dp))
+                        Text(nickname, style = typography.displayLarge)
+                        Spacer(Modifier.height(16.dp))
                         Text(username, style = typography.displayLarge)
                     }
                 }

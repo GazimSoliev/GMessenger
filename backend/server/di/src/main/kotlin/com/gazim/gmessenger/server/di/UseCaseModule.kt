@@ -20,4 +20,6 @@ val useCaseModule =
         factoryOf(::SendMessageUseCase) bind ISendMessageUseCase::class
         factoryOf(::GetMessagesUseCase) bind IGetMessagesUseCase::class
         factoryOf(::EditProfileUseCaseImpl) bind EditProfileUseCase::class
+        factoryOf(::UploadProfilePhotoUseCaseImpl) bind UploadProfilePhotoUseCase::class
+        factoryOf(::GetImageContentUseCaseImpl) bind GetImageContentUseCase::class
     }

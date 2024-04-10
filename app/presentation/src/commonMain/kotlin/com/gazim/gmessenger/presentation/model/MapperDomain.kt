@@ -31,6 +31,7 @@ fun IChatModel.toChatUI(): IChatUI =
             chatName = user.nickname,
             chatLink = "@${user.username}",
             user = user.toUserUI(),
+            image = user.photo?.id,
         )
     } else {
         ChatUI(
@@ -38,10 +39,11 @@ fun IChatModel.toChatUI(): IChatUI =
             title = title,
             chatName = title,
             chatLink = "",
+            image = null,
         )
     }
 
-fun IUserUI.toUserModel() = UserModel(id = id, nickname = nickname, username = username)
+fun IUserUI.toUserModel() = UserModel(id = id, nickname = nickname, username = username, null)
 
 fun IChatUI.toChatModel(): IChatModel =
     if (this is IPrivateChatUI) {

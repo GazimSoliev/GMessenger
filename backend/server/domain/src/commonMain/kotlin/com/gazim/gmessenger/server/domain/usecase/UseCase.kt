@@ -78,3 +78,15 @@ interface EditProfileUseCase {
         profileForm: ProfileForm,
     )
 }
+
+interface GetImageContentUseCase {
+    suspend operator fun invoke(photoId: UUID): ByteArray
+}
+
+interface UploadProfilePhotoUseCase {
+    suspend operator fun invoke(
+        user: User,
+        type: String,
+        content: ByteArray,
+    ): Image
+}

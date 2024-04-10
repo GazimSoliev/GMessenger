@@ -3,13 +3,18 @@ package com.gazim.gmessenger.presentation.features.user
 import androidx.compose.ui.text.input.TextFieldValue
 import com.gazim.gmessenger.domain.model.ProfileForm
 import com.gazim.gmessenger.domain.usecase.EditProfileFormUseCase
+import com.gazim.gmessenger.domain.usecase.GetImageContentUseCase
 import com.gazim.gmessenger.domain.usecase.IGetOwnUser
+import com.gazim.gmessenger.domain.usecase.UploadProfilePhotoUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.user.UserAction.*
 import com.gazim.gmessenger.presentation.features.user.UserSideEffect.ToBack
 import com.gazim.gmessenger.presentation.model.IUserUI
 import com.gazim.gmessenger.presentation.model.UserUI
 import com.gazim.gmessenger.presentation.model.toUserUI
+import com.gazim.gmessenger.utils.pickPhoto
+import com.gazim.gmessenger.utils.toComposeBitmapImage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
@@ -23,21 +28,10 @@ typealias IntentScope = SimpleSyntax<UserState, UserSideEffect>
 class UserViewModel(
     private val editProfileFormUseCase: EditProfileFormUseCase,
     private val getUserUseCase: IGetOwnUser,
+    private val uploadProfilePhotoUseCase: UploadProfilePhotoUseCase,
+    private val getImageContentUseCase: GetImageContentUseCase,
 ) : BaseViewModel<UserState, UserSideEffect, UserAction>() {
     private var user: IUserUI = UserUI()
-
-    override fun handleAction(action: UserAction) {
-        intent {
-            when (action) {
-                is OnNicknameChange -> reduce { state.copy(nicknameValue = action.value) }
-                is OnUsernameChange -> reduce { state.copy(usernameValue = action.value) }
-                is OnEditClick -> onEditClick()
-                is OnSaveClick -> saveProfileChanges()
-                is OnCancelClick -> reduce { state.copy(editMode = false) }
-                is OnBack -> backClick()
-            }
-        }
-    }
 
     override val container: Container<UserState, UserSideEffect> =
         container(initialState = UserState()) {
@@ -48,9 +42,44 @@ class UserViewModel(
             }
         }
 
+    override fun handleAction(action: UserAction) {
+        intent {
+            when (action) {
+                is OnNicknameChange -> reduce { state.copy(nicknameValue = action.value) }
+                is OnUsernameChange -> reduce { state.copy(usernameValue = action.value) }
+                is OnEditClick -> onEditClick()
+                is OnSaveClick -> saveProfileChanges()
+                is OnCancelClick -> reduce { state.copy(editMode = false) }
+                is OnBack -> backClick()
+                is UploadProfilePhoto -> uploadProfilePhoto()
+            }
+        }
+    }
+
+    private suspend fun IntentScope.uploadProfilePhoto() {
+        val bytes =
+            runCatching { pickPhoto() }
+                .onFailure(Throwable::printStackTrace)
+                .getOrNull()
+        if (bytes == null) return
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                val image = uploadProfilePhotoUseCase(bytes.first, bytes.second)
+                val byteArray = getImageContentUseCase(image.id)
+                reduce { state.copy(imageBitmap = byteArray.toComposeBitmapImage()) }
+            }.onFailure(Throwable::printStackTrace)
+        }
+    }
+
     private suspend fun IntentScope.updateUserProfile() {
-        user = getUserUseCase().toUserUI()
-        reduce { state.copy(nickname = user.nickname, username = "@${user.username}") }
+        viewModelScope.launch(Dispatchers.IO) {
+            val u = getUserUseCase()
+            user = u.toUserUI()
+            reduce { state.copy(nickname = user.nickname, username = "@${user.username}") }
+            val image = u.photo ?: return@launch
+            val byteArray = getImageContentUseCase(image.id)
+            reduce { state.copy(imageBitmap = byteArray.toComposeBitmapImage()) }
+        }
     }
 
     private fun IntentScope.saveProfileChanges() {

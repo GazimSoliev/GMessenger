@@ -28,12 +28,14 @@ class UserScreen : BaseScreen<UserState, UserSideEffect, UserAction, UserViewMod
             nicknameValue = state.nicknameValue,
             usernameValue = state.usernameValue,
             editMode = state.editMode,
+            imageBitmap = state.imageBitmap,
             onNicknameChange = { sendAction(OnNicknameChange(it)) },
             onUsernameChange = { sendAction(OnUsernameChange(it)) },
-            back = { sendAction(OnBack) },
             onEditClick = { sendAction(OnEditClick) },
             onCancelClick = { sendAction(OnCancelClick) },
             onSaveClick = { sendAction(OnSaveClick) },
+            uploadNewPhoto = { sendAction(UploadProfilePhoto) },
+            back = { sendAction(OnBack) },
         )
     }
 }
