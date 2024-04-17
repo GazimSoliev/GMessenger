@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Chat
-import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.automirrored.rounded.Chat
+import androidx.compose.material.icons.automirrored.rounded.Logout
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -46,21 +46,21 @@ fun ChatsComponent(
                     navigationIcon = {
                         IconButton(onClick = lookAtMyAccount) {
                             Icon(
-                                imageVector = Icons.Default.Person,
+                                imageVector = Icons.Rounded.Person,
                                 contentDescription = strAccountInfo,
                             )
                         }
                     },
                     actions = {
                         IconButton(onClick = logOut) {
-                            Icon(imageVector = Icons.Default.Logout, contentDescription = strLogOut)
+                            Icon(imageVector = Icons.AutoMirrored.Rounded.Logout, contentDescription = strLogOut)
                         }
                     },
                 )
             },
             floatingActionButton = {
                 ExtendedFloatingActionButton(onClick = { createNewChat() }, icon = {
-                    Icon(imageVector = Icons.Default.Chat, contentDescription = strNewChat)
+                    Icon(imageVector = Icons.AutoMirrored.Rounded.Chat, contentDescription = strNewChat)
                 }, text = { Text(strNewChat) })
             },
         ) { paddingValues ->

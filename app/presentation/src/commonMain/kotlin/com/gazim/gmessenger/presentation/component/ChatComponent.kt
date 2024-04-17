@@ -10,8 +10,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Send
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.Send
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
@@ -83,7 +83,7 @@ fun ChatComponent(
                     navigationIcon = {
                         IconButton(onClick = back) {
                             Icon(
-                                imageVector = Icons.Rounded.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                                 contentDescription = strBack,
                             )
                         }
@@ -131,7 +131,7 @@ fun ChatComponent(
                         }
                         IconButton(onClick = sendMsg) {
                             Icon(
-                                imageVector = Icons.Rounded.Send,
+                                imageVector = Icons.AutoMirrored.Rounded.Send,
                                 contentDescription = strSend,
                                 tint = colorScheme.onSurfaceVariant,
                             )

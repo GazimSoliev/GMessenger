@@ -7,11 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.PhotoCamera
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
@@ -121,7 +117,7 @@ fun AccountComponent(
                                     )
                                 } else {
                                     Icon(
-                                        imageVector = Icons.Default.AccountCircle,
+                                        imageVector = Icons.Rounded.AccountCircle,
                                         contentDescription = null,
                                         modifier = Modifier.fillMaxSize(),
                                     )
@@ -135,7 +131,7 @@ fun AccountComponent(
                                         .padding(12.dp),
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.PhotoCamera,
+                                    imageVector = Icons.Rounded.PhotoCamera,
                                     contentDescription = null,
                                 )
                             }

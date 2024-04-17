@@ -3,8 +3,8 @@ package com.gazim.gmessenger.presentation.component
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.rounded.Visibility
+import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -49,7 +49,7 @@ fun LoginComponent(
             snackbarHost = { SnackbarHost(snackbarHostState) },
         ) {
             Column(
-                modifier,
+                modifier = modifier,
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -77,10 +77,10 @@ fun LoginComponent(
                             val icon: ImageVector
                             if (passwordVisibility) {
                                 contentDescription = strHidePassword
-                                icon = Icons.Default.VisibilityOff
+                                icon = Icons.Rounded.VisibilityOff
                             } else {
                                 contentDescription = strShowPassword
-                                icon = Icons.Default.Visibility
+                                icon = Icons.Rounded.Visibility
                             }
                             IconButton(onClick = onClickPasswordVisibility) {
                                 Icon(imageVector = icon, contentDescription = contentDescription)

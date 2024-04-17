@@ -1,3 +1,4 @@
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -34,6 +35,7 @@ import com.gazim.gmessenger.domain.model.INotificationModel
 import com.gazim.gmessenger.presentation.App
 import com.gazim.gmessenger.presentation.component.NotificationsWindow
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
+import gmessenger.app.app.generated.resources.Icon
 import gmessenger.app.app.generated.resources.Res
 import gmessenger.app.app.generated.resources.app_name
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -41,6 +43,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
@@ -78,10 +81,12 @@ fun main() {
         val windowState = rememberWindowState()
         val isMaximized = windowState.placement == WindowPlacement.Maximized
         val appName = stringResource(Res.string.app_name)
+        val icon = painterResource(Res.drawable.Icon)
         Window(
             state = windowState,
             onCloseRequest = ::exitApplication,
             title = appName,
+            icon = icon,
             transparent = true,
             undecorated = true,
         ) {
@@ -103,7 +108,12 @@ fun main() {
                                         Modifier.fillMaxWidth()
                                             .background(colorScheme.outlineVariant.copy(alpha = 0.1f)).height(36.dp),
                                 ) {
-                                    Text(appName, modifier = Modifier.align(Alignment.Center))
+                                    Image(
+                                        painter = icon,
+                                        contentDescription = appName,
+                                        modifier = Modifier.align(Alignment.CenterStart).padding(horizontal = 8.dp, vertical = 4.dp),
+                                    )
+                                    Text(text = appName, modifier = Modifier.align(Alignment.Center))
                                     Row(
                                         modifier = Modifier.align(Alignment.CenterEnd).padding(horizontal = 8.dp),
                                         horizontalArrangement = Arrangement.spacedBy(8.dp),
