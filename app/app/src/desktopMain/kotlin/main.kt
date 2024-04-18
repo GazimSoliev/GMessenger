@@ -75,9 +75,10 @@ fun main() {
             lazyListState = lazyListState,
             visible = notifications.isNotEmpty(),
         )
-        val windowState = rememberWindowState().apply {
-            position = WindowPosition(Alignment.Center)
-        }
+        val windowState =
+            rememberWindowState().apply {
+                position = WindowPosition(Alignment.Center)
+            }
         val isMaximized = windowState.placement == WindowPlacement.Maximized
         val appName = stringResource(Res.string.app_name)
         val icon = painterResource(Res.drawable.Icon)
