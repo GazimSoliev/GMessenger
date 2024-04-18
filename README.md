@@ -23,5 +23,4 @@ TODO:
 13. Add photo picker for android
 
 College:
-1. Logo
-2. Splash screen
+1. Splash screen
