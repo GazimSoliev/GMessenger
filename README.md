@@ -21,6 +21,4 @@ TODO:
 11. Add chat photo in chat
 12. Add user photo in searching
 13. Add photo picker for android
-
-College:
-1. Splash screen
+14. Select server in app
