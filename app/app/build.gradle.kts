@@ -1,4 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -19,10 +21,9 @@ kotlin {
 //    }
 
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_1_8
         }
     }
 
@@ -99,14 +100,4 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
-}
-
-// TODO: Wait when JetBrains will add multimodule support for resources
-checkAndCopy()
-
-fun checkAndCopy() {
-    val resFrom = file("../presentation/src/commonMain/composeResources")
-    if (!resFrom.exists()) return
-    val resTo = file("src/commonMain/composeResources")
-    resFrom.copyRecursively(resTo, true)
 }

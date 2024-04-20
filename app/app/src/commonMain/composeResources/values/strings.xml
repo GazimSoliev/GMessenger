@@ -1,34 +1,3 @@
 <resources>
     <string name="app_name">GMessenger</string>
-    <string name="login">Login</string>
-    <string name="password">Password</string>
-    <string name="log_in">Log in</string>
-    <string name="create_account">Create account</string>
-    <string name="back">Back</string>
-    <string name="ok">OK</string>
-    <string name="nickname">Nickname</string>
-    <string name="username">Username</string>
-    <string name="registration">Registration</string>
-    <string name="register">Register</string>
-    <string name="help">Help?</string>
-    <string name="requirements">Requirements</string>
-    <string name="requirements_details">Nickname allowed: 0-64 character length, any character.\n\nUsername allowed: 4-32 character length, numbers and latin symbols.\n\nLogin allowed: 8-32 character length, numbers and latin symbols.\n\nPassword allowed: 8-128 character length, numbers, latin symbols and special characters. Password also required though: 1 upper case, 1 lowe case, 1 number, 1 special character and entropy.</string>
-    <string name="incorrect_input">Incorrect input. Look at "Help?"</string>
-    <string name="chats">Chats</string>
-    <string name="new_chat">New chat</string>
-    <string name="log_out">Log out</string>
-    <string name="account_info">Account info</string>
-    <string name="search">Search</string>
-    <string name="message">Message</string>
-    <string name="send">Send</string>
-    <string name="hide_password">Hide password</string>
-    <string name="show_password">Show password</string>
-    <string name="unable_connect_to_server">Unable connect to server</string>
-    <string name="wrong_password_or_login">Wrong password or login</string>
-    <string name="logging_in">Logging in</string>
-    <string name="cancel">Cancel</string>
-    <string name="done">Done</string>
-    <string name="reconect_in">Reconnect in</string>
-    <string name="edit_account">Edit account</string>
-    <string name="edit">Edit</string>
 </resources>
