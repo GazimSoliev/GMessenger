@@ -3,75 +3,75 @@ package com.gazim.gmessenger.domain.usecase
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
-fun interface IOnLogInUseCase {
+fun interface OnLogInUseCase {
     suspend operator fun invoke(loginPassword: ILoginPasswordModel): Boolean
 }
 
-fun interface IOnRegisterUseCase {
+fun interface OnRegisterUseCase {
     suspend operator fun invoke(account: AccountModel): Boolean
 }
 
-fun interface IGetOwnAccountUseCase {
+fun interface GetOwnAccountUseCase {
     suspend operator fun invoke(): IUserModel
 }
 
-fun interface IFilterUsersUseCase {
+fun interface FilterUsersUseCase {
     suspend operator fun invoke(query: String): List<IUserModel>
 }
 
-fun interface IGetChatsUseCase {
+fun interface GetChatsUseCase {
     suspend operator fun invoke(): List<IChatModel>
 }
 
-fun interface IPassAuthUseCase {
+fun interface PassAuthUseCase {
     operator fun invoke(): Boolean
 }
 
-fun interface IGetOwnUser {
+fun interface GetOwnUser {
     suspend operator fun invoke(): IUserModel
 }
 
-fun interface ICreateChatUseCase {
+fun interface CreateChatUseCase {
     suspend operator fun invoke(user: IUserModel)
 }
 
-fun interface IValidateLogin {
+fun interface ValidateLoginUseCase {
     suspend operator fun invoke(login: String): Boolean
 }
 
-fun interface IValidatePassword {
+fun interface ValidatePasswordUseCase {
     suspend operator fun invoke(password: String): Boolean
 }
 
-fun interface IValidateNickname {
+fun interface ValidateNicknameUseCase {
     suspend operator fun invoke(nickname: String): Boolean
 }
 
-fun interface IValidateUsername {
+fun interface ValidateUsernameUseCase {
     suspend operator fun invoke(username: String): Boolean
 }
 
-fun interface IOpenNotificationUseCase {
+fun interface OpenNotificationUseCase {
     suspend operator fun invoke()
 }
 
-fun interface ICloseNotificationUseCase {
+fun interface CloseNotificationUseCase {
     suspend operator fun invoke()
 }
 
-fun interface IGetNotificationsUseCase {
+fun interface GetNotificationsUseCase {
     suspend operator fun invoke(): Flow<INotificationModel>
 }
 
-fun interface IGetSessionUseCase {
+fun interface GetSessionUseCase {
     operator fun invoke(): String?
 }
 
-fun interface IGetChatUseCase {
+fun interface GetChatUseCase {
     suspend operator fun invoke(chat: IChatModel): IChatWebSocketModel
 }
 
-interface IGetMessagesUseCase {
+interface GetMessagesUseCase {
     suspend operator fun invoke(
         chat: IChatModel,
         key: MessagePageKey?,

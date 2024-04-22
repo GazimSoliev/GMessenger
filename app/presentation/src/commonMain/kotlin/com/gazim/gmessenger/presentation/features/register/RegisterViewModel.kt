@@ -20,11 +20,11 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 private typealias IntentScope = SimpleSyntax<RegisterState, RegisterSideEffect>
 
 class RegisterViewModel(
-    private val validatePassword: IValidatePassword,
-    private val validateLogin: IValidateLogin,
-    private val validateNickname: IValidateNickname,
-    private val validateUsername: IValidateUsername,
-    private val onRegisterUseCase: IOnRegisterUseCase,
+    private val validatePassword: ValidatePasswordUseCase,
+    private val validateLogin: ValidateLoginUseCase,
+    private val validateNickname: ValidateNicknameUseCase,
+    private val validateUsername: ValidateUsernameUseCase,
+    private val onRegisterUseCase: OnRegisterUseCase,
 ) : BaseViewModel<RegisterState, RegisterSideEffect, RegisterAction>() {
     override val container: Container<RegisterState, RegisterSideEffect> = container(initialState = RegisterState())
 

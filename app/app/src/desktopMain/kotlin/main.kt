@@ -24,10 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import com.gazim.gmessenger.di.scopeModule
-import com.gazim.gmessenger.di.serviceModule
-import com.gazim.gmessenger.di.useCaseModule
-import com.gazim.gmessenger.di.viewModelModule
+import com.gazim.gmessenger.di.*
 import com.gazim.gmessenger.domain.model.INotificationModel
 import com.gazim.gmessenger.presentation.App
 import com.gazim.gmessenger.presentation.component.NotificationsWindow
@@ -53,7 +50,7 @@ val notificationsReceiver = MutableSharedFlow<INotificationModel>()
 fun main() {
     startKoin {
         logger(SLF4JLogger(level = Level.INFO))
-        modules(scopeModule, serviceModule, useCaseModule, viewModelModule)
+        modules(apiModule, scopeModule, serviceModule, useCaseModule, viewModelModule)
     }
     application {
         val notifications = rememberSaveable(notificationsReceiver) { mutableStateListOf<INotificationModel>() }

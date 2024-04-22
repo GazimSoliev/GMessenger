@@ -7,20 +7,20 @@ import org.koin.dsl.module
 
 val useCaseModule =
     module {
-        factoryOf(::PassAuthUseCase) bind IPassAuthUseCase::class
-        factoryOf(::OnLogInUseCase) bind IOnLogInUseCase::class
-        factoryOf(::OnRegisterUseCase) bind IOnRegisterUseCase::class
-        factoryOf(::GetChatsUseCase) bind IGetChatsUseCase::class
-        factoryOf(::GetOwnUser) bind IGetOwnUser::class
-        factoryOf(::FilterUsersUseCase) bind IFilterUsersUseCase::class
-        factoryOf(::CreateChatUseCase) bind ICreateChatUseCase::class
-        factoryOf(::ValidateLogin) bind IValidateLogin::class
-        factoryOf(::ValidatePassword) bind IValidatePassword::class
-        factoryOf(::ValidateNickname) bind IValidateNickname::class
-        factoryOf(::ValidateUsername) bind IValidateUsername::class
-        factoryOf(::GetSessionUseCase) bind IGetSessionUseCase::class
-        factoryOf(::GetChatUseCase) bind IGetChatUseCase::class
-        factoryOf(::GetMessagesUseCase) bind IGetMessagesUseCase::class
+        factoryOf(::PassAuthUseCaseImpl) bind PassAuthUseCase::class
+        factoryOf(::OnLogInUseCaseImpl) bind OnLogInUseCase::class
+        factoryOf(::OnRegisterUseCaseImpl) bind OnRegisterUseCase::class
+        factoryOf(::GetChatsUseCaseImpl) bind GetChatsUseCase::class
+        factoryOf(::GetOwnUserImpl) bind GetOwnUser::class
+        factoryOf(::FilterUsersUseCaseImpl) bind FilterUsersUseCase::class
+        factoryOf(::CreateChatUseCaseImpl) bind CreateChatUseCase::class
+        factoryOf(::ValidateLoginUseCaseImpl) bind ValidateLoginUseCase::class
+        factoryOf(::ValidatePasswordUseCaseImpl) bind ValidatePasswordUseCase::class
+        factoryOf(::ValidateNicknameUseCaseImpl) bind ValidateNicknameUseCase::class
+        factoryOf(::ValidateUsernameUseCaseImpl) bind ValidateUsernameUseCase::class
+        factoryOf(::GetSessionUseCaseImpl) bind GetSessionUseCase::class
+        factoryOf(::GetChatUseCaseImpl) bind GetChatUseCase::class
+        factoryOf(::GetMessagesUseCaseImpl) bind GetMessagesUseCase::class
         factoryOf(::EditProfileFormUseCaseImpl) bind EditProfileFormUseCase::class
         factoryOf(::UploadProfilePhotoUseCaseImpl) bind UploadProfilePhotoUseCase::class
         factoryOf(::GetImageContentUseCaseImpl) bind GetImageContentUseCase::class

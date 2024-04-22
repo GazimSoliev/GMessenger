@@ -6,8 +6,8 @@ import app.cash.paging.PagingConfig
 import com.gazim.gmessenger.domain.model.IChatModel
 import com.gazim.gmessenger.domain.model.IChatWebSocketModel
 import com.gazim.gmessenger.domain.model.IMessageModel
-import com.gazim.gmessenger.domain.usecase.IGetChatUseCase
-import com.gazim.gmessenger.domain.usecase.IGetMessagesUseCase
+import com.gazim.gmessenger.domain.usecase.GetChatUseCase
+import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
@@ -31,8 +31,8 @@ typealias IntentScope = SimpleSyntax<ChatState, ChatSideEffect>
 
 // todo: take out functions
 class ChatViewModel(
-    private val getChatUseCase: IGetChatUseCase,
-    private val getMessages: IGetMessagesUseCase,
+    private val getChatUseCase: GetChatUseCase,
+    private val getMessages: GetMessagesUseCase,
 ) : BaseViewModel<ChatState, ChatSideEffect, ChatAction>() {
     private lateinit var chatModel: IChatWebSocketModel
     private lateinit var pagingSource: MessagePagerSource

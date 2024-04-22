@@ -1,10 +1,8 @@
-package com.gazim.gmessenger.data.service
+package com.gazim.gmessenger.domain.service
 
-import com.gazim.gmessenger.domain.service.ISessionService
 import java.util.*
 
-// todo: Take out into UseCase
-class SessionService : ISessionService {
+class SessionServiceImpl : SessionService {
     private var currentToken: String? = null
     private var currentSession: String? = null
 

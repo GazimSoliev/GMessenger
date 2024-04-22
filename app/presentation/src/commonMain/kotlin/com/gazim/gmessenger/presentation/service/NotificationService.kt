@@ -1,18 +1,18 @@
 package com.gazim.gmessenger.presentation.service
 
 import com.gazim.gmessenger.domain.model.INotificationModel
-import com.gazim.gmessenger.domain.usecase.ICloseNotificationUseCase
-import com.gazim.gmessenger.domain.usecase.IGetNotificationsUseCase
-import com.gazim.gmessenger.domain.usecase.IOpenNotificationUseCase
+import com.gazim.gmessenger.domain.usecase.CloseNotificationUseCase
+import com.gazim.gmessenger.domain.usecase.GetNotificationsUseCase
+import com.gazim.gmessenger.domain.usecase.OpenNotificationUseCase
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.emitAll
 
 // todo: Review?
 class NotificationService(
-    private val openNotificationUseCase: IOpenNotificationUseCase,
-    private val closeNotificationUseCase: ICloseNotificationUseCase,
-    private val getNotificationsUseCase: IGetNotificationsUseCase,
+    private val openNotificationUseCase: OpenNotificationUseCase,
+    private val closeNotificationUseCase: CloseNotificationUseCase,
+    private val getNotificationsUseCase: GetNotificationsUseCase,
 ) : INotificationService {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 

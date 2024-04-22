@@ -1,8 +1,8 @@
 package com.gazim.gmessenger.presentation.features.finduser
 
 import com.gazim.gmessenger.domain.model.IUserModel
-import com.gazim.gmessenger.domain.usecase.ICreateChatUseCase
-import com.gazim.gmessenger.domain.usecase.IFilterUsersUseCase
+import com.gazim.gmessenger.domain.usecase.CreateChatUseCase
+import com.gazim.gmessenger.domain.usecase.FilterUsersUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.finduser.FindUserAction.*
 import com.gazim.gmessenger.presentation.features.finduser.FindUserSideEffect.ToChatsScreen
@@ -14,8 +14,8 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 
 // todo: Take out actions
 class FindUserViewModel(
-    private val filterUsersUseCase: IFilterUsersUseCase,
-    private val createChatUseCase: ICreateChatUseCase,
+    private val filterUsersUseCase: FilterUsersUseCase,
+    private val createChatUseCase: CreateChatUseCase,
 ) : BaseViewModel<FindUserState, FindUserSideEffect, FindUserAction>() {
     override val container: Container<FindUserState, FindUserSideEffect> =
         container(initialState = FindUserState())

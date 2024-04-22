@@ -1,8 +1,8 @@
 package com.gazim.gmessenger.presentation.features.chats
 
 import com.gazim.gmessenger.domain.model.IChatModel
-import com.gazim.gmessenger.domain.usecase.IGetChatsUseCase
-import com.gazim.gmessenger.domain.usecase.IGetSessionUseCase
+import com.gazim.gmessenger.domain.usecase.GetChatsUseCase
+import com.gazim.gmessenger.domain.usecase.GetSessionUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chats.ChatsAction.*
 import com.gazim.gmessenger.presentation.features.chats.ChatsSideEffect.*
@@ -15,8 +15,8 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 
 // todo: Take out actions
 class ChatsViewModel(
-    private val getChatsUseCase: IGetChatsUseCase,
-    private val getSessionUseCase: IGetSessionUseCase,
+    private val getChatsUseCase: GetChatsUseCase,
+    private val getSessionUseCase: GetSessionUseCase,
 //    private val notificationService: INotificationService,
 ) : BaseViewModel<ChatsState, ChatsSideEffect, ChatsAction>() {
     override val container: Container<ChatsState, ChatsSideEffect> =

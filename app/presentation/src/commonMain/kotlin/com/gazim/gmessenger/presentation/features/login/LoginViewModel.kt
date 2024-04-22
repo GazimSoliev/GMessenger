@@ -1,8 +1,8 @@
 package com.gazim.gmessenger.presentation.features.login
 
 import com.gazim.gmessenger.domain.model.LoginPasswordModel
-import com.gazim.gmessenger.domain.usecase.GetSessionUseCase
-import com.gazim.gmessenger.domain.usecase.IOnLogInUseCase
+import com.gazim.gmessenger.domain.usecase.GetSessionUseCaseImpl
+import com.gazim.gmessenger.domain.usecase.OnLogInUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
@@ -17,8 +17,8 @@ private typealias IntentScope = SimpleSyntax<LoginState, LoginSideEffect>
 
 // todo: Take out actions
 class LoginViewModel(
-    private val onLogInUseCase: IOnLogInUseCase,
-    private val getSessionUseCase: GetSessionUseCase,
+    private val onLogInUseCase: OnLogInUseCase,
+    private val getSessionUseCase: GetSessionUseCaseImpl,
 ) : BaseViewModel<LoginState, LoginSideEffect, LoginAction>() {
     //    private val notificationService: INotificationService by inject(INotificationService::class.java)
     override val container: Container<LoginState, LoginSideEffect> = container(initialState = LoginState())

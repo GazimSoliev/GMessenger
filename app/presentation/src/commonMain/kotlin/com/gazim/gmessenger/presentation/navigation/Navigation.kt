@@ -7,12 +7,12 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.ScreenTransition
-import com.gazim.gmessenger.domain.usecase.IPassAuthUseCase
+import com.gazim.gmessenger.domain.usecase.PassAuthUseCase
 import com.gazim.gmessenger.presentation.features.chats.ChatsScreen
 import com.gazim.gmessenger.presentation.features.login.LoginScreen
 
 @Composable
-fun Navigation(passAuthUseCase: IPassAuthUseCase) {
+fun Navigation(passAuthUseCase: PassAuthUseCase) {
     Navigator(if (passAuthUseCase()) ChatsScreen() else LoginScreen()) {
         ScreenTransition(
             navigator = it,

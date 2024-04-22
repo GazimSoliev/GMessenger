@@ -2,7 +2,7 @@ package com.gazim.gmessenger.domain.usecase
 
 import kotlin.math.ln
 
-class ValidatePassword : IValidatePassword {
+class ValidatePasswordUseCaseImpl : ValidatePasswordUseCase {
     private val passwordRegex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,128}$")
 
     override suspend fun invoke(password: String): Boolean = checkEntropyEnough(password) && passwordRegex matches password

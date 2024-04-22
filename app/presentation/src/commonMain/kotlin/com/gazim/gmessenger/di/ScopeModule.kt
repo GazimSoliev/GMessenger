@@ -1,18 +1,19 @@
 package com.gazim.gmessenger.di
 
-import com.gazim.gmessenger.data.service.GMessengerService
-import com.gazim.gmessenger.domain.service.IGMessengerService
+import com.gazim.gmessenger.data.api.GMessengerAPIImpl
+import com.gazim.gmessenger.domain.api.GMessengerAPI
+import com.gazim.gmessenger.domain.service.GMessengerService
+import com.gazim.gmessenger.domain.service.GMessengerServiceImpl
+import org.koin.core.module.dsl.scopedOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val scopeModule =
     module {
         scope<AccountScope> {
-            scoped<IGMessengerService> { GMessengerService(getCurrentToken()) }
-//            scopeNotification()
-//            scoped<INotificationRepository> { NotificationRepository(runBlocking { get<IGMessengerRepository>().getNotifications() }) }
+            scoped<GMessengerAPI> { GMessengerAPIImpl(getCurrentToken()) }
+            scopedOf(::GMessengerServiceImpl) bind GMessengerService::class
         }
     }
 
 class AccountScope
-
-// expect fun ScopeDSL.scopeNotification()

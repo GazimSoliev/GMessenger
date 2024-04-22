@@ -4,7 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeOut
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
-import com.gazim.gmessenger.domain.usecase.IPassAuthUseCase
+import com.gazim.gmessenger.domain.usecase.PassAuthUseCase
 import com.gazim.gmessenger.presentation.component.SplashComposition
 import com.gazim.gmessenger.presentation.navigation.Navigation
 import kotlinx.coroutines.delay
@@ -18,7 +18,7 @@ fun App() {
         showSplash = false
     }
     Surface {
-        Navigation(passAuthUseCase = koinInject<IPassAuthUseCase>())
+        Navigation(passAuthUseCase = koinInject<PassAuthUseCase>())
         AnimatedVisibility(visible = showSplash, exit = fadeOut()) {
             SplashComposition()
         }

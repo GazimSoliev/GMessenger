@@ -3,11 +3,11 @@ package com.gazim.gmessenger.domain.usecase
 import com.gazim.gmessenger.domain.model.IChatModel
 import com.gazim.gmessenger.domain.model.MessagePage
 import com.gazim.gmessenger.domain.model.MessagePageKey
-import com.gazim.gmessenger.domain.service.IGMessengerService
+import com.gazim.gmessenger.domain.service.GMessengerService
 
-class GetMessagesUseCase(
-    private val gMessengerService: IGMessengerService,
-) : IGetMessagesUseCase {
+class GetMessagesUseCaseImpl(
+    private val gMessengerService: GMessengerService,
+) : GetMessagesUseCase {
     override suspend fun invoke(
         chat: IChatModel,
         key: MessagePageKey?,

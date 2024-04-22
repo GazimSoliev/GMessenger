@@ -1,27 +1,14 @@
-package com.gazim.gmessenger.domain.service
+package com.gazim.gmessenger.domain.api
 
 import com.gazim.gmessenger.domain.model.*
-import kotlinx.coroutines.flow.Flow
 
-interface SessionService {
-    fun currentToken(): String?
+interface GMessengerAuthAPI {
+    suspend fun register(accountModel: AccountModel): Boolean
 
-    fun currentSession(): String?
-
-    fun setSession(token: String)
-
-    fun clearSession()
+    suspend fun login(loginPasswordModel: ILoginPasswordModel): String
 }
 
-interface NotificationService {
-    val notifications: Flow<INotificationModel>
-
-    suspend fun openConnection()
-
-    suspend fun closeConnection()
-}
-
-interface GMessengerService {
+interface GMessengerAPI {
     suspend fun getChats(): List<IChatModel>
 
     suspend fun filterUsers(query: String): List<IUserModel>
@@ -47,10 +34,4 @@ interface GMessengerService {
     ): Image
 
     suspend fun getImageContent(photoId: String): ByteArray
-}
-
-interface GMessengerAuthService {
-    suspend fun register(accountModel: AccountModel): Boolean
-
-    suspend fun login(loginPasswordModel: ILoginPasswordModel): String
 }

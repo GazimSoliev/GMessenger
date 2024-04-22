@@ -4,7 +4,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.gazim.gmessenger.domain.model.ProfileForm
 import com.gazim.gmessenger.domain.usecase.EditProfileFormUseCase
 import com.gazim.gmessenger.domain.usecase.GetImageContentUseCase
-import com.gazim.gmessenger.domain.usecase.IGetOwnUser
+import com.gazim.gmessenger.domain.usecase.GetOwnUser
 import com.gazim.gmessenger.domain.usecase.UploadProfilePhotoUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.user.UserAction.*
@@ -27,7 +27,7 @@ typealias IntentScope = SimpleSyntax<UserState, UserSideEffect>
 // todo: Take out actions
 class UserViewModel(
     private val editProfileFormUseCase: EditProfileFormUseCase,
-    private val getUserUseCase: IGetOwnUser,
+    private val getUserUseCase: GetOwnUser,
     private val uploadProfilePhotoUseCase: UploadProfilePhotoUseCase,
     private val getImageContentUseCase: GetImageContentUseCase,
 ) : BaseViewModel<UserState, UserSideEffect, UserAction>() {
