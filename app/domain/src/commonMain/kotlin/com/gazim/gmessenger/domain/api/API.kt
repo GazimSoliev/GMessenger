@@ -3,21 +3,21 @@ package com.gazim.gmessenger.domain.api
 import com.gazim.gmessenger.domain.model.*
 
 interface GMessengerAuthAPI {
-    suspend fun register(accountModel: AccountModel): Boolean
+    suspend fun register(registrationForm: RegistrationForm): Boolean
 
-    suspend fun login(loginPasswordModel: ILoginPasswordModel): String
+    suspend fun login(loginPasswordModel: AuthenticationForm): String
 }
 
 interface GMessengerAPI {
     suspend fun getChats(): List<IChatModel>
 
-    suspend fun filterUsers(query: String): List<IUserModel>
+    suspend fun filterUsers(query: String): List<User>
 
     suspend fun getChat(chatModel: IChatModel): IChatWebSocketModel
 
-    suspend fun getMyOwnAccount(): IUserModel
+    suspend fun getMyOwnAccount(): User
 
-    suspend fun createChat(user: IUserModel)
+    suspend fun createChat(user: User)
 
     suspend fun getNotifications(): INotificationWebSocketModel
 

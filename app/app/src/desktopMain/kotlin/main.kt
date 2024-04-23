@@ -25,7 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import com.gazim.gmessenger.di.*
-import com.gazim.gmessenger.domain.model.INotificationModel
+import com.gazim.gmessenger.domain.model.Notification
 import com.gazim.gmessenger.presentation.App
 import com.gazim.gmessenger.presentation.component.NotificationsWindow
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
@@ -43,7 +43,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.logger.SLF4JLogger
 
-val notificationsReceiver = MutableSharedFlow<INotificationModel>()
+val notificationsReceiver = MutableSharedFlow<Notification>()
 
 @OptIn(ExperimentalResourceApi::class)
 @DelicateCoroutinesApi
@@ -53,7 +53,7 @@ fun main() {
         modules(apiModule, scopeModule, serviceModule, useCaseModule, viewModelModule)
     }
     application {
-        val notifications = rememberSaveable(notificationsReceiver) { mutableStateListOf<INotificationModel>() }
+        val notifications = rememberSaveable(notificationsReceiver) { mutableStateListOf<Notification>() }
         val lazyListState = rememberLazyListState()
         LaunchedEffect(notificationsReceiver) {
             notificationsReceiver.collect {

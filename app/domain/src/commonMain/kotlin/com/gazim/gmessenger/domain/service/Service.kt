@@ -14,7 +14,7 @@ interface SessionService {
 }
 
 interface NotificationService {
-    val notifications: Flow<INotificationModel>
+    val notifications: Flow<Notification>
 
     suspend fun openConnection()
 
@@ -24,13 +24,13 @@ interface NotificationService {
 interface GMessengerService {
     suspend fun getChats(): List<IChatModel>
 
-    suspend fun filterUsers(query: String): List<IUserModel>
+    suspend fun filterUsers(query: String): List<User>
 
     suspend fun getChat(chatModel: IChatModel): IChatWebSocketModel
 
-    suspend fun getMyOwnAccount(): IUserModel
+    suspend fun getMyOwnAccount(): User
 
-    suspend fun createChat(user: IUserModel)
+    suspend fun createChat(user: User)
 
     suspend fun getNotifications(): INotificationWebSocketModel
 
@@ -50,7 +50,7 @@ interface GMessengerService {
 }
 
 interface GMessengerAuthService {
-    suspend fun register(accountModel: AccountModel): Boolean
+    suspend fun register(registrationForm: RegistrationForm): Boolean
 
-    suspend fun login(loginPasswordModel: ILoginPasswordModel): String
+    suspend fun login(loginPasswordModel: AuthenticationForm): String
 }

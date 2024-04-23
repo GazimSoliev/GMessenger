@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.presentation.service
 
-import com.gazim.gmessenger.domain.model.INotificationModel
+import com.gazim.gmessenger.domain.model.Notification
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-val notificationsReceiver = MutableSharedFlow<INotificationModel>()
+val notificationsReceiver = MutableSharedFlow<Notification>()

@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.presentation.features.login
 
-import com.gazim.gmessenger.domain.model.LoginPasswordModel
+import com.gazim.gmessenger.domain.model.AuthenticationForm
 import com.gazim.gmessenger.domain.usecase.GetSessionUseCaseImpl
 import com.gazim.gmessenger.domain.usecase.OnLogInUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
@@ -58,7 +58,7 @@ class LoginViewModel(
             loggingJob =
                 launch {
                     runCatching {
-                        onLogInUseCase(LoginPasswordModel(login, password))
+                        onLogInUseCase(AuthenticationForm(login, password))
                     }.onFailure {
                         if (it is CancellationException) return@onFailure
                         postSideEffect(UnableConnectToServer)

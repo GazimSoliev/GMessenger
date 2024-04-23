@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.gazim.gmessenger.domain.model.IUserModel
-import com.gazim.gmessenger.domain.model.UserModel
+import com.gazim.gmessenger.presentation.model.IUserUI
+import com.gazim.gmessenger.presentation.model.UserUI
 import gmessenger.app.presentation.generated.resources.Res
 import gmessenger.app.presentation.generated.resources.back
 import gmessenger.app.presentation.generated.resources.search
@@ -32,10 +32,10 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun FindUserComponent(
     modifier: Modifier = Modifier,
-    users: List<IUserModel>,
+    users: List<IUserUI>,
     query: TextFieldValue,
     onQueryChange: (TextFieldValue) -> Unit,
-    createChat: (IUserModel) -> Unit,
+    createChat: (IUserUI) -> Unit,
     back: () -> Unit,
 ) {
     val strBack = stringResource(Res.string.back)
@@ -72,7 +72,7 @@ fun FindUserComponent(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(users) {
-                    UserItem(it, Modifier.clickable { createChat(it) })
+                    UserItem(nickname = it.nickname, username = it.username, Modifier.clickable { createChat(it) })
                 }
             }
         }
@@ -86,11 +86,10 @@ fun FindUserComponentPreview() {
         modifier = Modifier.fillMaxSize(),
         users =
             List(10) {
-                UserModel(
+                UserUI(
                     id = "some",
                     nickname = "Name $it",
                     username = "Username $it",
-                    photo = null,
                 )
             },
         query = TextFieldValue(),

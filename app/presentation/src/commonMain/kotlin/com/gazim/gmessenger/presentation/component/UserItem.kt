@@ -7,20 +7,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.gazim.gmessenger.domain.model.IUserModel
-import com.gazim.gmessenger.domain.model.UserModel
 
 // todo: Rename a preview and change a composition?
 @Composable
 fun UserItem(
-    user: IUserModel,
+    nickname: String = "Nickname",
+    username: String = "Username",
     modifier: Modifier = Modifier,
 ) {
     ElevatedCard {
         Column(modifier.padding(16.dp).fillMaxWidth()) {
-            Text(user.nickname)
+            Text(nickname)
             Spacer(Modifier.height(8.dp))
-            Text("@${user.username}")
+            Text("@$username")
         }
     }
 }
@@ -28,12 +27,5 @@ fun UserItem(
 @Preview
 @Composable
 fun UserItemPreview() {
-    UserItem(
-        UserModel(
-            id = "some id",
-            nickname = "Nickname",
-            username = "Username",
-            null,
-        ),
-    )
+    UserItem()
 }

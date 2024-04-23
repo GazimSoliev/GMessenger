@@ -2,24 +2,22 @@ package com.gazim.gmessenger.data.api
 
 import com.gazim.gmessenger.api.GMessengerAPI
 import com.gazim.gmessenger.api.model.AuthenticationForm
-import com.gazim.gmessenger.api.model.RegistrationForm
 import com.gazim.gmessenger.domain.api.GMessengerAuthAPI
-import com.gazim.gmessenger.domain.model.AccountModel
-import com.gazim.gmessenger.domain.model.ILoginPasswordModel
+import com.gazim.gmessenger.api.model.RegistrationForm as RegistrationFormAPI
+import com.gazim.gmessenger.domain.model.AuthenticationForm as AuthenticationFormAPI
 
 class GMessengerAuthAPIImpl : GMessengerAuthAPI {
-    override suspend fun register(accountModel: AccountModel): Boolean =
+    override suspend fun register(registrationForm: com.gazim.gmessenger.domain.model.RegistrationForm): Boolean =
         GMessengerAPI.register(
-            account =
-                RegistrationForm(
-                    nickname = accountModel.nickname,
-                    username = accountModel.username,
-                    login = accountModel.login,
-                    password = accountModel.password,
-                ),
+            RegistrationFormAPI(
+                nickname = registrationForm.nickname,
+                username = registrationForm.username,
+                login = registrationForm.login,
+                password = registrationForm.password,
+            ),
         )
 
-    override suspend fun login(loginPasswordModel: ILoginPasswordModel): String =
+    override suspend fun login(loginPasswordModel: AuthenticationFormAPI): String =
         GMessengerAPI.login(
             AuthenticationForm(
                 login = loginPasswordModel.login,

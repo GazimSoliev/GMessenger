@@ -7,14 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.gazim.gmessenger.domain.model.INotificationMessageModel
-import com.gazim.gmessenger.domain.model.INotificationModel
+import com.gazim.gmessenger.domain.model.Notification
+import com.gazim.gmessenger.domain.model.NotificationMessage
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 
 // todo: Use system API?
 @Composable
 fun NotificationsWindow(
-    notifications: List<INotificationModel>,
+    notifications: List<Notification>,
     lazyListState: LazyListState = rememberLazyListState(),
     visible: Boolean = true,
 ) {
@@ -23,7 +23,7 @@ fun NotificationsWindow(
         GMessengerTheme {
             NotificationsView(Modifier.size(320.dp)) {
                 NotificationStack(notifications = notifications, lazyListState = lazyListState) {
-                    if (it is INotificationMessageModel) {
+                    if (it is NotificationMessage) {
                         NotificationRow(
                             sender = it.user.nickname,
                             msg = it.message,

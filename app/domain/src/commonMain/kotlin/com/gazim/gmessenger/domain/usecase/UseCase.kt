@@ -4,19 +4,19 @@ import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
 fun interface OnLogInUseCase {
-    suspend operator fun invoke(loginPassword: ILoginPasswordModel): Boolean
+    suspend operator fun invoke(loginPassword: AuthenticationForm): Boolean
 }
 
 fun interface OnRegisterUseCase {
-    suspend operator fun invoke(account: AccountModel): Boolean
+    suspend operator fun invoke(account: RegistrationForm): Boolean
 }
 
 fun interface GetOwnAccountUseCase {
-    suspend operator fun invoke(): IUserModel
+    suspend operator fun invoke(): User
 }
 
 fun interface FilterUsersUseCase {
-    suspend operator fun invoke(query: String): List<IUserModel>
+    suspend operator fun invoke(query: String): List<User>
 }
 
 fun interface GetChatsUseCase {
@@ -28,11 +28,11 @@ fun interface PassAuthUseCase {
 }
 
 fun interface GetOwnUser {
-    suspend operator fun invoke(): IUserModel
+    suspend operator fun invoke(): User
 }
 
 fun interface CreateChatUseCase {
-    suspend operator fun invoke(user: IUserModel)
+    suspend operator fun invoke(user: User)
 }
 
 fun interface ValidateLoginUseCase {
@@ -60,7 +60,7 @@ fun interface CloseNotificationUseCase {
 }
 
 fun interface GetNotificationsUseCase {
-    suspend operator fun invoke(): Flow<INotificationModel>
+    suspend operator fun invoke(): Flow<Notification>
 }
 
 fun interface GetSessionUseCase {

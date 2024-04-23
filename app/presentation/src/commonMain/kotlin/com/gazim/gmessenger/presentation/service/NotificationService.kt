@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.presentation.service
 
-import com.gazim.gmessenger.domain.model.INotificationModel
+import com.gazim.gmessenger.domain.model.Notification
 import com.gazim.gmessenger.domain.usecase.CloseNotificationUseCase
 import com.gazim.gmessenger.domain.usecase.GetNotificationsUseCase
 import com.gazim.gmessenger.domain.usecase.OpenNotificationUseCase
@@ -16,10 +16,10 @@ class NotificationService(
 ) : INotificationService {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
-    private lateinit var notifications: MutableSharedFlow<INotificationModel>
+    private lateinit var notifications: MutableSharedFlow<Notification>
     private var job: Job = Job()
 
-    override fun subscribe(notifications: MutableSharedFlow<INotificationModel>) {
+    override fun subscribe(notifications: MutableSharedFlow<Notification>) {
         this.notifications = notifications
     }
 

@@ -5,15 +5,14 @@ import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import com.gazim.gmessenger.domain.model.IChatModel
 import com.gazim.gmessenger.domain.model.IChatWebSocketModel
-import com.gazim.gmessenger.domain.model.IMessageModel
+import com.gazim.gmessenger.domain.model.IMessage
+import com.gazim.gmessenger.domain.model.SentMessage
 import com.gazim.gmessenger.domain.usecase.GetChatUseCase
 import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
-import com.gazim.gmessenger.presentation.model.SentMessageUI
 import com.gazim.gmessenger.presentation.model.toChatModel
-import com.gazim.gmessenger.presentation.model.toSentMessageUI
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.Channel
@@ -38,7 +37,7 @@ class ChatViewModel(
     private lateinit var pagingSource: MessagePagerSource
     private var followMessage = false
     private val errors = MutableSharedFlow<Throwable>()
-    private val ms = Channel<IMessageModel>(Channel.UNLIMITED)
+    private val ms = Channel<IMessage>(Channel.UNLIMITED)
     override val container: Container<ChatState, ChatSideEffect> = container(ChatState())
 
     override fun handleAction(action: ChatAction) {
@@ -109,7 +108,7 @@ class ChatViewModel(
 
     private suspend fun IntentScope.sendMessage(message: String) {
         runCatching {
-            chatModel.sendMessage(SentMessageUI(message = message).toSentMessageUI())
+            chatModel.sendMessage(SentMessage(message = message))
         }.onFailure(Throwable::printStackTrace)
     }
 

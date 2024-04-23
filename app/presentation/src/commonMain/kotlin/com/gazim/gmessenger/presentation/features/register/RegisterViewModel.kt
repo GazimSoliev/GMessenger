@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.presentation.features.register
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.gazim.gmessenger.domain.model.AccountModel
+import com.gazim.gmessenger.domain.model.RegistrationForm
 import com.gazim.gmessenger.domain.usecase.*
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.register.RegisterAction.*
@@ -78,7 +78,7 @@ class RegisterViewModel(
                     launch {
                         runCatching {
                             onRegisterUseCase(
-                                AccountModel(
+                                RegistrationForm(
                                     nickname = nickname.text,
                                     username = username.text,
                                     login = login.text,

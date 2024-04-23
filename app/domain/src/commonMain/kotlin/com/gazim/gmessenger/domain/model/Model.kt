@@ -3,13 +3,6 @@ package com.gazim.gmessenger.domain.model
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
 
-sealed interface IUserModel {
-    val id: String
-    val nickname: String
-    val username: String
-    val photo: Image?
-}
-
 sealed interface ILoginModel {
     val login: String
 }
@@ -20,23 +13,14 @@ sealed interface IPasswordModel {
 
 sealed interface ILoginPasswordModel : ILoginModel, IPasswordModel
 
-sealed interface ISentMessageModel {
-    val message: String
-}
-
-sealed interface IMessageModel : ISentMessageModel {
+sealed interface IMessage {
     val id: String
+    val message: String
+    val user: User
     val sentAt: LocalDateTime
-    val user: IUserModel
 }
 
-sealed interface INotificationModel
-
-sealed interface INotificationMessageModel : IMessageModel, INotificationModel {
-    val chatName: String
-}
-
-sealed interface IYourMessageModel : IMessageModel
+sealed interface Notification
 
 sealed interface IChatModel {
     val id: String
@@ -44,14 +28,14 @@ sealed interface IChatModel {
 }
 
 sealed interface IPrivateChatModel : IChatModel {
-    val user: IUserModel
+    val user: User
 }
 
 interface IChatWebSocketModel {
     val chatName: String
-    val messages: Flow<IMessageModel>
+    val messages: Flow<IMessage>
 
-    suspend fun sendMessage(msg: ISentMessageModel)
+    suspend fun sendMessage(msg: SentMessage)
 
     suspend fun openConnection()
 
@@ -59,7 +43,7 @@ interface IChatWebSocketModel {
 }
 
 interface INotificationWebSocketModel {
-    val notifications: Flow<INotificationModel>
+    val notifications: Flow<Notification>
 
     suspend fun openConnection()
 

@@ -5,7 +5,7 @@ import app.cash.paging.PagingSourceLoadResultError
 import app.cash.paging.PagingSourceLoadResultPage
 import app.cash.paging.PagingState
 import com.gazim.gmessenger.domain.model.IChatModel
-import com.gazim.gmessenger.domain.model.IMessageModel
+import com.gazim.gmessenger.domain.model.IMessage
 import com.gazim.gmessenger.domain.model.MessagePageKey
 import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.presentation.model.IMessageItemUI
@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 class MessagePagerSource(
     private val chatModel: IChatModel,
     private val getMessages: GetMessagesUseCase,
-    private val ms: Channel<IMessageModel>,
+    private val ms: Channel<IMessage>,
     private val errors: MutableSharedFlow<Throwable>,
 ) : PagingSource<MessagePagerSource.Key, IMessageItemUI>() {
     override fun getRefreshKey(state: PagingState<Key, IMessageItemUI>): Key? = null

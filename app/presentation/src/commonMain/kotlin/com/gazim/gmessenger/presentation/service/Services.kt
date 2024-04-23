@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.presentation.service
 
-import com.gazim.gmessenger.domain.model.INotificationModel
+import com.gazim.gmessenger.domain.model.Notification
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 // todo: Review?
@@ -11,5 +11,5 @@ interface IService {
 }
 
 interface INotificationService : IService {
-    fun subscribe(notifications: MutableSharedFlow<INotificationModel>)
+    fun subscribe(notifications: MutableSharedFlow<Notification>)
 }

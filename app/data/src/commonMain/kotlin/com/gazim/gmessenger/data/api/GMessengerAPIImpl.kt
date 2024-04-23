@@ -2,28 +2,28 @@ package com.gazim.gmessenger.data.api
 
 import com.gazim.gmessenger.api.IGMessengerAPI
 import com.gazim.gmessenger.api.model.IChat
-import com.gazim.gmessenger.api.model.User
 import com.gazim.gmessenger.data.model.toAPI
 import com.gazim.gmessenger.data.model.toChatWebSocketModel
 import com.gazim.gmessenger.data.model.toDomain
 import com.gazim.gmessenger.data.model.toNotificationWebSocketModel
 import com.gazim.gmessenger.domain.api.GMessengerAPI
 import com.gazim.gmessenger.domain.model.*
+import com.gazim.gmessenger.api.model.User as UserAPI
 
 class GMessengerAPIImpl(token: String) : GMessengerAPI {
     private val gMessengerAPI: IGMessengerAPI = com.gazim.gmessenger.api.GMessengerAPI(token)
 
     override suspend fun getChats(): List<IChatModel> = gMessengerAPI.getChats().map(IChat::toDomain)
 
-    override suspend fun filterUsers(query: String): List<IUserModel> = gMessengerAPI.findUser(query).map(User::toDomain)
+    override suspend fun filterUsers(query: String): List<User> = gMessengerAPI.findUser(query).map(UserAPI::toDomain)
 
     override suspend fun getChat(chatModel: IChatModel): IChatWebSocketModel =
         gMessengerAPI.getChatWebSocket(chatModel.toAPI())
             .toChatWebSocketModel((if (chatModel is IPrivateChatModel) chatModel.user.nickname else chatModel.title))
 
-    override suspend fun getMyOwnAccount(): IUserModel = gMessengerAPI.whoAmI().toDomain()
+    override suspend fun getMyOwnAccount(): User = gMessengerAPI.whoAmI().toDomain()
 
-    override suspend fun createChat(user: IUserModel) {
+    override suspend fun createChat(user: User) {
         gMessengerAPI.createChat(user = user.toAPI())
     }
 

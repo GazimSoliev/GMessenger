@@ -6,13 +6,13 @@ import com.gazim.gmessenger.domain.model.*
 class GMessengerServiceImpl(private val gMessengerAPI: GMessengerAPI) : GMessengerService {
     override suspend fun getChats(): List<IChatModel> = gMessengerAPI.getChats()
 
-    override suspend fun filterUsers(query: String): List<IUserModel> = gMessengerAPI.filterUsers(query)
+    override suspend fun filterUsers(query: String): List<User> = gMessengerAPI.filterUsers(query)
 
     override suspend fun getChat(chatModel: IChatModel): IChatWebSocketModel = gMessengerAPI.getChat(chatModel)
 
-    override suspend fun getMyOwnAccount(): IUserModel = gMessengerAPI.getMyOwnAccount()
+    override suspend fun getMyOwnAccount(): User = gMessengerAPI.getMyOwnAccount()
 
-    override suspend fun createChat(user: IUserModel) = gMessengerAPI.createChat(user)
+    override suspend fun createChat(user: User) = gMessengerAPI.createChat(user)
 
     override suspend fun getNotifications(): INotificationWebSocketModel = gMessengerAPI.getNotifications()
 

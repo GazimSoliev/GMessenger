@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.domain.model
 
-class PrivateChatModel(
+class PrivateChat(
     override val id: String,
     override val title: String,
-    override val user: IUserModel,
+    override val user: User,
 ) : IPrivateChatModel
