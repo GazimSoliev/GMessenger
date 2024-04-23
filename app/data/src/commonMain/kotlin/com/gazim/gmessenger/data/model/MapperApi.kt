@@ -2,7 +2,6 @@ package com.gazim.gmessenger.data.model
 
 import com.gazim.gmessenger.api.IChatWebSocket
 import com.gazim.gmessenger.api.INotificationSocket
-import com.gazim.gmessenger.api.model.IChat
 import com.gazim.gmessenger.api.model.MessageForm
 import com.gazim.gmessenger.api.model.MessageNotification
 import com.gazim.gmessenger.domain.model.*
@@ -12,6 +11,7 @@ import com.gazim.gmessenger.domain.model.ProfileForm
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import com.gazim.gmessenger.api.model.Chat as ChatAPI
+import com.gazim.gmessenger.api.model.IChat as IChatAPI
 import com.gazim.gmessenger.api.model.IMessage as IMessageAPI
 import com.gazim.gmessenger.api.model.Image as ImageAPI
 import com.gazim.gmessenger.api.model.MessagePageKey as MessagePageKeyAPI
@@ -42,15 +42,15 @@ fun ImageAPI.toDomain() = Image(id = id, type = type)
 
 fun User.toAPI() = UserAPI(id = id, nickname = nickname, username = username, photo = null)
 
-fun IChat.toDomain() =
+fun IChatAPI.toDomain() =
     if (this is PrivateChatAPI) {
         PrivateChat(id = id, title = title, user = user.toDomain())
     } else {
         Chat(id = id, title = title)
     }
 
-fun IChatModel.toAPI() =
-    if (this is IPrivateChatModel) {
+fun IChat.toAPI() =
+    if (this is PrivateChat) {
         PrivateChatAPI(id = id, title = title, user = user.toAPI())
     } else {
         ChatAPI(id = id, title = title)

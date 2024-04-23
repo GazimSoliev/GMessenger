@@ -20,7 +20,7 @@ fun interface FilterUsersUseCase {
 }
 
 fun interface GetChatsUseCase {
-    suspend operator fun invoke(): List<IChatModel>
+    suspend operator fun invoke(): List<IChat>
 }
 
 fun interface PassAuthUseCase {
@@ -68,12 +68,12 @@ fun interface GetSessionUseCase {
 }
 
 fun interface GetChatUseCase {
-    suspend operator fun invoke(chat: IChatModel): IChatWebSocketModel
+    suspend operator fun invoke(chat: IChat): IChatWebSocketModel
 }
 
 interface GetMessagesUseCase {
     suspend operator fun invoke(
-        chat: IChatModel,
+        chat: IChat,
         key: MessagePageKey?,
     ): MessagePage
 }

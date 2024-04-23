@@ -4,11 +4,11 @@ import com.gazim.gmessenger.domain.api.GMessengerAPI
 import com.gazim.gmessenger.domain.model.*
 
 class GMessengerServiceImpl(private val gMessengerAPI: GMessengerAPI) : GMessengerService {
-    override suspend fun getChats(): List<IChatModel> = gMessengerAPI.getChats()
+    override suspend fun getChats(): List<IChat> = gMessengerAPI.getChats()
 
     override suspend fun filterUsers(query: String): List<User> = gMessengerAPI.filterUsers(query)
 
-    override suspend fun getChat(chatModel: IChatModel): IChatWebSocketModel = gMessengerAPI.getChat(chatModel)
+    override suspend fun getChat(chatModel: IChat): IChatWebSocketModel = gMessengerAPI.getChat(chatModel)
 
     override suspend fun getMyOwnAccount(): User = gMessengerAPI.getMyOwnAccount()
 
@@ -17,7 +17,7 @@ class GMessengerServiceImpl(private val gMessengerAPI: GMessengerAPI) : GMesseng
     override suspend fun getNotifications(): INotificationWebSocketModel = gMessengerAPI.getNotifications()
 
     override suspend fun getMessages(
-        chatModel: IChatModel,
+        chatModel: IChat,
         key: MessagePageKey?,
     ): MessagePage = gMessengerAPI.getMessages(chatModel, key)
 

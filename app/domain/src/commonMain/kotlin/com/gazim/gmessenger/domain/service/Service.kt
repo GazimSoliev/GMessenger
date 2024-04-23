@@ -22,11 +22,11 @@ interface NotificationService {
 }
 
 interface GMessengerService {
-    suspend fun getChats(): List<IChatModel>
+    suspend fun getChats(): List<IChat>
 
     suspend fun filterUsers(query: String): List<User>
 
-    suspend fun getChat(chatModel: IChatModel): IChatWebSocketModel
+    suspend fun getChat(chatModel: IChat): IChatWebSocketModel
 
     suspend fun getMyOwnAccount(): User
 
@@ -35,7 +35,7 @@ interface GMessengerService {
     suspend fun getNotifications(): INotificationWebSocketModel
 
     suspend fun getMessages(
-        chatModel: IChatModel,
+        chatModel: IChat,
         key: MessagePageKey?,
     ): MessagePage
 

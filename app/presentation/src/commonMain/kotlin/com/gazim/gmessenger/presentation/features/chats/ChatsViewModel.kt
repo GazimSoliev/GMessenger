@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.presentation.features.chats
 
-import com.gazim.gmessenger.domain.model.IChatModel
+import com.gazim.gmessenger.domain.model.IChat
 import com.gazim.gmessenger.domain.usecase.GetChatsUseCase
 import com.gazim.gmessenger.domain.usecase.GetSessionUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
@@ -47,7 +47,7 @@ class ChatsViewModel(
         runCatching {
             getChatsUseCase()
         }.onSuccess {
-            reduce { state.copy(list = it.map(IChatModel::toChatUI)) }
+            reduce { state.copy(list = it.map(IChat::toChatUI)) }
         }.onFailure(Throwable::printStackTrace)
     }
 }

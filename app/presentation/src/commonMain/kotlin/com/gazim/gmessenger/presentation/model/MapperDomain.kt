@@ -23,8 +23,8 @@ fun IMessage.toMessageUI(): IFullMessageUI =
 
 fun IMessageUI.toSentMessageUI() = SentMessage(message = message)
 
-fun IChatModel.toChatUI(): IChatUI =
-    if (this is IPrivateChatModel) {
+fun IChat.toChatUI(): IChatUI =
+    if (this is PrivateChat) {
         PrivateChatUI(
             identifier = id,
             title = title,
@@ -45,7 +45,7 @@ fun IChatModel.toChatUI(): IChatUI =
 
 fun IUserUI.toDomain() = User(id = id, nickname = nickname, username = username, null)
 
-fun IChatUI.toChatModel(): IChatModel =
+fun IChatUI.toChatModel(): IChat =
     if (this is IPrivateChatUI) {
         PrivateChat(
             id = identifier,

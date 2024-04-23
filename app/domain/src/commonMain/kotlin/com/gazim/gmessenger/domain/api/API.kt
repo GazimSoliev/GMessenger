@@ -9,11 +9,11 @@ interface GMessengerAuthAPI {
 }
 
 interface GMessengerAPI {
-    suspend fun getChats(): List<IChatModel>
+    suspend fun getChats(): List<IChat>
 
     suspend fun filterUsers(query: String): List<User>
 
-    suspend fun getChat(chatModel: IChatModel): IChatWebSocketModel
+    suspend fun getChat(chatModel: IChat): IChatWebSocketModel
 
     suspend fun getMyOwnAccount(): User
 
@@ -22,7 +22,7 @@ interface GMessengerAPI {
     suspend fun getNotifications(): INotificationWebSocketModel
 
     suspend fun getMessages(
-        chatModel: IChatModel,
+        chatModel: IChat,
         key: MessagePageKey?,
     ): MessagePage
 

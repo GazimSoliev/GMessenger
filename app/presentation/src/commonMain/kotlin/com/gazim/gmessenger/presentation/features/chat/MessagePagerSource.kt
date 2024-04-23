@@ -4,7 +4,7 @@ import app.cash.paging.PagingSource
 import app.cash.paging.PagingSourceLoadResultError
 import app.cash.paging.PagingSourceLoadResultPage
 import app.cash.paging.PagingState
-import com.gazim.gmessenger.domain.model.IChatModel
+import com.gazim.gmessenger.domain.model.IChat
 import com.gazim.gmessenger.domain.model.IMessage
 import com.gazim.gmessenger.domain.model.MessagePageKey
 import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.withContext
 
 class MessagePagerSource(
-    private val chatModel: IChatModel,
+    private val chatModel: IChat,
     private val getMessages: GetMessagesUseCase,
     private val ms: Channel<IMessage>,
     private val errors: MutableSharedFlow<Throwable>,

@@ -3,7 +3,7 @@ package com.gazim.gmessenger.presentation.features.chat
 import androidx.compose.ui.text.input.TextFieldValue
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
-import com.gazim.gmessenger.domain.model.IChatModel
+import com.gazim.gmessenger.domain.model.IChat
 import com.gazim.gmessenger.domain.model.IChatWebSocketModel
 import com.gazim.gmessenger.domain.model.IMessage
 import com.gazim.gmessenger.domain.model.SentMessage
@@ -63,18 +63,18 @@ class ChatViewModel(
         }
     }
 
-    private suspend fun IntentScope.loadChat(chat: IChatModel) {
+    private suspend fun IntentScope.loadChat(chat: IChat) {
         defineValues(chat)
         setPaging(chat)
         launchCollectingMessages()
         openConnection()
     }
 
-    private suspend fun defineValues(chat: IChatModel) {
+    private suspend fun defineValues(chat: IChat) {
         chatModel = getChatUseCase(chat)
     }
 
-    private suspend fun IntentScope.setPaging(chat: IChatModel) {
+    private suspend fun IntentScope.setPaging(chat: IChat) {
         viewModelScope.launch {
             errors.collectLatest { e ->
                 e.printStackTrace()
