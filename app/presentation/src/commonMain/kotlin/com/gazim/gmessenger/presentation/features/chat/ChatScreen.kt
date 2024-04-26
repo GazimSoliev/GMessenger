@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.koin.getScreenModel
 import com.gazim.gmessenger.presentation.common.BaseScreen
-import com.gazim.gmessenger.presentation.component.ChatComponent
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.FollowMessage
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
@@ -33,7 +32,7 @@ class ChatScreen(
 
     @Composable
     override fun Screen() {
-        ChatComponent(
+        ChatComposition(
             modifier = Modifier.fillMaxSize(),
             lazyListState = lazyListState,
             chatTitle = state.chatTitle,

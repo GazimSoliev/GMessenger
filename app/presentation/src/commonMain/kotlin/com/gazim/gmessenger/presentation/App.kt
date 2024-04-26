@@ -5,7 +5,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import com.gazim.gmessenger.domain.usecase.PassAuthUseCase
-import com.gazim.gmessenger.presentation.component.SplashComposition
+import com.gazim.gmessenger.presentation.features.splash.SplashComposition
 import com.gazim.gmessenger.presentation.navigation.Navigation
 import kotlinx.coroutines.delay
 import org.koin.compose.koinInject

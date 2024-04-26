@@ -7,7 +7,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.koin.getScreenModel
 import com.gazim.gmessenger.presentation.common.BaseScreen
-import com.gazim.gmessenger.presentation.component.RegistrationComponent
 import com.gazim.gmessenger.presentation.features.register.RegisterAction.*
 import com.gazim.gmessenger.presentation.features.register.RegisterSideEffect.ToBack
 import com.gazim.gmessenger.presentation.features.register.RegisterSideEffect.UnableConnectToServer
@@ -28,7 +27,7 @@ class RegisterScreen : BaseScreen<RegisterState, RegisterSideEffect, RegisterAct
     @Composable
     override fun Screen() {
         snackBarHostState = remember { SnackbarHostState() }
-        RegistrationComponent(
+        RegistrationComposition(
             modifier = Modifier.fillMaxSize(),
             nickname = state.nickname,
             username = state.username,

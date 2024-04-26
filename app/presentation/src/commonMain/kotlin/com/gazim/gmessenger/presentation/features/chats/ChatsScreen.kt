@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.koin.getScreenModel
 import com.gazim.gmessenger.presentation.common.BaseScreen
-import com.gazim.gmessenger.presentation.component.ChatsComponent
 import com.gazim.gmessenger.presentation.features.chat.ChatScreen
 import com.gazim.gmessenger.presentation.features.chats.ChatsAction.*
 import com.gazim.gmessenger.presentation.features.chats.ChatsSideEffect.*
@@ -36,7 +35,7 @@ class ChatsScreen : BaseScreen<ChatsState, ChatsSideEffect, ChatsAction, ChatsVi
     @Composable
     override fun Screen() {
         koin = getKoin()
-        ChatsComponent(
+        ChatsComposition(
             modifier = Modifier.fillMaxSize(),
             chats = state.list,
             nextToChat = { sendAction(OnItemClick(it)) },

@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.koin.getScreenModel
 import com.gazim.gmessenger.presentation.common.BaseScreen
-import com.gazim.gmessenger.presentation.component.AccountComponent
 import com.gazim.gmessenger.presentation.features.user.UserAction.*
 import com.gazim.gmessenger.presentation.features.user.UserSideEffect.ToBack
 
@@ -21,7 +20,7 @@ class UserScreen : BaseScreen<UserState, UserSideEffect, UserAction, UserViewMod
 
     @Composable
     override fun Screen() {
-        AccountComponent(
+        AccountComposition(
             modifier = Modifier.fillMaxSize(),
             nickname = state.nickname,
             username = state.username,

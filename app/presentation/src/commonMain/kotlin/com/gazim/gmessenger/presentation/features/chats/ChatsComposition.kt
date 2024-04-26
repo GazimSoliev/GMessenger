@@ -1,4 +1,4 @@
-package com.gazim.gmessenger.presentation.component
+package com.gazim.gmessenger.presentation.features.chats
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +15,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.gazim.gmessenger.presentation.component.ChatItem
 import com.gazim.gmessenger.presentation.model.ChatUI
 import com.gazim.gmessenger.presentation.model.IChatUI
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
@@ -25,7 +26,7 @@ import org.jetbrains.compose.resources.stringResource
 // todo: Rename a preview and change a composition
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
-fun ChatsComponent(
+fun ChatsComposition(
     modifier: Modifier = Modifier,
     chats: List<IChatUI>,
     nextToChat: (IChatUI) -> Unit,
@@ -83,8 +84,8 @@ fun ChatsComponent(
 
 @Preview
 @Composable
-fun ChatsComponentPreview() {
-    ChatsComponent(
+fun ChatsCompositionPreview() {
+    ChatsComposition(
         modifier = Modifier.fillMaxSize(),
         List(10) {
             ChatUI(
@@ -106,6 +107,6 @@ fun ChatsComponentPreview() {
 @Composable
 fun ChatsComponentPreviewWithTheme() {
     GMessengerTheme {
-        ChatsComponentPreview()
+        ChatsCompositionPreview()
     }
 }

@@ -1,4 +1,4 @@
-package com.gazim.gmessenger.presentation.component
+package com.gazim.gmessenger.presentation.features.register
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
@@ -22,7 +22,7 @@ import org.jetbrains.compose.resources.stringResource
 // todo: Rename a preview and change a composition
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
-fun RegistrationComponent(
+fun RegistrationComposition(
     modifier: Modifier = Modifier,
     nickname: TextFieldValue,
     username: TextFieldValue,
@@ -170,8 +170,8 @@ fun RegistrationComponent(
 
 @Preview
 @Composable
-fun RegistrationComponentPreview() {
-    RegistrationComponent(
+fun RegistrationCompositionPreview() {
+    RegistrationComposition(
         modifier = Modifier.fillMaxSize(),
         nickname = TextFieldValue(),
         username = TextFieldValue("username"),

@@ -1,4 +1,4 @@
-package com.gazim.gmessenger.presentation.component
+package com.gazim.gmessenger.presentation.features.finduser
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.gazim.gmessenger.presentation.component.UserItem
 import com.gazim.gmessenger.presentation.model.IUserUI
 import com.gazim.gmessenger.presentation.model.UserUI
 import gmessenger.app.presentation.generated.resources.Res
@@ -30,7 +31,7 @@ import org.jetbrains.compose.resources.stringResource
 // todo: Rename a preview and change a composition?
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
-fun FindUserComponent(
+fun FindUserComposition(
     modifier: Modifier = Modifier,
     users: List<IUserUI>,
     query: TextFieldValue,
@@ -81,8 +82,8 @@ fun FindUserComponent(
 
 @Preview
 @Composable
-fun FindUserComponentPreview() {
-    FindUserComponent(
+fun FindUserCompositionPreview() {
+    FindUserComposition(
         modifier = Modifier.fillMaxSize(),
         users =
             List(10) {

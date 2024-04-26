@@ -1,4 +1,4 @@
-package com.gazim.gmessenger.presentation.component
+package com.gazim.gmessenger.presentation.features.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

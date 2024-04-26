@@ -1,4 +1,4 @@
-package com.gazim.gmessenger.presentation.component
+package com.gazim.gmessenger.presentation.features.chat
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.desktop.ui.tooling.preview.Preview
@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import app.cash.paging.PagingData
 import app.cash.paging.compose.collectAsLazyPagingItems
+import com.gazim.gmessenger.presentation.component.MessageItem
 import com.gazim.gmessenger.presentation.model.*
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 import gmessenger.app.presentation.generated.resources.*
@@ -42,7 +43,7 @@ import java.util.*
 // todo: Rename preview and maybe change a composition
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
-fun ChatComponent(
+fun ChatComposition(
     modifier: Modifier = Modifier,
     lazyListState: LazyListState,
     chatTitle: String,
@@ -198,8 +199,8 @@ fun ChatComponent(
 
 @Preview
 @Composable
-fun ChatComponentPreview() {
-    ChatComponent(
+fun ChatCompositionPreview() {
+    ChatComposition(
         modifier = Modifier.fillMaxSize(),
         chatTitle = "Chat",
         lazyListState = rememberLazyListState(),
@@ -228,8 +229,8 @@ fun ChatComponentPreview() {
 
 @Preview
 @Composable
-fun ChatComponentPreviewWithTheme() {
+fun ChatCompositionPreviewWithTheme() {
     GMessengerTheme {
-        ChatComponentPreview()
+        ChatCompositionPreview()
     }
 }

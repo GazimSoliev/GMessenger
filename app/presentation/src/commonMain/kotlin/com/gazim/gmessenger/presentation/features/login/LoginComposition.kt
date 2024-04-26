@@ -1,4 +1,4 @@
-package com.gazim.gmessenger.presentation.component
+package com.gazim.gmessenger.presentation.features.login
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
@@ -21,7 +21,7 @@ import org.jetbrains.compose.resources.stringResource
 // todo: Rename a preview and change a composition
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun LoginComponent(
+fun LoginComposition(
     modifier: Modifier = Modifier,
     login: TextFieldValue,
     password: TextFieldValue,
@@ -122,8 +122,8 @@ fun LoginComponent(
 
 @Preview
 @Composable
-fun LoginComponentPreview() {
-    LoginComponent(
+fun LoginCompositionPreview() {
+    LoginComposition(
         modifier = Modifier.fillMaxSize(),
         login = TextFieldValue("Login"),
         password = TextFieldValue(),

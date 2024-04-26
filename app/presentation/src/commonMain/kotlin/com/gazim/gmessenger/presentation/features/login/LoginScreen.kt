@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.koin.getScreenModel
 import com.gazim.gmessenger.di.AccountScope
 import com.gazim.gmessenger.presentation.common.BaseScreen
-import com.gazim.gmessenger.presentation.component.LoginComponent
 import com.gazim.gmessenger.presentation.features.chats.ChatsScreen
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
@@ -39,7 +38,7 @@ class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginVi
     override fun Screen() {
         koin = getKoin()
         snackBarHostState = remember { SnackbarHostState() }
-        LoginComponent(
+        LoginComposition(
             modifier = Modifier.fillMaxSize(),
             login = state.login,
             password = state.password,

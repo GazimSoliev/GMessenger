@@ -1,4 +1,4 @@
-package com.gazim.gmessenger.presentation.component
+package com.gazim.gmessenger.presentation.features.user
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
@@ -28,7 +28,7 @@ import org.jetbrains.compose.resources.stringResource
 // todo: Change this screen and rename preview
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
-fun AccountComponent(
+fun AccountComposition(
     modifier: Modifier = Modifier,
     imageBitmap: ImageBitmap? = null,
     nickname: String = "",
@@ -149,17 +149,17 @@ fun AccountComponent(
 
 @Preview
 @Composable
-fun AccountComponentPreview() {
+fun AccountCompositionPreview() {
     GMessengerTheme(false) {
-        AccountComponent(nickname = "Steve", username = "@steve123")
+        AccountComposition(nickname = "Steve", username = "@steve123")
     }
 }
 
 @Preview
 @Composable
-fun EditModeAccountComponentPreview() {
+fun EditModeAccountCompositionPreview() {
     GMessengerTheme(false) {
-        AccountComponent(
+        AccountComposition(
             usernameValue = TextFieldValue("Steve"),
             nicknameValue = TextFieldValue("@steve123"),
             editMode = true,
