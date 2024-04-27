@@ -4,11 +4,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.gazim.gmessenger.presentation.common.IAction
 import com.gazim.gmessenger.presentation.common.ISideEffect
 import com.gazim.gmessenger.presentation.common.IState
-import com.gazim.gmessenger.presentation.model.IUserUI
+import com.gazim.gmessenger.presentation.model.UserUI
 
 data class FindUserState(
     val query: TextFieldValue = TextFieldValue(),
-    val users: List<IUserUI> = emptyList(),
+    val users: List<UserUI> = emptyList(),
 ) : IState
 
 sealed interface FindUserSideEffect : ISideEffect {
@@ -18,7 +18,7 @@ sealed interface FindUserSideEffect : ISideEffect {
 sealed interface FindUserAction : IAction {
     data class OnFilterChange(val query: TextFieldValue) : FindUserAction
 
-    data class OnUserClick(val user: IUserUI) : FindUserAction
+    data class OnUserClick(val user: UserUI) : FindUserAction
 
     data object OnBackClick : FindUserAction
 }

@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.presentation.component.UserItem
-import com.gazim.gmessenger.presentation.model.IUserUI
 import com.gazim.gmessenger.presentation.model.UserUI
 import gmessenger.app.presentation.generated.resources.Res
 import gmessenger.app.presentation.generated.resources.back
@@ -33,10 +32,10 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun FindUserComposition(
     modifier: Modifier = Modifier,
-    users: List<IUserUI>,
+    users: List<UserUI>,
     query: TextFieldValue,
     onQueryChange: (TextFieldValue) -> Unit,
-    createChat: (IUserUI) -> Unit,
+    createChat: (UserUI) -> Unit,
     back: () -> Unit,
 ) {
     val strBack = stringResource(Res.string.back)

@@ -160,23 +160,23 @@ fun ChatComposition(
                     count = pagingMessages.itemCount,
                     key = {
                         when (val msg = pagingMessages[it]) {
-                            is IFullMessageUI -> msg.id
+                            is IMessageUI -> msg.id
                             else -> msg.hashCode()
                         }
                     },
                 ) { index ->
                     val msg = pagingMessages[index]
-                    if (msg is IGroupedMessagesDateUI) {
+                    if (msg is GroupedMessagesDateUI) {
                         val groupedDate =
                             rememberSaveable(msg) { dateFormatter.format(msg.date.toJavaLocalDate()) }
                         Text(
                             groupedDate,
                             modifier = Modifier.padding(16.dp),
                         )
-                    } else if (msg is IFullMessageUI) {
+                    } else if (msg is IMessageUI) {
                         Box(Modifier.fillMaxWidth()) {
                             val msgModifier =
-                                if (msg is IYourMessageUI) {
+                                if (msg is YourMessageUI) {
                                     Modifier.align(Alignment.CenterEnd).padding(start = 64.dp)
                                 } else {
                                     Modifier.align(Alignment.CenterStart).padding(end = 64.dp)
@@ -208,7 +208,7 @@ fun ChatCompositionPreview() {
             flowOf(
                 PagingData.from(
                     List(3) {
-                        TheirMessageUI(
+                        MessageUI(
                             id = UUID.randomUUID().toString(),
                             message = "Msg $it",
                             sentAt = LocalDateTime.now().toKotlinLocalDateTime(),

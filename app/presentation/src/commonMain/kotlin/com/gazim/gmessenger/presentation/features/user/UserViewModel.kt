@@ -9,7 +9,6 @@ import com.gazim.gmessenger.domain.usecase.UploadProfilePhotoUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.user.UserAction.*
 import com.gazim.gmessenger.presentation.features.user.UserSideEffect.ToBack
-import com.gazim.gmessenger.presentation.model.IUserUI
 import com.gazim.gmessenger.presentation.model.UserUI
 import com.gazim.gmessenger.presentation.model.toUserUI
 import com.gazim.gmessenger.utils.pickPhoto
@@ -31,7 +30,7 @@ class UserViewModel(
     private val uploadProfilePhotoUseCase: UploadProfilePhotoUseCase,
     private val getImageContentUseCase: GetImageContentUseCase,
 ) : BaseViewModel<UserState, UserSideEffect, UserAction>() {
-    private var user: IUserUI = UserUI()
+    private var user = UserUI()
 
     override val container: Container<UserState, UserSideEffect> =
         container(initialState = UserState()) {

@@ -2,4 +2,5 @@ package com.gazim.gmessenger.presentation.model
 
 import kotlinx.datetime.LocalDate
 
-data class GroupedMessagesDateUI(override val date: LocalDate) : IGroupedMessagesDateUI
+@JvmInline
+value class GroupedMessagesDateUI(val date: LocalDate) : IMessageItemUI
