@@ -6,9 +6,9 @@ import com.gazim.gmessenger.server.domain.model.MessagePageKey
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.service.IMessagingService
 
-class GetMessagesUseCase(
+class GetMessagesUseCaseImpl(
     private val messagingService: IMessagingService,
-) : IGetMessagesUseCase {
+) : GetMessagesUseCase {
     override suspend fun invoke(
         user: User,
         chat: IChat,

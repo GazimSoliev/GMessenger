@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.gazim.gmessenger.api.model.AuthenticationForm
 import com.gazim.gmessenger.api.route.loginRoute
-import com.gazim.gmessenger.server.domain.usecase.ILoginUseCase
+import com.gazim.gmessenger.server.domain.usecase.LoginUseCase
 import com.gazim.gmessenger.server.extensions.toDomain
 import com.gazim.gmessenger.server.plugins.audience
 import com.gazim.gmessenger.server.plugins.claimTokenId
@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 fun Routing.loginRoute() {
-    val loginUseCase by inject<ILoginUseCase>()
+    val loginUseCase by inject<LoginUseCase>()
     post(loginRoute) {
         val loginPassword = call.receive<AuthenticationForm>().toDomain()
         val createAt = LocalDateTime.now()

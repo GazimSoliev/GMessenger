@@ -2,7 +2,7 @@ package com.gazim.gmessenger.server.route
 
 import com.gazim.gmessenger.api.model.RegistrationForm
 import com.gazim.gmessenger.api.route.registrationRoute
-import com.gazim.gmessenger.server.domain.usecase.IRegisterUseCase
+import com.gazim.gmessenger.server.domain.usecase.RegisterUseCase
 import com.gazim.gmessenger.server.extensions.toDomain
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -11,7 +11,7 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Routing.registrationRoute() {
-    val registerUseCase by inject<IRegisterUseCase>()
+    val registerUseCase by inject<RegisterUseCase>()
     post(registrationRoute) {
         val account = call.receive<RegistrationForm>()
         val isSuccessful = registerUseCase(account.toDomain())

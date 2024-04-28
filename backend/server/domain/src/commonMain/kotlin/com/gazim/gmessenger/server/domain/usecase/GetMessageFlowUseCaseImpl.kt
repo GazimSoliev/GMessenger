@@ -6,7 +6,7 @@ import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.service.IMessagingService
 import kotlinx.coroutines.flow.Flow
 
-class GetMessageFlowUseCase(private val messagingService: IMessagingService) : IGetMessageFlowUseCase {
+class GetMessageFlowUseCaseImpl(private val messagingService: IMessagingService) : GetMessageFlowUseCase {
     override suspend fun invoke(
         user: User,
         chat: IChat,

@@ -2,8 +2,8 @@ package com.gazim.gmessenger.server.route
 
 import com.gazim.gmessenger.api.model.MessagePageKey
 import com.gazim.gmessenger.api.route.messagesRoute
-import com.gazim.gmessenger.server.domain.usecase.IGetChatUseCase
-import com.gazim.gmessenger.server.domain.usecase.IGetMessagesUseCase
+import com.gazim.gmessenger.server.domain.usecase.GetChatUseCase
+import com.gazim.gmessenger.server.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.server.extensions.toAPI
 import com.gazim.gmessenger.server.extensions.toDomain
 import io.ktor.server.application.*
@@ -14,8 +14,8 @@ import org.koin.ktor.ext.inject
 import java.util.*
 
 fun Route.messagesRoute() {
-    val getMessagesUseCase by inject<IGetMessagesUseCase>()
-    val getChatUseCase by inject<IGetChatUseCase>()
+    val getMessagesUseCase by inject<GetMessagesUseCase>()
+    val getChatUseCase by inject<GetChatUseCase>()
     post("$messagesRoute/{chatId}") {
         val chatId = call.parameters["chatId"]
         val user = getUser()

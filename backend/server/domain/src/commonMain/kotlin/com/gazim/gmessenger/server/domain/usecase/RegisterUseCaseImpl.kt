@@ -3,8 +3,8 @@ package com.gazim.gmessenger.server.domain.usecase
 import com.gazim.gmessenger.server.domain.model.RegistrationForm
 import com.gazim.gmessenger.server.domain.service.IAuthorizationService
 
-class RegisterUseCase(
+class RegisterUseCaseImpl(
     private val authorizationService: IAuthorizationService,
-) : IRegisterUseCase {
+) : RegisterUseCase {
     override suspend fun invoke(account: RegistrationForm): Boolean = authorizationService.register(account)
 }

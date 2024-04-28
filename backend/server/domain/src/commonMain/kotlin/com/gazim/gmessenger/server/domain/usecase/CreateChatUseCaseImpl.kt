@@ -3,13 +3,12 @@ package com.gazim.gmessenger.server.domain.usecase
 import com.gazim.gmessenger.server.domain.model.IChat
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.service.IChatService
-import java.util.*
 
-class GetChatUseCase(
+class CreateChatUseCaseImpl(
     private val chatService: IChatService,
-) : IGetChatUseCase {
+) : CreateChatUseCase {
     override suspend fun invoke(
-        user: User,
-        chatId: UUID,
-    ): IChat? = chatService.getChat(user, chatId)
+        owner: User,
+        users: List<User>,
+    ): IChat? = chatService.createChat(users + owner)
 }

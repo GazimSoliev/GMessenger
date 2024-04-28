@@ -5,15 +5,15 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 import java.util.*
 
-interface IGetUserUseCase {
+interface GetUserUseCase {
     suspend operator fun invoke(tokenId: UUID): User
 }
 
-interface IGetChatsUseCase {
+interface GetChatsUseCase {
     suspend operator fun invoke(user: User): List<IChat>
 }
 
-interface ISendMessageUseCase {
+interface SendMessageUseCase {
     suspend operator fun invoke(
         user: User,
         chat: IChat,
@@ -21,7 +21,7 @@ interface ISendMessageUseCase {
     )
 }
 
-interface IGetMessageFlowUseCase {
+interface GetMessageFlowUseCase {
     suspend operator fun invoke(
         user: User,
         chat: IChat,
@@ -30,7 +30,7 @@ interface IGetMessageFlowUseCase {
     ): Flow<Message>?
 }
 
-interface ILoginUseCase {
+interface LoginUseCase {
     suspend operator fun invoke(
         loginPassword: AuthenticationForm,
         createdAt: LocalDateTime,
@@ -38,33 +38,33 @@ interface ILoginUseCase {
     ): Token?
 }
 
-interface IRegisterUseCase {
+interface RegisterUseCase {
     suspend operator fun invoke(account: RegistrationForm): Boolean
 }
 
-interface IFindUserUseCase {
+interface FindUserUseCase {
     suspend operator fun invoke(username: String): List<User>
 }
 
-interface IGetChatUseCase {
+interface GetChatUseCase {
     suspend operator fun invoke(
         user: User,
         chatId: UUID,
     ): IChat?
 }
 
-interface ICreateChatUseCase {
+interface CreateChatUseCase {
     suspend operator fun invoke(
         owner: User,
         users: List<User>,
     ): IChat?
 }
 
-interface IGetNotifications {
+interface GetNotifications {
     operator fun invoke(user: User): Flow<Message>
 }
 
-interface IGetMessagesUseCase {
+interface GetMessagesUseCase {
     suspend operator fun invoke(
         user: User,
         chat: IChat,

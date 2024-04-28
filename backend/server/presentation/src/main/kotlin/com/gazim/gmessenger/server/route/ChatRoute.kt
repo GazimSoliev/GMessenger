@@ -2,9 +2,9 @@ package com.gazim.gmessenger.server.route
 
 import com.gazim.gmessenger.api.model.MessageForm
 import com.gazim.gmessenger.api.route.chatRoute
-import com.gazim.gmessenger.server.domain.usecase.IGetChatUseCase
-import com.gazim.gmessenger.server.domain.usecase.IGetMessageFlowUseCase
-import com.gazim.gmessenger.server.domain.usecase.ISendMessageUseCase
+import com.gazim.gmessenger.server.domain.usecase.GetChatUseCase
+import com.gazim.gmessenger.server.domain.usecase.GetMessageFlowUseCase
+import com.gazim.gmessenger.server.domain.usecase.SendMessageUseCase
 import com.gazim.gmessenger.server.extensions.toAPI
 import com.gazim.gmessenger.server.extensions.toDomain
 import io.ktor.server.routing.*
@@ -15,9 +15,9 @@ import org.koin.ktor.ext.inject
 import java.util.*
 
 fun Route.chatRoute() {
-    val sendMessageUseCase by inject<ISendMessageUseCase>()
-    val getMessageFlowUseCase by inject<IGetMessageFlowUseCase>()
-    val getChatUseCase by inject<IGetChatUseCase>()
+    val sendMessageUseCase by inject<SendMessageUseCase>()
+    val getMessageFlowUseCase by inject<GetMessageFlowUseCase>()
+    val getChatUseCase by inject<GetChatUseCase>()
     webSocket("$chatRoute/{id}") {
         val user = getUser()
         val chat =

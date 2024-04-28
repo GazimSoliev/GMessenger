@@ -5,7 +5,7 @@ import com.gazim.gmessenger.server.domain.model.MessageForm
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.service.IMessagingService
 
-class SendMessageUseCase(private val messagingService: IMessagingService) : ISendMessageUseCase {
+class SendMessageUseCaseImpl(private val messagingService: IMessagingService) : SendMessageUseCase {
     override suspend fun invoke(
         user: User,
         chat: IChat,
