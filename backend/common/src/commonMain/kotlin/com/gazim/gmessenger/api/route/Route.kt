@@ -1,14 +1,58 @@
+@file:Suppress("unused")
+
 package com.gazim.gmessenger.api.route
 
-const val chatRoute = "/chat"
-const val chatsRoute = "/chats"
-const val createChatRoute = "/create_chat"
-const val findUserRoute = "/find_user"
-const val loginRoute = "/login"
+import io.ktor.resources.*
+
+@Resource("/chat")
+class ChatRoute {
+    @Resource("{id}")
+    class Id(val id: String, val parent: ChatRoute = ChatRoute())
+}
+
+@Resource("/chats")
+class ChatsRoute
+
+@Resource("/create_chat")
+class CreateChatRoute
+
+@Resource("/find_user")
+class FindUserRoute {
+    @Resource("{query}")
+    class Query(val query: String, val parent: FindUserRoute = FindUserRoute())
+}
+
+@Resource("/login")
+class LoginRoute
+
+@Resource("/notifications")
+class NotificationsRoute
+
 const val notificationRoute = "/notifications"
-const val registrationRoute = "/registration"
-const val userRoute = "/user"
-const val messagesRoute = "/messages"
-const val editProfileRoute = "/edit_profile"
-const val uploadProfilePhotoRoute = "/upload_profile_photo"
-const val imageRoute = "/image"
+
+@Resource("/registration")
+class RegistrationRoute
+
+@Resource("/user")
+class UserRoute
+
+@Resource("/messages")
+class MessagesRoute {
+    @Resource("{chatId}")
+    class ChatId(val chatId: String, val parent: MessagesRoute = MessagesRoute())
+}
+
+@Resource("/edit_profile")
+class EditProfileRoute
+
+@Resource("/upload_profile_photo")
+class UploadProfilePhotoRoute {
+    @Resource("{type}")
+    class Type(val type: String, val parent: UploadProfilePhotoRoute = UploadProfilePhotoRoute())
+}
+
+@Resource("/image")
+class ImageRoute {
+    @Resource("{id}")
+    class Id(val id: String, val parent: ImageRoute = ImageRoute())
+}

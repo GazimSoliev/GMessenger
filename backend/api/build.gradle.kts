@@ -65,6 +65,9 @@ kotlin {
             // WebSockets
             implementation(libs.ktor.client.websockets)
 
+            // Resources
+            implementation(libs.ktor.client.resources)
+
             // Models and Route names
             api(projects.backend.common)
         }

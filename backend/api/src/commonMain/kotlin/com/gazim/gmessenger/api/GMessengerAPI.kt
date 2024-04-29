@@ -5,10 +5,13 @@ import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.api.plugins.configureContentNegotiation
 import com.gazim.gmessenger.api.plugins.configureWebSockets
 import com.gazim.gmessenger.api.route.*
+import com.gazim.gmessenger.extensions.webSocket
 import io.ktor.client.*
 import io.ktor.client.call.*
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.auth.*
 import io.ktor.client.plugins.auth.providers.*
+import io.ktor.client.plugins.resources.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -37,6 +40,10 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
                     }
                 }
             }
+            install(Resources)
+            defaultRequest {
+                url(urlServer)
+            }
         }
 
     private var _userId = ""
@@ -54,11 +61,18 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
 
     companion object : IGMessengerAuthAPI {
         private val httpClient
-            get() = HttpClient { configureContentNegotiation() }
+            get() =
+                HttpClient {
+                    configureContentNegotiation()
+                    install(Resources)
+                    defaultRequest {
+                        url(urlServer)
+                    }
+                }
 
         override suspend fun register(account: RegistrationForm): Boolean =
             httpClient.use {
-                it.post("$urlServer$registrationRoute".also(::println)) {
+                it.post(RegistrationRoute()) {
                     contentType(ContentType.Application.Json)
                     setBody(account)
                 }.status == HttpStatusCode.OK
@@ -66,19 +80,19 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
 
         override suspend fun login(loginPassword: AuthenticationForm): String =
             httpClient.use {
-                httpClient.post("$urlServer$loginRoute".also { println(it) }) {
+                httpClient.post(LoginRoute()) {
                     contentType(ContentType.Application.Json)
                     setBody(loginPassword)
                 }.bodyAsText()
             }
     }
 
-    override suspend fun whoAmI(): User = httpClient.get("$urlServer$userRoute").body()
+    override suspend fun whoAmI(): User = httpClient.get(UserRoute()).body()
 
-    override suspend fun getChats(): List<IChat> = httpClient.get("$urlServer$chatsRoute").body()
+    override suspend fun getChats(): List<IChat> = httpClient.get(ChatsRoute()).body()
 
     override suspend fun createChat(user: User): Boolean =
-        httpClient.post("$urlServer$createChatRoute") {
+        httpClient.post(CreateChatRoute()) {
             contentType(ContentType.Application.Json)
             setBody(user)
         }.status == HttpStatusCode.OK
@@ -93,7 +107,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
 
             override suspend fun openConnection() {
                 coroutineScope {
-                    httpClient.webSocket("$wsServer$chatRoute/${chat.id}") {
+                    httpClient.webSocket(ChatRoute.Id(chat.id)) {
                         println(this.call.request.url)
                         val input =
                             this@coroutineScope.launch {
@@ -121,7 +135,12 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             }
         }
 
-    override suspend fun findUser(username: String): List<User> = httpClient.get("$urlServer$findUserRoute?filter=$username").body()
+    override suspend fun findUser(username: String): List<User> =
+        if (username.isBlank()) {
+            emptyList()
+        } else {
+            httpClient.get(FindUserRoute.Query(username)).body()
+        }
 
     override suspend fun getNotifications(): INotificationSocket =
         object : INotificationSocket {
@@ -155,7 +174,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
         key: MessagePageKey?,
     ): MyMessagePage {
         val page =
-            httpClient.post("$urlServer$messagesRoute/${chat.id}") {
+            httpClient.post(MessagesRoute.ChatId(chat.id)) {
                 contentType(ContentType.Application.Json)
                 setBody(key)
             }.body<MessagePage>()
@@ -163,7 +182,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
     }
 
     override suspend fun editProfile(profileForm: ProfileForm) {
-        httpClient.post("$urlServer$editProfileRoute") {
+        httpClient.post(EditProfileRoute()) {
             contentType(ContentType.Application.Json)
             setBody(profileForm)
         }
@@ -173,12 +192,11 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
         type: String,
         bytes: ByteArray,
     ): Image =
-        httpClient.post("$urlServer$uploadProfilePhotoRoute/$type") {
+        httpClient.post(UploadProfilePhotoRoute.Type(type)) {
             setBody(bytes)
         }.body()
 
-    override suspend fun getImageContent(photoId: String): ByteArray =
-        httpClient.get("$urlServer$imageRoute/$photoId").bodyAsChannel().toByteArray()
+    override suspend fun getImageContent(photoId: String): ByteArray = httpClient.get(ImageRoute.Id(photoId)).bodyAsChannel().toByteArray()
 
     override fun close() = httpClient.close()
 }

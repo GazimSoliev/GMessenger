@@ -1,12 +1,13 @@
 package com.gazim.gmessenger.server.route
 
 import com.gazim.gmessenger.api.model.MessageForm
-import com.gazim.gmessenger.api.route.chatRoute
+import com.gazim.gmessenger.api.route.ChatRoute
 import com.gazim.gmessenger.server.domain.usecase.GetChatUseCase
 import com.gazim.gmessenger.server.domain.usecase.GetMessageFlowUseCase
 import com.gazim.gmessenger.server.domain.usecase.SendMessageUseCase
 import com.gazim.gmessenger.server.extensions.toAPI
 import com.gazim.gmessenger.server.extensions.toDomain
+import com.gazim.gmessenger.server.extensions.webSocket
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import kotlinx.coroutines.Dispatchers
@@ -18,10 +19,10 @@ fun Route.chatRoute() {
     val sendMessageUseCase by inject<SendMessageUseCase>()
     val getMessageFlowUseCase by inject<GetMessageFlowUseCase>()
     val getChatUseCase by inject<GetChatUseCase>()
-    webSocket("$chatRoute/{id}") {
+    webSocket<ChatRoute.Id> { params ->
         val user = getUser()
         val chat =
-            call.parameters["id"]?.let { getChatUseCase(user, UUID.fromString(it)) }
+            getChatUseCase(user, UUID.fromString(params.id))
                 ?: return@webSocket println("Can't find chat")
         launch(Dispatchers.IO) {
             getMessageFlowUseCase(user, chat)

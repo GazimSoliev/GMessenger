@@ -22,6 +22,9 @@ dependencies {
     // WebSockets
     implementation(libs.ktor.server.websockets)
 
+    // Resources
+    implementation(libs.ktor.server.resources)
+
     // Koin
     implementation(libs.koin.ktor)
     implementation(libs.koin.logger)

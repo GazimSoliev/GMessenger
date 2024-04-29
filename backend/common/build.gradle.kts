@@ -24,6 +24,9 @@ kotlin {
 
             // Kotlin LocalDateTime
             implementation(libs.kotlinx.datetime)
+
+            // Resources
+            implementation(libs.ktor.resources)
         }
     }
 }
