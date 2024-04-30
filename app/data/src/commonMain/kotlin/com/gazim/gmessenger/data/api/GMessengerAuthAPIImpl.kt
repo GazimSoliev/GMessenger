@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.gazim.gmessenger.data.api
 
 import com.gazim.gmessenger.api.model.AuthenticationForm

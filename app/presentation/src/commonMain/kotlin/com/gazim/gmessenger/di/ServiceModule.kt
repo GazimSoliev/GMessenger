@@ -10,6 +10,7 @@ val serviceModule =
     module {
         singleOf(::SessionServiceImpl) bind SessionService::class
         singleOf(::GMessengerAuthServiceImpl) bind GMessengerAuthService::class
+        singleOf(::GMessengerConnectionServiceImpl) bind GMessengerConnectionService::class
         factory<GMessengerService> { getCurrentAccountScope().get() }
     }
 

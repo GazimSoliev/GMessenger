@@ -2,6 +2,7 @@ package com.gazim.gmessenger.domain.usecase
 
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
+import kotlin.time.Duration
 
 fun interface OnLogInUseCase {
     suspend operator fun invoke(loginPassword: AuthenticationForm): Boolean
@@ -91,4 +92,12 @@ interface UploadProfilePhotoUseCase {
 
 interface GetImageContentUseCase {
     suspend operator fun invoke(photoId: String): ByteArray
+}
+
+interface GetAvailableServersUseCase {
+    suspend operator fun invoke(): List<GMessengerServer>
+}
+
+interface PingUseCase {
+    suspend operator fun invoke(url: String): Duration
 }

@@ -2,6 +2,7 @@ package com.gazim.gmessenger.domain.service
 
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
+import kotlin.time.Duration
 
 interface SessionService {
     fun currentToken(): String?
@@ -53,4 +54,10 @@ interface GMessengerAuthService {
     suspend fun register(registrationForm: RegistrationForm): Boolean
 
     suspend fun login(loginPasswordModel: AuthenticationForm): String?
+}
+
+interface GMessengerConnectionService {
+    val availableServers: List<GMessengerServer>
+
+    suspend fun ping(url: String): Duration
 }

@@ -1,6 +1,7 @@
 package com.gazim.gmessenger.domain.api
 
 import com.gazim.gmessenger.domain.model.*
+import kotlin.time.Duration
 
 interface GMessengerAuthAPI {
     suspend fun register(registrationForm: RegistrationForm): Boolean
@@ -34,4 +35,10 @@ interface GMessengerAPI {
     ): Image
 
     suspend fun getImageContent(photoId: String): ByteArray
+}
+
+interface GMessengerConnectionAPI {
+    val availableServers: List<GMessengerServer>
+
+    suspend fun ping(url: String): Duration
 }

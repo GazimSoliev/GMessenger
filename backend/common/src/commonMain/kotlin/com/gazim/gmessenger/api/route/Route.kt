@@ -56,3 +56,6 @@ class ImageRoute {
     @Resource("{id}")
     class Id(val id: String, val parent: ImageRoute = ImageRoute())
 }
+
+@Resource("/ping")
+class PingRoute
