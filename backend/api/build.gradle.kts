@@ -38,14 +38,12 @@ kotlin {
     jvm()
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.ktor.client.okhttp)
-        }
         jvmMain.dependencies {
-            implementation(libs.ktor.client.okhttp)
             implementation(libs.logback)
         }
         commonMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
+
             // Ktor Client
             implementation(libs.ktor.client.core)
 

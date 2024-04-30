@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.data.model
 
-import com.gazim.gmessenger.api.IChatWebSocket
-import com.gazim.gmessenger.api.INotificationSocket
+import com.gazim.gmessenger.api.ChatWebSocket
+import com.gazim.gmessenger.api.NotificationSocket
 import com.gazim.gmessenger.api.model.MessageForm
 import com.gazim.gmessenger.api.model.MessageNotification
 import com.gazim.gmessenger.domain.model.*
@@ -83,7 +83,7 @@ fun ProfileForm.toAPI() =
 
 fun SentMessage.toAPI() = MessageForm(message = message)
 
-fun IChatWebSocket.toChatWebSocketModel(chatName: String) =
+fun ChatWebSocket.toChatWebSocketModel(chatName: String) =
     object : IChatWebSocketModel {
         override val chatName: String = chatName
 
@@ -97,7 +97,7 @@ fun IChatWebSocket.toChatWebSocketModel(chatName: String) =
         override fun close() = this@toChatWebSocketModel.close()
     }
 
-fun INotificationSocket.toNotificationWebSocketModel() =
+fun NotificationSocket.toNotificationWebSocketModel() =
     object : INotificationWebSocketModel {
         override val notifications: Flow<Notification> =
             this@toNotificationWebSocketModel.notifications.map(

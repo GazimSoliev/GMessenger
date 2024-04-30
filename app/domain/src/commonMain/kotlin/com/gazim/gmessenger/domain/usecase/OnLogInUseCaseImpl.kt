@@ -10,7 +10,7 @@ class OnLogInUseCaseImpl(
 ) : OnLogInUseCase {
     override suspend fun invoke(loginPassword: AuthenticationForm): Boolean {
         val token = gMessengerAuthRepository.login(loginPassword)
-        if (token == "null" || token.isEmpty()) return false
+        if (token == null || token == "null" || token.isEmpty()) return false
         sessionService.setSession(token)
         return true
     }

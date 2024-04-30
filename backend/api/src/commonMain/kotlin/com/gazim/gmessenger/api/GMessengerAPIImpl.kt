@@ -1,11 +1,11 @@
 package com.gazim.gmessenger.api
 
 import com.gazim.gmessenger.api.extensions.configureEngine
+import com.gazim.gmessenger.api.extensions.webSocket
 import com.gazim.gmessenger.api.model.*
 import com.gazim.gmessenger.api.plugins.configureContentNegotiation
 import com.gazim.gmessenger.api.plugins.configureWebSockets
 import com.gazim.gmessenger.api.route.*
-import com.gazim.gmessenger.extensions.webSocket
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -24,10 +24,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.sync.Mutex
 import java.io.Closeable
-import kotlin.io.println
-import kotlin.use
 
-class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
+class GMessengerAPIImpl(token: String) : GMessengerAPI, Closeable {
     private val httpClient: HttpClient =
         HttpClient {
             configureEngine()
@@ -59,34 +57,6 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
         return _userId
     }
 
-    companion object : IGMessengerAuthAPI {
-        private val httpClient
-            get() =
-                HttpClient {
-                    configureContentNegotiation()
-                    install(Resources)
-                    defaultRequest {
-                        url(urlServer)
-                    }
-                }
-
-        override suspend fun register(account: RegistrationForm): Boolean =
-            httpClient.use {
-                it.post(RegistrationRoute()) {
-                    contentType(ContentType.Application.Json)
-                    setBody(account)
-                }.status == HttpStatusCode.OK
-            }
-
-        override suspend fun login(loginPassword: AuthenticationForm): String =
-            httpClient.use {
-                httpClient.post(LoginRoute()) {
-                    contentType(ContentType.Application.Json)
-                    setBody(loginPassword)
-                }.bodyAsText()
-            }
-    }
-
     override suspend fun whoAmI(): User = httpClient.get(UserRoute()).body()
 
     override suspend fun getChats(): List<IChat> = httpClient.get(ChatsRoute()).body()
@@ -97,8 +67,8 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             setBody(user)
         }.status == HttpStatusCode.OK
 
-    override fun getChatWebSocket(chat: IChat): IChatWebSocket =
-        object : IChatWebSocket {
+    override fun getChatWebSocket(chat: IChat): ChatWebSocket =
+        object : ChatWebSocket {
             val getter = MutableSharedFlow<IMessage>()
             val setter = MutableSharedFlow<MessageForm>()
             var output: Job? = null
@@ -142,8 +112,8 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
             httpClient.get(FindUserRoute.Query(username)).body()
         }
 
-    override suspend fun getNotifications(): INotificationSocket =
-        object : INotificationSocket {
+    override suspend fun getNotifications(): NotificationSocket =
+        object : NotificationSocket {
             private val _notifications = MutableSharedFlow<MessageNotification>()
             private var job: Job? = null
 
@@ -153,7 +123,7 @@ class GMessengerAPI(token: String) : IGMessengerAPI, Closeable {
                 coroutineScope {
                     job =
                         launch(Dispatchers.IO) {
-                            httpClient.wss(host = ipServer, path = notificationRoute) {
+                            httpClient.webSocket(NotificationsRoute) {
                                 withContext(Dispatchers.IO) {
                                     for (frame in incoming) {
                                         val notification =

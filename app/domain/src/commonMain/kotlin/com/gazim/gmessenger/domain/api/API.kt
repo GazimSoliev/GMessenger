@@ -5,7 +5,7 @@ import com.gazim.gmessenger.domain.model.*
 interface GMessengerAuthAPI {
     suspend fun register(registrationForm: RegistrationForm): Boolean
 
-    suspend fun login(loginPasswordModel: AuthenticationForm): String
+    suspend fun login(loginPasswordModel: AuthenticationForm): String?
 }
 
 interface GMessengerAPI {

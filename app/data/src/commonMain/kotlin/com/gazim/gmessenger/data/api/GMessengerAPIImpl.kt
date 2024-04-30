@@ -1,6 +1,7 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.gazim.gmessenger.data.api
 
-import com.gazim.gmessenger.api.IGMessengerAPI
 import com.gazim.gmessenger.api.model.IChat
 import com.gazim.gmessenger.data.model.toAPI
 import com.gazim.gmessenger.data.model.toChatWebSocketModel
@@ -8,10 +9,11 @@ import com.gazim.gmessenger.data.model.toDomain
 import com.gazim.gmessenger.data.model.toNotificationWebSocketModel
 import com.gazim.gmessenger.domain.api.GMessengerAPI
 import com.gazim.gmessenger.domain.model.*
+import com.gazim.gmessenger.api.GMessengerAPI as GMAPI
 import com.gazim.gmessenger.api.model.User as UserAPI
 
 class GMessengerAPIImpl(token: String) : GMessengerAPI {
-    private val gMessengerAPI: IGMessengerAPI = com.gazim.gmessenger.api.GMessengerAPI(token)
+    private val gMessengerAPI = GMAPI(token)
 
     override suspend fun getChats(): List<com.gazim.gmessenger.domain.model.IChat> = gMessengerAPI.getChats().map(IChat::toDomain)
 

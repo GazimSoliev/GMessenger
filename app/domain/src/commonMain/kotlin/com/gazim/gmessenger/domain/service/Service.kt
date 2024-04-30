@@ -52,5 +52,5 @@ interface GMessengerService {
 interface GMessengerAuthService {
     suspend fun register(registrationForm: RegistrationForm): Boolean
 
-    suspend fun login(loginPasswordModel: AuthenticationForm): String
+    suspend fun login(loginPasswordModel: AuthenticationForm): String?
 }

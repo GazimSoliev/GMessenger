@@ -4,18 +4,18 @@ import com.gazim.gmessenger.api.model.*
 import kotlinx.coroutines.flow.Flow
 import java.io.Closeable
 
-interface IGMessengerAPI {
+interface GMessengerAPI {
     suspend fun whoAmI(): User
 
     suspend fun getChats(): List<IChat>
 
     suspend fun createChat(user: User): Boolean
 
-    fun getChatWebSocket(chat: IChat): IChatWebSocket
+    fun getChatWebSocket(chat: IChat): ChatWebSocket
 
     suspend fun findUser(username: String): List<User>
 
-    suspend fun getNotifications(): INotificationSocket
+    suspend fun getNotifications(): NotificationSocket
 
     suspend fun getMessages(
         chat: IChat,
@@ -32,13 +32,13 @@ interface IGMessengerAPI {
     suspend fun getImageContent(photoId: String): ByteArray
 }
 
-interface IGMessengerAuthAPI {
+interface GMessengerAuthAPI {
     suspend fun register(account: RegistrationForm): Boolean
 
     suspend fun login(loginPassword: AuthenticationForm): String?
 }
 
-interface IChatWebSocket : Closeable {
+interface ChatWebSocket : Closeable {
     val messages: Flow<IMessage>
 
     suspend fun openConnection()
@@ -46,7 +46,7 @@ interface IChatWebSocket : Closeable {
     suspend fun sendMessage(message: MessageForm)
 }
 
-interface INotificationSocket {
+interface NotificationSocket {
     val notifications: Flow<MessageNotification>
 
     suspend fun openConnection()
