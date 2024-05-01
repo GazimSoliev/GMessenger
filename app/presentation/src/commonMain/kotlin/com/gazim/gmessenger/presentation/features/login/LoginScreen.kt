@@ -52,6 +52,10 @@ class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginVi
             snackbarHostState = snackBarHostState,
             loggingInProgress = state.loggingInProgress,
             cancel = { sendAction(CancelLoggingIn) },
+            dialogIsOpened = state.dialogIsOpened,
+            servers = state.servers,
+            showDialog = { sendAction(OpenDialog) },
+            cancelDialog = { sendAction(CloseDialog) }
         )
     }
 }

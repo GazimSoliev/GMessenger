@@ -28,7 +28,8 @@
     <string name="logging_in">Logging in</string>
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
-    <string name="reconect_in">Reconnect in</string>
+    <string name="reconnect_in">Reconnect in</string>
     <string name="edit_account">Edit account</string>
     <string name="edit">Edit</string>
+    <string name="select_server">Select server</string>
 </resources>

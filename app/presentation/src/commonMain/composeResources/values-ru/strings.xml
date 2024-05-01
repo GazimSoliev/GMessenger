@@ -5,10 +5,10 @@
     <string name="create_account">Создать аккаунт</string>
     <string name="back">Назад</string>
     <string name="ok">ОК</string>
-    <string name="nickname">Пвседоним</string>
+    <string name="nickname">Псевдоним</string>
     <string name="username">Имя пользователя</string>
     <string name="registration">Регистрация</string>
-    <string name="register">Зарегестрировать</string>
+    <string name="register">Зарегистрировать</string>
     <string name="help">Помощь?</string>
     <string name="requirements">Требования</string>
     <string name="requirements_details">Разрешенный псевдоним: длина символов 0–64, любые символы.\n\nРазрешенное имя пользователя: длина символов 4–32, цифры и латинские символы.\n\nРазрешенный вход: длина символов 8–32, цифры и латинские символы.\n\nРазрешенный пароль: 8–128 длина символов, цифры, латинские символы и специальные символы. Также требуется пароль хотя: 1 верхний регистр, 1 нижний регистр, 1 число, 1 специальный символ и энтропия.</string>
@@ -27,7 +27,8 @@
     <string name="logging_in">Вход</string>
     <string name="cancel">Отмена</string>
     <string name="done">Готово</string>
-    <string name="reconect_in">Переподключение через</string>
+    <string name="reconnect_in">Переподключение через</string>
     <string name="edit_account">Редактировать аккаунт</string>
     <string name="edit">Редактировать</string>
+    <string name="select_server">Выбрать сервер</string>
 </resources>

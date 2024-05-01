@@ -56,3 +56,5 @@ fun IChatUI.toChatModel(): IChat =
             title = title,
         )
     }
+
+fun GMessengerServer.toUI(ping: Long) = ServerInfoUI(server = title, url = url, ping = ping.toString())

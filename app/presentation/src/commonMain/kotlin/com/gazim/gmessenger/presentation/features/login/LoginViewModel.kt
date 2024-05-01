@@ -1,17 +1,22 @@
 package com.gazim.gmessenger.presentation.features.login
 
 import com.gazim.gmessenger.domain.model.AuthenticationForm
+import com.gazim.gmessenger.domain.model.GMessengerServer
+import com.gazim.gmessenger.domain.usecase.GetAvailableServersUseCase
 import com.gazim.gmessenger.domain.usecase.GetSessionUseCaseImpl
 import com.gazim.gmessenger.domain.usecase.OnLogInUseCase
+import com.gazim.gmessenger.domain.usecase.PingUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
+import com.gazim.gmessenger.presentation.model.toUI
 import kotlinx.coroutines.*
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
+import kotlin.time.DurationUnit
 
 private typealias IntentScope = SimpleSyntax<LoginState, LoginSideEffect>
 
@@ -19,11 +24,15 @@ private typealias IntentScope = SimpleSyntax<LoginState, LoginSideEffect>
 class LoginViewModel(
     private val onLogInUseCase: OnLogInUseCase,
     private val getSessionUseCase: GetSessionUseCaseImpl,
+    private val getAvailableServersUseCase: GetAvailableServersUseCase,
+    private val pingUseCase: PingUseCase
 ) : BaseViewModel<LoginState, LoginSideEffect, LoginAction>() {
     //    private val notificationService: INotificationService by inject(INotificationService::class.java)
     override val container: Container<LoginState, LoginSideEffect> = container(initialState = LoginState())
 
     private var loggingJob: Job = Job()
+    private var pingJob: Job? = null
+    private var availableServers: List<GMessengerServer> = emptyList()
 
     override fun handleAction(action: LoginAction) {
         intent {
@@ -45,6 +54,42 @@ class LoginViewModel(
                     }
 
                 is CancelLoggingIn -> loggingJob.cancel()
+                is CloseDialog -> closeDialog()
+                is OpenDialog -> openDialog()
+            }
+        }
+    }
+
+    private suspend fun IntentScope.closeDialog() {
+        reduce { state.copy(dialogIsOpened = false) }
+        pingJob?.cancelAndJoin()
+    }
+
+    private suspend fun IntentScope.openDialog() {
+        reduce { state.copy(dialogIsOpened = true) }
+        pingJob = viewModelScope.launch {
+            availableServers = getAvailableServersUseCase()
+            println(availableServers)
+            reduce { state.copy(servers = availableServers.map { it.toUI(0) }) }
+            availableServers.forEachIndexed { index, server ->
+                launch {
+                    while (true) {
+                        runCatching {
+                            pingUseCase(server.url).toLong(DurationUnit.MILLISECONDS)
+                        }.onSuccess { ping ->
+                            reduce {
+                                state.copy(servers = availableServers.mapIndexed { i, s ->
+                                    s.toUI(
+                                        if (i == index) ping
+                                        else 0
+                                    )
+                                })
+                            }
+                        }
+//                            .onFailure(Throwable::printStackTrace)
+                        delay(5_000)
+                    }
+                }
             }
         }
     }

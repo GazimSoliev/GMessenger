@@ -2,6 +2,8 @@ package com.gazim.gmessenger.presentation.features.login
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
@@ -14,6 +16,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import com.gazim.gmessenger.presentation.component.ServerItem
+import com.gazim.gmessenger.presentation.model.ServerInfoUI
 import gmessenger.app.presentation.generated.resources.*
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
@@ -35,6 +40,10 @@ fun LoginComposition(
     cancel: () -> Unit,
     snackbarHostState: SnackbarHostState,
     loggingInProgress: Boolean,
+    servers: List<ServerInfoUI> = emptyList(),
+    dialogIsOpened: Boolean = false,
+    cancelDialog: () -> Unit = {},
+    showDialog: () -> Unit = {}
 ) {
     val strAppName = stringResource(Res.string.app_name)
     val strLogin = stringResource(Res.string.login)
@@ -44,6 +53,7 @@ fun LoginComposition(
     val strCreateAccount = stringResource(Res.string.create_account)
     val strShowPassword = stringResource(Res.string.show_password)
     val strHidePassword = stringResource(Res.string.hide_password)
+    val strSelectServer = stringResource(Res.string.select_server)
     Surface {
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -113,6 +123,27 @@ fun LoginComposition(
                         enabled = !loggingInProgress,
                     ) {
                         Text(strCreateAccount)
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    TextButton(
+                        onClick = showDialog,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !loggingInProgress,
+                    ) {
+                        Text(strSelectServer)
+                    }
+                }
+            }
+        }
+        if (dialogIsOpened) {
+            Dialog(
+                onDismissRequest = cancelDialog
+            ) {
+                Surface {
+                    LazyColumn(Modifier.size(256.dp)) {
+                        items(servers) {
+                            ServerItem(server = it.server, url = it.url, ping = it.ping, modifier = Modifier.fillMaxWidth())
+                        }
                     }
                 }
             }
