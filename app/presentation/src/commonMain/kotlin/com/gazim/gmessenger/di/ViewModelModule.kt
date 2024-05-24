@@ -6,6 +6,7 @@ import com.gazim.gmessenger.presentation.features.finduser.FindUserViewModel
 import com.gazim.gmessenger.presentation.features.login.LoginViewModel
 import com.gazim.gmessenger.presentation.features.register.RegisterViewModel
 import com.gazim.gmessenger.presentation.features.user.UserViewModel
+import com.gazim.gmessenger.presentation.features.selectserver.SelectServerViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
@@ -18,4 +19,5 @@ val viewModelModule: Module =
         factoryOf(::FindUserViewModel)
         factoryOf(::ChatViewModel)
         factoryOf(::UserViewModel)
+        factoryOf(::SelectServerViewModel)
     }

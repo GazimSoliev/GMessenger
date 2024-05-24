@@ -12,12 +12,19 @@ import com.gazim.gmessenger.presentation.features.chats.ChatsScreen
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
 import com.gazim.gmessenger.presentation.features.register.RegisterScreen
+import com.gazim.gmessenger.presentation.features.selectserver.SelectServerScreen
+import gmessenger.app.presentation.generated.resources.Res
+import gmessenger.app.presentation.generated.resources.unable_connect_to_server
+import gmessenger.app.presentation.generated.resources.wrong_password_or_login
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.getKoin
 import org.koin.core.Koin
 
 class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginViewModel>() {
     private lateinit var snackBarHostState: SnackbarHostState
     private lateinit var koin: Koin
+    private lateinit var strUnableConnectToServer: String
+    private lateinit var strWrongLoginOrPassword: String
 
     override suspend fun handleSideEffect(sideEffect: LoginSideEffect) {
         when (sideEffect) {
@@ -26,8 +33,9 @@ class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginVi
                 navigator.replace(ChatsScreen())
             }
             is ToRegisterScreen -> navigator.push(RegisterScreen())
-            is UnableConnectToServer -> snackBarHostState.showSnackbar("Unable connect to server")
-            is WrongLoginOrPassword -> snackBarHostState.showSnackbar("Wrong login or password")
+            is UnableConnectToServer -> snackBarHostState.showSnackbar(strUnableConnectToServer)
+            is WrongLoginOrPassword -> snackBarHostState.showSnackbar(strWrongLoginOrPassword)
+            is ToSelectServerScreen -> navigator.push(SelectServerScreen())
         }
     }
 
@@ -36,6 +44,8 @@ class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginVi
 
     @Composable
     override fun Screen() {
+        strUnableConnectToServer = stringResource(Res.string.unable_connect_to_server)
+        strWrongLoginOrPassword = stringResource(Res.string.wrong_password_or_login)
         koin = getKoin()
         snackBarHostState = remember { SnackbarHostState() }
         LoginComposition(
@@ -52,10 +62,7 @@ class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginVi
             snackbarHostState = snackBarHostState,
             loggingInProgress = state.loggingInProgress,
             cancel = { sendAction(CancelLoggingIn) },
-            dialogIsOpened = state.dialogIsOpened,
-            servers = state.servers,
-            showDialog = { sendAction(OpenDialog) },
-            cancelDialog = { sendAction(CloseDialog) }
+            onSelectServerClick = { sendAction(OpenDialog) },
         )
     }
 }

@@ -20,11 +20,10 @@ import com.gazim.gmessenger.presentation.model.ChatUI
 import com.gazim.gmessenger.presentation.model.IChatUI
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 import gmessenger.app.presentation.generated.resources.*
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
 // todo: Rename a preview and change a composition
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatsComposition(
     modifier: Modifier = Modifier,

@@ -9,14 +9,12 @@ import com.gazim.gmessenger.domain.usecase.PingUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
-import com.gazim.gmessenger.presentation.model.toUI
 import kotlinx.coroutines.*
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import kotlin.time.DurationUnit
 
 private typealias IntentScope = SimpleSyntax<LoginState, LoginSideEffect>
 
@@ -54,42 +52,7 @@ class LoginViewModel(
                     }
 
                 is CancelLoggingIn -> loggingJob.cancel()
-                is CloseDialog -> closeDialog()
-                is OpenDialog -> openDialog()
-            }
-        }
-    }
-
-    private suspend fun IntentScope.closeDialog() {
-        reduce { state.copy(dialogIsOpened = false) }
-        pingJob?.cancelAndJoin()
-    }
-
-    private suspend fun IntentScope.openDialog() {
-        reduce { state.copy(dialogIsOpened = true) }
-        pingJob = viewModelScope.launch {
-            availableServers = getAvailableServersUseCase()
-            println(availableServers)
-            reduce { state.copy(servers = availableServers.map { it.toUI(0) }) }
-            availableServers.forEachIndexed { index, server ->
-                launch {
-                    while (true) {
-                        runCatching {
-                            pingUseCase(server.url).toLong(DurationUnit.MILLISECONDS)
-                        }.onSuccess { ping ->
-                            reduce {
-                                state.copy(servers = availableServers.mapIndexed { i, s ->
-                                    s.toUI(
-                                        if (i == index) ping
-                                        else 0
-                                    )
-                                })
-                            }
-                        }
-//                            .onFailure(Throwable::printStackTrace)
-                        delay(5_000)
-                    }
-                }
+                is OpenDialog -> postSideEffect(ToSelectServerScreen)
             }
         }
     }

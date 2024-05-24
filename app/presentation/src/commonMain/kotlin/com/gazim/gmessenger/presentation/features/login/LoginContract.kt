@@ -4,7 +4,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.gazim.gmessenger.presentation.common.IAction
 import com.gazim.gmessenger.presentation.common.ISideEffect
 import com.gazim.gmessenger.presentation.common.IState
-import com.gazim.gmessenger.presentation.model.ServerInfoUI
 
 data class LoginState(
     val login: TextFieldValue = TextFieldValue(),
@@ -13,8 +12,6 @@ data class LoginState(
     val showPasswordVisibilityButton: Boolean = false,
     val isError: Boolean = false,
     val loggingInProgress: Boolean = false,
-    val servers: List<ServerInfoUI> = emptyList(),
-    val dialogIsOpened: Boolean = false,
 ) : IState
 
 sealed interface LoginSideEffect : ISideEffect {
@@ -25,6 +22,8 @@ sealed interface LoginSideEffect : ISideEffect {
     data object UnableConnectToServer : LoginSideEffect
 
     data object WrongLoginOrPassword : LoginSideEffect
+
+    data object ToSelectServerScreen : LoginSideEffect
 }
 
 sealed interface LoginAction : IAction {
@@ -39,8 +38,6 @@ sealed interface LoginAction : IAction {
     data object OnPasswordVisibilityClick : LoginAction
 
     data object CancelLoggingIn : LoginAction
-
-    data object CloseDialog : LoginAction
 
     data object OpenDialog : LoginAction
 }

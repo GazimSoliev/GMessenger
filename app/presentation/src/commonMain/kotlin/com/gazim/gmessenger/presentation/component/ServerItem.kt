@@ -23,7 +23,7 @@ fun ServerItem(
             Text(url)
         }
         Spacer(Modifier.weight(1f))
-        Text("$ping ms")
+        Text(ping)
     }
 }
 
