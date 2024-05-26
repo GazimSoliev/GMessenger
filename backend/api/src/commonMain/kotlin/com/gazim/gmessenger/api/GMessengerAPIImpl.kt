@@ -25,7 +25,10 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.sync.Mutex
 import java.io.Closeable
 
-class GMessengerAPIImpl(token: String) : GMessengerAPI, Closeable {
+class GMessengerAPIImpl(
+    token: String,
+    urlServer: String
+) : GMessengerAPI, Closeable {
     private val httpClient: HttpClient =
         HttpClient {
             configureEngine()

@@ -12,7 +12,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 
-class GMessengerAuthAPIImpl : GMessengerAuthAPI {
+class GMessengerAuthAPIImpl(private val urlServer: String) : GMessengerAuthAPI {
     private val httpClient
         get() =
             HttpClient {

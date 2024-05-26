@@ -62,4 +62,8 @@ interface GMessengerConnectionService {
     suspend fun ping(url: String): Duration
 
     suspend fun addServer(server: GMessengerServer)
+
+    fun getCurrentServer(): GMessengerServer?
+
+    suspend fun applyServer(server: GMessengerServer)
 }

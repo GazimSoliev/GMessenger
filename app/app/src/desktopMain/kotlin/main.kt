@@ -1,3 +1,4 @@
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,7 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import com.gazim.gmessenger.di.*
+import com.gazim.gmessenger.di.apiModule
+import com.gazim.gmessenger.di.scopeModule
+import com.gazim.gmessenger.di.serviceModule
 import com.gazim.gmessenger.domain.model.Notification
 import com.gazim.gmessenger.presentation.App
 import com.gazim.gmessenger.presentation.component.NotificationsWindow
@@ -36,7 +39,6 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.core.context.startKoin
@@ -45,12 +47,11 @@ import org.koin.logger.SLF4JLogger
 
 val notificationsReceiver = MutableSharedFlow<Notification>()
 
-@OptIn(ExperimentalResourceApi::class)
 @DelicateCoroutinesApi
 fun main() {
     startKoin {
         logger(SLF4JLogger(level = Level.INFO))
-        modules(apiModule, scopeModule, serviceModule, useCaseModule, viewModelModule)
+        modules(apiModule, scopeModule, serviceModule)
     }
     application {
         val notifications = rememberSaveable(notificationsReceiver) { mutableStateListOf<Notification>() }

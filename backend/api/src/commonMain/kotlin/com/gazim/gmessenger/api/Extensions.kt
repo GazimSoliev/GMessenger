@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.api
 
-fun GMessengerAPI(token: String): GMessengerAPI = GMessengerAPIImpl(token)
+fun GMessengerAPI(token: String, urlServer: String): GMessengerAPI = GMessengerAPIImpl(token, urlServer)
 
-fun GMessengerAuthAPI(): GMessengerAuthAPI = GMessengerAuthAPIImpl()
+fun GMessengerAuthAPI(urlServer: String): GMessengerAuthAPI = GMessengerAuthAPIImpl(urlServer)
 
 fun GMessengerAPIConnection(): GMessengerAPIConnection = GMessengerAPIConnectionImpl()

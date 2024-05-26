@@ -1,21 +1,22 @@
 package com.gazim.gmessenger.di
 
 import com.gazim.gmessenger.domain.service.*
+import org.koin.core.module.dsl.scopedOf
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.scope.Scope
+import org.koin.dsl.ScopeDSL
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val serviceModule =
     module {
         singleOf(::SessionServiceImpl) bind SessionService::class
-        singleOf(::GMessengerAuthServiceImpl) bind GMessengerAuthService::class
         singleOf(::GMessengerConnectionServiceImpl) bind GMessengerConnectionService::class
-        factory<GMessengerService> { getCurrentAccountScope().get() }
     }
 
-fun Scope.getCurrentSession() = get<SessionService>().currentSession()!!
+fun ScopeDSL.authServiceModule() {
+    scopedOf(::GMessengerAuthServiceImpl) bind GMessengerAuthService::class
+}
 
-fun Scope.getCurrentToken() = get<SessionService>().currentToken()!!
-
-fun Scope.getCurrentAccountScope() = getScope(getCurrentSession())
+fun ScopeDSL.accountServiceModule() {
+    scopedOf(::GMessengerServiceImpl) bind GMessengerService::class
+}

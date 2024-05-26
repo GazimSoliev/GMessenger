@@ -6,13 +6,20 @@ import kotlin.time.Duration
 
 class GMessengerConnectionServiceImpl(private val gMessengerConnectionAPI: GMessengerConnectionAPI) :
     GMessengerConnectionService {
+    private var currentServer: GMessengerServer? = null
     private val _servers = mutableListOf<GMessengerServer>()
     override val availableServers: List<GMessengerServer>
         get() = gMessengerConnectionAPI.availableServers + _servers
 
     override suspend fun ping(url: String): Duration = gMessengerConnectionAPI.ping(url)
 
+    override fun getCurrentServer(): GMessengerServer? = currentServer
+
     override suspend fun addServer(server: GMessengerServer) {
         _servers.add(server)
+    }
+
+    override suspend fun applyServer(server: GMessengerServer) {
+        currentServer = server
     }
 }

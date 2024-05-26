@@ -12,8 +12,8 @@ import com.gazim.gmessenger.domain.model.*
 import com.gazim.gmessenger.api.GMessengerAPI as GMAPI
 import com.gazim.gmessenger.api.model.User as UserAPI
 
-class GMessengerAPIImpl(token: String) : GMessengerAPI {
-    private val gMessengerAPI = GMAPI(token)
+class GMessengerAPIImpl(host: String, token: String) : GMessengerAPI {
+    private val gMessengerAPI = GMAPI(host, token)
 
     override suspend fun getChats(): List<com.gazim.gmessenger.domain.model.IChat> = gMessengerAPI.getChats().map(IChat::toDomain)
 
