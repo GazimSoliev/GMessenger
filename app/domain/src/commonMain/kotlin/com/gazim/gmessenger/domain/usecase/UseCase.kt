@@ -101,3 +101,7 @@ interface GetAvailableServersUseCase {
 interface PingUseCase {
     suspend operator fun invoke(url: String): Duration
 }
+
+interface AddServerUseCase {
+    suspend operator fun invoke(server: GMessengerServer)
+}

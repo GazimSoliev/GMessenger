@@ -89,7 +89,7 @@ fun SelectServerComposition(
                     ) {
                         items(servers) {
                             Row(
-                                modifier = Modifier.requiredWidth(width).clickable { onServerClick(it) },
+                                modifier = Modifier.widthIn(width, width).clickable { onServerClick(it) },
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 RadioButton(selected = it.selected, onClick = { onServerClick(it) })
@@ -102,7 +102,7 @@ fun SelectServerComposition(
                         }
                     }
                     Row(
-                        modifier = Modifier.requiredWidth(width).padding(16.dp),
+                        modifier = Modifier.widthIn(width, width).padding(16.dp),
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         Button(onClick = onAddServerClick) {

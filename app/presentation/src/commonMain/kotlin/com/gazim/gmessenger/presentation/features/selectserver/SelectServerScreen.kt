@@ -22,6 +22,8 @@ class SelectServerScreen : BaseScreen<SelectServerState, SelectServerSideEffect,
         SelectServerComposition(
             servers = state.serverList,
             editableMode = state.editableMode,
+            serverTextField = state.serverValue,
+            urlTextField = state.urlValue,
             onServerClick = { sendAction(SelectServerAction.OnServerClick(it)) },
             onAddServerClick = { sendAction(SelectServerAction.OnAddServerClick) },
             onSelectClick = { sendAction(SelectServerAction.OnSelectClick) },

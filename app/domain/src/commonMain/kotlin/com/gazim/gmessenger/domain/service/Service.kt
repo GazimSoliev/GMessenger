@@ -60,4 +60,6 @@ interface GMessengerConnectionService {
     val availableServers: List<GMessengerServer>
 
     suspend fun ping(url: String): Duration
+
+    suspend fun addServer(server: GMessengerServer)
 }
