@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:name=".MainApplication"
         android:windowSoftInputMode="adjustResize"
+        android:usesCleartextTraffic="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
         <activity
             android:exported="true"

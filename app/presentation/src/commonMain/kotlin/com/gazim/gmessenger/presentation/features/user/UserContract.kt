@@ -17,6 +17,8 @@ data class UserState(
 
 sealed interface UserSideEffect : ISideEffect {
     data object ToBack : UserSideEffect
+
+    data object PickPhoto : UserSideEffect
 }
 
 sealed interface UserAction : IAction {
@@ -33,4 +35,6 @@ sealed interface UserAction : IAction {
     data object OnSaveClick : UserAction
 
     data object UploadProfilePhoto : UserAction
+
+    data class LoadProfileImage(val image: Pair<String, ByteArray>) : UserAction
 }

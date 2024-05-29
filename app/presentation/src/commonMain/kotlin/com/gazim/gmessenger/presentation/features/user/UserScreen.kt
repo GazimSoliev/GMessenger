@@ -6,12 +6,18 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.koin.getScreenModel
 import com.gazim.gmessenger.presentation.common.BaseScreen
 import com.gazim.gmessenger.presentation.features.user.UserAction.*
+import com.gazim.gmessenger.presentation.features.user.UserSideEffect.PickPhoto
 import com.gazim.gmessenger.presentation.features.user.UserSideEffect.ToBack
+import com.gazim.gmessenger.utils.PhotoPicker
+import com.gazim.gmessenger.utils.rememberPhotoPicker
 
 class UserScreen : BaseScreen<UserState, UserSideEffect, UserAction, UserViewModel>() {
+    private lateinit var photoPicker: PhotoPicker
+
     override suspend fun handleSideEffect(sideEffect: UserSideEffect) {
         when (sideEffect) {
             is ToBack -> navigator.pop()
+            is PickPhoto -> photoPicker.pick()
         }
     }
 
@@ -20,6 +26,7 @@ class UserScreen : BaseScreen<UserState, UserSideEffect, UserAction, UserViewMod
 
     @Composable
     override fun Screen() {
+        photoPicker = rememberPhotoPicker { sendAction(LoadProfileImage(it)) }
         AccountComposition(
             modifier = Modifier.fillMaxSize(),
             nickname = state.nickname,

@@ -8,10 +8,10 @@ import com.gazim.gmessenger.domain.usecase.GetOwnUser
 import com.gazim.gmessenger.domain.usecase.UploadProfilePhotoUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.user.UserAction.*
+import com.gazim.gmessenger.presentation.features.user.UserSideEffect.PickPhoto
 import com.gazim.gmessenger.presentation.features.user.UserSideEffect.ToBack
 import com.gazim.gmessenger.presentation.model.UserUI
 import com.gazim.gmessenger.presentation.model.toUserUI
-import com.gazim.gmessenger.utils.pickPhoto
 import com.gazim.gmessenger.utils.toComposeBitmapImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,17 +50,13 @@ class UserViewModel(
                 is OnSaveClick -> saveProfileChanges()
                 is OnCancelClick -> reduce { state.copy(editMode = false) }
                 is OnBack -> backClick()
-                is UploadProfilePhoto -> uploadProfilePhoto()
+                is UploadProfilePhoto -> postSideEffect(PickPhoto)
+                is LoadProfileImage -> uploadProfilePhoto(action.image)
             }
         }
     }
 
-    private suspend fun IntentScope.uploadProfilePhoto() {
-        val bytes =
-            runCatching { pickPhoto() }
-                .onFailure(Throwable::printStackTrace)
-                .getOrNull()
-        if (bytes == null) return
+    private suspend fun IntentScope.uploadProfilePhoto(bytes: Pair<String, ByteArray>) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 val image = uploadProfilePhotoUseCase(bytes.first, bytes.second)
