@@ -3,11 +3,15 @@ package com.gazim.gmessenger.domain.usecase
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
-fun interface OnLogInUseCase {
+fun interface LogOutUseCase {
+    suspend operator fun invoke()
+}
+
+fun interface LogInUseCase {
     suspend operator fun invoke(loginPassword: AuthenticationForm): Boolean
 }
 
-fun interface OnRegisterUseCase {
+fun interface RegisterUseCase {
     suspend operator fun invoke(account: RegistrationForm): Boolean
 }
 
@@ -61,10 +65,6 @@ fun interface CloseNotificationUseCase {
 
 fun interface GetNotificationsUseCase {
     suspend operator fun invoke(): Flow<Notification>
-}
-
-fun interface GetSessionUseCase {
-    operator fun invoke(): String?
 }
 
 fun interface GetChatUseCase {

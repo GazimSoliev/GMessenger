@@ -2,7 +2,7 @@ package com.gazim.gmessenger.presentation.features.chats
 
 import com.gazim.gmessenger.domain.model.IChat
 import com.gazim.gmessenger.domain.usecase.GetChatsUseCase
-import com.gazim.gmessenger.domain.usecase.GetSessionUseCase
+import com.gazim.gmessenger.domain.usecase.LogOutUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chats.ChatsAction.*
 import com.gazim.gmessenger.presentation.features.chats.ChatsSideEffect.*
@@ -16,7 +16,7 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 // todo: Take out actions
 class ChatsViewModel(
     private val getChatsUseCase: GetChatsUseCase,
-    private val getSessionUseCase: GetSessionUseCase,
+    private val logOutUseCase: LogOutUseCase,
 //    private val notificationService: INotificationService,
 ) : BaseViewModel<ChatsState, ChatsSideEffect, ChatsAction>() {
     override val container: Container<ChatsState, ChatsSideEffect> =
@@ -35,8 +35,8 @@ class ChatsViewModel(
                 is OnCreateNewChat -> postSideEffect(ToFindUser)
                 is OnAccountInfoClick -> postSideEffect(ToAccountInfoScreen)
                 is OnLogOutClick -> {
-                    val session = getSessionUseCase() ?: return@intent
-                    postSideEffect(ToLoginScreen(session))
+                    logOutUseCase()
+                    postSideEffect(ToLoginScreen)
                     destroyViewModel()
                 }
             }

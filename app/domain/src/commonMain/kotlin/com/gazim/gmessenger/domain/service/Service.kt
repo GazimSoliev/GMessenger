@@ -22,6 +22,44 @@ interface NotificationService {
 }
 
 interface GMessengerService {
+    suspend fun createAPI(token: String)
+
+    suspend fun closeAPI(token: String)
+
+    suspend fun getChats(token: String): List<IChat>
+
+    suspend fun filterUsers(token: String, query: String): List<User>
+
+    suspend fun getChat(token: String, chatModel: IChat): IChatWebSocketModel
+
+    suspend fun getMyOwnAccount(token: String): User
+
+    suspend fun createChat(token: String, user: User)
+
+    suspend fun getNotifications(token: String): INotificationWebSocketModel
+
+    suspend fun getMessages(
+        token: String,
+        chatModel: IChat,
+        key: MessagePageKey?,
+    ): MessagePage
+
+    suspend fun editProfile(token: String, profileForm: ProfileForm)
+
+    suspend fun uploadProfilePhoto(
+        token: String,
+        type: String,
+        bytes: ByteArray,
+    ): Image
+
+    suspend fun getImageContent(token: String, photoId: String): ByteArray
+}
+
+interface GMessengerSessionService {
+    suspend fun createCurrentSession()
+
+    suspend fun closeCurrentSession()
+
     suspend fun getChats(): List<IChat>
 
     suspend fun filterUsers(query: String): List<User>

@@ -44,7 +44,7 @@ kotlin {
 
             implementation(projects.app.presentation)
             implementation(projects.app.domain)
-//            implementation(projects.app.di)
+            implementation(projects.app.di)
 
             implementation(libs.koin.core)
             implementation(libs.koin.logger)

@@ -2,16 +2,19 @@ package com.gazim.gmessenger.domain.usecase
 
 import com.gazim.gmessenger.domain.model.AuthenticationForm
 import com.gazim.gmessenger.domain.service.GMessengerAuthService
+import com.gazim.gmessenger.domain.service.GMessengerSessionService
 import com.gazim.gmessenger.domain.service.SessionService
 
-class OnLogInUseCaseImpl(
+class LogInUseCaseImpl(
     private val gMessengerAuthRepository: GMessengerAuthService,
+    private val gMessengerSessionService: GMessengerSessionService,
     private val sessionService: SessionService,
-) : OnLogInUseCase {
+) : LogInUseCase {
     override suspend fun invoke(loginPassword: AuthenticationForm): Boolean {
         val token = gMessengerAuthRepository.login(loginPassword)
         if (token == null || token == "null" || token.isEmpty()) return false
         sessionService.setSession(token)
+        gMessengerSessionService.createCurrentSession()
         return true
     }
 }
