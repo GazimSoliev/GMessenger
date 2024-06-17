@@ -10,11 +10,12 @@ class LogInUseCaseImpl(
     private val gMessengerSessionService: GMessengerSessionService,
     private val sessionService: SessionService,
 ) : LogInUseCase {
-    override suspend fun invoke(loginPassword: AuthenticationForm): Boolean {
-        val token = gMessengerAuthRepository.login(loginPassword)
-        if (token == null || token == "null" || token.isEmpty()) return false
-        sessionService.setSession(token)
-        gMessengerSessionService.createCurrentSession()
-        return true
-    }
+    override suspend fun invoke(loginPassword: AuthenticationForm) =
+        runCatching {
+            val token = gMessengerAuthRepository.login(loginPassword)
+            if (token == null || token == "null" || token.isEmpty()) return@runCatching false
+            sessionService.setSession(token)
+            gMessengerSessionService.createCurrentSession()
+            true
+        }
 }

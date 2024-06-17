@@ -4,27 +4,27 @@ import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
 fun interface LogOutUseCase {
-    suspend operator fun invoke()
+    suspend operator fun invoke(): Result<Unit>
 }
 
 fun interface LogInUseCase {
-    suspend operator fun invoke(loginPassword: AuthenticationForm): Boolean
+    suspend operator fun invoke(loginPassword: AuthenticationForm): Result<Boolean>
 }
 
 fun interface RegisterUseCase {
-    suspend operator fun invoke(account: RegistrationForm): Boolean
+    suspend operator fun invoke(account: RegistrationForm): Result<Boolean>
 }
 
 fun interface GetOwnAccountUseCase {
-    suspend operator fun invoke(): User
+    suspend operator fun invoke(): Result<User>
 }
 
 fun interface FilterUsersUseCase {
-    suspend operator fun invoke(query: String): List<User>
+    suspend operator fun invoke(query: String): Result<List<User>>
 }
 
 fun interface GetChatsUseCase {
-    suspend operator fun invoke(): List<IChat>
+    suspend operator fun invoke(): Result<List<IChat>>
 }
 
 fun interface PassAuthUseCase {
@@ -32,11 +32,11 @@ fun interface PassAuthUseCase {
 }
 
 fun interface GetOwnUser {
-    suspend operator fun invoke(): User
+    suspend operator fun invoke(): Result<User>
 }
 
 fun interface CreateChatUseCase {
-    suspend operator fun invoke(user: User)
+    suspend operator fun invoke(user: User): Result<Unit>
 }
 
 fun interface ValidateLoginUseCase {
@@ -56,39 +56,39 @@ fun interface ValidateUsernameUseCase {
 }
 
 fun interface OpenNotificationUseCase {
-    suspend operator fun invoke()
+    suspend operator fun invoke(): Result<Unit>
 }
 
 fun interface CloseNotificationUseCase {
-    suspend operator fun invoke()
+    suspend operator fun invoke(): Result<Unit>
 }
 
 fun interface GetNotificationsUseCase {
-    suspend operator fun invoke(): Flow<Notification>
+    suspend operator fun invoke(): Result<Flow<Notification>>
 }
 
 fun interface GetChatUseCase {
-    suspend operator fun invoke(chat: IChat): IChatWebSocketModel
+    suspend operator fun invoke(chat: IChat): Result<IChatWebSocketModel>
 }
 
 interface GetMessagesUseCase {
     suspend operator fun invoke(
         chat: IChat,
         key: MessagePageKey?,
-    ): MessagePage
+    ): Result<MessagePage>
 }
 
 interface EditProfileFormUseCase {
-    suspend operator fun invoke(profileForm: ProfileForm)
+    suspend operator fun invoke(profileForm: ProfileForm): Result<Unit>
 }
 
 interface UploadProfilePhotoUseCase {
     suspend operator fun invoke(
         type: String,
         bytes: ByteArray,
-    ): Image
+    ): Result<Image>
 }
 
 interface GetImageContentUseCase {
-    suspend operator fun invoke(photoId: String): ByteArray
+    suspend operator fun invoke(photoId: String): Result<ByteArray>
 }

@@ -55,17 +55,16 @@ class LoginViewModel(
         coroutineScope {
             loggingJob =
                 launch {
-                    runCatching {
-                        logInUseCase(AuthenticationForm(login, password))
-                    }.onFailure {
-                        if (it is CancellationException) return@onFailure
-                        postSideEffect(UnableConnectToServer)
-                        it.printStackTrace()
-                    }.onSuccess {
-                        if (!it) return@onSuccess postSideEffect(WrongLoginOrPassword)
-                        postSideEffect(ToChatsScreen)
-                        destroyViewModel()
-                    }
+                    logInUseCase(AuthenticationForm(login, password))
+                        .onFailure {
+                            if (it is CancellationException) return@onFailure
+                            postSideEffect(UnableConnectToServer)
+                            it.printStackTrace()
+                        }.onSuccess {
+                            if (!it) return@onSuccess postSideEffect(WrongLoginOrPassword)
+                            postSideEffect(ToChatsScreen)
+                            destroyViewModel()
+                        }
                 }
         }
         reduce { state.copy(loggingInProgress = false) }

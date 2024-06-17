@@ -76,16 +76,14 @@ class RegisterViewModel(
             coroutineScope {
                 registrationJob =
                     launch {
-                        runCatching {
-                            registerUseCase(
-                                RegistrationForm(
-                                    nickname = nickname.text,
-                                    username = username.text,
-                                    login = login.text,
-                                    password = password.text,
-                                ),
-                            )
-                        }.onFailure {
+                        registerUseCase(
+                            RegistrationForm(
+                                nickname = nickname.text,
+                                username = username.text,
+                                login = login.text,
+                                password = password.text,
+                            ),
+                        ).onFailure {
                             if (it is CancellationException) return@onFailure
                             postSideEffect(UnableConnectToServer)
                             it.printStackTrace()

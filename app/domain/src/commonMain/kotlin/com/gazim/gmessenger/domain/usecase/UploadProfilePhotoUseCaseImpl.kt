@@ -1,6 +1,5 @@
 package com.gazim.gmessenger.domain.usecase
 
-import com.gazim.gmessenger.domain.model.Image
 import com.gazim.gmessenger.domain.service.GMessengerSessionService
 
 class UploadProfilePhotoUseCaseImpl(
@@ -9,5 +8,7 @@ class UploadProfilePhotoUseCaseImpl(
     override suspend fun invoke(
         type: String,
         bytes: ByteArray,
-    ): Image = gMessengerSessionService.uploadProfilePhoto(type, bytes)
+    ) = runCatching {
+        gMessengerSessionService.uploadProfilePhoto(type, bytes)
+    }
 }
