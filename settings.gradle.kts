@@ -26,7 +26,7 @@ include(
     ":app:domain",
     ":app:data",
     ":backend:api",
-//    ":app:di",
+    ":app:di",
     ":app:presentation",
     ":utils",
     ":backend:common",

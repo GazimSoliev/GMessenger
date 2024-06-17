@@ -1,10 +1,10 @@
 package com.gazim.gmessenger.domain.usecase
 
 import com.gazim.gmessenger.domain.model.User
-import com.gazim.gmessenger.domain.service.GMessengerService
+import com.gazim.gmessenger.domain.service.GMessengerSessionService
 
-class CreateChatUseCaseImpl(private val gMessengerRepository: GMessengerService) : CreateChatUseCase {
+class CreateChatUseCaseImpl(private val gMessengerSessionService: GMessengerSessionService) : CreateChatUseCase {
     override suspend fun invoke(user: User) {
-        gMessengerRepository.createChat(user)
+        gMessengerSessionService.createChat(user)
     }
 }

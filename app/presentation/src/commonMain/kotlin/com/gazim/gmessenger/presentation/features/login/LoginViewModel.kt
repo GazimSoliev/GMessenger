@@ -1,8 +1,7 @@
 package com.gazim.gmessenger.presentation.features.login
 
 import com.gazim.gmessenger.domain.model.AuthenticationForm
-import com.gazim.gmessenger.domain.usecase.GetSessionUseCaseImpl
-import com.gazim.gmessenger.domain.usecase.OnLogInUseCase
+import com.gazim.gmessenger.domain.usecase.LogInUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
@@ -17,8 +16,7 @@ private typealias IntentScope = SimpleSyntax<LoginState, LoginSideEffect>
 
 // todo: Take out actions
 class LoginViewModel(
-    private val onLogInUseCase: OnLogInUseCase,
-    private val getSessionUseCase: GetSessionUseCaseImpl,
+    private val logInUseCase: LogInUseCase,
 ) : BaseViewModel<LoginState, LoginSideEffect, LoginAction>() {
     //    private val notificationService: INotificationService by inject(INotificationService::class.java)
     override val container: Container<LoginState, LoginSideEffect> = container(initialState = LoginState())
@@ -58,15 +56,14 @@ class LoginViewModel(
             loggingJob =
                 launch {
                     runCatching {
-                        onLogInUseCase(AuthenticationForm(login, password))
+                        logInUseCase(AuthenticationForm(login, password))
                     }.onFailure {
                         if (it is CancellationException) return@onFailure
                         postSideEffect(UnableConnectToServer)
                         it.printStackTrace()
                     }.onSuccess {
                         if (!it) return@onSuccess postSideEffect(WrongLoginOrPassword)
-                        val session = getSessionUseCase()
-                        if (session != null) return@onSuccess postSideEffect(ToChatsScreen(session))
+                        postSideEffect(ToChatsScreen)
                         destroyViewModel()
                     }
                 }

@@ -11,21 +11,15 @@ import com.gazim.gmessenger.presentation.features.chats.ChatsSideEffect.*
 import com.gazim.gmessenger.presentation.features.finduser.FindUserScreen
 import com.gazim.gmessenger.presentation.features.login.LoginScreen
 import com.gazim.gmessenger.presentation.features.user.UserScreen
-import org.koin.compose.getKoin
-import org.koin.core.Koin
 
 class ChatsScreen : BaseScreen<ChatsState, ChatsSideEffect, ChatsAction, ChatsViewModel>() {
-    private lateinit var koin: Koin
 
     override suspend fun handleSideEffect(sideEffect: ChatsSideEffect) {
         when (sideEffect) {
             is ToChatScreen -> navigator.push(ChatScreen(sideEffect.chat))
             is ToFindUser -> navigator.push(FindUserScreen())
             is ToAccountInfoScreen -> navigator.push(UserScreen())
-            is ToLoginScreen -> {
-                koin.getScope(sideEffect.session).close()
-                navigator.replace(LoginScreen())
-            }
+            is ToLoginScreen -> navigator.replace(LoginScreen())
         }
     }
 
@@ -34,7 +28,6 @@ class ChatsScreen : BaseScreen<ChatsState, ChatsSideEffect, ChatsAction, ChatsVi
 
     @Composable
     override fun Screen() {
-        koin = getKoin()
         ChatsComposition(
             modifier = Modifier.fillMaxSize(),
             chats = state.list,

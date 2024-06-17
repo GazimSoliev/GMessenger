@@ -24,7 +24,7 @@ class RegisterViewModel(
     private val validateLogin: ValidateLoginUseCase,
     private val validateNickname: ValidateNicknameUseCase,
     private val validateUsername: ValidateUsernameUseCase,
-    private val onRegisterUseCase: OnRegisterUseCase,
+    private val registerUseCase: RegisterUseCase,
 ) : BaseViewModel<RegisterState, RegisterSideEffect, RegisterAction>() {
     override val container: Container<RegisterState, RegisterSideEffect> = container(initialState = RegisterState())
 
@@ -77,7 +77,7 @@ class RegisterViewModel(
                 registrationJob =
                     launch {
                         runCatching {
-                            onRegisterUseCase(
+                            registerUseCase(
                                 RegistrationForm(
                                     nickname = nickname.text,
                                     username = username.text,
