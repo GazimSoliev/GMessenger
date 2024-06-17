@@ -8,7 +8,8 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val factoryModule = module {
-    singleOf(::GMessengerAPIFactoryImpl) bind GMessengerAPIFactory::class
-    singleOf(::GMessengerAuthAPIFactoryImpl) bind GMessengerAuthAPIFactory::class
-}
+val factoryModule =
+    module {
+        singleOf(::GMessengerAPIFactoryImpl) bind GMessengerAPIFactory::class
+        singleOf(::GMessengerAuthAPIFactoryImpl) bind GMessengerAuthAPIFactory::class
+    }

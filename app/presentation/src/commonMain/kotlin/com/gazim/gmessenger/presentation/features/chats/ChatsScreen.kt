@@ -13,7 +13,6 @@ import com.gazim.gmessenger.presentation.features.login.LoginScreen
 import com.gazim.gmessenger.presentation.features.user.UserScreen
 
 class ChatsScreen : BaseScreen<ChatsState, ChatsSideEffect, ChatsAction, ChatsViewModel>() {
-
     override suspend fun handleSideEffect(sideEffect: ChatsSideEffect) {
         when (sideEffect) {
             is ToChatScreen -> navigator.push(ChatScreen(sideEffect.chat))

@@ -34,7 +34,8 @@ fun Route.loginRoute() {
 private fun generateJWT(
     tokenId: String,
     expiredAt: LocalDateTime = LocalDateTime.now().plusDays(7),
-) = JWT.create()
+) = JWT
+    .create()
     .withAudience(audience)
     .withIssuer(issuer)
     .withClaim(claimTokenId, tokenId)

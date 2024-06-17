@@ -25,17 +25,19 @@ class GMessengerAuthAPIImpl : GMessengerAuthAPI {
 
     override suspend fun register(account: RegistrationForm): Boolean =
         httpClient.use {
-            it.post(RegistrationRoute()) {
-                contentType(ContentType.Application.Json)
-                setBody(account)
-            }.status == HttpStatusCode.OK
+            it
+                .post(RegistrationRoute()) {
+                    contentType(ContentType.Application.Json)
+                    setBody(account)
+                }.status == HttpStatusCode.OK
         }
 
     override suspend fun login(loginPassword: AuthenticationForm): String =
         httpClient.use {
-            httpClient.post(LoginRoute()) {
-                contentType(ContentType.Application.Json)
-                setBody(loginPassword)
-            }.bodyAsText()
+            httpClient
+                .post(LoginRoute()) {
+                    contentType(ContentType.Application.Json)
+                    setBody(loginPassword)
+                }.bodyAsText()
         }
 }

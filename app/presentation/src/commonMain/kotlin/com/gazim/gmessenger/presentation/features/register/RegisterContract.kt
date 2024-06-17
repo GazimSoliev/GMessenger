@@ -27,13 +27,21 @@ sealed interface RegisterSideEffect : ISideEffect {
 }
 
 sealed interface RegisterAction : IAction {
-    data class OnChangeNickname(val nickname: TextFieldValue) : RegisterAction
+    data class OnChangeNickname(
+        val nickname: TextFieldValue,
+    ) : RegisterAction
 
-    data class OnChangeUsername(val username: TextFieldValue) : RegisterAction
+    data class OnChangeUsername(
+        val username: TextFieldValue,
+    ) : RegisterAction
 
-    data class OnChangeLogin(val login: TextFieldValue) : RegisterAction
+    data class OnChangeLogin(
+        val login: TextFieldValue,
+    ) : RegisterAction
 
-    data class OnChangePassword(val password: TextFieldValue) : RegisterAction
+    data class OnChangePassword(
+        val password: TextFieldValue,
+    ) : RegisterAction
 
     data object OnPasswordVisibilityClick : RegisterAction
 

@@ -25,9 +25,13 @@ sealed interface LoginSideEffect : ISideEffect {
 }
 
 sealed interface LoginAction : IAction {
-    data class OnChangeLogin(val login: TextFieldValue) : LoginAction
+    data class OnChangeLogin(
+        val login: TextFieldValue,
+    ) : LoginAction
 
-    data class OnChangePassword(val password: TextFieldValue) : LoginAction
+    data class OnChangePassword(
+        val password: TextFieldValue,
+    ) : LoginAction
 
     data object OnLogInClick : LoginAction
 

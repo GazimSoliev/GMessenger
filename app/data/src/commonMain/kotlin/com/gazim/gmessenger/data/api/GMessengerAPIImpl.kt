@@ -12,7 +12,9 @@ import com.gazim.gmessenger.domain.model.*
 import com.gazim.gmessenger.api.GMessengerAPI as GMAPI
 import com.gazim.gmessenger.api.model.User as UserAPI
 
-class GMessengerAPIImpl(token: String) : GMessengerAPI {
+class GMessengerAPIImpl(
+    token: String,
+) : GMessengerAPI {
     private val gMessengerAPI = GMAPI(token)
 
     override suspend fun getChats(): List<com.gazim.gmessenger.domain.model.IChat> = gMessengerAPI.getChats().map(IChat::toDomain)
@@ -20,7 +22,8 @@ class GMessengerAPIImpl(token: String) : GMessengerAPI {
     override suspend fun filterUsers(query: String): List<User> = gMessengerAPI.findUser(query).map(UserAPI::toDomain)
 
     override suspend fun getChat(chatModel: com.gazim.gmessenger.domain.model.IChat): IChatWebSocketModel =
-        gMessengerAPI.getChatWebSocket(chatModel.toAPI())
+        gMessengerAPI
+            .getChatWebSocket(chatModel.toAPI())
             .toChatWebSocketModel((if (chatModel is PrivateChat) chatModel.user.nickname else chatModel.title))
 
     override suspend fun getMyOwnAccount(): User = gMessengerAPI.whoAmI().toDomain()

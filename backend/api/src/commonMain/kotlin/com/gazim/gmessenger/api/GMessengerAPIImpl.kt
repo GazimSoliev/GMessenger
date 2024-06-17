@@ -25,7 +25,10 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.sync.Mutex
 import java.io.Closeable
 
-class GMessengerAPIImpl(token: String) : GMessengerAPI, Closeable {
+class GMessengerAPIImpl(
+    token: String,
+) : GMessengerAPI,
+    Closeable {
     private val httpClient: HttpClient =
         HttpClient {
             configureEngine()
@@ -62,10 +65,11 @@ class GMessengerAPIImpl(token: String) : GMessengerAPI, Closeable {
     override suspend fun getChats(): List<IChat> = httpClient.get(ChatsRoute()).body()
 
     override suspend fun createChat(user: User): Boolean =
-        httpClient.post(CreateChatRoute()) {
-            contentType(ContentType.Application.Json)
-            setBody(user)
-        }.status == HttpStatusCode.OK
+        httpClient
+            .post(CreateChatRoute()) {
+                contentType(ContentType.Application.Json)
+                setBody(user)
+            }.status == HttpStatusCode.OK
 
     override fun getChatWebSocket(chat: IChat): ChatWebSocket =
         object : ChatWebSocket {
@@ -81,10 +85,12 @@ class GMessengerAPIImpl(token: String) : GMessengerAPI, Closeable {
                         println(this.call.request.url)
                         val input =
                             this@coroutineScope.launch {
-                                for (frame in incoming) converter
-                                    ?.deserialize<Message>(frame)
-                                    ?.let { if (it.user.id == getUserId()) it.toMyMessage() else it }
-                                    ?.let { getter.emit(it) }
+                                for (frame in incoming) {
+                                    converter
+                                        ?.deserialize<Message>(frame)
+                                        ?.let { if (it.user.id == getUserId()) it.toMyMessage() else it }
+                                        ?.let { getter.emit(it) }
+                                }
                             }
                         output =
                             this@coroutineScope.launch {
@@ -144,10 +150,11 @@ class GMessengerAPIImpl(token: String) : GMessengerAPI, Closeable {
         key: MessagePageKey?,
     ): MyMessagePage {
         val page =
-            httpClient.post(MessagesRoute.ChatId(chat.id)) {
-                contentType(ContentType.Application.Json)
-                setBody(key)
-            }.body<MessagePage>()
+            httpClient
+                .post(MessagesRoute.ChatId(chat.id)) {
+                    contentType(ContentType.Application.Json)
+                    setBody(key)
+                }.body<MessagePage>()
         return page.toMyPage(getUserId())
     }
 
@@ -162,9 +169,10 @@ class GMessengerAPIImpl(token: String) : GMessengerAPI, Closeable {
         type: String,
         bytes: ByteArray,
     ): Image =
-        httpClient.post(UploadProfilePhotoRoute.Type(type)) {
-            setBody(bytes)
-        }.body()
+        httpClient
+            .post(UploadProfilePhotoRoute.Type(type)) {
+                setBody(bytes)
+            }.body()
 
     override suspend fun getImageContent(photoId: String): ByteArray = httpClient.get(ImageRoute.Id(photoId)).bodyAsChannel().toByteArray()
 

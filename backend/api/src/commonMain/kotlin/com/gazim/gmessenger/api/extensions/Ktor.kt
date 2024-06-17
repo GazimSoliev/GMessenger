@@ -13,7 +13,8 @@ fun HttpClientConfig<*>.configureEngine() =
     engine {
         if (this !is OkHttpConfig) return@engine
         preconfigured =
-            OkHttpClient.Builder()
+            OkHttpClient
+                .Builder()
                 .pingInterval(5, TimeUnit.SECONDS)
                 .build()
     }

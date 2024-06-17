@@ -7,7 +7,10 @@ import io.ktor.resources.*
 @Resource("/chat")
 class ChatRoute {
     @Resource("{id}")
-    class Id(val id: String, val parent: ChatRoute = ChatRoute())
+    class Id(
+        val id: String,
+        val parent: ChatRoute = ChatRoute(),
+    )
 }
 
 @Resource("/chats")
@@ -19,7 +22,10 @@ class CreateChatRoute
 @Resource("/find_user")
 class FindUserRoute {
     @Resource("{query}")
-    class Query(val query: String, val parent: FindUserRoute = FindUserRoute())
+    class Query(
+        val query: String,
+        val parent: FindUserRoute = FindUserRoute(),
+    )
 }
 
 @Resource("/login")
@@ -39,7 +45,10 @@ class UserRoute
 @Resource("/messages")
 class MessagesRoute {
     @Resource("{chatId}")
-    class ChatId(val chatId: String, val parent: MessagesRoute = MessagesRoute())
+    class ChatId(
+        val chatId: String,
+        val parent: MessagesRoute = MessagesRoute(),
+    )
 }
 
 @Resource("/edit_profile")
@@ -48,11 +57,17 @@ class EditProfileRoute
 @Resource("/upload_profile_photo")
 class UploadProfilePhotoRoute {
     @Resource("{type}")
-    class Type(val type: String, val parent: UploadProfilePhotoRoute = UploadProfilePhotoRoute())
+    class Type(
+        val type: String,
+        val parent: UploadProfilePhotoRoute = UploadProfilePhotoRoute(),
+    )
 }
 
 @Resource("/image")
 class ImageRoute {
     @Resource("{id}")
-    class Id(val id: String, val parent: ImageRoute = ImageRoute())
+    class Id(
+        val id: String,
+        val parent: ImageRoute = ImageRoute(),
+    )
 }

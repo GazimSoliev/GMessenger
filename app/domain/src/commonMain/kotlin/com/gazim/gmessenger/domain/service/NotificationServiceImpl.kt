@@ -5,7 +5,9 @@ import com.gazim.gmessenger.domain.model.Notification
 import kotlinx.coroutines.flow.Flow
 
 // todo: Take out into UseCase
-class NotificationServiceImpl(private val notificationWebSocket: INotificationWebSocketModel) : NotificationService {
+class NotificationServiceImpl(
+    private val notificationWebSocket: INotificationWebSocketModel,
+) : NotificationService {
     override val notifications: Flow<Notification> =
         notificationWebSocket.notifications
 

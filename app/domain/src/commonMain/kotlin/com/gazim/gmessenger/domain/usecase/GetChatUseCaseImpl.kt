@@ -5,7 +5,7 @@ import com.gazim.gmessenger.domain.model.IChatWebSocketModel
 import com.gazim.gmessenger.domain.service.GMessengerSessionService
 
 class GetChatUseCaseImpl(
-    private val gMessengerSessionService: GMessengerSessionService
+    private val gMessengerSessionService: GMessengerSessionService,
 ) : GetChatUseCase {
     override suspend fun invoke(chat: IChat): IChatWebSocketModel = gMessengerSessionService.getChat(chat)
 }

@@ -32,9 +32,11 @@ class UserRepository : IUserRepository {
         limit: Int,
     ): List<User> =
         dbQuery {
-            AccountEntity.find {
-                AccountTable.username like "%$username%"
-            }.limit(limit).map(AccountEntity::toUser)
+            AccountEntity
+                .find {
+                    AccountTable.username like "%$username%"
+                }.limit(limit)
+                .map(AccountEntity::toUser)
         }
 
     override suspend fun getUser(tokenId: UUID): User =

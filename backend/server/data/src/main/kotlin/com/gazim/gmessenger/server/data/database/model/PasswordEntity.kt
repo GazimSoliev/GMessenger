@@ -6,7 +6,9 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import java.util.*
 
-class PasswordEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+class PasswordEntity(
+    id: EntityID<UUID>,
+) : UUIDEntity(id) {
     companion object : UUIDEntityClass<PasswordEntity>(PasswordTable)
 
     var password by PasswordTable.password

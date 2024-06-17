@@ -14,8 +14,8 @@ import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
 
 // todo: make some override implementation final?
 abstract class BaseViewModel<STATE : IState, SIDE_EFFECT : ISideEffect, ACTION : IAction> :
-    ContainerHost<STATE, SIDE_EFFECT>,
     ABaseViewModel<STATE, SIDE_EFFECT, ACTION>(),
+    ContainerHost<STATE, SIDE_EFFECT>,
     ScreenModel {
     override val viewModelScope = screenModelScope.plus(Dispatchers.Default)
     override val state: StateFlow<STATE> get() = container.stateFlow

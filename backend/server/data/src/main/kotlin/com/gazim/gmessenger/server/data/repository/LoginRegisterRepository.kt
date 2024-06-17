@@ -29,13 +29,16 @@ class LoginRegisterRepository : ILoginRegisterRepository {
             val login = sha256.digest(loginPassword.login.encodeToByteArray())
             val password = sha256.digest(loginPassword.password.encodeToByteArray())
             val accountEntity =
-                AccountTable.innerJoin(LoginTable)
-                    .innerJoin(PasswordTable).select {
+                AccountTable
+                    .innerJoin(LoginTable)
+                    .innerJoin(PasswordTable)
+                    .select {
                         (AccountTable.id eq LoginTable.idAccount) and
                             (AccountTable.id eq PasswordTable.idAccount) and
                             (LoginTable.login eq login) and
                             (PasswordTable.password eq password)
-                    }.singleOrNull()?.let(AccountEntity.Companion::wrapRow)
+                    }.singleOrNull()
+                    ?.let(AccountEntity.Companion::wrapRow)
                     ?: return@dbQuery null
             val tokenEntity =
                 TokenEntity.new {

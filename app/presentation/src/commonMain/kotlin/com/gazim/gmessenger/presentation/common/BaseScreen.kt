@@ -19,7 +19,9 @@ abstract class BaseScreen<
     SIDE_EFFECT : ISideEffect,
     ACTION : IAction,
     VIEW_MODEL : IBaseViewModel<STATE, SIDE_EFFECT, ACTION>,
-> : Screen, ABaseScreen<STATE, SIDE_EFFECT, ACTION, VIEW_MODEL>() {
+> :
+    ABaseScreen<STATE, SIDE_EFFECT, ACTION, VIEW_MODEL>(),
+    Screen {
     private lateinit var viewModel: VIEW_MODEL
     protected lateinit var navigator: Navigator
         private set

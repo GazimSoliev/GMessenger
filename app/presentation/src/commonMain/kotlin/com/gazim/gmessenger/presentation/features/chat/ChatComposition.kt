@@ -100,7 +100,10 @@ fun ChatComposition(
                     value = message,
                     onValueChange = onMessageChange,
                     modifier =
-                        Modifier.fillMaxWidth().background(colorScheme.surface.copy(alpha = 0.95f)).padding(8.dp)
+                        Modifier
+                            .fillMaxWidth()
+                            .background(colorScheme.surface.copy(alpha = 0.95f))
+                            .padding(8.dp)
                             .navigationBarsPadding()
                             .background(colorScheme.surfaceVariant, RoundedCornerShape(24.dp))
                             .onPreviewKeyEvent {
@@ -114,12 +117,14 @@ fun ChatComposition(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier =
-                                Modifier.padding(
-                                    start = 24.dp,
-                                    end = 8.dp,
-                                    top = 8.dp,
-                                    bottom = 8.dp,
-                                ).weight(1f).heightIn(max = 128.dp),
+                                Modifier
+                                    .padding(
+                                        start = 24.dp,
+                                        end = 8.dp,
+                                        top = 8.dp,
+                                        bottom = 8.dp,
+                                    ).weight(1f)
+                                    .heightIn(max = 128.dp),
                         ) {
                             it()
                             if (message.text.isEmpty()) {

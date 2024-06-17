@@ -104,8 +104,10 @@ fun main() {
                             WindowDraggableArea {
                                 Box(
                                     modifier =
-                                        Modifier.fillMaxWidth()
-                                            .background(colorScheme.outlineVariant.copy(alpha = 0.1f)).height(36.dp),
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .background(colorScheme.outlineVariant.copy(alpha = 0.1f))
+                                            .height(36.dp),
                                 ) {
                                     Image(
                                         painter = icon,

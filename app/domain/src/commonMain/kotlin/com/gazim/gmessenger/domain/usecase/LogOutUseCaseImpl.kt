@@ -5,7 +5,7 @@ import com.gazim.gmessenger.domain.service.SessionService
 
 class LogOutUseCaseImpl(
     private val gMessengerSessionService: GMessengerSessionService,
-    private val sessionService: SessionService
+    private val sessionService: SessionService,
 ) : LogOutUseCase {
     override suspend fun invoke() {
         gMessengerSessionService.closeCurrentSession()

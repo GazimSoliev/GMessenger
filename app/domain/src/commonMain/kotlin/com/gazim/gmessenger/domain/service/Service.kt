@@ -28,13 +28,22 @@ interface GMessengerService {
 
     suspend fun getChats(token: String): List<IChat>
 
-    suspend fun filterUsers(token: String, query: String): List<User>
+    suspend fun filterUsers(
+        token: String,
+        query: String,
+    ): List<User>
 
-    suspend fun getChat(token: String, chatModel: IChat): IChatWebSocketModel
+    suspend fun getChat(
+        token: String,
+        chatModel: IChat,
+    ): IChatWebSocketModel
 
     suspend fun getMyOwnAccount(token: String): User
 
-    suspend fun createChat(token: String, user: User)
+    suspend fun createChat(
+        token: String,
+        user: User,
+    )
 
     suspend fun getNotifications(token: String): INotificationWebSocketModel
 
@@ -44,7 +53,10 @@ interface GMessengerService {
         key: MessagePageKey?,
     ): MessagePage
 
-    suspend fun editProfile(token: String, profileForm: ProfileForm)
+    suspend fun editProfile(
+        token: String,
+        profileForm: ProfileForm,
+    )
 
     suspend fun uploadProfilePhoto(
         token: String,
@@ -52,7 +64,10 @@ interface GMessengerService {
         bytes: ByteArray,
     ): Image
 
-    suspend fun getImageContent(token: String, photoId: String): ByteArray
+    suspend fun getImageContent(
+        token: String,
+        photoId: String,
+    ): ByteArray
 }
 
 interface GMessengerSessionService {

@@ -24,9 +24,13 @@ sealed interface UserSideEffect : ISideEffect {
 sealed interface UserAction : IAction {
     data object OnBack : UserAction
 
-    data class OnNicknameChange(val value: TextFieldValue) : UserAction
+    data class OnNicknameChange(
+        val value: TextFieldValue,
+    ) : UserAction
 
-    data class OnUsernameChange(val value: TextFieldValue) : UserAction
+    data class OnUsernameChange(
+        val value: TextFieldValue,
+    ) : UserAction
 
     data object OnEditClick : UserAction
 
@@ -36,5 +40,7 @@ sealed interface UserAction : IAction {
 
     data object UploadProfilePhoto : UserAction
 
-    data class LoadProfileImage(val image: Pair<String, ByteArray>) : UserAction
+    data class LoadProfileImage(
+        val image: Pair<String, ByteArray>,
+    ) : UserAction
 }

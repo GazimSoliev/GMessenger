@@ -2,7 +2,8 @@ package com.gazim.gmessenger.domain.usecase
 
 import com.gazim.gmessenger.domain.service.NotificationService
 
-class CloseNotificationUseCaseImpl(private val notificationRepository: NotificationService) :
-    CloseNotificationUseCase {
+class CloseNotificationUseCaseImpl(
+    private val notificationRepository: NotificationService,
+) : CloseNotificationUseCase {
     override suspend fun invoke() = notificationRepository.closeConnection()
 }

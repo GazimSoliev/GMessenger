@@ -6,7 +6,9 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import java.util.*
 
-class ImageEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+class ImageEntity(
+    id: EntityID<UUID>,
+) : UUIDEntity(id) {
     companion object : UUIDEntityClass<ImageEntity>(ImageTable)
 
     var content by ImageTable.content
