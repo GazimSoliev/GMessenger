@@ -6,5 +6,8 @@ import com.gazim.gmessenger.domain.service.GMessengerSessionService
 class EditProfileFormUseCaseImpl(
     private val gMessengerSessionService: GMessengerSessionService,
 ) : EditProfileFormUseCase {
-    override suspend fun invoke(profileForm: ProfileForm) = gMessengerSessionService.editProfile(profileForm)
+    override suspend fun invoke(profileForm: ProfileForm) =
+        runCatching {
+            gMessengerSessionService.editProfile(profileForm)
+        }
 }

@@ -37,7 +37,7 @@ class MessagePagerSource(
 
                     else -> {
                         val pagedKey = (currentKey as? PagedKey)
-                        val page = getMessages.invoke(chatModel, pagedKey?.key)
+                        val page = getMessages(chatModel, pagedKey?.key).getOrThrow()
                         PagingSourceLoadResultPage<Key, IMessageItemUI>(
                             data = page.data.map { it.toMessageUI() },
                             prevKey = if (pagedKey == null) LiveKey(0) else PagedKey(page.prev),

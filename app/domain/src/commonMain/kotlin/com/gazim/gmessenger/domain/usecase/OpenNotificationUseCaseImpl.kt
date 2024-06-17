@@ -5,5 +5,8 @@ import com.gazim.gmessenger.domain.service.NotificationService
 class OpenNotificationUseCaseImpl(
     private val notificationRepository: NotificationService,
 ) : OpenNotificationUseCase {
-    override suspend fun invoke() = notificationRepository.openConnection()
+    override suspend fun invoke() =
+        runCatching {
+            notificationRepository.openConnection()
+        }
 }

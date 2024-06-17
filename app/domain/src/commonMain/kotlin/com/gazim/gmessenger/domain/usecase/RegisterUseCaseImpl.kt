@@ -6,5 +6,5 @@ import com.gazim.gmessenger.domain.service.GMessengerAuthService
 class RegisterUseCaseImpl(
     private val gMessengerAuthRepository: GMessengerAuthService,
 ) : RegisterUseCase {
-    override suspend fun invoke(account: RegistrationForm): Boolean = gMessengerAuthRepository.register(account)
+    override suspend fun invoke(account: RegistrationForm) = runCatching { gMessengerAuthRepository.register(account) }
 }

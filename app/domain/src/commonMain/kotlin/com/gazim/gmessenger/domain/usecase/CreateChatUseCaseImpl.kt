@@ -6,7 +6,8 @@ import com.gazim.gmessenger.domain.service.GMessengerSessionService
 class CreateChatUseCaseImpl(
     private val gMessengerSessionService: GMessengerSessionService,
 ) : CreateChatUseCase {
-    override suspend fun invoke(user: User) {
-        gMessengerSessionService.createChat(user)
-    }
+    override suspend fun invoke(user: User) =
+        runCatching {
+            gMessengerSessionService.createChat(user)
+        }
 }

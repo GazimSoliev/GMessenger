@@ -7,8 +7,9 @@ class LogOutUseCaseImpl(
     private val gMessengerSessionService: GMessengerSessionService,
     private val sessionService: SessionService,
 ) : LogOutUseCase {
-    override suspend fun invoke() {
-        gMessengerSessionService.closeCurrentSession()
-        sessionService.clearSession()
-    }
+    override suspend fun invoke() =
+        runCatching {
+            gMessengerSessionService.closeCurrentSession()
+            sessionService.clearSession()
+        }
 }

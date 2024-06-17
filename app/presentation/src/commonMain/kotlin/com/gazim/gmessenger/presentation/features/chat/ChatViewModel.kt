@@ -71,7 +71,7 @@ class ChatViewModel(
     }
 
     private suspend fun defineValues(chat: IChat) {
-        chatModel = getChatUseCase(chat)
+        getChatUseCase(chat).onSuccess { chatModel = it }
     }
 
     private suspend fun IntentScope.setPaging(chat: IChat) {

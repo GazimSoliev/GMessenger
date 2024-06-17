@@ -35,19 +35,19 @@ class ChatsViewModel(
                 is OnCreateNewChat -> postSideEffect(ToFindUser)
                 is OnAccountInfoClick -> postSideEffect(ToAccountInfoScreen)
                 is OnLogOutClick -> {
-                    logOutUseCase()
-                    postSideEffect(ToLoginScreen)
-                    destroyViewModel()
+                    logOutUseCase().onSuccess {
+                        postSideEffect(ToLoginScreen)
+                        destroyViewModel()
+                    }
                 }
             }
         }
     }
 
     private suspend fun SimpleSyntax<ChatsState, ChatsSideEffect>.getChats() {
-        runCatching {
-            getChatsUseCase()
-        }.onSuccess {
-            reduce { state.copy(list = it.map(IChat::toChatUI)) }
-        }.onFailure(Throwable::printStackTrace)
+        getChatsUseCase()
+            .onSuccess {
+                reduce { state.copy(list = it.map(IChat::toChatUI)) }
+            }.onFailure(Throwable::printStackTrace)
     }
 }
