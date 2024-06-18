@@ -14,7 +14,9 @@ class GMessengerServiceImpl(
     }
 
     override suspend fun closeAPI(token: String) {
-        checkNotNull(mapApi.remove(token))
+        val api = mapApi.remove(token)
+        checkNotNull(api)
+        api.close()
     }
 
     override suspend fun getChats(token: String): List<IChat> = mapApi.getValue(token).getChats()

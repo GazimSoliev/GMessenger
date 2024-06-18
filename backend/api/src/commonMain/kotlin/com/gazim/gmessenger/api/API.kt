@@ -2,9 +2,8 @@ package com.gazim.gmessenger.api
 
 import com.gazim.gmessenger.api.model.*
 import kotlinx.coroutines.flow.Flow
-import java.io.Closeable
 
-interface GMessengerAPI {
+interface GMessengerAPI : AutoCloseable {
     suspend fun whoAmI(): User
 
     suspend fun getChats(): List<IChat>
@@ -38,7 +37,7 @@ interface GMessengerAuthAPI {
     suspend fun login(loginPassword: AuthenticationForm): String?
 }
 
-interface ChatWebSocket : Closeable {
+interface ChatWebSocket : AutoCloseable {
     val messages: Flow<IMessage>
 
     suspend fun openConnection()
