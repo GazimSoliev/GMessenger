@@ -27,6 +27,10 @@ import kotlinx.coroutines.sync.Mutex
 class GMessengerAPIImpl(
     token: String,
 ) : GMessengerAPI {
+    private val isSecure = true
+    private val httpProtocol = if (isSecure) URLProtocol.HTTPS else URLProtocol.HTTP
+    private val wsProtocol = if (isSecure) URLProtocol.WSS else URLProtocol.WS
+
     private val httpClient: HttpClient =
         HttpClient {
             configureEngine()
@@ -41,7 +45,8 @@ class GMessengerAPIImpl(
             }
             install(Resources)
             defaultRequest {
-                url(urlServer)
+                host = ipServer
+                url { protocol = httpProtocol }
             }
         }
 
@@ -79,7 +84,10 @@ class GMessengerAPIImpl(
 
             override suspend fun openConnection() {
                 coroutineScope {
-                    httpClient.webSocket(ChatRoute.Id(chat.id)) {
+                    httpClient.webSocket(
+                        resource = ChatRoute.Id(chat.id),
+                        request = { url { protocol = wsProtocol } }
+                    ) {
                         println(this.call.request.url)
                         val input =
                             this@coroutineScope.launch {
