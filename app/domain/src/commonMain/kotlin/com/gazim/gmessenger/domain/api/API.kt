@@ -9,7 +9,7 @@ interface GMessengerAuthAPI {
     suspend fun login(loginPasswordModel: AuthenticationForm): String?
 }
 
-interface GMessengerAPI {
+interface GMessengerAPI : AutoCloseable {
     suspend fun getChats(): List<IChat>
 
     suspend fun filterUsers(query: String): List<User>

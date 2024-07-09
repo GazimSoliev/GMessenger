@@ -44,7 +44,7 @@ kotlin {
 
             implementation(projects.app.presentation)
             implementation(projects.app.domain)
-//            implementation(projects.app.di)
+            implementation(projects.app.di)
 
             implementation(libs.koin.core)
             implementation(libs.koin.logger)
@@ -59,7 +59,10 @@ kotlin {
 
 android {
     namespace = "com.gazim.gmessenger"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk =
+        libs.versions.android.compileSdk
+            .get()
+            .toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
@@ -67,8 +70,14 @@ android {
 
     defaultConfig {
         applicationId = "com.gazim.gmessenger"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
+        targetSdk =
+            libs.versions.android.targetSdk
+                .get()
+                .toInt()
         versionCode = 1
         versionName = "1.0"
     }

@@ -25,15 +25,21 @@ sealed interface ChatSideEffect : ISideEffect {
 }
 
 sealed interface ChatAction : IAction {
-    data class OnMessageChange(val message: TextFieldValue) : ChatAction
+    data class OnMessageChange(
+        val message: TextFieldValue,
+    ) : ChatAction
 
     data object OnSendMessage : ChatAction
 
     data object OnBack : ChatAction
 
-    data class OnStart(val chat: IChatUI) : ChatAction
+    data class OnStart(
+        val chat: IChatUI,
+    ) : ChatAction
 
     data object OnStop : ChatAction
 
-    data class OnFollowMessage(val value: Boolean) : ChatAction
+    data class OnFollowMessage(
+        val value: Boolean,
+    ) : ChatAction
 }

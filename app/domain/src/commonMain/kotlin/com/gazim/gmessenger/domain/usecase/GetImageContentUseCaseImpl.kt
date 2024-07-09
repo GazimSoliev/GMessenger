@@ -1,9 +1,12 @@
 package com.gazim.gmessenger.domain.usecase
 
-import com.gazim.gmessenger.domain.service.GMessengerService
+import com.gazim.gmessenger.domain.service.GMessengerSessionService
 
 class GetImageContentUseCaseImpl(
-    private val gMessengerService: GMessengerService,
+    private val gMessengerSessionService: GMessengerSessionService,
 ) : GetImageContentUseCase {
-    override suspend fun invoke(photoId: String): ByteArray = gMessengerService.getImageContent(photoId)
+    override suspend fun invoke(photoId: String) =
+        runCatching {
+            gMessengerSessionService.getImageContent(photoId)
+        }
 }

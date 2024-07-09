@@ -6,7 +6,9 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import java.util.*
 
-class TokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+class TokenEntity(
+    id: EntityID<UUID>,
+) : UUIDEntity(id) {
     companion object : UUIDEntityClass<TokenEntity>(TokenTable)
 
     var createdAt by TokenTable.createdAt

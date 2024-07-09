@@ -8,10 +8,10 @@ import com.gazim.gmessenger.domain.usecase.GetOwnUser
 import com.gazim.gmessenger.domain.usecase.UploadProfilePhotoUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.user.UserAction.*
+import com.gazim.gmessenger.presentation.features.user.UserSideEffect.PickPhoto
 import com.gazim.gmessenger.presentation.features.user.UserSideEffect.ToBack
 import com.gazim.gmessenger.presentation.model.UserUI
 import com.gazim.gmessenger.presentation.model.toUserUI
-import com.gazim.gmessenger.utils.pickPhoto
 import com.gazim.gmessenger.utils.toComposeBitmapImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,49 +50,42 @@ class UserViewModel(
                 is OnSaveClick -> saveProfileChanges()
                 is OnCancelClick -> reduce { state.copy(editMode = false) }
                 is OnBack -> backClick()
-                is UploadProfilePhoto -> uploadProfilePhoto()
+                is UploadProfilePhoto -> postSideEffect(PickPhoto)
+                is LoadProfileImage -> uploadProfilePhoto(action.image)
             }
         }
     }
 
-    private suspend fun IntentScope.uploadProfilePhoto() {
-        val bytes =
-            runCatching { pickPhoto() }
-                .onFailure(Throwable::printStackTrace)
-                .getOrNull()
-        if (bytes == null) return
+    private suspend fun IntentScope.uploadProfilePhoto(bytes: Pair<String, ByteArray>) {
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                val image = uploadProfilePhotoUseCase(bytes.first, bytes.second)
-                val byteArray = getImageContentUseCase(image.id)
-                reduce { state.copy(imageBitmap = byteArray.toComposeBitmapImage()) }
-            }.onFailure(Throwable::printStackTrace)
+            val image = uploadProfilePhotoUseCase(bytes.first, bytes.second).getOrNull() ?: return@launch
+            val byteArray = getImageContentUseCase(image.id).getOrNull() ?: return@launch
+            reduce { state.copy(imageBitmap = byteArray.toComposeBitmapImage()) }
         }
     }
 
     private suspend fun IntentScope.updateUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
-            val u = getUserUseCase()
+            val u = getUserUseCase().getOrNull() ?: return@launch
             user = u.toUserUI()
             reduce { state.copy(nickname = user.nickname, username = "@${user.username}") }
             val image = u.photo ?: return@launch
-            val byteArray = getImageContentUseCase(image.id)
+            val byteArray = getImageContentUseCase(image.id).getOrNull() ?: return@launch
             reduce { state.copy(imageBitmap = byteArray.toComposeBitmapImage()) }
         }
     }
 
     private fun IntentScope.saveProfileChanges() {
         viewModelScope.launch {
-            runCatching {
-                reduce { state.copy(editMode = false) }
-                editProfileFormUseCase(
-                    ProfileForm(
-                        nickname = state.nicknameValue.text,
-                        username = state.usernameValue.text,
-                    ),
-                )
+            reduce { state.copy(editMode = false) }
+            editProfileFormUseCase(
+                ProfileForm(
+                    nickname = state.nicknameValue.text,
+                    username = state.usernameValue.text,
+                ),
+            ).onSuccess {
                 updateUserProfile()
-            }.onFailure(Throwable::printStackTrace)
+            }
         }
     }
 

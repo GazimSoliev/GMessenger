@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -36,8 +39,14 @@ kotlin {
 
 android {
     namespace = "com.gazim.gmessenger.di"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk =
+        libs.versions.android.compileSdk
+            .get()
+            .toInt()
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
     }
 }

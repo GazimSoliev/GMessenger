@@ -15,7 +15,7 @@ data class LoginState(
 ) : IState
 
 sealed interface LoginSideEffect : ISideEffect {
-    data class ToChatsScreen(val session: String) : LoginSideEffect
+    data object ToChatsScreen : LoginSideEffect
 
     data object ToRegisterScreen : LoginSideEffect
 
@@ -27,9 +27,13 @@ sealed interface LoginSideEffect : ISideEffect {
 }
 
 sealed interface LoginAction : IAction {
-    data class OnChangeLogin(val login: TextFieldValue) : LoginAction
+    data class OnChangeLogin(
+        val login: TextFieldValue,
+    ) : LoginAction
 
-    data class OnChangePassword(val password: TextFieldValue) : LoginAction
+    data class OnChangePassword(
+        val password: TextFieldValue,
+    ) : LoginAction
 
     data object OnLogInClick : LoginAction
 

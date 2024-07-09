@@ -20,7 +20,8 @@ fun Application.configureJWT() {
         jwt(jwtName) {
             realm = com.gazim.gmessenger.server.plugins.realm
             verifier(
-                JWT.require(Algorithm.HMAC256(secret))
+                JWT
+                    .require(Algorithm.HMAC256(secret))
                     .withAudience(audience)
                     .withIssuer(issuer)
                     .build(),

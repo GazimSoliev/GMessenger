@@ -12,30 +12,35 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 
-class GMessengerAuthAPIImpl(private val urlServer: String) : GMessengerAuthAPI {
+class GMessengerAuthAPIImpl(private val urlServer: String, private val isSecure: Boolean = true) : GMessengerAuthAPI {
+    private val httpProtocol = if (isSecure) URLProtocol.HTTPS else URLProtocol.HTTP
+
     private val httpClient
         get() =
             HttpClient {
                 configureContentNegotiation()
                 install(Resources)
                 defaultRequest {
-                    url(urlServer)
+                    host = urlServer
+                    url { protocol = httpProtocol }
                 }
             }
 
     override suspend fun register(account: RegistrationForm): Boolean =
         httpClient.use {
-            it.post(RegistrationRoute()) {
-                contentType(ContentType.Application.Json)
-                setBody(account)
-            }.status == HttpStatusCode.OK
+            it
+                .post(RegistrationRoute()) {
+                    contentType(ContentType.Application.Json)
+                    setBody(account)
+                }.status == HttpStatusCode.OK
         }
 
     override suspend fun login(loginPassword: AuthenticationForm): String =
         httpClient.use {
-            httpClient.post(LoginRoute()) {
-                contentType(ContentType.Application.Json)
-                setBody(loginPassword)
-            }.bodyAsText()
+            httpClient
+                .post(LoginRoute()) {
+                    contentType(ContentType.Application.Json)
+                    setBody(loginPassword)
+                }.bodyAsText()
         }
 }

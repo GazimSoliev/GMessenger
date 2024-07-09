@@ -23,12 +23,13 @@ class MessageRepository : IMessageRepository {
         message: MessageForm,
     ): Message =
         dbQuery {
-            MessageEntity.new {
-                chatEntity = ChatEntity[chat.id]
-                this.message = message.message
-                account = user.toAccountEntity()
-                sentAt = LocalDateTime.now(ZoneOffset.UTC)
-            }.toMessage()
+            MessageEntity
+                .new {
+                    chatEntity = ChatEntity[chat.id]
+                    this.message = message.message
+                    account = user.toAccountEntity()
+                    sentAt = LocalDateTime.now(ZoneOffset.UTC)
+                }.toMessage()
         }
 
     override suspend fun getMessages(
@@ -42,8 +43,7 @@ class MessageRepository : IMessageRepository {
                     (MessageTable.idChat eq chat.id) and
                         (MessageTable.createdAt less start) and
                         (MessageTable.createdAt greaterEq end)
-                }
-                .orderBy(MessageTable.createdAt to SortOrder.DESC)
+                }.orderBy(MessageTable.createdAt to SortOrder.DESC)
                 .map(MessageEntity::toMessage)
         }
 
@@ -57,8 +57,7 @@ class MessageRepository : IMessageRepository {
                 .find {
                     (MessageTable.idChat eq chat.id) and
                         (MessageTable.createdAt less start)
-                }
-                .orderBy(MessageTable.createdAt to SortOrder.ASC)
+                }.orderBy(MessageTable.createdAt to SortOrder.ASC)
                 .limit(offset.toInt())
                 .firstOrNull()
                 ?.sentAt
@@ -74,8 +73,7 @@ class MessageRepository : IMessageRepository {
                 .find {
                     (MessageTable.idChat eq chat.id) and
                         (MessageTable.createdAt greaterEq end)
-                }
-                .orderBy(MessageTable.createdAt to SortOrder.ASC)
+                }.orderBy(MessageTable.createdAt to SortOrder.ASC)
                 .limit(1, offset)
                 .singleOrNull()
                 ?.sentAt

@@ -2,10 +2,9 @@ package com.gazim.gmessenger.api
 
 import com.gazim.gmessenger.api.model.*
 import kotlinx.coroutines.flow.Flow
-import java.io.Closeable
 import kotlin.time.Duration
 
-interface GMessengerAPI {
+interface GMessengerAPI : AutoCloseable {
     suspend fun whoAmI(): User
 
     suspend fun getChats(): List<IChat>
@@ -16,7 +15,7 @@ interface GMessengerAPI {
 
     suspend fun findUser(username: String): List<User>
 
-    suspend fun getNotifications(): NotificationSocket
+    suspend fun getNotifications(): ChatWebSocket.NotificationSocket
 
     suspend fun getMessages(
         chat: IChat,
@@ -39,13 +38,14 @@ interface GMessengerAuthAPI {
     suspend fun login(loginPassword: AuthenticationForm): String?
 }
 
+interface ChatWebSocket : AutoCloseable {
 interface GMessengerAPIConnection {
     val availableServers: List<GMessengerServer>
 
     suspend fun ping(url: String): Duration
 }
 
-interface ChatWebSocket : Closeable {
+interface ChatWebSocket : AutoCloseable {
     val messages: Flow<IMessage>
 
     suspend fun openConnection()

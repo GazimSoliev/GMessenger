@@ -35,7 +35,9 @@ fun ChatItem(
         val getImageContentUseCase = koinInject<GetImageContentUseCase>()
         LaunchedEffect(image) {
             launch(Dispatchers.IO) {
-                bitmap = getImageContentUseCase(image).toComposeBitmapImage()
+                getImageContentUseCase(image).onSuccess {
+                    bitmap = it.toComposeBitmapImage()
+                }
             }
         }
     }

@@ -36,18 +36,16 @@ class FindUserViewModel(
     }
 
     private suspend fun SimpleSyntax<FindUserState, FindUserSideEffect>.findUser(filter: String) {
-        runCatching {
-            filterUsersUseCase(filter)
-        }.onSuccess {
-            reduce { state.copy(users = it.map { it.toUserUI() }) }
-        }.onFailure(Throwable::printStackTrace)
+        filterUsersUseCase(filter)
+            .onSuccess {
+                reduce { state.copy(users = it.map { it.toUserUI() }) }
+            }.onFailure(Throwable::printStackTrace)
     }
 
     private suspend fun SimpleSyntax<FindUserState, FindUserSideEffect>.createChat(user: User) {
-        runCatching {
-            createChatUseCase(user)
-        }.onSuccess {
-            postSideEffect(ToChatsScreen)
-        }.onFailure(Throwable::printStackTrace)
+        createChatUseCase(user)
+            .onSuccess {
+                postSideEffect(ToChatsScreen)
+            }.onFailure(Throwable::printStackTrace)
     }
 }

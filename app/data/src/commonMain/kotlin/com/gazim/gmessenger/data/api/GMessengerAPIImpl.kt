@@ -10,17 +10,19 @@ import com.gazim.gmessenger.data.model.toNotificationWebSocketModel
 import com.gazim.gmessenger.domain.api.GMessengerAPI
 import com.gazim.gmessenger.domain.model.*
 import com.gazim.gmessenger.api.GMessengerAPI as GMAPI
+import com.gazim.gmessenger.api.model.IChat as IChatAPI
 import com.gazim.gmessenger.api.model.User as UserAPI
 
 class GMessengerAPIImpl(host: String, token: String) : GMessengerAPI {
     private val gMessengerAPI = GMAPI(host, token)
 
-    override suspend fun getChats(): List<com.gazim.gmessenger.domain.model.IChat> = gMessengerAPI.getChats().map(IChat::toDomain)
+    override suspend fun getChats(): List<IChat> = gMessengerAPI.getChats().map(IChatAPI::toDomain)
 
     override suspend fun filterUsers(query: String): List<User> = gMessengerAPI.findUser(query).map(UserAPI::toDomain)
 
-    override suspend fun getChat(chatModel: com.gazim.gmessenger.domain.model.IChat): IChatWebSocketModel =
-        gMessengerAPI.getChatWebSocket(chatModel.toAPI())
+    override suspend fun getChat(chatModel: IChat): IChatWebSocketModel =
+        gMessengerAPI
+            .getChatWebSocket(chatModel.toAPI())
             .toChatWebSocketModel((if (chatModel is PrivateChat) chatModel.user.nickname else chatModel.title))
 
     override suspend fun getMyOwnAccount(): User = gMessengerAPI.whoAmI().toDomain()
@@ -32,7 +34,7 @@ class GMessengerAPIImpl(host: String, token: String) : GMessengerAPI {
     override suspend fun getNotifications(): INotificationWebSocketModel = gMessengerAPI.getNotifications().toNotificationWebSocketModel()
 
     override suspend fun getMessages(
-        chatModel: com.gazim.gmessenger.domain.model.IChat,
+        chatModel: IChat,
         key: MessagePageKey?,
     ): MessagePage = gMessengerAPI.getMessages(chatModel.toAPI(), key?.toAPI()).toDomain()
 
@@ -44,4 +46,8 @@ class GMessengerAPIImpl(host: String, token: String) : GMessengerAPI {
     ): Image = gMessengerAPI.uploadProfilePhoto(type, bytes).toDomain()
 
     override suspend fun getImageContent(photoId: String): ByteArray = gMessengerAPI.getImageContent(photoId)
+
+    override fun close() {
+        gMessengerAPI.close()
+    }
 }

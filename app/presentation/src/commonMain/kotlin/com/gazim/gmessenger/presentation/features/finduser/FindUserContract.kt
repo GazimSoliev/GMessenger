@@ -16,9 +16,13 @@ sealed interface FindUserSideEffect : ISideEffect {
 }
 
 sealed interface FindUserAction : IAction {
-    data class OnFilterChange(val query: TextFieldValue) : FindUserAction
+    data class OnFilterChange(
+        val query: TextFieldValue,
+    ) : FindUserAction
 
-    data class OnUserClick(val user: UserUI) : FindUserAction
+    data class OnUserClick(
+        val user: UserUI,
+    ) : FindUserAction
 
     data object OnBackClick : FindUserAction
 }

@@ -8,7 +8,9 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import java.util.*
 
-class AccountEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+class AccountEntity(
+    id: EntityID<UUID>,
+) : UUIDEntity(id) {
     companion object : UUIDEntityClass<AccountEntity>(AccountTable)
 
     var nickname by AccountTable.nickname

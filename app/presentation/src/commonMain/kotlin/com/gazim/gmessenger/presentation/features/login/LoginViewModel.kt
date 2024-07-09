@@ -1,11 +1,7 @@
 package com.gazim.gmessenger.presentation.features.login
 
 import com.gazim.gmessenger.domain.model.AuthenticationForm
-import com.gazim.gmessenger.domain.model.GMessengerServer
-import com.gazim.gmessenger.domain.usecase.GetAvailableServersUseCase
-import com.gazim.gmessenger.domain.usecase.GetSessionUseCaseImpl
-import com.gazim.gmessenger.domain.usecase.OnLogInUseCase
-import com.gazim.gmessenger.domain.usecase.PingUseCase
+import com.gazim.gmessenger.domain.usecase.LogInUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
@@ -20,17 +16,12 @@ private typealias IntentScope = SimpleSyntax<LoginState, LoginSideEffect>
 
 // todo: Take out actions
 class LoginViewModel(
-    private val onLogInUseCase: OnLogInUseCase,
-    private val getSessionUseCase: GetSessionUseCaseImpl,
-    private val getAvailableServersUseCase: GetAvailableServersUseCase,
-    private val pingUseCase: PingUseCase
+    private val logInUseCase: LogInUseCase,
 ) : BaseViewModel<LoginState, LoginSideEffect, LoginAction>() {
     //    private val notificationService: INotificationService by inject(INotificationService::class.java)
     override val container: Container<LoginState, LoginSideEffect> = container(initialState = LoginState())
 
     private var loggingJob: Job = Job()
-    private var pingJob: Job? = null
-    private var availableServers: List<GMessengerServer> = emptyList()
 
     override fun handleAction(action: LoginAction) {
         intent {
@@ -52,7 +43,6 @@ class LoginViewModel(
                     }
 
                 is CancelLoggingIn -> loggingJob.cancel()
-                is OpenDialog -> postSideEffect(ToSelectServerScreen)
             }
         }
     }
@@ -65,18 +55,16 @@ class LoginViewModel(
         coroutineScope {
             loggingJob =
                 launch {
-                    runCatching {
-                        onLogInUseCase(AuthenticationForm(login, password))
-                    }.onFailure {
-                        if (it is CancellationException) return@onFailure
-                        postSideEffect(UnableConnectToServer)
-                        it.printStackTrace()
-                    }.onSuccess {
-                        if (!it) return@onSuccess postSideEffect(WrongLoginOrPassword)
-                        val session = getSessionUseCase()
-                        if (session != null) return@onSuccess postSideEffect(ToChatsScreen(session))
-                        destroyViewModel()
-                    }
+                    logInUseCase(AuthenticationForm(login, password))
+                        .onFailure {
+                            if (it is CancellationException) return@onFailure
+                            postSideEffect(UnableConnectToServer)
+                            it.printStackTrace()
+                        }.onSuccess {
+                            if (!it) return@onSuccess postSideEffect(WrongLoginOrPassword)
+                            postSideEffect(ToChatsScreen)
+                            destroyViewModel()
+                        }
                 }
         }
         reduce { state.copy(loggingInProgress = false) }

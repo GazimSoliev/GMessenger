@@ -25,9 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import com.gazim.gmessenger.di.apiModule
-import com.gazim.gmessenger.di.scopeModule
+import com.gazim.gmessenger.di.factoryModule
 import com.gazim.gmessenger.di.serviceModule
+import com.gazim.gmessenger.di.useCaseModule
+import com.gazim.gmessenger.di.viewModelModule
 import com.gazim.gmessenger.domain.model.Notification
 import com.gazim.gmessenger.presentation.App
 import com.gazim.gmessenger.presentation.component.NotificationsWindow
@@ -51,7 +52,7 @@ val notificationsReceiver = MutableSharedFlow<Notification>()
 fun main() {
     startKoin {
         logger(SLF4JLogger(level = Level.INFO))
-        modules(apiModule, scopeModule, serviceModule)
+        modules(factoryModule, serviceModule)
     }
     application {
         val notifications = rememberSaveable(notificationsReceiver) { mutableStateListOf<Notification>() }
@@ -103,8 +104,10 @@ fun main() {
                             WindowDraggableArea {
                                 Box(
                                     modifier =
-                                        Modifier.fillMaxWidth()
-                                            .background(colorScheme.outlineVariant.copy(alpha = 0.1f)).height(36.dp),
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .background(colorScheme.outlineVariant.copy(alpha = 0.1f))
+                                            .height(36.dp),
                                 ) {
                                     Image(
                                         painter = icon,

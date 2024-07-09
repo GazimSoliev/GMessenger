@@ -24,7 +24,7 @@ class RegisterViewModel(
     private val validateLogin: ValidateLoginUseCase,
     private val validateNickname: ValidateNicknameUseCase,
     private val validateUsername: ValidateUsernameUseCase,
-    private val onRegisterUseCase: OnRegisterUseCase,
+    private val registerUseCase: RegisterUseCase,
 ) : BaseViewModel<RegisterState, RegisterSideEffect, RegisterAction>() {
     override val container: Container<RegisterState, RegisterSideEffect> = container(initialState = RegisterState())
 
@@ -76,16 +76,14 @@ class RegisterViewModel(
             coroutineScope {
                 registrationJob =
                     launch {
-                        runCatching {
-                            onRegisterUseCase(
-                                RegistrationForm(
-                                    nickname = nickname.text,
-                                    username = username.text,
-                                    login = login.text,
-                                    password = password.text,
-                                ),
-                            )
-                        }.onFailure {
+                        registerUseCase(
+                            RegistrationForm(
+                                nickname = nickname.text,
+                                username = username.text,
+                                login = login.text,
+                                password = password.text,
+                            ),
+                        ).onFailure {
                             if (it is CancellationException) return@onFailure
                             postSideEffect(UnableConnectToServer)
                             it.printStackTrace()

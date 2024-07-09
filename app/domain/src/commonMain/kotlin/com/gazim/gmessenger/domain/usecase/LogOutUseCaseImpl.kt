@@ -1,12 +1,15 @@
 package com.gazim.gmessenger.domain.usecase
 
 import com.gazim.gmessenger.domain.service.GMessengerSessionService
+import com.gazim.gmessenger.domain.service.SessionService
 
-class GetOwnUserImpl(
+class LogOutUseCaseImpl(
     private val gMessengerSessionService: GMessengerSessionService,
-) : GetOwnUser {
+    private val sessionService: SessionService,
+) : LogOutUseCase {
     override suspend fun invoke() =
         runCatching {
-            gMessengerSessionService.getMyOwnAccount()
+            gMessengerSessionService.closeCurrentSession()
+            sessionService.clearSession()
         }
 }

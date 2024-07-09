@@ -7,7 +7,9 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import java.util.*
 
-class ChatEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+class ChatEntity(
+    id: EntityID<UUID>,
+) : UUIDEntity(id) {
     companion object : UUIDEntityClass<ChatEntity>(ChatTable)
 
     var title by ChatTable.title

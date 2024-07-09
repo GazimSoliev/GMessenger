@@ -6,7 +6,9 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import java.util.*
 
-class ChatAccountEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+class ChatAccountEntity(
+    id: EntityID<UUID>,
+) : UUIDEntity(id) {
     companion object : UUIDEntityClass<ChatAccountEntity>(ChatAccountTable)
 
     var account by AccountEntity referencedOn ChatAccountTable.idAccount

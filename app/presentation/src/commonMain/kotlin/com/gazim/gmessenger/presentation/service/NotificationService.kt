@@ -27,7 +27,7 @@ class NotificationService(
         job =
             scope.launch {
                 launch {
-                    notifications.emitAll(getNotificationsUseCase())
+                    notifications.emitAll(getNotificationsUseCase().getOrThrow())
                 }
                 openNotificationUseCase()
             }
