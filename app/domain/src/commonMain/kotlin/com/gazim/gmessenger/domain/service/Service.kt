@@ -23,50 +23,52 @@ interface NotificationService {
 }
 
 interface GMessengerService {
-    suspend fun createAPI(token: String)
+    suspend fun createAPI(
+        config: APIConfig
+    )
 
-    suspend fun closeAPI(token: String)
+    suspend fun closeAPI(config: APIConfig)
 
-    suspend fun getChats(token: String): List<IChat>
+    suspend fun getChats(config: APIConfig): List<IChat>
 
     suspend fun filterUsers(
-        token: String,
+        config: APIConfig,
         query: String,
     ): List<User>
 
     suspend fun getChat(
-        token: String,
+        config: APIConfig,
         chatModel: IChat,
     ): IChatWebSocketModel
 
-    suspend fun getMyOwnAccount(token: String): User
+    suspend fun getMyOwnAccount(config: APIConfig): User
 
     suspend fun createChat(
-        token: String,
+        config: APIConfig,
         user: User,
     )
 
-    suspend fun getNotifications(token: String): INotificationWebSocketModel
+    suspend fun getNotifications(config: APIConfig): INotificationWebSocketModel
 
     suspend fun getMessages(
-        token: String,
+        config: APIConfig,
         chatModel: IChat,
         key: MessagePageKey?,
     ): MessagePage
 
     suspend fun editProfile(
-        token: String,
+        config: APIConfig,
         profileForm: ProfileForm,
     )
 
     suspend fun uploadProfilePhoto(
-        token: String,
+        config: APIConfig,
         type: String,
         bytes: ByteArray,
     ): Image
 
     suspend fun getImageContent(
-        token: String,
+        config: APIConfig,
         photoId: String,
     ): ByteArray
 }
@@ -104,9 +106,13 @@ interface GMessengerSessionService {
 }
 
 interface GMessengerAuthService {
-    suspend fun register(registrationForm: RegistrationForm): Boolean
+    suspend fun register(config: AuthAPIConfig, registrationForm: RegistrationForm): Boolean
 
-    suspend fun login(loginPasswordModel: AuthenticationForm): String?
+    suspend fun login(config: AuthAPIConfig, loginPasswordModel: AuthenticationForm): String?
+
+    suspend fun createAPI(config: AuthAPIConfig)
+
+    suspend fun closeAPI(config: AuthAPIConfig)
 }
 
 interface GMessengerConnectionService {

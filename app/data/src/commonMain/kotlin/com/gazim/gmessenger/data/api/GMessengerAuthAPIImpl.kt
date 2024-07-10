@@ -9,8 +9,11 @@ import com.gazim.gmessenger.api.GMessengerAuthAPI as GMAAPI
 import com.gazim.gmessenger.api.model.RegistrationForm as RegistrationFormAPI
 import com.gazim.gmessenger.domain.model.AuthenticationForm as AuthenticationFormAPI
 
-class GMessengerAuthAPIImpl(host: String) : GMessengerAuthAPI {
-    private val gMessengerAuthAPI = GMAAPI(host)
+class GMessengerAuthAPIImpl(
+    host: String,
+    isSecure: Boolean,
+) : GMessengerAuthAPI {
+    private val gMessengerAuthAPI = GMAAPI(host = host, isSecure = isSecure)
 
     override suspend fun register(registrationForm: RegistrationForm): Boolean =
         gMessengerAuthAPI.register(

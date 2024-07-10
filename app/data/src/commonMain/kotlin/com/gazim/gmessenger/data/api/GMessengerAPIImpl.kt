@@ -2,7 +2,6 @@
 
 package com.gazim.gmessenger.data.api
 
-import com.gazim.gmessenger.api.model.IChat
 import com.gazim.gmessenger.data.model.toAPI
 import com.gazim.gmessenger.data.model.toChatWebSocketModel
 import com.gazim.gmessenger.data.model.toDomain
@@ -13,8 +12,12 @@ import com.gazim.gmessenger.api.GMessengerAPI as GMAPI
 import com.gazim.gmessenger.api.model.IChat as IChatAPI
 import com.gazim.gmessenger.api.model.User as UserAPI
 
-class GMessengerAPIImpl(host: String, token: String) : GMessengerAPI {
-    private val gMessengerAPI = GMAPI(host, token)
+class GMessengerAPIImpl(
+    host: String,
+    isSecure: Boolean,
+    token: String
+) : GMessengerAPI {
+    private val gMessengerAPI = GMAPI(host = host, isSecure = isSecure, token = token)
 
     override suspend fun getChats(): List<IChat> = gMessengerAPI.getChats().map(IChatAPI::toDomain)
 
@@ -31,7 +34,8 @@ class GMessengerAPIImpl(host: String, token: String) : GMessengerAPI {
         gMessengerAPI.createChat(user = user.toAPI())
     }
 
-    override suspend fun getNotifications(): INotificationWebSocketModel = gMessengerAPI.getNotifications().toNotificationWebSocketModel()
+    override suspend fun getNotifications(): INotificationWebSocketModel =
+        gMessengerAPI.getNotifications().toNotificationWebSocketModel()
 
     override suspend fun getMessages(
         chatModel: IChat,

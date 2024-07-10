@@ -15,7 +15,7 @@ interface GMessengerAPI : AutoCloseable {
 
     suspend fun findUser(username: String): List<User>
 
-    suspend fun getNotifications(): ChatWebSocket.NotificationSocket
+    suspend fun getNotifications(): NotificationSocket
 
     suspend fun getMessages(
         chat: IChat,
@@ -38,7 +38,6 @@ interface GMessengerAuthAPI {
     suspend fun login(loginPassword: AuthenticationForm): String?
 }
 
-interface ChatWebSocket : AutoCloseable {
 interface GMessengerAPIConnection {
     val availableServers: List<GMessengerServer>
 
@@ -60,3 +59,4 @@ interface NotificationSocket {
 
     suspend fun closeConnection()
 }
+
