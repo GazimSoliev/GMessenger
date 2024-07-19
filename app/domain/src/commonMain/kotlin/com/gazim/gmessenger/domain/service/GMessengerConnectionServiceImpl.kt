@@ -6,7 +6,7 @@ import kotlin.time.Duration
 
 class GMessengerConnectionServiceImpl(private val gMessengerConnectionAPI: GMessengerConnectionAPI) :
     GMessengerConnectionService {
-    private var currentServer: GMessengerServer? = null
+    private var currentServer: GMessengerServer? = gMessengerConnectionAPI.availableServers.firstOrNull()
     private val _servers = mutableListOf<GMessengerServer>()
     override val availableServers: List<GMessengerServer>
         get() = gMessengerConnectionAPI.availableServers + _servers

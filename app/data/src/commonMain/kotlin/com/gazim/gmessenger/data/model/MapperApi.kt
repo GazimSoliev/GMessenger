@@ -125,4 +125,4 @@ fun MessageNotification.toNotificationModel() =
         else -> null!!
     }
 
-fun GMessengerServerAPI.toDomain() = GMessengerServer(url = url, title = title)
+fun GMessengerServerAPI.toDomain() = GMessengerServer(host = host, isSecure = isSecure, title = title)

@@ -13,7 +13,8 @@ class GMessengerAPIConnectionImpl : GMessengerAPIConnection {
         get() =
             listOf(
                 GMessengerServer(
-                    url = "http://127.0.0.1:8080",
+                    host = "127.0.0.1:8080",
+                    isSecure = false,
                     title = "Test server",
                     description = "Test GMessenger server",
                 ),

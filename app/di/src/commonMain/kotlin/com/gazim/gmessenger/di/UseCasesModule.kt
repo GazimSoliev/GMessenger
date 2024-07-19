@@ -24,6 +24,9 @@ val useCaseModule =
         factoryOf(::UploadProfilePhotoUseCaseImpl) bind UploadProfilePhotoUseCase::class
         factoryOf(::GetImageContentUseCaseImpl) bind GetImageContentUseCase::class
         factoryOf(::LogOutUseCaseImpl) bind LogOutUseCase::class
+        factoryOf(::PingUseCaseImpl) bind PingUseCase::class
+        factoryOf(::AddServerUseCaseImpl) bind AddServerUseCase::class
+        factoryOf(::GetAvailableServersUseCaseImpl) bind GetAvailableServersUseCase::class
 //        factoryOf(::OpenNotificationUseCase) bind IOpenNotificationUseCase::class
 //        factoryOf(::CloseNotificationUseCase) bind ICloseNotificationUseCase::class
 //        factoryOf(::GetNotificationsUseCase) bind IGetNotificationsUseCase::class

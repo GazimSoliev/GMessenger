@@ -8,6 +8,8 @@ import org.koin.dsl.module
 val serviceModule =
     module {
         singleOf(::GMessengerAuthServiceImpl) bind GMessengerAuthService::class
+        singleOf(::GMessengerAuthSessionServiceImpl) bind GMessengerAuthSessionService::class
+        singleOf(::GMessengerConnectionServiceImpl) bind GMessengerConnectionService::class
         singleOf(::GMessengerServiceImpl) bind GMessengerService::class
         singleOf(::GMessengerSessionServiceImpl) bind GMessengerSessionService::class
         singleOf(::SessionServiceImpl) bind SessionService::class

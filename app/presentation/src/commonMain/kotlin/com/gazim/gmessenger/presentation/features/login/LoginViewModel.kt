@@ -43,6 +43,7 @@ class LoginViewModel(
                     }
 
                 is CancelLoggingIn -> loggingJob.cancel()
+                is OnSelectServerClick -> postSideEffect(ToSelectServerScreen)
             }
         }
     }

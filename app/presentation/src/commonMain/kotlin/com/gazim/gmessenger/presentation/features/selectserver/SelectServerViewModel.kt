@@ -1,7 +1,6 @@
 package com.gazim.gmessenger.presentation.features.selectserver
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.gazim.gmessenger.domain.model.GMessengerServer
 import com.gazim.gmessenger.domain.usecase.AddServerUseCase
 import com.gazim.gmessenger.domain.usecase.GetAvailableServersUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
@@ -59,7 +58,7 @@ class SelectServerViewModel(
     private suspend fun IntentScope.onSaveClick() {
         val server = state.serverValue.text
         val url = state.urlValue.text
-        addServerUseCase(GMessengerServer(url, server))
+//        addServerUseCase(GMessengerServer(url, server))
         updateServerList()
         reduce { state.copy(editableMode = false, serverValue = TextFieldValue(), urlValue = TextFieldValue()) }
     }

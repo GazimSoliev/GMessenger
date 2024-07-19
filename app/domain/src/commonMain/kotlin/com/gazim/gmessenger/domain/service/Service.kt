@@ -115,6 +115,16 @@ interface GMessengerAuthService {
     suspend fun closeAPI(config: AuthAPIConfig)
 }
 
+interface GMessengerAuthSessionService {
+    suspend fun register(registrationForm: RegistrationForm): Boolean
+
+    suspend fun login(loginPasswordModel: AuthenticationForm): String?
+
+    suspend fun createAPI()
+
+    suspend fun closeAPI()
+}
+
 interface GMessengerConnectionService {
     val availableServers: List<GMessengerServer>
 

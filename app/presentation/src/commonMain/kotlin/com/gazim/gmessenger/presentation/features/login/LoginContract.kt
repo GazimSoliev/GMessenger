@@ -43,5 +43,5 @@ sealed interface LoginAction : IAction {
 
     data object CancelLoggingIn : LoginAction
 
-    data object OpenDialog : LoginAction
+    data object OnSelectServerClick : LoginAction
 }
