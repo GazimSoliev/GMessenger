@@ -24,7 +24,7 @@ fun ServerList(
         Column {
             LazyColumn(Modifier.size(512.dp).padding(16.dp)) {
                 items(servers) {
-                    ServerItem(server = it.server, url = it.url, ping = it.ping, modifier = Modifier.fillMaxWidth())
+                    ServerItem(server = it.server, url = it.host, ping = it.ping, modifier = Modifier.fillMaxWidth())
                 }
             }
             Row {
@@ -45,9 +45,9 @@ fun ServerListPreview() {
     GMessengerTheme {
         ServerList(
             servers = listOf(
-                ServerInfoUI("Server", "http://localhost:8080", "0", true),
-                ServerInfoUI("Server", "url", "0", false),
-                ServerInfoUI("Server", "url", "0", false),
+                ServerInfoUI("Server", "localhost:8080", false, "0", true),
+                ServerInfoUI("Server", "url", false, "0", false),
+                ServerInfoUI("Server", "url", false, "0", false),
             )
         )
     }

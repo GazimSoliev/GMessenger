@@ -23,16 +23,18 @@ fun SelectServerComposition(
     servers: List<ServerInfoUI> = emptyList(),
     editableMode: Boolean = false,
     serverTextField: TextFieldValue = TextFieldValue(),
-    urlTextField: TextFieldValue = TextFieldValue(),
+    hostTextField: TextFieldValue = TextFieldValue(),
+    isSecure: Boolean = false,
     onServerClick: (ServerInfoUI) -> Unit = {},
     onSelectClick: () -> Unit = {},
     onAddServerClick: () -> Unit = {},
     onServerChange: (TextFieldValue) -> Unit = {},
-    onUrlChange: (TextFieldValue) -> Unit = {},
+    onHostChange: (TextFieldValue) -> Unit = {},
+    onSecureChange: () -> Unit = {},
     onSaveClick: () -> Unit = {},
     onCancelClick: () -> Unit = {},
     onBackClick: () -> Unit = {},
-    pinging: suspend (String) -> String = { "" }
+    pinging: suspend (host: String, isSecure: Boolean) -> String = { _, _ -> "" }
 ) {
     val width = 512.dp
     Scaffold(
@@ -63,7 +65,15 @@ fun SelectServerComposition(
                 ) {
                     TextField(value = serverTextField, onValueChange = onServerChange, label = { Text("Server") })
                     Spacer(Modifier.height(16.dp))
-                    TextField(value = urlTextField, onValueChange = onUrlChange, label = { Text("URL") })
+                    TextField(value = hostTextField, onValueChange = onHostChange, label = { Text("Host") })
+                    Spacer(Modifier.height(16.dp))
+                    Row(
+                        modifier = Modifier.clickable(onClick = onSecureChange),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Checkbox(isSecure, {})
+                        Text("Use secure connection")
+                    }
                     Spacer(Modifier.height(32.dp))
                     Row(
                         modifier = Modifier.padding(16.dp),
@@ -95,7 +105,8 @@ fun SelectServerComposition(
                                 RadioButton(selected = it.selected, onClick = { onServerClick(it) })
                                 AsyncServerItem(
                                     server = it.server,
-                                    url = it.url,
+                                    url = it.host,
+                                    isSecure = it.isSecure,
                                     pinging = pinging
                                 )
                             }
@@ -124,9 +135,9 @@ fun SelectServerCompositionPreview() {
     GMessengerTheme {
         SelectServerComposition(
             servers = listOf(
-                ServerInfoUI("Server", "http://localhost:8080", "0", true),
-                ServerInfoUI("Server", "url", "0", false),
-                ServerInfoUI("Server", "url", "0", false),
+                ServerInfoUI("Server", "localhost:8080", false, "0", true),
+                ServerInfoUI("Server", "url", false, "0", false),
+                ServerInfoUI("Server", "url", false, "0", false),
             )
         )
     }
@@ -137,12 +148,7 @@ fun SelectServerCompositionPreview() {
 fun SelectServerCompositionEditModePreview() {
     GMessengerTheme {
         SelectServerComposition(
-            editableMode = true,
-            servers = listOf(
-                ServerInfoUI("Server", "http://localhost:8080", "0", true),
-                ServerInfoUI("Server", "url", "0", false),
-                ServerInfoUI("Server", "url", "0", false),
-            )
+            editableMode = true
         )
     }
 }

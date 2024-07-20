@@ -5,6 +5,7 @@ import com.gazim.gmessenger.api.route.PingRoute
 import io.ktor.client.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.resources.*
+import io.ktor.http.*
 import kotlin.time.Duration
 import kotlin.time.measureTime
 
@@ -20,11 +21,14 @@ class GMessengerAPIConnectionImpl : GMessengerAPIConnection {
                 ),
             )
 
-    override suspend fun ping(url: String): Duration =
+    override suspend fun ping(host: String, isSecure: Boolean): Duration =
         HttpClient {
             install(Resources)
             defaultRequest {
-                url(url)
+                url {
+                    this.host = host
+                    this.protocol = if (isSecure) URLProtocol.HTTPS else URLProtocol.HTTP
+                }
             }
         }.use {
             measureTime {

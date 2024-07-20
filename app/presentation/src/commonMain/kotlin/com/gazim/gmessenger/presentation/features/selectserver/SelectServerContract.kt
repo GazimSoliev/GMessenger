@@ -9,7 +9,8 @@ import com.gazim.gmessenger.presentation.model.ServerInfoUI
 data class SelectServerState(
     val serverList: List<ServerInfoUI> = emptyList(),
     val serverValue: TextFieldValue = TextFieldValue(),
-    val urlValue: TextFieldValue = TextFieldValue(),
+    val hostValue: TextFieldValue = TextFieldValue(),
+    val isSecure: Boolean = false,
     val editableMode: Boolean = false,
 ) : IState
 
@@ -22,8 +23,9 @@ sealed interface SelectServerAction : IAction {
     data object OnSelectClick : SelectServerAction
     data object OnAddServerClick: SelectServerAction
     data class OnServerChange(val value: TextFieldValue): SelectServerAction
-    data class OnUrlChange(val value: TextFieldValue): SelectServerAction
+    data class OnHostChange(val value: TextFieldValue): SelectServerAction
     data object OnSaveClick: SelectServerAction
     data object OnCancelClick: SelectServerAction
     data object OnBackClick: SelectServerAction
+    data object OnSecureChange : SelectServerAction
 }

@@ -23,6 +23,7 @@ class GMessengerAuthSessionServiceImpl(
     }
 
     override suspend fun closeAPI() {
+        val config = _config ?: return
         gMessengerAuthService.closeAPI(config)
         _config = null
     }

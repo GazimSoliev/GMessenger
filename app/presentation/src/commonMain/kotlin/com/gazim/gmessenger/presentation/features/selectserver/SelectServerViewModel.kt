@@ -1,8 +1,10 @@
 package com.gazim.gmessenger.presentation.features.selectserver
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.gazim.gmessenger.domain.model.GMessengerServer
 import com.gazim.gmessenger.domain.usecase.AddServerUseCase
 import com.gazim.gmessenger.domain.usecase.GetAvailableServersUseCase
+import com.gazim.gmessenger.domain.usecase.SelectServerUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.model.ServerInfoUI
 import com.gazim.gmessenger.presentation.model.toUI
@@ -16,17 +18,21 @@ private typealias IntentScope = SimpleSyntax<SelectServerState, SelectServerSide
 
 class SelectServerViewModel(
     private val getAvailableServersUseCase: GetAvailableServersUseCase,
-    private val addServerUseCase: AddServerUseCase
+    private val addServerUseCase: AddServerUseCase,
+    private val selectServerUseCase: SelectServerUseCase
 ) : BaseViewModel<SelectServerState, SelectServerSideEffect, SelectServerAction>() {
+    private var originServers = emptyList<GMessengerServer>()
+
     override val container: Container<SelectServerState, SelectServerSideEffect> = container(SelectServerState()) {
         updateServerList()
     }
 
     private suspend fun IntentScope.updateServerList() {
         val servers = getAvailableServersUseCase()
+        originServers = servers
         reduce {
             state.copy(
-                serverList = servers.map { it.toUI(5_000) }
+                serverList = servers.toUI()
             )
         }
     }
@@ -41,13 +47,16 @@ class SelectServerViewModel(
                 is SelectServerAction.OnSelectClick -> onSelectClick()
                 is SelectServerAction.OnServerChange -> reduce { state.copy(serverValue = action.value) }
                 is SelectServerAction.OnServerClick -> onServerClick(action.server)
-                is SelectServerAction.OnUrlChange -> reduce { state.copy(urlValue = action.value) }
+                is SelectServerAction.OnHostChange -> reduce { state.copy(hostValue = action.value) }
+                is SelectServerAction.OnSecureChange -> reduce { state.copy(isSecure = !state.isSecure) }
             }
         }
     }
 
     private suspend fun IntentScope.onSelectClick() {
-
+        val selectedServer = state.serverList.find { it.selected }?.let { originServers[it.id] } ?: return
+        selectServerUseCase(selectedServer)
+        postSideEffect(SelectServerSideEffect.Back)
     }
 
     private suspend fun IntentScope.onServerClick(server: ServerInfoUI) {
@@ -57,9 +66,10 @@ class SelectServerViewModel(
 
     private suspend fun IntentScope.onSaveClick() {
         val server = state.serverValue.text
-        val url = state.urlValue.text
-//        addServerUseCase(GMessengerServer(url, server))
+        val url = state.hostValue.text
+        val isSecure = state.isSecure
+        addServerUseCase(GMessengerServer(url, isSecure, server))
         updateServerList()
-        reduce { state.copy(editableMode = false, serverValue = TextFieldValue(), urlValue = TextFieldValue()) }
+        reduce { state.copy(editableMode = false, serverValue = TextFieldValue(), hostValue = TextFieldValue()) }
     }
 }

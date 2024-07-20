@@ -14,5 +14,5 @@ class GMessengerConnectionAPIImpl : GMessengerConnectionAPI {
     override val availableServers: List<GMessengerServer>
         get() = gMessengerConnectionAPI.availableServers.map(GMessengerServerAPI::toDomain)
 
-    override suspend fun ping(url: String): Duration = gMessengerConnectionAPI.ping(url)
+    override suspend fun ping(host: String, isSecure: Boolean): Duration = gMessengerConnectionAPI.ping(host, isSecure)
 }

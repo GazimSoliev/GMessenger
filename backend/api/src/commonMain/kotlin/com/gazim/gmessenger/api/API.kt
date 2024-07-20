@@ -41,7 +41,7 @@ interface GMessengerAuthAPI {
 interface GMessengerAPIConnection {
     val availableServers: List<GMessengerServer>
 
-    suspend fun ping(url: String): Duration
+    suspend fun ping(host: String, isSecure: Boolean): Duration
 }
 
 interface ChatWebSocket : AutoCloseable {

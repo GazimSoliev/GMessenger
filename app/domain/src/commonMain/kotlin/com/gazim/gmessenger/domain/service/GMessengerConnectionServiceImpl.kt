@@ -11,7 +11,7 @@ class GMessengerConnectionServiceImpl(private val gMessengerConnectionAPI: GMess
     override val availableServers: List<GMessengerServer>
         get() = gMessengerConnectionAPI.availableServers + _servers
 
-    override suspend fun ping(url: String): Duration = gMessengerConnectionAPI.ping(url)
+    override suspend fun ping(host: String, isSecure: Boolean): Duration = gMessengerConnectionAPI.ping(host, isSecure)
 
     override fun getCurrentServer(): GMessengerServer? = currentServer
 

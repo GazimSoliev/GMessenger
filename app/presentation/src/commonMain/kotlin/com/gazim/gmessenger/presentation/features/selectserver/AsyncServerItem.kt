@@ -12,14 +12,15 @@ fun AsyncServerItem(
     modifier: Modifier = Modifier,
     server: String = "",
     url: String = "",
-    pinging: suspend (String) -> String = { "" }
+    isSecure: Boolean = false,
+    pinging: suspend (host: String, isSecure: Boolean) -> String = { _, _ -> "" }
 ) {
     var ping by remember { mutableStateOf("") }
     LaunchedEffect(Unit) {
         launch(Dispatchers.IO) {
             while (true) {
                 runCatching {
-                    pinging(url)
+                    pinging(url, isSecure)
                 }.onSuccess {
                     ping = it
                 }.onFailure {
