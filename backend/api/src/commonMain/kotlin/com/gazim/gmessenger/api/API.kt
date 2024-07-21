@@ -2,6 +2,7 @@ package com.gazim.gmessenger.api
 
 import com.gazim.gmessenger.api.model.*
 import kotlinx.coroutines.flow.Flow
+import kotlin.time.Duration
 
 interface GMessengerAPI : AutoCloseable {
     suspend fun whoAmI(): User
@@ -37,6 +38,12 @@ interface GMessengerAuthAPI {
     suspend fun login(loginPassword: AuthenticationForm): String?
 }
 
+interface GMessengerAPIConnection {
+    val availableServers: List<GMessengerServer>
+
+    suspend fun ping(host: String, isSecure: Boolean): Duration
+}
+
 interface ChatWebSocket : AutoCloseable {
     val messages: Flow<IMessage>
 
@@ -52,3 +59,4 @@ interface NotificationSocket {
 
     suspend fun closeConnection()
 }
+

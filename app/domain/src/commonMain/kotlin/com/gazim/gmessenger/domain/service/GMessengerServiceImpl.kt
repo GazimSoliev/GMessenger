@@ -7,58 +7,37 @@ import com.gazim.gmessenger.domain.model.*
 class GMessengerServiceImpl(
     private val gMessengerAPIFactory: GMessengerAPIFactory,
 ) : GMessengerService {
-    private val mapApi = mutableMapOf<String, GMessengerAPI>()
+    private val mapApi = mutableMapOf<APIConfig, GMessengerAPI>()
 
-    override suspend fun createAPI(token: String) {
-        mapApi[token] = gMessengerAPIFactory(token)
+    override suspend fun createAPI(config: APIConfig) {
+        mapApi[config] = gMessengerAPIFactory(config)
     }
 
-    override suspend fun closeAPI(token: String) {
-        val api = mapApi.remove(token)
+    override suspend fun closeAPI(config: APIConfig) {
+        val api = mapApi.remove(config)
         checkNotNull(api)
         api.close()
     }
 
-    override suspend fun getChats(token: String): List<IChat> = mapApi.getValue(token).getChats()
+    override suspend fun getChats(config: APIConfig) = getAPI(config).getChats()
 
-    override suspend fun filterUsers(
-        token: String,
-        query: String,
-    ): List<User> = mapApi.getValue(token).filterUsers(query)
+    override suspend fun filterUsers(config: APIConfig, query: String) = getAPI(config).filterUsers(query)
 
-    override suspend fun getChat(
-        token: String,
-        chatModel: IChat,
-    ): IChatWebSocketModel = mapApi.getValue(token).getChat(chatModel)
+    override suspend fun getChat(config: APIConfig, chatModel: IChat) = getAPI(config).getChat(chatModel)
 
-    override suspend fun getMyOwnAccount(token: String): User = mapApi.getValue(token).getMyOwnAccount()
+    override suspend fun getMyOwnAccount(config: APIConfig) = getAPI(config).getMyOwnAccount()
 
-    override suspend fun createChat(
-        token: String,
-        user: User,
-    ) = mapApi.getValue(token).createChat(user)
+    override suspend fun createChat(config: APIConfig, user: User) = getAPI(config).createChat(user)
 
-    override suspend fun getNotifications(token: String): INotificationWebSocketModel = mapApi.getValue(token).getNotifications()
+    override suspend fun getNotifications(config: APIConfig) = getAPI(config).getNotifications()
 
-    override suspend fun getMessages(
-        token: String,
-        chatModel: IChat,
-        key: MessagePageKey?,
-    ): MessagePage = mapApi.getValue(token).getMessages(chatModel, key)
+    override suspend fun getMessages(config: APIConfig, chatModel: IChat, key: MessagePageKey?) = getAPI(config).getMessages(chatModel, key)
 
-    override suspend fun editProfile(
-        token: String,
-        profileForm: ProfileForm,
-    ) = mapApi.getValue(token).editProfile(profileForm)
+    override suspend fun editProfile(config: APIConfig, profileForm: ProfileForm) = getAPI(config).editProfile(profileForm)
 
-    override suspend fun uploadProfilePhoto(
-        token: String,
-        type: String,
-        bytes: ByteArray,
-    ): Image = mapApi.getValue(token).uploadProfilePhoto(type, bytes)
+    override suspend fun uploadProfilePhoto(config: APIConfig, type: String, bytes: ByteArray) = getAPI(config).uploadProfilePhoto(type, bytes)
 
-    override suspend fun getImageContent(
-        token: String,
-        photoId: String,
-    ): ByteArray = mapApi.getValue(token).getImageContent(photoId)
+    override suspend fun getImageContent(config: APIConfig, photoId: String) = getAPI(config).getImageContent(photoId)
+
+    private fun getAPI(config: APIConfig) = mapApi.getValue(config)
 }

@@ -57,7 +57,7 @@ fun ChatComposition(
     back: () -> Unit,
 ) {
     val strBack = stringResource(Res.string.back)
-    val strReconnectIn = stringResource(Res.string.reconect_in)
+    val strReconnectIn = stringResource(Res.string.reconnect_in)
     val strSend = stringResource(Res.string.send)
     val strMessage = stringResource(Res.string.message)
     val pagingMessages = messages.collectAsLazyPagingItems()

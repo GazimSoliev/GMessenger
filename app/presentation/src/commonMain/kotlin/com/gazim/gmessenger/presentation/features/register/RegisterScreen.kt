@@ -10,14 +10,18 @@ import com.gazim.gmessenger.presentation.common.BaseScreen
 import com.gazim.gmessenger.presentation.features.register.RegisterAction.*
 import com.gazim.gmessenger.presentation.features.register.RegisterSideEffect.ToBack
 import com.gazim.gmessenger.presentation.features.register.RegisterSideEffect.UnableConnectToServer
+import gmessenger.app.presentation.generated.resources.Res
+import gmessenger.app.presentation.generated.resources.unable_connect_to_server
+import org.jetbrains.compose.resources.stringResource
 
 class RegisterScreen : BaseScreen<RegisterState, RegisterSideEffect, RegisterAction, RegisterViewModel>() {
     private lateinit var snackBarHostState: SnackbarHostState
+    private lateinit var strUnableConnectToServer: String
 
     override suspend fun handleSideEffect(sideEffect: RegisterSideEffect) {
         when (sideEffect) {
             is ToBack -> navigator.pop()
-            is UnableConnectToServer -> snackBarHostState.showSnackbar("Unable connect to server")
+            is UnableConnectToServer -> snackBarHostState.showSnackbar(strUnableConnectToServer)
         }
     }
 
@@ -27,6 +31,7 @@ class RegisterScreen : BaseScreen<RegisterState, RegisterSideEffect, RegisterAct
     @Composable
     override fun Screen() {
         snackBarHostState = remember { SnackbarHostState() }
+        strUnableConnectToServer = stringResource(Res.string.unable_connect_to_server)
         RegistrationComposition(
             modifier = Modifier.fillMaxSize(),
             nickname = state.nickname,

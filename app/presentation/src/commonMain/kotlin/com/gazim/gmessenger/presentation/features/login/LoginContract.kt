@@ -22,6 +22,8 @@ sealed interface LoginSideEffect : ISideEffect {
     data object UnableConnectToServer : LoginSideEffect
 
     data object WrongLoginOrPassword : LoginSideEffect
+
+    data object ToSelectServerScreen : LoginSideEffect
 }
 
 sealed interface LoginAction : IAction {
@@ -40,4 +42,6 @@ sealed interface LoginAction : IAction {
     data object OnPasswordVisibilityClick : LoginAction
 
     data object CancelLoggingIn : LoginAction
+
+    data object OnSelectServerClick : LoginAction
 }

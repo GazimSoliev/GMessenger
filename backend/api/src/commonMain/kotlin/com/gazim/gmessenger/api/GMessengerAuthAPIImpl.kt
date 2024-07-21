@@ -13,7 +13,8 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 
 class GMessengerAuthAPIImpl(
-    private val isSecure: Boolean = true
+    private val host: String,
+    isSecure: Boolean
 ) : GMessengerAuthAPI {
     private val httpProtocol = if (isSecure) URLProtocol.HTTPS else URLProtocol.HTTP
 
@@ -23,7 +24,7 @@ class GMessengerAuthAPIImpl(
                 configureContentNegotiation()
                 install(Resources)
                 defaultRequest {
-                    host = ipServer
+                    host = this@GMessengerAuthAPIImpl.host
                     url { protocol = httpProtocol }
                 }
             }

@@ -25,9 +25,10 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.sync.Mutex
 
 class GMessengerAPIImpl(
-    token: String,
-) : GMessengerAPI {
-    private val isSecure = true
+    private val host: String,
+    isSecure: Boolean,
+    token: String
+) : GMessengerAPI, AutoCloseable {
     private val httpProtocol = if (isSecure) URLProtocol.HTTPS else URLProtocol.HTTP
     private val wsProtocol = if (isSecure) URLProtocol.WSS else URLProtocol.WS
 
@@ -45,7 +46,7 @@ class GMessengerAPIImpl(
             }
             install(Resources)
             defaultRequest {
-                host = ipServer
+                host = this@GMessengerAPIImpl.host
                 url { protocol = httpProtocol }
             }
         }

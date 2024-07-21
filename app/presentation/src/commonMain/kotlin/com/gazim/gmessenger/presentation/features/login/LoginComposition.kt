@@ -15,11 +15,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import gmessenger.app.presentation.generated.resources.*
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
 // todo: Rename a preview and change a composition
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun LoginComposition(
     modifier: Modifier = Modifier,
@@ -35,6 +33,7 @@ fun LoginComposition(
     cancel: () -> Unit,
     snackbarHostState: SnackbarHostState,
     loggingInProgress: Boolean,
+    onSelectServerClick: () -> Unit = {}
 ) {
     val strAppName = stringResource(Res.string.app_name)
     val strLogin = stringResource(Res.string.login)
@@ -44,6 +43,7 @@ fun LoginComposition(
     val strCreateAccount = stringResource(Res.string.create_account)
     val strShowPassword = stringResource(Res.string.show_password)
     val strHidePassword = stringResource(Res.string.hide_password)
+    val strSelectServer = stringResource(Res.string.select_server)
     Surface {
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -113,6 +113,14 @@ fun LoginComposition(
                         enabled = !loggingInProgress,
                     ) {
                         Text(strCreateAccount)
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    TextButton(
+                        onClick = onSelectServerClick,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !loggingInProgress,
+                    ) {
+                        Text(strSelectServer)
                     }
                 }
             }

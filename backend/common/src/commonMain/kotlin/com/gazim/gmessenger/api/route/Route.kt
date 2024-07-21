@@ -71,3 +71,6 @@ class ImageRoute {
         val parent: ImageRoute = ImageRoute(),
     )
 }
+
+@Resource("/ping")
+class PingRoute

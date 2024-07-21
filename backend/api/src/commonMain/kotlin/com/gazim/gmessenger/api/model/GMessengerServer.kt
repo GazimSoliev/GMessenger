@@ -1,0 +1,8 @@
+package com.gazim.gmessenger.api.model
+
+data class GMessengerServer(
+    val host: String,
+    val isSecure: Boolean,
+    val title: String,
+    val description: String,
+)

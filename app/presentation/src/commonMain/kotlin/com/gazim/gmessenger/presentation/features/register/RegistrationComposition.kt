@@ -15,12 +15,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 import gmessenger.app.presentation.generated.resources.*
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
 // todo: Rename a preview and change a composition
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistrationComposition(
     modifier: Modifier = Modifier,
@@ -171,27 +171,29 @@ fun RegistrationComposition(
 @Preview
 @Composable
 fun RegistrationCompositionPreview() {
-    RegistrationComposition(
-        modifier = Modifier.fillMaxSize(),
-        nickname = TextFieldValue(),
-        username = TextFieldValue("username"),
-        login = TextFieldValue("Login"),
-        password = TextFieldValue("Password"),
-        isWrongNickname = true,
-        isWrongUsername = true,
-        isWrongLogin = false,
-        isWrongPassword = false,
-        passwordVisibility = false,
-        showPasswordVisibilityButton = true,
-        onNicknameChange = {},
-        onUsernameChange = {},
-        onLoginChange = {},
-        onPasswordChange = {},
-        onClickRegistration = {},
-        onClickPasswordVisibility = {},
-        back = {},
-        registrationInProgress = true,
-        cancel = {},
-        snackbarHostState = SnackbarHostState(),
-    )
+    GMessengerTheme {
+        RegistrationComposition(
+            modifier = Modifier.fillMaxSize(),
+            nickname = TextFieldValue(),
+            username = TextFieldValue("username"),
+            login = TextFieldValue("Login"),
+            password = TextFieldValue("Password"),
+            isWrongNickname = true,
+            isWrongUsername = true,
+            isWrongLogin = false,
+            isWrongPassword = false,
+            passwordVisibility = false,
+            showPasswordVisibilityButton = true,
+            onNicknameChange = {},
+            onUsernameChange = {},
+            onLoginChange = {},
+            onPasswordChange = {},
+            onClickRegistration = {},
+            onClickPasswordVisibility = {},
+            back = {},
+            registrationInProgress = true,
+            cancel = {},
+            snackbarHostState = SnackbarHostState(),
+        )
+    }
 }

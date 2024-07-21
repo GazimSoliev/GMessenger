@@ -2,6 +2,7 @@ package com.gazim.gmessenger.domain.usecase
 
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
+import kotlin.time.Duration
 
 fun interface LogOutUseCase {
     suspend operator fun invoke(): Result<Unit>
@@ -91,4 +92,20 @@ interface UploadProfilePhotoUseCase {
 
 interface GetImageContentUseCase {
     suspend operator fun invoke(photoId: String): Result<ByteArray>
+}
+
+interface GetAvailableServersUseCase {
+    suspend operator fun invoke(): List<GMessengerServer>
+}
+
+interface PingUseCase {
+    suspend operator fun invoke(host: String, isSecure: Boolean): Duration
+}
+
+interface AddServerUseCase {
+    suspend operator fun invoke(server: GMessengerServer)
+}
+
+interface SelectServerUseCase {
+    suspend operator fun invoke(server: GMessengerServer)
 }

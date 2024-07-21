@@ -19,4 +19,5 @@ fun Routing.generalRoute() {
     }
     registrationRoute()
     loginRoute()
+    pingRoute()
 }

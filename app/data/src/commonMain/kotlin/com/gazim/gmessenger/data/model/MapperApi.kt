@@ -11,6 +11,7 @@ import com.gazim.gmessenger.domain.model.ProfileForm
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import com.gazim.gmessenger.api.model.Chat as ChatAPI
+import com.gazim.gmessenger.api.model.GMessengerServer as GMessengerServerAPI
 import com.gazim.gmessenger.api.model.IChat as IChatAPI
 import com.gazim.gmessenger.api.model.IMessage as IMessageAPI
 import com.gazim.gmessenger.api.model.Image as ImageAPI
@@ -123,3 +124,5 @@ fun MessageNotification.toNotificationModel() =
 
         else -> null!!
     }
+
+fun GMessengerServerAPI.toDomain() = GMessengerServer(host = host, isSecure = isSecure, title = title)

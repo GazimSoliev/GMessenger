@@ -11,6 +11,7 @@ import com.gazim.gmessenger.presentation.features.chats.ChatsScreen
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
 import com.gazim.gmessenger.presentation.features.register.RegisterScreen
+import com.gazim.gmessenger.presentation.features.selectserver.SelectServerScreen
 
 class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginViewModel>() {
     private lateinit var snackBarHostState: SnackbarHostState
@@ -21,6 +22,7 @@ class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginVi
             is ToRegisterScreen -> navigator.push(RegisterScreen())
             is UnableConnectToServer -> snackBarHostState.showSnackbar("Unable connect to server")
             is WrongLoginOrPassword -> snackBarHostState.showSnackbar("Wrong login or password")
+            is ToSelectServerScreen -> navigator.push(SelectServerScreen())
         }
     }
 
@@ -44,6 +46,7 @@ class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginVi
             snackbarHostState = snackBarHostState,
             loggingInProgress = state.loggingInProgress,
             cancel = { sendAction(CancelLoggingIn) },
+            onSelectServerClick = { sendAction(OnSelectServerClick) }
         )
     }
 }
