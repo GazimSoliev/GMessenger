@@ -71,7 +71,7 @@ fun SelectServerComposition(
                         modifier = Modifier.clickable(onClick = onSecureChange),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Checkbox(isSecure, {})
+                        Checkbox(isSecure, { onSecureChange() })
                         Text("Use secure connection")
                     }
                     Spacer(Modifier.height(32.dp))

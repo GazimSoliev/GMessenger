@@ -1,6 +1,5 @@
 package com.gazim.gmessenger.presentation.features.selectserver
 
-import androidx.compose.ui.text.input.TextFieldValue
 import com.gazim.gmessenger.domain.model.GMessengerServer
 import com.gazim.gmessenger.domain.usecase.AddServerUseCase
 import com.gazim.gmessenger.domain.usecase.GetAvailableServersUseCase
@@ -40,7 +39,7 @@ class SelectServerViewModel(
     override fun handleAction(action: SelectServerAction) {
         intent {
             when (action) {
-                is SelectServerAction.OnAddServerClick -> reduce { state.copy(editableMode = true) }
+                is SelectServerAction.OnAddServerClick -> reduce { SelectServerState(serverList = state.serverList, editableMode = true) }
                 is SelectServerAction.OnBackClick -> postSideEffect(SelectServerSideEffect.Back)
                 is SelectServerAction.OnCancelClick -> reduce { state.copy(editableMode = false) }
                 is SelectServerAction.OnSaveClick -> onSaveClick()
@@ -70,6 +69,6 @@ class SelectServerViewModel(
         val isSecure = state.isSecure
         addServerUseCase(GMessengerServer(url, isSecure, server))
         updateServerList()
-        reduce { state.copy(editableMode = false, serverValue = TextFieldValue(), hostValue = TextFieldValue()) }
+        reduce { SelectServerState(serverList = state.serverList) }
     }
 }
