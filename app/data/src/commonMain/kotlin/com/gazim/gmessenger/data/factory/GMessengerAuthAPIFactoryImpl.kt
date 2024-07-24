@@ -6,8 +6,9 @@ import com.gazim.gmessenger.domain.factrory.GMessengerAuthAPIFactory
 import com.gazim.gmessenger.domain.model.AuthAPIConfig
 
 class GMessengerAuthAPIFactoryImpl : GMessengerAuthAPIFactory {
-    override fun invoke(config: AuthAPIConfig): GMessengerAuthAPI = GMessengerAuthAPIImpl(
-        host = config.host,
-        isSecure = config.isSecure,
-    )
+    override fun invoke(config: AuthAPIConfig): GMessengerAuthAPI =
+        GMessengerAuthAPIImpl(
+            host = config.host,
+            isSecure = config.isSecure,
+        )
 }

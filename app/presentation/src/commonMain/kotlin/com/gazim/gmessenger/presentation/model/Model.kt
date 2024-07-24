@@ -1,6 +1,7 @@
 package com.gazim.gmessenger.presentation.model
 
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
 sealed interface IMessageItemUI
 
@@ -11,6 +12,7 @@ sealed interface IMessageUI : IMessageItemUI {
     val user: UserUI
 }
 
+@Serializable
 sealed interface IChatUI {
     val identifier: String
     val title: String

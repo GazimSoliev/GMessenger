@@ -6,9 +6,7 @@ import com.gazim.gmessenger.domain.model.APIConfig
 import com.gazim.gmessenger.domain.model.AuthAPIConfig
 
 interface GMessengerAuthAPIFactory {
-    operator fun invoke(
-        config: AuthAPIConfig
-    ): GMessengerAuthAPI
+    operator fun invoke(config: AuthAPIConfig): GMessengerAuthAPI
 }
 
 interface GMessengerAPIFactory {

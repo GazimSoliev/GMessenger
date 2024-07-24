@@ -6,6 +6,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val apiModule = module {
-    singleOf(::GMessengerConnectionAPIImpl) bind GMessengerConnectionAPI::class
-}
+val apiModule =
+    module {
+        singleOf(::GMessengerConnectionAPIImpl) bind GMessengerConnectionAPI::class
+    }

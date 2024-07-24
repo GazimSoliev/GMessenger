@@ -1,5 +1,8 @@
 package com.gazim.gmessenger.presentation.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ChatUI(
     override val identifier: String,
     override val title: String,

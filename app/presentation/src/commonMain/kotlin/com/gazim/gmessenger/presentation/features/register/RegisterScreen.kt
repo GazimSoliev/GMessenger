@@ -3,57 +3,60 @@ package com.gazim.gmessenger.presentation.features.register
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.koin.getScreenModel
-import com.gazim.gmessenger.presentation.common.BaseScreen
+import androidx.navigation.NavController
+import com.gazim.gmessenger.presentation.common.collectAsState
+import com.gazim.gmessenger.presentation.common.handleSideEffect
+import com.gazim.gmessenger.presentation.common.sendAction
 import com.gazim.gmessenger.presentation.features.register.RegisterAction.*
 import com.gazim.gmessenger.presentation.features.register.RegisterSideEffect.ToBack
 import com.gazim.gmessenger.presentation.features.register.RegisterSideEffect.UnableConnectToServer
 import gmessenger.app.presentation.generated.resources.Res
 import gmessenger.app.presentation.generated.resources.unable_connect_to_server
+import kotlinx.coroutines.cancel
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
-class RegisterScreen : BaseScreen<RegisterState, RegisterSideEffect, RegisterAction, RegisterViewModel>() {
-    private lateinit var snackBarHostState: SnackbarHostState
-    private lateinit var strUnableConnectToServer: String
-
-    override suspend fun handleSideEffect(sideEffect: RegisterSideEffect) {
+@OptIn(KoinExperimentalAPI::class)
+@Composable
+fun RegisterScreen(navController: NavController) {
+    val viewModel = koinViewModel<RegisterViewModel>()
+    val state by viewModel.collectAsState()
+    val snackBarHostState = remember { SnackbarHostState() }
+    val strUnableConnectToServer = stringResource(Res.string.unable_connect_to_server)
+    viewModel.handleSideEffect { sideEffect ->
         when (sideEffect) {
-            is ToBack -> navigator.pop()
+            is ToBack -> {
+                navController.popBackStack()
+                cancel()
+            }
             is UnableConnectToServer -> snackBarHostState.showSnackbar(strUnableConnectToServer)
         }
     }
-
-    @Composable
-    override fun createViewModel(): RegisterViewModel = getScreenModel<RegisterViewModel>()
-
-    @Composable
-    override fun Screen() {
-        snackBarHostState = remember { SnackbarHostState() }
-        strUnableConnectToServer = stringResource(Res.string.unable_connect_to_server)
-        RegistrationComposition(
-            modifier = Modifier.fillMaxSize(),
-            nickname = state.nickname,
-            username = state.username,
-            login = state.login,
-            password = state.password,
-            isWrongNickname = state.isWrongNickname,
-            isWrongUsername = state.isWrongUsername,
-            isWrongLogin = state.isWrongLogin,
-            isWrongPassword = state.isWrongPassword,
-            passwordVisibility = state.passwordVisibility,
-            showPasswordVisibilityButton = state.showVisibilityButton,
-            onNicknameChange = { sendAction(OnChangeNickname(it)) },
-            onUsernameChange = { sendAction(OnChangeUsername(it)) },
-            onLoginChange = { sendAction(OnChangeLogin(it)) },
-            onPasswordChange = { sendAction(OnChangePassword(it)) },
-            onClickRegistration = { sendAction(OnRegisterClick) },
-            onClickPasswordVisibility = { sendAction(OnPasswordVisibilityClick) },
-            back = { sendAction(OnBackClick) },
-            registrationInProgress = state.registrationInProgress,
-            cancel = { sendAction(CancelRegistration) },
-            snackbarHostState = snackBarHostState,
-        )
-    }
+    RegistrationComposition(
+        modifier = Modifier.fillMaxSize(),
+        nickname = state.nickname,
+        username = state.username,
+        login = state.login,
+        password = state.password,
+        isWrongNickname = state.isWrongNickname,
+        isWrongUsername = state.isWrongUsername,
+        isWrongLogin = state.isWrongLogin,
+        isWrongPassword = state.isWrongPassword,
+        passwordVisibility = state.passwordVisibility,
+        showPasswordVisibilityButton = state.showVisibilityButton,
+        onNicknameChange = { viewModel.sendAction(OnChangeNickname(it)) },
+        onUsernameChange = { viewModel.sendAction(OnChangeUsername(it)) },
+        onLoginChange = { viewModel.sendAction(OnChangeLogin(it)) },
+        onPasswordChange = { viewModel.sendAction(OnChangePassword(it)) },
+        onClickRegistration = { viewModel.sendAction(OnRegisterClick) },
+        onClickPasswordVisibility = { viewModel.sendAction(OnPasswordVisibilityClick) },
+        back = { viewModel.sendAction(OnBackClick) },
+        registrationInProgress = state.registrationInProgress,
+        cancel = { viewModel.sendAction(CancelRegistration) },
+        snackbarHostState = snackBarHostState,
+    )
 }

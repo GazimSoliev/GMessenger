@@ -4,14 +4,18 @@ import com.gazim.gmessenger.domain.api.GMessengerConnectionAPI
 import com.gazim.gmessenger.domain.model.GMessengerServer
 import kotlin.time.Duration
 
-class GMessengerConnectionServiceImpl(private val gMessengerConnectionAPI: GMessengerConnectionAPI) :
-    GMessengerConnectionService {
+class GMessengerConnectionServiceImpl(
+    private val gMessengerConnectionAPI: GMessengerConnectionAPI,
+) : GMessengerConnectionService {
     private var currentServer: GMessengerServer? = gMessengerConnectionAPI.availableServers.firstOrNull()
     private val _servers = mutableListOf<GMessengerServer>()
     override val availableServers: List<GMessengerServer>
         get() = gMessengerConnectionAPI.availableServers + _servers
 
-    override suspend fun ping(host: String, isSecure: Boolean): Duration = gMessengerConnectionAPI.ping(host, isSecure)
+    override suspend fun ping(
+        host: String,
+        isSecure: Boolean,
+    ): Duration = gMessengerConnectionAPI.ping(host, isSecure)
 
     override fun getCurrentServer(): GMessengerServer? = currentServer
 

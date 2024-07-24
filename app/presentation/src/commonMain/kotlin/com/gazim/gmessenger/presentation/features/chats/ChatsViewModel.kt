@@ -8,10 +8,7 @@ import com.gazim.gmessenger.presentation.features.chats.ChatsAction.*
 import com.gazim.gmessenger.presentation.features.chats.ChatsSideEffect.*
 import com.gazim.gmessenger.presentation.model.toChatUI
 import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.syntax.Syntax
 
 // todo: Take out actions
 class ChatsViewModel(
@@ -37,14 +34,13 @@ class ChatsViewModel(
                 is OnLogOutClick -> {
                     logOutUseCase().onSuccess {
                         postSideEffect(ToLoginScreen)
-                        destroyViewModel()
                     }
                 }
             }
         }
     }
 
-    private suspend fun SimpleSyntax<ChatsState, ChatsSideEffect>.getChats() {
+    private suspend fun Syntax<ChatsState, ChatsSideEffect>.getChats() {
         getChatsUseCase()
             .onSuccess {
                 reduce { state.copy(list = it.map(IChat::toChatUI)) }

@@ -1,5 +1,4 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -7,25 +6,25 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.buildkonfig)
+//    alias(libs.plugins.buildkonfig)
 }
 
-buildkonfig {
-    packageName = "com.gmessenger.backend.config"
-
-    defaultConfigs {
-        val hostPrefixProp = "hostPrefix"
-        val wsPrefixProp = "wsPrefix"
-        val hostProp = "host"
-        val localProperties = gradleLocalProperties(rootDir)
-        val hostPrefix = localProperties.getProperty(hostPrefixProp)
-        val wsPrefix = localProperties.getProperty(wsPrefixProp)
-        val host = localProperties.getProperty(hostProp)
-        buildConfigField(STRING, hostPrefixProp, hostPrefix)
-        buildConfigField(STRING, wsPrefixProp, wsPrefix)
-        buildConfigField(STRING, hostProp, host)
-    }
-}
+// buildkonfig {
+//    packageName = "com.gmessenger.backend.config"
+//
+//    defaultConfigs {
+//        val hostPrefixProp = "hostPrefix"
+//        val wsPrefixProp = "wsPrefix"
+//        val hostProp = "host"
+//        val localProperties = gradleLocalProperties(rootDir)
+//        val hostPrefix = localProperties.getProperty(hostPrefixProp)
+//        val wsPrefix = localProperties.getProperty(wsPrefixProp)
+//        val host = localProperties.getProperty(hostProp)
+//        buildConfigField(STRING, hostPrefixProp, hostPrefix)
+//        buildConfigField(STRING, wsPrefixProp, wsPrefix)
+//        buildConfigField(STRING, hostProp, host)
+//    }
+// }
 
 kotlin {
     androidTarget {

@@ -11,9 +11,15 @@ class GMessengerAuthServiceImpl(
 ) : GMessengerAuthService {
     private val mapApi = mutableMapOf<AuthAPIConfig, GMessengerAuthAPI>()
 
-    override suspend fun register(config: AuthAPIConfig, registrationForm: RegistrationForm) = getAPI(config).register(registrationForm)
+    override suspend fun register(
+        config: AuthAPIConfig,
+        registrationForm: RegistrationForm,
+    ) = getAPI(config).register(registrationForm)
 
-    override suspend fun login(config: AuthAPIConfig, loginPasswordModel: AuthenticationForm) = getAPI(config).login(loginPasswordModel)
+    override suspend fun login(
+        config: AuthAPIConfig,
+        loginPasswordModel: AuthenticationForm,
+    ) = getAPI(config).login(loginPasswordModel)
 
     override suspend fun createAPI(config: AuthAPIConfig) {
         mapApi[config] = gMessengerAuthAPIFactory(config)

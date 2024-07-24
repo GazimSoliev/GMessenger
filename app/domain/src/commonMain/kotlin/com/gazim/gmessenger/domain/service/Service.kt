@@ -23,9 +23,7 @@ interface NotificationService {
 }
 
 interface GMessengerService {
-    suspend fun createAPI(
-        config: APIConfig
-    )
+    suspend fun createAPI(config: APIConfig)
 
     suspend fun closeAPI(config: APIConfig)
 
@@ -106,9 +104,15 @@ interface GMessengerSessionService {
 }
 
 interface GMessengerAuthService {
-    suspend fun register(config: AuthAPIConfig, registrationForm: RegistrationForm): Boolean
+    suspend fun register(
+        config: AuthAPIConfig,
+        registrationForm: RegistrationForm,
+    ): Boolean
 
-    suspend fun login(config: AuthAPIConfig, loginPasswordModel: AuthenticationForm): String?
+    suspend fun login(
+        config: AuthAPIConfig,
+        loginPasswordModel: AuthenticationForm,
+    ): String?
 
     suspend fun createAPI(config: AuthAPIConfig)
 
@@ -128,7 +132,10 @@ interface GMessengerAuthSessionService {
 interface GMessengerConnectionService {
     val availableServers: List<GMessengerServer>
 
-    suspend fun ping(host: String, isSecure: Boolean): Duration
+    suspend fun ping(
+        host: String,
+        isSecure: Boolean,
+    ): Duration
 
     suspend fun addServer(server: GMessengerServer)
 

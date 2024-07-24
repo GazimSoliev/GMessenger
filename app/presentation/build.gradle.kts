@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -40,13 +41,16 @@ kotlin {
 
             // Koin
             implementation(libs.koin.core)
-            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.asProvider())
+            implementation(libs.koin.compose.viewmodel)
 
             // DateTime
             implementation(libs.kotlinx.datetime)
 
             // Orbit
             implementation(libs.orbit.core)
+//            implementation(libs.orbit.compose)
+//            implementation(libs.orbit.viewmodel)
 
             // Voyager
             implementation(libs.voyager.navigator)
@@ -59,6 +63,14 @@ kotlin {
 
             implementation(libs.paging.common)
             implementation(libs.paging.compose.common)
+
+            // ViewModel
+            implementation(libs.lifecycle.viewmodel)
+
+            // Navigation
+            implementation(libs.navigation.compose)
+
+            implementation(libs.kotlinx.serialization.json)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

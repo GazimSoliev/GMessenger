@@ -29,6 +29,7 @@ kotlin {
     }
 
     jvm("desktop")
+    jvmToolchain(11)
 
     sourceSets {
         val desktopMain by getting

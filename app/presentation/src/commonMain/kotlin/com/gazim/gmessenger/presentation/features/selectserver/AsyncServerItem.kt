@@ -13,7 +13,7 @@ fun AsyncServerItem(
     server: String = "",
     url: String = "",
     isSecure: Boolean = false,
-    pinging: suspend (host: String, isSecure: Boolean) -> String = { _, _ -> "" }
+    pinging: suspend (host: String, isSecure: Boolean) -> String = { _, _ -> "" },
 ) {
     var ping by remember { mutableStateOf("") }
     LaunchedEffect(Unit) {

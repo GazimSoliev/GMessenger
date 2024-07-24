@@ -30,6 +30,7 @@ kotlin {
 
             // Koin
             implementation(libs.koin.core)
+            implementation(libs.koin.compose.viewmodel)
 
             // Coroutines
             implementation(libs.kotlinx.coroutines.core)

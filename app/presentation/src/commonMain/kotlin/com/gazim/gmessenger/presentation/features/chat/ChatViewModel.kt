@@ -1,6 +1,7 @@
 package com.gazim.gmessenger.presentation.features.chat
 
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.lifecycle.viewModelScope
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import com.gazim.gmessenger.domain.model.IChat
@@ -21,12 +22,9 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.syntax.Syntax
 
-private typealias IntentScope = SimpleSyntax<ChatState, ChatSideEffect>
+private typealias IntentScope = Syntax<ChatState, ChatSideEffect>
 
 // todo: take out functions
 class ChatViewModel(
@@ -53,7 +51,6 @@ class ChatViewModel(
 
                 is OnBack -> {
                     postSideEffect(ToBack)
-                    destroyViewModel()
                 }
 
                 is OnFollowMessage -> {

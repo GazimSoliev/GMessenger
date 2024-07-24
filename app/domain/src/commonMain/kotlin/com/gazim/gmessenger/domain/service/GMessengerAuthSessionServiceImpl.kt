@@ -6,7 +6,7 @@ import com.gazim.gmessenger.domain.model.RegistrationForm
 
 class GMessengerAuthSessionServiceImpl(
     private val gMessengerConnectionService: GMessengerConnectionService,
-    private val gMessengerAuthService: GMessengerAuthService
+    private val gMessengerAuthService: GMessengerAuthService,
 ) : GMessengerAuthSessionService {
     private var _config: AuthAPIConfig? = null
     private val config get() = _config ?: error("API config not set")

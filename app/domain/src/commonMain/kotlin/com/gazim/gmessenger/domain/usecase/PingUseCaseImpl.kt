@@ -6,5 +6,8 @@ import kotlin.time.Duration
 class PingUseCaseImpl(
     private val gMessengerConnectionService: GMessengerConnectionService,
 ) : PingUseCase {
-    override suspend fun invoke(host: String, isSecure: Boolean): Duration = gMessengerConnectionService.ping(host, isSecure)
+    override suspend fun invoke(
+        host: String,
+        isSecure: Boolean,
+    ): Duration = gMessengerConnectionService.ping(host, isSecure)
 }

@@ -31,6 +31,6 @@ suspend inline fun <reified T : Any> HttpClient.webSocket(
             href(resources.resourcesFormat, resource, url)
             request()
         },
-        block = block
+        block = block,
     )
 }

@@ -15,7 +15,7 @@ fun ServerItem(
     modifier: Modifier = Modifier,
     server: String = "",
     url: String = "",
-    ping: String = ""
+    ping: String = "",
 ) {
     Row(modifier = modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
         Column {

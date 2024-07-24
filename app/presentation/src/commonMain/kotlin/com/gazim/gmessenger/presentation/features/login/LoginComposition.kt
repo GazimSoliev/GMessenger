@@ -33,7 +33,7 @@ fun LoginComposition(
     cancel: () -> Unit,
     snackbarHostState: SnackbarHostState,
     loggingInProgress: Boolean,
-    onSelectServerClick: () -> Unit = {}
+    onSelectServerClick: () -> Unit = {},
 ) {
     val strAppName = stringResource(Res.string.app_name)
     val strLogin = stringResource(Res.string.login)

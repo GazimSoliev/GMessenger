@@ -12,12 +12,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.syntax.Syntax
 
-private typealias IntentScope = SimpleSyntax<RegisterState, RegisterSideEffect>
+private typealias IntentScope = Syntax<RegisterState, RegisterSideEffect>
 
 class RegisterViewModel(
     private val validatePassword: ValidatePasswordUseCase,
@@ -122,6 +119,5 @@ class RegisterViewModel(
 
     private suspend fun IntentScope.backClick() {
         postSideEffect(ToBack)
-        destroyViewModel()
     }
 }

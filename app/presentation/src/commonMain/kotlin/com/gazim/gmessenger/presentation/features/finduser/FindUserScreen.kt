@@ -2,31 +2,35 @@ package com.gazim.gmessenger.presentation.features.finduser
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.koin.getScreenModel
-import com.gazim.gmessenger.presentation.common.BaseScreen
+import androidx.navigation.NavHostController
+import com.gazim.gmessenger.presentation.common.collectAsState
+import com.gazim.gmessenger.presentation.common.handleSideEffect
+import com.gazim.gmessenger.presentation.common.sendAction
 import com.gazim.gmessenger.presentation.features.finduser.FindUserAction.*
 import com.gazim.gmessenger.presentation.features.finduser.FindUserSideEffect.ToChatsScreen
+import kotlinx.coroutines.cancel
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
-class FindUserScreen : BaseScreen<FindUserState, FindUserSideEffect, FindUserAction, FindUserViewModel>() {
-    override suspend fun handleSideEffect(sideEffect: FindUserSideEffect) {
+@OptIn(KoinExperimentalAPI::class)
+@Composable
+fun FindUserScreen(navController: NavHostController) {
+    val viewModel = koinViewModel<FindUserViewModel>()
+    val state by viewModel.collectAsState()
+    viewModel.handleSideEffect { sideEffect ->
         when (sideEffect) {
-            is ToChatsScreen -> navigator.pop()
+            is ToChatsScreen -> navController.popBackStack()
         }
+        cancel()
     }
-
-    @Composable
-    override fun createViewModel(): FindUserViewModel = getScreenModel<FindUserViewModel>()
-
-    @Composable
-    override fun Screen() {
-        FindUserComposition(
-            modifier = Modifier.fillMaxSize(),
-            users = state.users,
-            query = state.query,
-            onQueryChange = { sendAction(OnFilterChange(it)) },
-            createChat = { sendAction(OnUserClick(it)) },
-            back = { sendAction(OnBackClick) },
-        )
-    }
+    FindUserComposition(
+        modifier = Modifier.fillMaxSize(),
+        users = state.users,
+        query = state.query,
+        onQueryChange = { viewModel.sendAction(OnFilterChange(it)) },
+        createChat = { viewModel.sendAction(OnUserClick(it)) },
+        back = { viewModel.sendAction(OnBackClick) },
+    )
 }

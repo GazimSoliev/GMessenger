@@ -6,5 +6,5 @@ data class ServerInfoUI(
     val isSecure: Boolean,
     val ping: String,
     val selected: Boolean,
-    val id: Int = 0
+    val id: Int = 0,
 )

@@ -6,7 +6,7 @@ import com.gazim.gmessenger.domain.service.GMessengerConnectionService
 
 class SelectServerUseCaseImpl(
     private val gMessengerConnectionService: GMessengerConnectionService,
-    private val gMessengerAuthSessionService: GMessengerAuthSessionService
+    private val gMessengerAuthSessionService: GMessengerAuthSessionService,
 ) : SelectServerUseCase {
     override suspend fun invoke(server: GMessengerServer) {
         gMessengerAuthSessionService.closeAPI()

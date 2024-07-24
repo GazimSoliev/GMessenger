@@ -9,10 +9,7 @@ import com.gazim.gmessenger.presentation.features.finduser.FindUserSideEffect.To
 import com.gazim.gmessenger.presentation.model.toDomain
 import com.gazim.gmessenger.presentation.model.toUserUI
 import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.syntax.Syntax
 
 // todo: Take out actions
 class FindUserViewModel(
@@ -29,20 +26,19 @@ class FindUserViewModel(
                 is OnUserClick -> createChat(action.user.toDomain())
                 is OnBackClick -> {
                     postSideEffect(ToChatsScreen)
-                    destroyViewModel()
                 }
             }
         }
     }
 
-    private suspend fun SimpleSyntax<FindUserState, FindUserSideEffect>.findUser(filter: String) {
+    private suspend fun Syntax<FindUserState, FindUserSideEffect>.findUser(filter: String) {
         filterUsersUseCase(filter)
             .onSuccess {
                 reduce { state.copy(users = it.map { it.toUserUI() }) }
             }.onFailure(Throwable::printStackTrace)
     }
 
-    private suspend fun SimpleSyntax<FindUserState, FindUserSideEffect>.createChat(user: User) {
+    private suspend fun Syntax<FindUserState, FindUserSideEffect>.createChat(user: User) {
         createChatUseCase(user)
             .onSuccess {
                 postSideEffect(ToChatsScreen)

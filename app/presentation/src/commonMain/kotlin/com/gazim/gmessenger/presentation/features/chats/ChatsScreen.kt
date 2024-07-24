@@ -2,40 +2,41 @@ package com.gazim.gmessenger.presentation.features.chats
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.koin.getScreenModel
-import com.gazim.gmessenger.presentation.common.BaseScreen
-import com.gazim.gmessenger.presentation.features.chat.ChatScreen
+import androidx.navigation.NavController
+import com.gazim.gmessenger.presentation.common.collectAsState
+import com.gazim.gmessenger.presentation.common.handleSideEffect
+import com.gazim.gmessenger.presentation.common.sendAction
 import com.gazim.gmessenger.presentation.features.chats.ChatsAction.*
 import com.gazim.gmessenger.presentation.features.chats.ChatsSideEffect.*
-import com.gazim.gmessenger.presentation.features.finduser.FindUserScreen
-import com.gazim.gmessenger.presentation.features.login.LoginScreen
-import com.gazim.gmessenger.presentation.features.user.UserScreen
+import com.gazim.gmessenger.presentation.navigation.Screen
+import com.gazim.gmessenger.presentation.navigation.navigate
+import com.gazim.gmessenger.presentation.navigation.replace
+import kotlinx.coroutines.cancel
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
-class ChatsScreen : BaseScreen<ChatsState, ChatsSideEffect, ChatsAction, ChatsViewModel>() {
-    override suspend fun handleSideEffect(sideEffect: ChatsSideEffect) {
+@OptIn(KoinExperimentalAPI::class)
+@Composable
+fun ChatsScreen(navController: NavController) {
+    val viewModel = koinViewModel<ChatsViewModel>()
+    val state by viewModel.collectAsState()
+    viewModel.handleSideEffect { sideEffect ->
         when (sideEffect) {
-            is ToChatScreen -> navigator.push(ChatScreen(sideEffect.chat))
-            is ToFindUser -> navigator.push(FindUserScreen())
-            is ToAccountInfoScreen -> navigator.push(UserScreen())
-            is ToLoginScreen -> navigator.replace(LoginScreen())
+            is ToChatScreen -> navController.navigate(Screen.Chat, sideEffect.chat)
+            is ToFindUser -> navController.navigate(Screen.FindUser)
+            is ToAccountInfoScreen -> navController.navigate(Screen.User)
+            is ToLoginScreen -> navController.replace(Screen.Login)
         }
+        cancel()
     }
-
-    @Composable
-    override fun createViewModel(): ChatsViewModel = getScreenModel<ChatsViewModel>()
-
-    @Composable
-    override fun Screen() {
-        ChatsComposition(
-            modifier = Modifier.fillMaxSize(),
-            chats = state.list,
-            nextToChat = { sendAction(OnItemClick(it)) },
-            logOut = { sendAction(OnLogOutClick) },
-            createNewChat = { sendAction(OnCreateNewChat) },
-            lookAtMyAccount = { sendAction(OnAccountInfoClick) },
-        )
-    }
-
-    override fun onStart() = sendAction(OnStart)
+    ChatsComposition(
+        modifier = Modifier.fillMaxSize(),
+        chats = state.list,
+        nextToChat = { viewModel.sendAction(OnItemClick(it)) },
+        logOut = { viewModel.sendAction(OnLogOutClick) },
+        createNewChat = { viewModel.sendAction(OnCreateNewChat) },
+        lookAtMyAccount = { viewModel.sendAction(OnAccountInfoClick) },
+    )
 }

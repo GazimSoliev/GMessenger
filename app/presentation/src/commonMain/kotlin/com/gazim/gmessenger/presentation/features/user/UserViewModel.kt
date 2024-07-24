@@ -1,6 +1,7 @@
 package com.gazim.gmessenger.presentation.features.user
 
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.lifecycle.viewModelScope
 import com.gazim.gmessenger.domain.model.ProfileForm
 import com.gazim.gmessenger.domain.usecase.EditProfileFormUseCase
 import com.gazim.gmessenger.domain.usecase.GetImageContentUseCase
@@ -16,12 +17,9 @@ import com.gazim.gmessenger.utils.toComposeBitmapImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.syntax.Syntax
 
-private typealias IntentScope = SimpleSyntax<UserState, UserSideEffect>
+private typealias IntentScope = Syntax<UserState, UserSideEffect>
 
 // todo: Take out actions
 class UserViewModel(
@@ -101,6 +99,5 @@ class UserViewModel(
 
     private suspend fun IntentScope.backClick() {
         postSideEffect(ToBack)
-        destroyViewModel()
     }
 }

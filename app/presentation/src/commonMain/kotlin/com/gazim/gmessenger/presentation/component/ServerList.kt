@@ -15,11 +15,9 @@ import com.gazim.gmessenger.presentation.model.ServerInfoUI
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 
 @Composable
-fun ServerList(
-    servers: List<ServerInfoUI> = emptyList()
-) {
+fun ServerList(servers: List<ServerInfoUI> = emptyList()) {
     Surface(
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
     ) {
         Column {
             LazyColumn(Modifier.size(512.dp).padding(16.dp)) {
@@ -32,7 +30,6 @@ fun ServerList(
                     Text("Add server")
                 }
                 Button({}) {
-
                 }
             }
         }
@@ -44,11 +41,12 @@ fun ServerList(
 fun ServerListPreview() {
     GMessengerTheme {
         ServerList(
-            servers = listOf(
-                ServerInfoUI("Server", "localhost:8080", false, "0", true),
-                ServerInfoUI("Server", "url", false, "0", false),
-                ServerInfoUI("Server", "url", false, "0", false),
-            )
+            servers =
+                listOf(
+                    ServerInfoUI("Server", "localhost:8080", false, "0", true),
+                    ServerInfoUI("Server", "url", false, "0", false),
+                    ServerInfoUI("Server", "url", false, "0", false),
+                ),
         )
     }
 }
