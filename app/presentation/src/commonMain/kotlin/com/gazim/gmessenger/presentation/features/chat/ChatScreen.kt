@@ -3,51 +3,58 @@ package com.gazim.gmessenger.presentation.features.chat
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.koin.getScreenModel
-import com.gazim.gmessenger.presentation.common.BaseScreen
+import androidx.navigation.NavController
+import com.gazim.gmessenger.presentation.common.collectAsState
+import com.gazim.gmessenger.presentation.common.handleSideEffect
+import com.gazim.gmessenger.presentation.common.sendAction
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.FollowMessage
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
 import com.gazim.gmessenger.presentation.model.IChatUI
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
-class ChatScreen(
-    private val chat: IChatUI,
-) : BaseScreen<ChatState, ChatSideEffect, ChatAction, ChatViewModel>() {
-    private val lazyListState = LazyListState()
-
-    override suspend fun handleSideEffect(sideEffect: ChatSideEffect) {
+@OptIn(KoinExperimentalAPI::class)
+@Composable
+fun ChatScreen(
+    navController: NavController,
+    chat: IChatUI,
+) {
+    val viewModel = koinViewModel<ChatViewModel>()
+    val state by viewModel.collectAsState()
+    val lazyListState = remember { LazyListState() }
+    viewModel.handleSideEffect { sideEffect ->
         when (sideEffect) {
-            is ToBack -> navigator.pop()
-            FollowMessage -> {
+            is ToBack -> {
+                navController.popBackStack()
+                cancel()
+            }
+            is FollowMessage -> {
                 delay(100)
                 lazyListState.animateScrollToItem(0)
             }
         }
     }
-
-    @Composable
-    override fun createViewModel(): ChatViewModel = getScreenModel<ChatViewModel>()
-
-    @Composable
-    override fun Screen() {
-        ChatComposition(
-            modifier = Modifier.fillMaxSize(),
-            lazyListState = lazyListState,
-            chatTitle = state.chatTitle,
-            messages = state.messages,
-            message = state.message,
-            showReconnectScreen = state.showReconnectionTimer,
-            reconnectionTimerSeconds = state.reconnectionTimerSeconds,
-            onMessageChange = { sendAction(OnMessageChange(it)) },
-            sendMsg = { sendAction(OnSendMessage) },
-            back = { sendAction(OnBack) },
-            onFollowMessage = { sendAction(OnFollowMessage(it)) },
-        )
+    LaunchedEffect(Unit) {
+        viewModel.sendAction(OnStart(chat))
     }
-
-    override fun onStart() = sendAction(OnStart(chat))
-
-    override fun onStop() = sendAction(OnStop)
+    ChatComposition(
+        modifier = Modifier.fillMaxSize(),
+        lazyListState = lazyListState,
+        chatTitle = state.chatTitle,
+        messages = state.messages,
+        message = state.message,
+        showReconnectScreen = state.showReconnectionTimer,
+        reconnectionTimerSeconds = state.reconnectionTimerSeconds,
+        onMessageChange = { viewModel.sendAction(OnMessageChange(it)) },
+        sendMsg = { viewModel.sendAction(OnSendMessage) },
+        back = { viewModel.sendAction(OnBack) },
+        onFollowMessage = { viewModel.sendAction(OnFollowMessage(it)) },
+    )
 }

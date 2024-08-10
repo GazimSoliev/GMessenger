@@ -34,7 +34,7 @@ fun SelectServerComposition(
     onSaveClick: () -> Unit = {},
     onCancelClick: () -> Unit = {},
     onBackClick: () -> Unit = {},
-    pinging: suspend (host: String, isSecure: Boolean) -> String = { _, _ -> "" }
+    pinging: suspend (host: String, isSecure: Boolean) -> String = { _, _ -> "" },
 ) {
     val width = 512.dp
     Scaffold(
@@ -48,20 +48,20 @@ fun SelectServerComposition(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Box(
             modifier = Modifier.padding(paddingValues).fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             if (editableMode) {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     TextField(value = serverTextField, onValueChange = onServerChange, label = { Text("Server") })
                     Spacer(Modifier.height(16.dp))
@@ -69,7 +69,7 @@ fun SelectServerComposition(
                     Spacer(Modifier.height(16.dp))
                     Row(
                         modifier = Modifier.clickable(onClick = onSecureChange),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Checkbox(isSecure, { onSecureChange() })
                         Text("Use secure connection")
@@ -89,32 +89,32 @@ fun SelectServerComposition(
                 }
             } else {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     LazyColumn(
                         modifier = Modifier.weight(1f).fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        contentPadding = PaddingValues(16.dp)
+                        contentPadding = PaddingValues(16.dp),
                     ) {
                         items(servers) {
                             Row(
                                 modifier = Modifier.widthIn(width, width).clickable { onServerClick(it) },
-                                verticalAlignment = Alignment.CenterVertically
+                                verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 RadioButton(selected = it.selected, onClick = { onServerClick(it) })
                                 AsyncServerItem(
                                     server = it.server,
                                     url = it.host,
                                     isSecure = it.isSecure,
-                                    pinging = pinging
+                                    pinging = pinging,
                                 )
                             }
                         }
                     }
                     Row(
                         modifier = Modifier.widthIn(width, width).padding(16.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly
+                        horizontalArrangement = Arrangement.SpaceEvenly,
                     ) {
                         Button(onClick = onAddServerClick) {
                             Text("Add server")
@@ -134,11 +134,12 @@ fun SelectServerComposition(
 fun SelectServerCompositionPreview() {
     GMessengerTheme {
         SelectServerComposition(
-            servers = listOf(
-                ServerInfoUI("Server", "localhost:8080", false, "0", true),
-                ServerInfoUI("Server", "url", false, "0", false),
-                ServerInfoUI("Server", "url", false, "0", false),
-            )
+            servers =
+                listOf(
+                    ServerInfoUI("Server", "localhost:8080", false, "0", true),
+                    ServerInfoUI("Server", "url", false, "0", false),
+                    ServerInfoUI("Server", "url", false, "0", false),
+                ),
         )
     }
 }
@@ -148,7 +149,7 @@ fun SelectServerCompositionPreview() {
 fun SelectServerCompositionEditModePreview() {
     GMessengerTheme {
         SelectServerComposition(
-            editableMode = true
+            editableMode = true,
         )
     }
 }

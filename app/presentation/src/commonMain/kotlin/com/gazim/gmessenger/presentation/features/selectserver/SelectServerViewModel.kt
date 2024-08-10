@@ -8,30 +8,28 @@ import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.model.ServerInfoUI
 import com.gazim.gmessenger.presentation.model.toUI
 import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.syntax.Syntax
 
-private typealias IntentScope = SimpleSyntax<SelectServerState, SelectServerSideEffect>
+private typealias IntentScope = Syntax<SelectServerState, SelectServerSideEffect>
 
 class SelectServerViewModel(
     private val getAvailableServersUseCase: GetAvailableServersUseCase,
     private val addServerUseCase: AddServerUseCase,
-    private val selectServerUseCase: SelectServerUseCase
+    private val selectServerUseCase: SelectServerUseCase,
 ) : BaseViewModel<SelectServerState, SelectServerSideEffect, SelectServerAction>() {
     private var originServers = emptyList<GMessengerServer>()
 
-    override val container: Container<SelectServerState, SelectServerSideEffect> = container(SelectServerState()) {
-        updateServerList()
-    }
+    override val container: Container<SelectServerState, SelectServerSideEffect> =
+        container(SelectServerState()) {
+            updateServerList()
+        }
 
     private suspend fun IntentScope.updateServerList() {
         val servers = getAvailableServersUseCase()
         originServers = servers
         reduce {
             state.copy(
-                serverList = servers.toUI()
+                serverList = servers.toUI(),
             )
         }
     }

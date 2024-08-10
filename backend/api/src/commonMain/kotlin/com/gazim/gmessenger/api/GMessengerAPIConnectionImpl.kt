@@ -21,7 +21,10 @@ class GMessengerAPIConnectionImpl : GMessengerAPIConnection {
                 ),
             )
 
-    override suspend fun ping(host: String, isSecure: Boolean): Duration =
+    override suspend fun ping(
+        host: String,
+        isSecure: Boolean,
+    ): Duration =
         HttpClient {
             install(Resources)
             defaultRequest {

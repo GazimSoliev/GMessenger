@@ -14,7 +14,7 @@ import io.ktor.http.*
 
 class GMessengerAuthAPIImpl(
     private val host: String,
-    isSecure: Boolean
+    isSecure: Boolean,
 ) : GMessengerAuthAPI {
     private val httpProtocol = if (isSecure) URLProtocol.HTTPS else URLProtocol.HTTP
 

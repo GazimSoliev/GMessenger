@@ -7,12 +7,9 @@ import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
 import kotlinx.coroutines.*
 import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.syntax.Syntax
 
-private typealias IntentScope = SimpleSyntax<LoginState, LoginSideEffect>
+private typealias IntentScope = Syntax<LoginState, LoginSideEffect>
 
 // todo: Take out actions
 class LoginViewModel(
@@ -64,7 +61,6 @@ class LoginViewModel(
                         }.onSuccess {
                             if (!it) return@onSuccess postSideEffect(WrongLoginOrPassword)
                             postSideEffect(ToChatsScreen)
-                            destroyViewModel()
                         }
                 }
         }

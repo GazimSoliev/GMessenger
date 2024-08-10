@@ -5,9 +5,9 @@ import com.gazim.gmessenger.domain.model.*
 class GMessengerSessionServiceImpl(
     private val sessionService: SessionService,
     private val gMessengerService: GMessengerService,
-    private val gMessengerConnectionService: GMessengerConnectionService
+    private val gMessengerConnectionService: GMessengerConnectionService,
 ) : GMessengerSessionService {
-    private var _config: APIConfig? = null 
+    private var _config: APIConfig? = null
     private val config get() = _config ?: error("API config not set")
 
     override suspend fun createCurrentSession() {

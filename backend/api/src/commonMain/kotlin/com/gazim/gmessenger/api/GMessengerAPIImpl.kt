@@ -27,8 +27,9 @@ import kotlinx.coroutines.sync.Mutex
 class GMessengerAPIImpl(
     private val host: String,
     isSecure: Boolean,
-    token: String
-) : GMessengerAPI, AutoCloseable {
+    token: String,
+) : GMessengerAPI,
+    AutoCloseable {
     private val httpProtocol = if (isSecure) URLProtocol.HTTPS else URLProtocol.HTTP
     private val wsProtocol = if (isSecure) URLProtocol.WSS else URLProtocol.WS
 
@@ -87,7 +88,7 @@ class GMessengerAPIImpl(
                 coroutineScope {
                     httpClient.webSocket(
                         resource = ChatRoute.Id(chat.id),
-                        request = { url { protocol = wsProtocol } }
+                        request = { url { protocol = wsProtocol } },
                     ) {
                         println(this.call.request.url)
                         val input =

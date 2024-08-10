@@ -1,16 +1,23 @@
 package com.gazim.gmessenger.api
 
-fun GMessengerAPI(host: String, isSecure: Boolean, token: String, ): GMessengerAPI =
+fun GMessengerAPI(
+    host: String,
+    isSecure: Boolean,
+    token: String,
+): GMessengerAPI =
     GMessengerAPIImpl(
         host = host,
         isSecure = isSecure,
-        token = token
+        token = token,
     )
 
-fun GMessengerAuthAPI(host: String, isSecure: Boolean): GMessengerAuthAPI =
+fun GMessengerAuthAPI(
+    host: String,
+    isSecure: Boolean,
+): GMessengerAuthAPI =
     GMessengerAuthAPIImpl(
         host = host,
-        isSecure = isSecure
+        isSecure = isSecure,
     )
 
 fun GMessengerAPIConnection(): GMessengerAPIConnection = GMessengerAPIConnectionImpl()

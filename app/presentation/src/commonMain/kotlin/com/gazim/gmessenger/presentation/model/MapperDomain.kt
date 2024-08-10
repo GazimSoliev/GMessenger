@@ -57,6 +57,7 @@ fun IChatUI.toChatModel(): IChat =
         )
     }
 
-fun List<GMessengerServer>.toUI() = mapIndexed { i, it ->
-    ServerInfoUI(id = i, server = it.title, host = it.host, isSecure = it.isSecure, ping = "-", selected = false)
-}
+fun List<GMessengerServer>.toUI() =
+    mapIndexed { i, it ->
+        ServerInfoUI(id = i, server = it.title, host = it.host, isSecure = it.isSecure, ping = "-", selected = false)
+    }

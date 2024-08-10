@@ -3,50 +3,64 @@ package com.gazim.gmessenger.presentation.features.login
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.koin.getScreenModel
-import com.gazim.gmessenger.presentation.common.BaseScreen
-import com.gazim.gmessenger.presentation.features.chats.ChatsScreen
+import androidx.navigation.NavController
+import com.gazim.gmessenger.presentation.common.collectAsState
+import com.gazim.gmessenger.presentation.common.handleSideEffect
+import com.gazim.gmessenger.presentation.common.sendAction
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
-import com.gazim.gmessenger.presentation.features.register.RegisterScreen
-import com.gazim.gmessenger.presentation.features.selectserver.SelectServerScreen
+import com.gazim.gmessenger.presentation.navigation.Screen
+import com.gazim.gmessenger.presentation.navigation.navigate
+import com.gazim.gmessenger.presentation.navigation.replace
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
-class LoginScreen : BaseScreen<LoginState, LoginSideEffect, LoginAction, LoginViewModel>() {
-    private lateinit var snackBarHostState: SnackbarHostState
-
-    override suspend fun handleSideEffect(sideEffect: LoginSideEffect) {
+@OptIn(KoinExperimentalAPI::class)
+@Composable
+fun LoginScreen(navController: NavController) {
+    val viewModel = koinViewModel<LoginViewModel>()
+    val state by viewModel.collectAsState()
+    val snackBarHostState = remember { SnackbarHostState() }
+    viewModel.handleSideEffect { sideEffect ->
         when (sideEffect) {
-            is ToChatsScreen -> navigator.replace(ChatsScreen())
-            is ToRegisterScreen -> navigator.push(RegisterScreen())
-            is UnableConnectToServer -> snackBarHostState.showSnackbar("Unable connect to server")
-            is WrongLoginOrPassword -> snackBarHostState.showSnackbar("Wrong login or password")
-            is ToSelectServerScreen -> navigator.push(SelectServerScreen())
+            is UnableConnectToServer ->
+                launch {
+                    snackBarHostState.showSnackbar("Unable connect to server")
+                }
+            is WrongLoginOrPassword ->
+                launch {
+                    snackBarHostState.showSnackbar("Wrong login or password")
+                }
+            else -> {
+                when (sideEffect) {
+                    is ToChatsScreen -> navController.replace(Screen.Chats)
+                    is ToRegisterScreen -> navController.navigate(Screen.Registration)
+                    is ToSelectServerScreen -> navController.navigate(Screen.SelectServer)
+                    else -> Unit
+                }
+                cancel()
+            }
         }
     }
-
-    @Composable
-    override fun createViewModel(): LoginViewModel = getScreenModel<LoginViewModel>()
-
-    @Composable
-    override fun Screen() {
-        snackBarHostState = remember { SnackbarHostState() }
-        LoginComposition(
-            modifier = Modifier.fillMaxSize(),
-            login = state.login,
-            password = state.password,
-            passwordVisibility = state.passwordVisibility,
-            showPasswordVisibilityButton = state.showPasswordVisibilityButton,
-            onLoginChange = { sendAction(OnChangeLogin(it)) },
-            onPasswordChange = { sendAction(OnChangePassword(it)) },
-            onClickLogIn = { sendAction(OnLogInClick) },
-            onRegister = { sendAction(OnRegisterClick) },
-            onClickPasswordVisibility = { sendAction(OnPasswordVisibilityClick) },
-            snackbarHostState = snackBarHostState,
-            loggingInProgress = state.loggingInProgress,
-            cancel = { sendAction(CancelLoggingIn) },
-            onSelectServerClick = { sendAction(OnSelectServerClick) }
-        )
-    }
+    LoginComposition(
+        modifier = Modifier.fillMaxSize(),
+        login = state.login,
+        password = state.password,
+        passwordVisibility = state.passwordVisibility,
+        showPasswordVisibilityButton = state.showPasswordVisibilityButton,
+        onLoginChange = { viewModel.sendAction(OnChangeLogin(it)) },
+        onPasswordChange = { viewModel.sendAction(OnChangePassword(it)) },
+        onClickLogIn = { viewModel.sendAction(OnLogInClick) },
+        onRegister = { viewModel.sendAction(OnRegisterClick) },
+        onClickPasswordVisibility = { viewModel.sendAction(OnPasswordVisibilityClick) },
+        snackbarHostState = snackBarHostState,
+        loggingInProgress = state.loggingInProgress,
+        cancel = { viewModel.sendAction(CancelLoggingIn) },
+        onSelectServerClick = { viewModel.sendAction(OnSelectServerClick) },
+    )
 }
