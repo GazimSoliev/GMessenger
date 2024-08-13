@@ -28,8 +28,7 @@ class GMessengerAPIImpl(
     private val host: String,
     isSecure: Boolean,
     token: String,
-) : GMessengerAPI,
-    AutoCloseable {
+) : GMessengerAPI {
     private val httpProtocol = if (isSecure) URLProtocol.HTTPS else URLProtocol.HTTP
     private val wsProtocol = if (isSecure) URLProtocol.WSS else URLProtocol.WS
 
@@ -69,14 +68,14 @@ class GMessengerAPIImpl(
 
     override suspend fun getChats(): List<IChat> = httpClient.get(ChatsRoute()).body()
 
-    override suspend fun createChat(user: User): Boolean =
+    override suspend fun createChat(userID: String): Boolean =
         httpClient
             .post(CreateChatRoute()) {
                 contentType(ContentType.Application.Json)
-                setBody(user)
+                setBody(UserID(userID))
             }.status == HttpStatusCode.OK
 
-    override fun getChatWebSocket(chat: IChat): ChatWebSocket =
+    override fun getChatWebSocket(chatID: String): ChatWebSocket =
         object : ChatWebSocket {
             val getter = MutableSharedFlow<IMessage>()
             val setter = MutableSharedFlow<MessageForm>()
@@ -87,7 +86,7 @@ class GMessengerAPIImpl(
             override suspend fun openConnection() {
                 coroutineScope {
                     httpClient.webSocket(
-                        resource = ChatRoute.Id(chat.id),
+                        resource = ChatRoute.Id(chatID),
                         request = { url { protocol = wsProtocol } },
                     ) {
                         println(this.call.request.url)
@@ -153,13 +152,10 @@ class GMessengerAPIImpl(
             override suspend fun closeConnection() = job?.cancel() ?: Unit
         }
 
-    override suspend fun getMessages(
-        chat: IChat,
-        key: MessagePageKey?,
-    ): MyMessagePage {
+    override suspend fun getMessages(chatId: String, key: MessagePageKey?): MyMessagePage {
         val page =
             httpClient
-                .post(MessagesRoute.ChatId(chat.id)) {
+                .post(MessagesRoute.ChatId(chatId)) {
                     contentType(ContentType.Application.Json)
                     setBody(key)
                 }.body<MessagePage>()

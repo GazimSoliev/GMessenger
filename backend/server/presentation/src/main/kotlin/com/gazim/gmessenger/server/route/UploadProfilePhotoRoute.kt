@@ -14,9 +14,9 @@ import org.koin.ktor.ext.inject
 fun Route.uploadProfilePhotoRoute() {
     val uploadProfilePhotoUseCase by inject<UploadProfilePhotoUseCase>()
     post<UploadProfilePhotoRoute.Type> { params ->
-        val user = getUser()
+        val userId = getUserId()
         val bytes = call.receiveChannel().toByteArray()
-        val image = uploadProfilePhotoUseCase(user, params.type, bytes)
+        val image = uploadProfilePhotoUseCase(userId, params.type, bytes)
         call.respond(image.toAPI())
     }
 }

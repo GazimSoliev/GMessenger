@@ -17,20 +17,24 @@ class MessagingService(
     private val chatsFlow = mutableMapOf<UUID, MutableSharedFlow<Message>>()
 
     override suspend fun sendMessage(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
         messageForm: MessageForm,
     ) {
-        val message = messageRepository.sendMessage(user, chat, messageForm)
-        chatsFlow[chat.id]?.emit(message)
+        val message = messageRepository.sendMessage(
+            userId = userId,
+            chatId = chatId,
+            message = messageForm
+        )
+        chatsFlow[chatId]?.emit(message)
     }
 
     override suspend fun getMessages(
-        user: User,
-        chat: IChat,
-        key: MessagePageKey?,
+        userId: UUID,
+        chatId: UUID,
+        key: MessagePageKey?
     ): MessagePage {
-        if (!chatRepository.existInChat(user, chat)) return MessagePage(emptyList())
+        if (!chatRepository.existInChat(userId, chatId)) return MessagePage(emptyList())
         val start: LocalDateTime
         val end: LocalDateTime?
         if (key != null) {
@@ -38,17 +42,17 @@ class MessagingService(
             end = key.end
         } else {
             start = LocalDateTime.now(ZoneOffset.UTC)
-            end = messageRepository.nextPage(chat, 63, start)
+            end = messageRepository.nextPage(chatId, 63, start)
         }
-        val prev = messageRepository.prevPage(chat, 64, start)
+        val prev = messageRepository.prevPage(chatId, 64, start)
         if (end == null) {
             return MessagePage(
                 data = emptyList(),
                 prev = prev?.let { MessagePageKey(start = it, start) },
             )
         }
-        val next = messageRepository.nextPage(chat, 64, end)
-        val messages = messageRepository.getMessages(chat, start, end)
+        val next = messageRepository.nextPage(chatId, 64, end)
+        val messages = messageRepository.getMessages(chatId, start, end)
         return MessagePage(
             data = messages,
             next = next?.let { MessagePageKey(end, it) },
@@ -57,11 +61,17 @@ class MessagingService(
     }
 
     override suspend fun getMessageFlow(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID
     ): Flow<Message>? {
-        if (!chatRepository.existInChat(user, chat)) return null
-        val flow = chatsFlow[chat.id] ?: MutableSharedFlow<Message>().also { chatsFlow[chat.id] = it }
+        if (
+            !chatRepository.existInChat(
+                userId = userId,
+                chatId = chatId
+
+            )
+        ) return null
+        val flow = chatsFlow[chatId] ?: MutableSharedFlow<Message>().also { chatsFlow[chatId] = it }
         return flow.asSharedFlow()
     }
 }

@@ -13,7 +13,7 @@ import org.koin.ktor.ext.inject
 fun Route.chatsRoute() {
     val getChatsUseCase by inject<GetChatsUseCase>()
     get<ChatsRoute> {
-        val chats = getChatsUseCase(getUser())
+        val chats = getChatsUseCase(getUserId())
         call.respond(chats.map(IChat::toAPI))
     }
 }

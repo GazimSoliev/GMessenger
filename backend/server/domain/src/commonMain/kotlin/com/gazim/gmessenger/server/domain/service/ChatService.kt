@@ -9,20 +9,14 @@ class ChatService(
     private val chatRepository: IChatRepository,
 ) : IChatService {
     override suspend fun getChats(
-        user: User,
+        userId: UUID,
         limit: Int,
         startFrom: Long?,
-    ): List<IChat> = chatRepository.getChats(user)
+    ): List<IChat> = chatRepository.getChats(userId)
 
-    override suspend fun getMembers(
-        user: User,
-        chat: IChat,
-    ): List<User> = chatRepository.getMembers(user, chat)
+    override suspend fun getMembers(userId: UUID, chatId: UUID): List<User> = chatRepository.getMembers(userId, chatId)
 
-    override suspend fun createChat(user: List<User>): IChat? = chatRepository.createChat(user)
+    override suspend fun createChat(userIds: List<UUID>): IChat? = chatRepository.createChat(userIds)
 
-    override suspend fun getChat(
-        user: User,
-        chatId: UUID,
-    ): IChat? = chatRepository.getChat(user, chatId)
+    override suspend fun getChat(userId: UUID, chatId: UUID): IChat? = chatRepository.getChat(userId = userId, chatId =  chatId)
 }

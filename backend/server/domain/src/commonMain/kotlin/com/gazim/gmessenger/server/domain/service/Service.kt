@@ -11,12 +11,12 @@ interface IUserService {
     suspend fun getUser(tokenId: UUID): User
 
     suspend fun editProfile(
-        user: User,
+        userId: UUID,
         profileForm: ProfileForm,
     )
 
     suspend fun uploadProfilePhoto(
-        user: User,
+        userId: UUID,
         type: String,
         content: ByteArray,
     ): Image
@@ -34,40 +34,40 @@ interface IAuthorizationService {
 
 interface IChatService {
     suspend fun getChats(
-        user: User,
+        userId: UUID,
         limit: Int = 64,
         startFrom: Long? = null,
     ): List<IChat>
 
     suspend fun getMembers(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
     ): List<User>
 
-    suspend fun createChat(user: List<User>): IChat?
+    suspend fun createChat(userIds: List<UUID>): IChat?
 
     suspend fun getChat(
-        user: User,
+        userId: UUID,
         chatId: UUID,
     ): IChat?
 }
 
 interface IMessagingService {
     suspend fun sendMessage(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
         messageForm: MessageForm,
     )
 
     suspend fun getMessages(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
         key: MessagePageKey?,
     ): MessagePage
 
     suspend fun getMessageFlow(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
     ): Flow<Message>?
 }
 
@@ -75,7 +75,7 @@ interface FileService {
     suspend fun getImageContent(photoId: UUID): ByteArray
 
     suspend fun uploadImage(
-        user: User,
+        userId: UUID,
         type: String,
         content: ByteArray,
     ): Image

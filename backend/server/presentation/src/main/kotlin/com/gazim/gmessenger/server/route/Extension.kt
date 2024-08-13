@@ -14,4 +14,8 @@ suspend fun ApplicationCall.getTokenId() = scope.get<ISecurityUtils>().getUserTo
 suspend fun PipelineContext<*, ApplicationCall>.getUser(): User =
     call.scope.get<GetUserUseCase>().invoke(UUID.fromString(call.getTokenId()))
 
+suspend fun PipelineContext<*, ApplicationCall>.getUserId() = getUser().id
+
 suspend fun WebSocketServerSession.getUser(): User = call.scope.get<GetUserUseCase>().invoke(UUID.fromString(call.getTokenId()))
+
+suspend fun WebSocketServerSession.getUserId() = getUser().id

@@ -6,7 +6,6 @@ import com.gazim.gmessenger.server.data.database.model.ChatAccountEntity
 import com.gazim.gmessenger.server.data.database.model.ChatEntity
 import com.gazim.gmessenger.server.data.database.table.AccountTable
 import com.gazim.gmessenger.server.data.database.table.ChatAccountTable
-import com.gazim.gmessenger.server.data.mapper.toAccountEntity
 import com.gazim.gmessenger.server.data.mapper.toChat
 import com.gazim.gmessenger.server.data.mapper.toUser
 import com.gazim.gmessenger.server.domain.model.IChat
@@ -19,30 +18,33 @@ import java.time.ZoneOffset
 import java.util.*
 
 class ChatRepository : IChatRepository {
-    override suspend fun getChats(user: User): List<IChat> =
+    override suspend fun getChats(userId: UUID): List<IChat> =
         dbQuery {
-            val accountEntity = user.toAccountEntity()
+            val accountEntity = AccountEntity[userId]
             accountEntity.chats.map { it.toChat(accountEntity) }
         }
 
     override suspend fun getMembers(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID
     ): List<User> =
         dbQuery {
-            getEntityChat(user, chat.id)?.members?.map(AccountEntity::toUser) ?: emptyList()
+            getEntityChat(
+                userId = userId,
+                chatId = chatId
+            )?.members?.map(AccountEntity::toUser) ?: emptyList()
         }
 
-    override suspend fun createChat(users: List<User>): IChat? =
+    override suspend fun createChat(userIds: List<UUID>): IChat? =
         dbQuery {
             val accounts =
                 AccountEntity.find {
-                    AccountTable.username.inList(users.map(User::username))
+                    AccountTable.id.inList(userIds)
                 }
-            if (accounts.count().toInt() != users.count()) return@dbQuery null
+            if (accounts.count().toInt() != userIds.count()) return@dbQuery null
             val chat =
                 ChatEntity.new {
-                    title = users.joinToString(transform = User::nickname)
+                    title = userIds.joinToString { AccountEntity[it].username }
                     createdAt = LocalDateTime.now(ZoneOffset.UTC)
                 }
             accounts.forEach {
@@ -56,34 +58,43 @@ class ChatRepository : IChatRepository {
         }
 
     override suspend fun getChat(
-        user: User,
-        id: UUID,
+        userId: UUID,
+        chatId: UUID,
     ): IChat? =
         dbQuery {
-            val account = user.toAccountEntity()
-            getEntityChat(user, id)?.toChat(account)
+            val account = AccountEntity[userId]
+            getEntityChat(
+                userId = userId,
+                chatId = chatId
+            )?.toChat(account)
         }
 
     override suspend fun existInChat(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID
     ): Boolean =
         dbQuery {
-            !getChatAccountEntity(user, chat.id).empty()
+            !getChatAccountEntity(
+                userId = userId,
+                chatId = chatId
+            ).empty()
         }
 
     private fun getEntityChat(
-        user: User,
-        id: UUID,
-    ): ChatEntity? = getChatAccountEntity(user, id).singleOrNull()?.chatEntity
+        userId: UUID,
+        chatId: UUID,
+    ): ChatEntity? = getChatAccountEntity(
+        userId = userId,
+        chatId = chatId
+    ).singleOrNull()?.chatEntity
 
     private fun getChatAccountEntity(
-        user: User,
-        id: UUID,
+        userId: UUID,
+        chatId: UUID,
     ): SizedIterable<ChatAccountEntity> {
-        val account = user.toAccountEntity()
+        val account = AccountEntity[userId]
         return ChatAccountEntity.find {
-            (ChatAccountTable.idAccount eq account.id) and (ChatAccountTable.idChat eq id)
+            (ChatAccountTable.idAccount eq account.id) and (ChatAccountTable.idChat eq chatId)
         }
     }
 }

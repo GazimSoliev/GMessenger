@@ -11,8 +11,9 @@ import java.util.*
 
 fun Route.imageRoute() {
     val getImageContentUseCase by inject<GetImageContentUseCase>()
-    get<ImageRoute.Id> {
-        val bytes = getImageContentUseCase(UUID.fromString(call.parameters["id"]!!))
+    get<ImageRoute.Id> { params ->
+        val imageId = UUID.fromString(params.id)
+        val bytes = getImageContentUseCase(imageId)
         call.respondBytes(bytes)
     }
 }

@@ -1,61 +1,52 @@
 package com.gazim.gmessenger.server.data.repository
 
 import com.gazim.gmessenger.server.data.database.GMessengerDatabase.dbQuery
+import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.ChatEntity
 import com.gazim.gmessenger.server.data.database.model.MessageEntity
 import com.gazim.gmessenger.server.data.database.table.MessageTable
-import com.gazim.gmessenger.server.data.mapper.toAccountEntity
 import com.gazim.gmessenger.server.data.mapper.toMessage
-import com.gazim.gmessenger.server.domain.model.IChat
 import com.gazim.gmessenger.server.domain.model.Message
 import com.gazim.gmessenger.server.domain.model.MessageForm
-import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.IMessageRepository
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.util.*
 
 class MessageRepository : IMessageRepository {
     override suspend fun sendMessage(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
         message: MessageForm,
     ): Message =
         dbQuery {
             MessageEntity
                 .new {
-                    chatEntity = ChatEntity[chat.id]
+                    chatEntity = ChatEntity[chatId]
                     this.message = message.message
-                    account = user.toAccountEntity()
+                    account = AccountEntity[userId]
                     sentAt = LocalDateTime.now(ZoneOffset.UTC)
                 }.toMessage()
         }
 
-    override suspend fun getMessages(
-        chat: IChat,
-        start: LocalDateTime,
-        end: LocalDateTime,
-    ): List<Message> =
+    override suspend fun getMessages(chatId: UUID, start: LocalDateTime, end: LocalDateTime): List<Message> =
         dbQuery {
             MessageEntity
                 .find {
-                    (MessageTable.idChat eq chat.id) and
+                    (MessageTable.idChat eq chatId) and
                         (MessageTable.createdAt less start) and
                         (MessageTable.createdAt greaterEq end)
                 }.orderBy(MessageTable.createdAt to SortOrder.DESC)
                 .map(MessageEntity::toMessage)
         }
 
-    override suspend fun nextPage(
-        chat: IChat,
-        offset: Long,
-        start: LocalDateTime,
-    ): LocalDateTime? =
+    override suspend fun nextPage(chatId: UUID, offset: Long, start: LocalDateTime): LocalDateTime? =
         dbQuery {
             MessageEntity
                 .find {
-                    (MessageTable.idChat eq chat.id) and
+                    (MessageTable.idChat eq chatId) and
                         (MessageTable.createdAt less start)
                 }.orderBy(MessageTable.createdAt to SortOrder.ASC)
                 .limit(offset.toInt())
@@ -63,15 +54,11 @@ class MessageRepository : IMessageRepository {
                 ?.sentAt
         }
 
-    override suspend fun prevPage(
-        chat: IChat,
-        offset: Long,
-        end: LocalDateTime,
-    ): LocalDateTime? =
+    override suspend fun prevPage(chatId: UUID, offset: Long, end: LocalDateTime): LocalDateTime? =
         dbQuery {
             MessageEntity
                 .find {
-                    (MessageTable.idChat eq chat.id) and
+                    (MessageTable.idChat eq chatId) and
                         (MessageTable.createdAt greaterEq end)
                 }.orderBy(MessageTable.createdAt to SortOrder.ASC)
                 .limit(1, offset)

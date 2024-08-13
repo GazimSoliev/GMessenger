@@ -25,13 +25,13 @@ class GMessengerAPIImpl(
 
     override suspend fun getChat(chatModel: IChat): IChatWebSocketModel =
         gMessengerAPI
-            .getChatWebSocket(chatModel.toAPI())
+            .getChatWebSocket(chatModel.toAPI().id)
             .toChatWebSocketModel((if (chatModel is PrivateChat) chatModel.user.nickname else chatModel.title))
 
     override suspend fun getMyOwnAccount(): User = gMessengerAPI.whoAmI().toDomain()
 
     override suspend fun createChat(user: User) {
-        gMessengerAPI.createChat(user = user.toAPI())
+        gMessengerAPI.createChat(user.toAPI().id)
     }
 
     override suspend fun getNotifications(): INotificationWebSocketModel = gMessengerAPI.getNotifications().toNotificationWebSocketModel()
@@ -39,7 +39,7 @@ class GMessengerAPIImpl(
     override suspend fun getMessages(
         chatModel: IChat,
         key: MessagePageKey?,
-    ): MessagePage = gMessengerAPI.getMessages(chatModel.toAPI(), key?.toAPI()).toDomain()
+    ): MessagePage = gMessengerAPI.getMessages(chatModel.toAPI().id, key?.toAPI()).toDomain()
 
     override suspend fun editProfile(profileForm: ProfileForm) = gMessengerAPI.editProfile(profileForm.toAPI())
 
