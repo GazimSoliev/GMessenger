@@ -8,17 +8,15 @@ Functional:
 7. Short user info
 
 TODO:
-1. Requirements for login and password from server side
-2. Paging for chats
-3. Notifications
-4. Attachments
-5. Migrations
-6. Local database
-7. Voice messages
-8. Use Docker
-9. Renaming
-10. Add internet connection checker in chat
+1. Change api in client
+2. Update deprecated code
+3. Requirements for login and password from server side
+4. Paging for chats
+5. Notifications
+6. Attachments
+7. Migrations
+8. Local database
+9. Voice messages
+10. Use Docker
 11. Add chat photo in chat
 12. Add user photo in searching
-13. Add photo picker for android
-14. Select server in app
