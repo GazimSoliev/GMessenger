@@ -31,5 +31,5 @@ class GMessengerAuthAPIImpl(
                 login = loginPasswordModel.login,
                 password = loginPasswordModel.password,
             ),
-        )
+        ).token
 }

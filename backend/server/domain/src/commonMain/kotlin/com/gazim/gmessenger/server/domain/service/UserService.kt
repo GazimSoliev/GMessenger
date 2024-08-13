@@ -15,18 +15,11 @@ class UserService(
 
     override suspend fun getUser(tokenId: UUID): User = userRepository.getUser(tokenId)
 
-    override suspend fun editProfile(
-        user: User,
-        profileForm: ProfileForm,
-    ) = userRepository.editProfile(user, profileForm)
+    override suspend fun editProfile(userId: UUID, profileForm: ProfileForm) = userRepository.editProfile(userId, profileForm)
 
-    override suspend fun uploadProfilePhoto(
-        user: User,
-        type: String,
-        content: ByteArray,
-    ): Image {
-        val image = fileRepository.uploadImage(user, type, content)
-        userRepository.setProfilePhoto(user, image)
+    override suspend fun uploadProfilePhoto(userId: UUID, type: String, content: ByteArray): Image {
+        val image = fileRepository.uploadImage(userId, type, content)
+        userRepository.setProfilePhoto(userId, image.id)
         return image
     }
 }

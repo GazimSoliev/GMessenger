@@ -14,7 +14,10 @@ fun Route.editProfileRoute() {
     val editProfileUseCase by inject<EditProfileUseCase>()
     post<EditProfileRoute> {
         val profileForm = call.receive<ProfileForm>()
-        val user = getUser()
-        editProfileUseCase(user, profileForm.toDomain())
+        val userId = getUserId()
+        editProfileUseCase(
+            userId = userId,
+            profileForm = profileForm.toDomain()
+        )
     }
 }

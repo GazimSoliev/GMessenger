@@ -15,13 +15,13 @@ interface IUserRepository {
     suspend fun getUser(tokenId: UUID): User
 
     suspend fun editProfile(
-        user: User,
+        userId: UUID,
         profileForm: ProfileForm,
     )
 
     suspend fun setProfilePhoto(
-        user: User,
-        image: Image,
+        userId: UUID,
+        imageId: UUID,
     )
 }
 
@@ -36,47 +36,47 @@ interface ILoginRegisterRepository {
 }
 
 interface IChatRepository {
-    suspend fun getChats(user: User): List<IChat>
+    suspend fun getChats(userId: UUID): List<IChat>
 
     suspend fun getMembers(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
     ): List<User>
 
-    suspend fun createChat(users: List<User>): IChat?
+    suspend fun createChat(userIds: List<UUID>): IChat?
 
     suspend fun getChat(
-        user: User,
-        id: UUID,
+        userId: UUID,
+        chatId: UUID,
     ): IChat?
 
     suspend fun existInChat(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
     ): Boolean
 }
 
 interface IMessageRepository {
     suspend fun sendMessage(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
         message: MessageForm,
     ): Message
 
     suspend fun getMessages(
-        chat: IChat,
+        chatId: UUID,
         start: LocalDateTime,
         end: LocalDateTime,
     ): List<Message>
 
     suspend fun nextPage(
-        chat: IChat,
+        chatId: UUID,
         offset: Long,
         start: LocalDateTime,
     ): LocalDateTime?
 
     suspend fun prevPage(
-        chat: IChat,
+        chatId: UUID,
         offset: Long,
         end: LocalDateTime,
     ): LocalDateTime?
@@ -86,7 +86,7 @@ interface FileRepository {
     suspend fun getImageContent(photoId: UUID): ByteArray
 
     suspend fun uploadImage(
-        user: User,
+        userId: UUID,
         type: String,
         content: ByteArray,
     ): Image

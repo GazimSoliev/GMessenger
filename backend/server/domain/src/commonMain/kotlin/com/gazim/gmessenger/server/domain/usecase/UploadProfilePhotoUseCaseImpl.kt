@@ -3,13 +3,14 @@ package com.gazim.gmessenger.server.domain.usecase
 import com.gazim.gmessenger.server.domain.model.Image
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.service.UserService
+import java.util.UUID
 
 class UploadProfilePhotoUseCaseImpl(
     private val userService: UserService,
 ) : UploadProfilePhotoUseCase {
     override suspend fun invoke(
-        user: User,
+        userId: UUID,
         type: String,
         content: ByteArray,
-    ): Image = userService.uploadProfilePhoto(user, type, content)
+    ): Image = userService.uploadProfilePhoto(userId, type, content)
 }

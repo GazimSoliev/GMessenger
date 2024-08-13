@@ -10,21 +10,21 @@ interface GetUserUseCase {
 }
 
 interface GetChatsUseCase {
-    suspend operator fun invoke(user: User): List<IChat>
+    suspend operator fun invoke(userId: UUID): List<IChat>
 }
 
 interface SendMessageUseCase {
     suspend operator fun invoke(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
         message: MessageForm,
     )
 }
 
 interface GetMessageFlowUseCase {
     suspend operator fun invoke(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
         limit: Int = 64,
         startFrom: Long? = null,
     ): Flow<Message>?
@@ -48,15 +48,15 @@ interface FindUserUseCase {
 
 interface GetChatUseCase {
     suspend operator fun invoke(
-        user: User,
+        userId: UUID,
         chatId: UUID,
     ): IChat?
 }
 
 interface CreateChatUseCase {
     suspend operator fun invoke(
-        owner: User,
-        users: List<User>,
+        ownerId: UUID,
+        userIds: List<UUID>,
     ): IChat?
 }
 
@@ -66,15 +66,15 @@ interface GetNotifications {
 
 interface GetMessagesUseCase {
     suspend operator fun invoke(
-        user: User,
-        chat: IChat,
+        userId: UUID,
+        chatId: UUID,
         key: MessagePageKey?,
     ): MessagePage
 }
 
 interface EditProfileUseCase {
     suspend operator fun invoke(
-        user: User,
+        userId: UUID,
         profileForm: ProfileForm,
     )
 }
@@ -85,7 +85,7 @@ interface GetImageContentUseCase {
 
 interface UploadProfilePhotoUseCase {
     suspend operator fun invoke(
-        user: User,
+        userId: UUID,
         type: String,
         content: ByteArray,
     ): Image

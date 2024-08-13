@@ -9,16 +9,16 @@ interface GMessengerAPI : AutoCloseable {
 
     suspend fun getChats(): List<IChat>
 
-    suspend fun createChat(user: User): Boolean
+    suspend fun createChat(userID: String): Boolean
 
-    fun getChatWebSocket(chat: IChat): ChatWebSocket
+    fun getChatWebSocket(chatID: String): ChatWebSocket
 
     suspend fun findUser(username: String): List<User>
 
     suspend fun getNotifications(): NotificationSocket
 
     suspend fun getMessages(
-        chat: IChat,
+        chatId: String,
         key: MessagePageKey?,
     ): MyMessagePage
 
@@ -35,7 +35,7 @@ interface GMessengerAPI : AutoCloseable {
 interface GMessengerAuthAPI {
     suspend fun register(account: RegistrationForm): Boolean
 
-    suspend fun login(loginPassword: AuthenticationForm): String?
+    suspend fun login(loginPassword: AuthenticationForm): Token
 }
 
 interface GMessengerAPIConnection {

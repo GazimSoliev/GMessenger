@@ -3,6 +3,7 @@ package com.gazim.gmessenger.server.route
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.gazim.gmessenger.api.model.AuthenticationForm
+import com.gazim.gmessenger.api.model.Token
 import com.gazim.gmessenger.api.route.LoginRoute
 import com.gazim.gmessenger.server.domain.usecase.LoginUseCase
 import com.gazim.gmessenger.server.extensions.toDomain
@@ -27,7 +28,7 @@ fun Route.loginRoute() {
         val expiredAt = LocalDateTime.now().plusDays(7)
         val tokenId = loginUseCase(loginPassword, createAt, expiredAt)
         val token = tokenId?.let { generateJWT(it.id.toString(), expiredAt) }
-        call.respondNullable(token)
+        call.respondNullable(Token(token))
     }
 }
 
