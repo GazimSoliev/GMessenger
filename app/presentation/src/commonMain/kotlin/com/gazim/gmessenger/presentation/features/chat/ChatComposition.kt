@@ -34,14 +34,13 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 // todo: Rename preview and maybe change a composition
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatComposition(
     modifier: Modifier = Modifier,
