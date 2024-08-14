@@ -48,6 +48,7 @@ class GMessengerAPIImpl(
             defaultRequest {
                 host = this@GMessengerAPIImpl.host
                 url { protocol = httpProtocol }
+                contentType(ContentType.Application.Json)
             }
         }
 
@@ -68,10 +69,11 @@ class GMessengerAPIImpl(
 
     override suspend fun getChats(): List<IChat> = httpClient.get(ChatsRoute()).body()
 
+    override suspend fun getChat(chatId: String): IChat = httpClient.get(GetChatRoute.Id(chatId)).body()
+
     override suspend fun createChat(userID: String): Boolean =
         httpClient
             .post(CreateChatRoute()) {
-                contentType(ContentType.Application.Json)
                 setBody(UserID(userID))
             }.status == HttpStatusCode.OK
 
@@ -156,7 +158,6 @@ class GMessengerAPIImpl(
         val page =
             httpClient
                 .post(MessagesRoute.ChatId(chatId)) {
-                    contentType(ContentType.Application.Json)
                     setBody(key)
                 }.body<MessagePage>()
         return page.toMyPage(getUserId())
@@ -164,7 +165,6 @@ class GMessengerAPIImpl(
 
     override suspend fun editProfile(profileForm: ProfileForm) {
         httpClient.post(EditProfileRoute()) {
-            contentType(ContentType.Application.Json)
             setBody(profileForm)
         }
     }

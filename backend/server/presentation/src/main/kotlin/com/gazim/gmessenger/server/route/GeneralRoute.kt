@@ -16,6 +16,7 @@ fun Routing.generalRoute() {
         editProfileRoute()
         uploadProfilePhotoRoute()
         imageRoute()
+        getChatRoute()
     }
     registrationRoute()
     loginRoute()

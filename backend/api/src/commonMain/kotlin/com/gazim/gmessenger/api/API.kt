@@ -9,6 +9,8 @@ interface GMessengerAPI : AutoCloseable {
 
     suspend fun getChats(): List<IChat>
 
+    suspend fun getChat(chatId: String): IChat
+
     suspend fun createChat(userID: String): Boolean
 
     fun getChatWebSocket(chatID: String): ChatWebSocket

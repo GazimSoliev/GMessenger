@@ -13,6 +13,15 @@ class ChatRoute {
     )
 }
 
+@Resource("/get_chat")
+class GetChatRoute {
+    @Resource("{id}")
+    class Id(
+        val id: String,
+        val parent: GetChatRoute = GetChatRoute(),
+    )
+}
+
 @Resource("/chats")
 class ChatsRoute
 
