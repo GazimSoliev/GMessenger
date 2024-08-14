@@ -20,9 +20,11 @@ fun SelectServerScreen(navController: NavHostController) {
     val pingUseCase = koinInject<PingUseCase>()
     viewModel.handleSideEffect { sideEffect ->
         when (sideEffect) {
-            is SelectServerSideEffect.Back -> navController.popBackStack()
+            is SelectServerSideEffect.Back -> {
+                navController.popBackStack()
+                cancel()
+            }
         }
-        cancel()
     }
     SelectServerComposition(
         servers = state.serverList,

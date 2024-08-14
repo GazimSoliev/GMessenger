@@ -21,9 +21,11 @@ fun FindUserScreen(navController: NavHostController) {
     val state by viewModel.collectAsState()
     viewModel.handleSideEffect { sideEffect ->
         when (sideEffect) {
-            is ToChatsScreen -> navController.popBackStack()
+            is ToChatsScreen -> {
+                navController.popBackStack()
+                cancel()
+            }
         }
-        cancel()
     }
     FindUserComposition(
         modifier = Modifier.fillMaxSize(),

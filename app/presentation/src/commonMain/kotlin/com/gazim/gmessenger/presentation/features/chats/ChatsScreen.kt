@@ -13,7 +13,6 @@ import com.gazim.gmessenger.presentation.features.chats.ChatsSideEffect.*
 import com.gazim.gmessenger.presentation.navigation.Screen
 import com.gazim.gmessenger.presentation.navigation.navigate
 import com.gazim.gmessenger.presentation.navigation.replace
-import kotlinx.coroutines.cancel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -29,7 +28,6 @@ fun ChatsScreen(navController: NavController) {
             is ToAccountInfoScreen -> navController.navigate(Screen.User)
             is ToLoginScreen -> navController.replace(Screen.Login)
         }
-        cancel()
     }
     ChatsComposition(
         modifier = Modifier.fillMaxSize(),

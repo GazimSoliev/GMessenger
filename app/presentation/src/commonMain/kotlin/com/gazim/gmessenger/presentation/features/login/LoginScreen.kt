@@ -15,7 +15,6 @@ import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
 import com.gazim.gmessenger.presentation.navigation.Screen
 import com.gazim.gmessenger.presentation.navigation.navigate
 import com.gazim.gmessenger.presentation.navigation.replace
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -32,19 +31,14 @@ fun LoginScreen(navController: NavController) {
                 launch {
                     snackBarHostState.showSnackbar("Unable connect to server")
                 }
+
             is WrongLoginOrPassword ->
                 launch {
                     snackBarHostState.showSnackbar("Wrong login or password")
                 }
-            else -> {
-                when (sideEffect) {
-                    is ToChatsScreen -> navController.replace(Screen.Chats)
-                    is ToRegisterScreen -> navController.navigate(Screen.Registration)
-                    is ToSelectServerScreen -> navController.navigate(Screen.SelectServer)
-                    else -> Unit
-                }
-                cancel()
-            }
+            is ToChatsScreen -> navController.replace(Screen.Chats)
+            is ToRegisterScreen -> navController.navigate(Screen.Registration)
+            is ToSelectServerScreen -> navController.navigate(Screen.SelectServer)
         }
     }
     LoginComposition(
