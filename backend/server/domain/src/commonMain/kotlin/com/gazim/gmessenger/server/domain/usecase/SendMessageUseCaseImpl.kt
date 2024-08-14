@@ -10,10 +10,10 @@ class SendMessageUseCaseImpl(
     override suspend fun invoke(
         userId: UUID,
         chatId: UUID,
-        message: MessageForm
+        message: MessageForm,
     ) = messagingService.sendMessage(
         userId = userId,
         chatId = chatId,
-        messageForm = message
+        messageForm = message,
     )
 }

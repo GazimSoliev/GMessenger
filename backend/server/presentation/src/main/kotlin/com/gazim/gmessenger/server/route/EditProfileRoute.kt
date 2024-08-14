@@ -17,7 +17,7 @@ fun Route.editProfileRoute() {
         val userId = getUserId()
         editProfileUseCase(
             userId = userId,
-            profileForm = profileForm.toDomain()
+            profileForm = profileForm.toDomain(),
         )
     }
 }

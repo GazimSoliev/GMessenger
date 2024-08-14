@@ -1,9 +1,8 @@
 package com.gazim.gmessenger.server.domain.usecase
 
 import com.gazim.gmessenger.server.domain.model.Image
-import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.service.UserService
-import java.util.UUID
+import java.util.*
 
 class UploadProfilePhotoUseCaseImpl(
     private val userService: UserService,

@@ -31,7 +31,11 @@ class MessageRepository : IMessageRepository {
                 }.toMessage()
         }
 
-    override suspend fun getMessages(chatId: UUID, start: LocalDateTime, end: LocalDateTime): List<Message> =
+    override suspend fun getMessages(
+        chatId: UUID,
+        start: LocalDateTime,
+        end: LocalDateTime,
+    ): List<Message> =
         dbQuery {
             MessageEntity
                 .find {
@@ -42,7 +46,11 @@ class MessageRepository : IMessageRepository {
                 .map(MessageEntity::toMessage)
         }
 
-    override suspend fun nextPage(chatId: UUID, offset: Long, start: LocalDateTime): LocalDateTime? =
+    override suspend fun nextPage(
+        chatId: UUID,
+        offset: Long,
+        start: LocalDateTime,
+    ): LocalDateTime? =
         dbQuery {
             MessageEntity
                 .find {
@@ -54,7 +62,11 @@ class MessageRepository : IMessageRepository {
                 ?.sentAt
         }
 
-    override suspend fun prevPage(chatId: UUID, offset: Long, end: LocalDateTime): LocalDateTime? =
+    override suspend fun prevPage(
+        chatId: UUID,
+        offset: Long,
+        end: LocalDateTime,
+    ): LocalDateTime? =
         dbQuery {
             MessageEntity
                 .find {

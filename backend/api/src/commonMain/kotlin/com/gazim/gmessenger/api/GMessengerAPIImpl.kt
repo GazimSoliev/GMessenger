@@ -154,7 +154,10 @@ class GMessengerAPIImpl(
             override suspend fun closeConnection() = job?.cancel() ?: Unit
         }
 
-    override suspend fun getMessages(chatId: String, key: MessagePageKey?): MyMessagePage {
+    override suspend fun getMessages(
+        chatId: String,
+        key: MessagePageKey?,
+    ): MyMessagePage {
         val page =
             httpClient
                 .post(MessagesRoute.ChatId(chatId)) {

@@ -15,10 +15,11 @@ fun Route.getChatRoute() {
     get<GetChatRoute.Id> { params ->
         val userId = getUserId()
         val chatId = UUID.fromString(params.id)
-        val chat = getChatUseCase(
-            userId = userId,
-            chatId = chatId
-        )!!
+        val chat =
+            getChatUseCase(
+                userId = userId,
+                chatId = chatId,
+            )!!
         call.respond(chat.toAPI())
     }
 }

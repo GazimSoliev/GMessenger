@@ -19,11 +19,12 @@ fun Route.messagesRoute() {
         val userId = getUserId()
         val chatId = UUID.fromString(params.chatId)
         val key = call.receiveNullable<MessagePageKey?>()
-        val page = getMessagesUseCase(
-            userId = userId,
-            chatId = chatId,
-            key = key?.toDomain(),
-        ).toAPI()
+        val page =
+            getMessagesUseCase(
+                userId = userId,
+                chatId = chatId,
+                key = key?.toDomain(),
+            ).toAPI()
         call.respond(page)
     }
 }

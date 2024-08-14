@@ -9,5 +9,9 @@ class FileServiceImpl(
 ) : FileService {
     override suspend fun getImageContent(photoId: UUID): ByteArray = fileRepository.getImageContent(photoId)
 
-    override suspend fun uploadImage(userId: UUID, type: String, content: ByteArray): Image = fileRepository.uploadImage(userId, type, content)
+    override suspend fun uploadImage(
+        userId: UUID,
+        type: String,
+        content: ByteArray,
+    ): Image = fileRepository.uploadImage(userId, type, content)
 }

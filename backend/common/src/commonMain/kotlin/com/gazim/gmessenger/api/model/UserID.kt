@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserID(
-    val id: String
+    val id: String,
 )

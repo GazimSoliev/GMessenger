@@ -1,6 +1,9 @@
 package com.gazim.gmessenger.server.domain.service
 
-import com.gazim.gmessenger.server.domain.model.*
+import com.gazim.gmessenger.server.domain.model.Message
+import com.gazim.gmessenger.server.domain.model.MessageForm
+import com.gazim.gmessenger.server.domain.model.MessagePage
+import com.gazim.gmessenger.server.domain.model.MessagePageKey
 import com.gazim.gmessenger.server.domain.repository.IChatRepository
 import com.gazim.gmessenger.server.domain.repository.IMessageRepository
 import kotlinx.coroutines.flow.Flow
@@ -21,18 +24,19 @@ class MessagingService(
         chatId: UUID,
         messageForm: MessageForm,
     ) {
-        val message = messageRepository.sendMessage(
-            userId = userId,
-            chatId = chatId,
-            message = messageForm
-        )
+        val message =
+            messageRepository.sendMessage(
+                userId = userId,
+                chatId = chatId,
+                message = messageForm,
+            )
         chatsFlow[chatId]?.emit(message)
     }
 
     override suspend fun getMessages(
         userId: UUID,
         chatId: UUID,
-        key: MessagePageKey?
+        key: MessagePageKey?,
     ): MessagePage {
         if (!chatRepository.existInChat(userId, chatId)) return MessagePage(emptyList())
         val start: LocalDateTime
@@ -62,15 +66,16 @@ class MessagingService(
 
     override suspend fun getMessageFlow(
         userId: UUID,
-        chatId: UUID
+        chatId: UUID,
     ): Flow<Message>? {
         if (
             !chatRepository.existInChat(
                 userId = userId,
-                chatId = chatId
-
+                chatId = chatId,
             )
-        ) return null
+        ) {
+            return null
+        }
         val flow = chatsFlow[chatId] ?: MutableSharedFlow<Message>().also { chatsFlow[chatId] = it }
         return flow.asSharedFlow()
     }

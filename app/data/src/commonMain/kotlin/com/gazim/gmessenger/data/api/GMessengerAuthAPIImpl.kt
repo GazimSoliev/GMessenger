@@ -26,10 +26,11 @@ class GMessengerAuthAPIImpl(
         )
 
     override suspend fun login(loginPasswordModel: AuthenticationFormAPI): String? =
-        gMessengerAuthAPI.login(
-            AuthenticationForm(
-                login = loginPasswordModel.login,
-                password = loginPasswordModel.password,
-            ),
-        ).token
+        gMessengerAuthAPI
+            .login(
+                AuthenticationForm(
+                    login = loginPasswordModel.login,
+                    password = loginPasswordModel.password,
+                ),
+            ).token
 }

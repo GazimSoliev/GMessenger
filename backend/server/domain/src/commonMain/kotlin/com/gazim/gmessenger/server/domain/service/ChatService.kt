@@ -14,9 +14,15 @@ class ChatService(
         startFrom: Long?,
     ): List<IChat> = chatRepository.getChats(userId)
 
-    override suspend fun getMembers(userId: UUID, chatId: UUID): List<User> = chatRepository.getMembers(userId, chatId)
+    override suspend fun getMembers(
+        userId: UUID,
+        chatId: UUID,
+    ): List<User> = chatRepository.getMembers(userId, chatId)
 
     override suspend fun createChat(userIds: List<UUID>): IChat? = chatRepository.createChat(userIds)
 
-    override suspend fun getChat(userId: UUID, chatId: UUID): IChat? = chatRepository.getChat(userId = userId, chatId =  chatId)
+    override suspend fun getChat(
+        userId: UUID,
+        chatId: UUID,
+    ): IChat? = chatRepository.getChat(userId = userId, chatId = chatId)
 }

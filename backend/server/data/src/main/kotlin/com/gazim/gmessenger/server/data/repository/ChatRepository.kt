@@ -26,12 +26,12 @@ class ChatRepository : IChatRepository {
 
     override suspend fun getMembers(
         userId: UUID,
-        chatId: UUID
+        chatId: UUID,
     ): List<User> =
         dbQuery {
             getEntityChat(
                 userId = userId,
-                chatId = chatId
+                chatId = chatId,
             )?.members?.map(AccountEntity::toUser) ?: emptyList()
         }
 
@@ -65,28 +65,29 @@ class ChatRepository : IChatRepository {
             val account = AccountEntity[userId]
             getEntityChat(
                 userId = userId,
-                chatId = chatId
+                chatId = chatId,
             )?.toChat(account)
         }
 
     override suspend fun existInChat(
         userId: UUID,
-        chatId: UUID
+        chatId: UUID,
     ): Boolean =
         dbQuery {
             !getChatAccountEntity(
                 userId = userId,
-                chatId = chatId
+                chatId = chatId,
             ).empty()
         }
 
     private fun getEntityChat(
         userId: UUID,
         chatId: UUID,
-    ): ChatEntity? = getChatAccountEntity(
-        userId = userId,
-        chatId = chatId
-    ).singleOrNull()?.chatEntity
+    ): ChatEntity? =
+        getChatAccountEntity(
+            userId = userId,
+            chatId = chatId,
+        ).singleOrNull()?.chatEntity
 
     private fun getChatAccountEntity(
         userId: UUID,
