@@ -1,3 +1,5 @@
+@file:Suppress("INFERRED_TYPE_VARIABLE_INTO_EMPTY_INTERSECTION_WARNING")
+
 package com.gazim.gmessenger.server.data.repository
 
 import com.gazim.gmessenger.server.data.database.GMessengerDatabase.dbQuery
@@ -13,7 +15,7 @@ import com.gazim.gmessenger.server.domain.model.RegistrationForm
 import com.gazim.gmessenger.server.domain.model.Token
 import com.gazim.gmessenger.server.domain.repository.ILoginRegisterRepository
 import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import java.security.MessageDigest
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -32,7 +34,8 @@ class LoginRegisterRepository : ILoginRegisterRepository {
                 AccountTable
                     .innerJoin(LoginTable)
                     .innerJoin(PasswordTable)
-                    .select {
+                    .selectAll()
+                    .where {
                         (AccountTable.id eq LoginTable.idAccount) and
                             (AccountTable.id eq PasswordTable.idAccount) and
                             (LoginTable.login eq login) and
