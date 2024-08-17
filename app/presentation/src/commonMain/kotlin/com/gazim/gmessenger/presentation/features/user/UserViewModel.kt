@@ -12,7 +12,7 @@ import com.gazim.gmessenger.presentation.features.user.UserAction.*
 import com.gazim.gmessenger.presentation.features.user.UserSideEffect.PickPhoto
 import com.gazim.gmessenger.presentation.features.user.UserSideEffect.ToBack
 import com.gazim.gmessenger.presentation.model.UserUI
-import com.gazim.gmessenger.presentation.model.toUserUI
+import com.gazim.gmessenger.presentation.model.toUI
 import com.gazim.gmessenger.utils.toComposeBitmapImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,10 +62,10 @@ class UserViewModel(
         }
     }
 
-    private suspend fun IntentScope.updateUserProfile() {
+    private fun IntentScope.updateUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             val u = getUserUseCase().getOrNull() ?: return@launch
-            user = u.toUserUI()
+            user = u.toUI()
             reduce { state.copy(nickname = user.nickname, username = "@${user.username}") }
             val image = u.photo ?: return@launch
             val byteArray = getImageContentUseCase(image.id).getOrNull() ?: return@launch

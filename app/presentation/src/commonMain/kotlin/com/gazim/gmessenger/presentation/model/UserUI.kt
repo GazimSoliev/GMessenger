@@ -7,4 +7,5 @@ data class UserUI(
     val id: String = "",
     val nickname: String = "",
     val username: String = "",
+    val photo: ImageUI? = null,
 )

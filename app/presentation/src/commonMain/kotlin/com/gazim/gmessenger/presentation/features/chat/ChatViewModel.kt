@@ -4,23 +4,19 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
-import com.gazim.gmessenger.domain.model.IChat
-import com.gazim.gmessenger.domain.model.IChatWebSocketModel
-import com.gazim.gmessenger.domain.model.IMessage
-import com.gazim.gmessenger.domain.model.SentMessage
+import com.gazim.gmessenger.domain.model.*
 import com.gazim.gmessenger.domain.usecase.GetChatUseCase
+import com.gazim.gmessenger.domain.usecase.GetImageContentUseCase
 import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
 import com.gazim.gmessenger.presentation.model.toChatModel
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineExceptionHandler
+import com.gazim.gmessenger.utils.toComposeBitmapImage
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.Syntax
 
@@ -30,6 +26,7 @@ private typealias IntentScope = Syntax<ChatState, ChatSideEffect>
 class ChatViewModel(
     private val getChatUseCase: GetChatUseCase,
     private val getMessages: GetMessagesUseCase,
+    private val getImageContentUseCase: GetImageContentUseCase,
 ) : BaseViewModel<ChatState, ChatSideEffect, ChatAction>() {
     private lateinit var chatModel: IChatWebSocketModel
     private lateinit var pagingSource: MessagePagerSource
@@ -61,6 +58,16 @@ class ChatViewModel(
     }
 
     private suspend fun IntentScope.loadChat(chat: IChat) {
+        if (chat is PrivateChat) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val imageId = chat.user.photo?.id ?: return@launch
+                while (true) {
+                    val image = getImageContentUseCase(imageId).getOrNull() ?: continue
+                    reduce { state.copy(imageBitmap = image.toComposeBitmapImage()) }
+                    break
+                }
+            }
+        }
         defineValues(chat)
         setPaging(chat)
         launchCollectingMessages()

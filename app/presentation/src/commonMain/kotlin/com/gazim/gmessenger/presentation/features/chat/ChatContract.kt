@@ -1,5 +1,6 @@
 package com.gazim.gmessenger.presentation.features.chat
 
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.input.TextFieldValue
 import app.cash.paging.PagingData
 import com.gazim.gmessenger.presentation.common.IAction
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.emptyFlow
 
 data class ChatState(
     val chatTitle: String = "",
+    val imageBitmap: ImageBitmap? = null,
     val messages: Flow<PagingData<IMessageItemUI>> = emptyFlow(),
     val message: TextFieldValue = TextFieldValue(),
     val showReconnectionTimer: Boolean = false,

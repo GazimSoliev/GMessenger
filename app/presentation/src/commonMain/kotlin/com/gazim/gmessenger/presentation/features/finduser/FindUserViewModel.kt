@@ -7,7 +7,7 @@ import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.finduser.FindUserAction.*
 import com.gazim.gmessenger.presentation.features.finduser.FindUserSideEffect.ToChatsScreen
 import com.gazim.gmessenger.presentation.model.toDomain
-import com.gazim.gmessenger.presentation.model.toUserUI
+import com.gazim.gmessenger.presentation.model.toUI
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.Syntax
 
@@ -34,7 +34,7 @@ class FindUserViewModel(
     private suspend fun Syntax<FindUserState, FindUserSideEffect>.findUser(filter: String) {
         filterUsersUseCase(filter)
             .onSuccess {
-                reduce { state.copy(users = it.map { it.toUserUI() }) }
+                reduce { state.copy(users = it.map { it.toUI() }) }
             }.onFailure(Throwable::printStackTrace)
     }
 

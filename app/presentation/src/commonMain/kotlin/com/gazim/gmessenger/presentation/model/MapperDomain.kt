@@ -2,7 +2,15 @@ package com.gazim.gmessenger.presentation.model
 
 import com.gazim.gmessenger.domain.model.*
 
-fun User.toUserUI() = UserUI(id = id, nickname = nickname, username = username)
+fun User.toUI() =
+    UserUI(
+        id = id,
+        nickname = nickname,
+        username = username,
+        photo = photo?.toUI(),
+    )
+
+fun Image.toUI() = ImageUI(id = id, type = type)
 
 fun IMessage.toMessageUI(): IMessageUI =
     if (this is YourMessage) {
@@ -10,14 +18,14 @@ fun IMessage.toMessageUI(): IMessageUI =
             id = id,
             message = message,
             sentAt = sentAt,
-            user = user.toUserUI(),
+            user = user.toUI(),
         )
     } else {
         MessageUI(
             id = id,
             message = message,
             sentAt = sentAt,
-            user = user.toUserUI(),
+            user = user.toUI(),
         )
     }
 
@@ -28,7 +36,7 @@ fun IChat.toChatUI(): IChatUI =
             title = title,
             chatName = user.nickname,
             chatLink = "@${user.username}",
-            user = user.toUserUI(),
+            user = user.toUI(),
             image = user.photo?.id,
         )
     } else {
@@ -41,7 +49,19 @@ fun IChat.toChatUI(): IChatUI =
         )
     }
 
-fun UserUI.toDomain() = User(id = id, nickname = nickname, username = username, null)
+fun ImageUI.toDomain() =
+    Image(
+        id = id,
+        type = type,
+    )
+
+fun UserUI.toDomain() =
+    User(
+        id = id,
+        nickname = nickname,
+        username = username,
+        photo = photo?.toDomain(),
+    )
 
 fun IChatUI.toChatModel(): IChat =
     if (this is PrivateChatUI) {

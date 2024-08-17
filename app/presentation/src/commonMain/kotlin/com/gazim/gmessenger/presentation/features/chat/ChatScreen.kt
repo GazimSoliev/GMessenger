@@ -48,6 +48,7 @@ fun ChatScreen(
         modifier = Modifier.fillMaxSize(),
         lazyListState = lazyListState,
         chatTitle = state.chatTitle,
+        imageBitmap = state.imageBitmap,
         messages = state.messages,
         message = state.message,
         showReconnectScreen = state.showReconnectionTimer,
