@@ -6,7 +6,7 @@ import com.gazim.gmessenger.domain.usecase.LogOutUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chats.ChatsAction.*
 import com.gazim.gmessenger.presentation.features.chats.ChatsSideEffect.*
-import com.gazim.gmessenger.presentation.model.toChatUI
+import com.gazim.gmessenger.presentation.model.toUI
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.Syntax
 
@@ -43,7 +43,7 @@ class ChatsViewModel(
     private suspend fun Syntax<ChatsState, ChatsSideEffect>.getChats() {
         getChatsUseCase()
             .onSuccess {
-                reduce { state.copy(list = it.map(IChat::toChatUI)) }
+                reduce { state.copy(list = it.map(IChat::toUI)) }
             }.onFailure(Throwable::printStackTrace)
     }
 }

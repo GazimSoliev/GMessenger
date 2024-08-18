@@ -9,7 +9,7 @@ import com.gazim.gmessenger.domain.model.IMessage
 import com.gazim.gmessenger.domain.model.MessagePageKey
 import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.presentation.model.IMessageItemUI
-import com.gazim.gmessenger.presentation.model.toMessageUI
+import com.gazim.gmessenger.presentation.model.toUI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -29,7 +29,7 @@ class MessagePagerSource(
                 when (val currentKey = params.key) {
                     is LiveKey -> {
                         PagingSourceLoadResultPage<Key, IMessageItemUI>(
-                            data = listOf(ms.receive().toMessageUI()),
+                            data = listOf(ms.receive().toUI()),
                             nextKey = if (currentKey.index == 0) PagedKey(null) else LiveKey(currentKey.index - 1),
                             prevKey = LiveKey(currentKey.index + 1),
                         )
@@ -39,7 +39,7 @@ class MessagePagerSource(
                         val pagedKey = (currentKey as? PagedKey)
                         val page = getMessages(chatModel, pagedKey?.key).getOrThrow()
                         PagingSourceLoadResultPage<Key, IMessageItemUI>(
-                            data = page.data.map { it.toMessageUI() },
+                            data = page.data.toUI(),
                             prevKey = if (pagedKey == null) LiveKey(0) else PagedKey(page.prev),
                             nextKey = page.next?.let(::PagedKey),
                         )

@@ -1,6 +1,9 @@
 package com.gazim.gmessenger.presentation.model
 
 import com.gazim.gmessenger.domain.model.*
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 
 fun User.toUI() =
     UserUI(
@@ -12,12 +15,13 @@ fun User.toUI() =
 
 fun Image.toUI() = ImageUI(id = id, type = type)
 
-fun IMessage.toMessageUI(): IMessageUI =
+fun IMessage.toUI(timeZone: TimeZone = TimeZone.currentSystemDefault()) =
     if (this is YourMessage) {
         YourMessageUI(
             id = id,
             message = message,
             sentAt = sentAt,
+            localSentAt = sentAt.toInstant(TimeZone.UTC).toLocalDateTime(timeZone),
             user = user.toUI(),
         )
     } else {
@@ -25,11 +29,14 @@ fun IMessage.toMessageUI(): IMessageUI =
             id = id,
             message = message,
             sentAt = sentAt,
+            localSentAt = sentAt.toInstant(TimeZone.UTC).toLocalDateTime(timeZone),
             user = user.toUI(),
         )
     }
 
-fun IChat.toChatUI(): IChatUI =
+fun Iterable<IMessage>.toUI(timeZone: TimeZone = TimeZone.currentSystemDefault()) = map { it.toUI(timeZone) }
+
+fun IChat.toUI() =
     if (this is PrivateChat) {
         PrivateChatUI(
             identifier = id,
@@ -63,7 +70,7 @@ fun UserUI.toDomain() =
         photo = photo?.toDomain(),
     )
 
-fun IChatUI.toChatModel(): IChat =
+fun IChatUI.toDomain() =
     if (this is PrivateChatUI) {
         PrivateChat(
             id = identifier,

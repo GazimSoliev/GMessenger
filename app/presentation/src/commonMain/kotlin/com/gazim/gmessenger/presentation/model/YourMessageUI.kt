@@ -6,5 +6,6 @@ data class YourMessageUI(
     override val id: String,
     override val message: String,
     override val sentAt: LocalDateTime,
+    override val localSentAt: LocalDateTime,
     override val user: UserUI,
 ) : IMessageUI

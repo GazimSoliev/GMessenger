@@ -9,6 +9,7 @@ sealed interface IMessageUI : IMessageItemUI {
     val id: String
     val message: String
     val sentAt: LocalDateTime
+    val localSentAt: LocalDateTime
     val user: UserUI
 }
 

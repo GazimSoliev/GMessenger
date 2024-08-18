@@ -11,7 +11,7 @@ import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
-import com.gazim.gmessenger.presentation.model.toChatModel
+import com.gazim.gmessenger.presentation.model.toDomain
 import com.gazim.gmessenger.utils.toComposeBitmapImage
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -38,7 +38,7 @@ class ChatViewModel(
     override fun handleAction(action: ChatAction) {
         intent {
             when (action) {
-                is OnStart -> loadChat(action.chat.toChatModel())
+                is OnStart -> loadChat(action.chat.toDomain())
                 is OnStop -> viewModelScope.launch { chatModel.close() }
                 is OnMessageChange -> reduce { state.copy(message = action.message) }
                 is OnSendMessage -> {

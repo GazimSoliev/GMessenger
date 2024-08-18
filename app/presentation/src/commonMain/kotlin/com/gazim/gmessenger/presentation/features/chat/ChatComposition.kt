@@ -38,16 +38,17 @@ import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 import gmessenger.app.presentation.generated.resources.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.datetime.toJavaLocalDate
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toKotlinLocalDateTime
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
+import kotlinx.datetime.format.byUnicodePattern
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 // todo: Rename preview and maybe change a composition
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, FormatStringsInDatetimeFormats::class)
 @Composable
 fun ChatComposition(
     modifier: Modifier = Modifier,
@@ -68,8 +69,8 @@ fun ChatComposition(
     val strSend = stringResource(Res.string.send)
     val strMessage = stringResource(Res.string.message)
     val pagingMessages = messages.collectAsLazyPagingItems()
-    val timeFormatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
-    val dateFormatter = remember { DateTimeFormatter.ofPattern("MMM dd yyyy") }
+    val timeFormatter = remember { LocalDateTime.Format { byUnicodePattern("HH:mm") } }
+    val dateFormatter = remember { LocalDate.Format { byUnicodePattern("dd.MM.yyyy") } }
     val followAddingNewMsg by remember { derivedStateOf { lazyListState.firstVisibleItemIndex == 0 } }
     LaunchedEffect(followAddingNewMsg) { onFollowMessage(followAddingNewMsg) }
     Surface {
@@ -208,7 +209,7 @@ fun ChatComposition(
                     val msg = pagingMessages[index]
                     if (msg is GroupedMessagesDateUI) {
                         val groupedDate =
-                            rememberSaveable(msg) { dateFormatter.format(msg.date.toJavaLocalDate()) }
+                            rememberSaveable(msg) { dateFormatter.format(msg.date) }
                         Text(
                             groupedDate,
                             modifier = Modifier.padding(16.dp),
@@ -222,7 +223,7 @@ fun ChatComposition(
                                     Modifier.align(Alignment.CenterStart).padding(end = 64.dp)
                                 }
                             val sentAt =
-                                rememberSaveable(msg) { timeFormatter.format(msg.sentAt.toJavaLocalDateTime()) }
+                                rememberSaveable(msg) { timeFormatter.format(msg.localSentAt) }
                             MessageItem(
                                 modifier = msgModifier,
                                 message = msg.message,
@@ -251,7 +252,8 @@ fun ChatCompositionPreview() {
                         MessageUI(
                             id = UUID.randomUUID().toString(),
                             message = "Msg $it",
-                            sentAt = LocalDateTime.now().toKotlinLocalDateTime(),
+                            sentAt = Clock.System.now().toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()),
+                            localSentAt = Clock.System.now().toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()),
                             user = UserUI(id = "some id", nickname = "Test", username = "test"),
                         )
                     },
