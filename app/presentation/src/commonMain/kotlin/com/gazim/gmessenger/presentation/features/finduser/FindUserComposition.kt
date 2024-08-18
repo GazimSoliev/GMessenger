@@ -1,7 +1,6 @@
 package com.gazim.gmessenger.presentation.features.finduser
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,16 +18,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.gazim.gmessenger.presentation.component.UserItem
+import com.gazim.gmessenger.presentation.component.ChatItem
 import com.gazim.gmessenger.presentation.model.UserUI
 import gmessenger.app.presentation.generated.resources.Res
 import gmessenger.app.presentation.generated.resources.back
 import gmessenger.app.presentation.generated.resources.search
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
 // todo: Rename a preview and change a composition?
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FindUserComposition(
     modifier: Modifier = Modifier,
@@ -72,7 +70,11 @@ fun FindUserComposition(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(users) {
-                    UserItem(nickname = it.nickname, username = it.username, Modifier.clickable { createChat(it) })
+                    ChatItem(
+                        chatName = it.nickname,
+                        chatLink = it.username,
+                        image = it.photo?.id,
+                    ) { createChat(it) }
                 }
             }
         }

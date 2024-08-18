@@ -18,5 +18,3 @@ TODO:
 8. Local database
 9. Voice messages
 10. Use Docker
-11. Add chat photo in chat
-12. Add user photo in searching
