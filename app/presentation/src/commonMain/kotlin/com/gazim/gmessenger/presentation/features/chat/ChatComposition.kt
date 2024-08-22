@@ -83,7 +83,7 @@ fun ChatComposition(
                             Surface(
                                 shape = CircleShape,
                                 modifier = Modifier.size(32.dp),
-                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+                                border = BorderStroke(1.dp, colorScheme.outline),
                             ) {
                                 if (imageBitmap != null) {
                                     Image(
@@ -109,10 +109,13 @@ fun ChatComposition(
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(
                                     text = chatTitle,
-                                    modifier = Modifier.background(colorScheme.surface).padding(8.dp),
+                                    modifier = Modifier.background(colorScheme.surface),
                                 )
                                 AnimatedVisibility(visible = showReconnectScreen) {
-                                    Text("$strReconnectIn $reconnectionTimerSeconds", style = typography.labelSmall)
+                                    Text(
+                                        text = "$strReconnectIn $reconnectionTimerSeconds",
+                                        style = typography.labelSmall, modifier = Modifier.padding(top = 4.dp)
+                                    )
                                 }
                             }
                         }

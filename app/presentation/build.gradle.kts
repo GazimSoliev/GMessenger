@@ -37,7 +37,6 @@ kotlin {
             implementation(compose.materialIconsExtended)
 
             implementation(projects.app.domain)
-            implementation(projects.app.data)
 
             // Koin
             implementation(libs.koin.core)

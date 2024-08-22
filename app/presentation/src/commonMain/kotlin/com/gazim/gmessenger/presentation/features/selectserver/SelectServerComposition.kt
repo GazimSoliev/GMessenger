@@ -5,12 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.presentation.model.ServerInfoUI
@@ -99,7 +101,7 @@ fun SelectServerComposition(
                     ) {
                         items(servers) {
                             Row(
-                                modifier = Modifier.widthIn(width, width).clickable { onServerClick(it) },
+                                modifier = Modifier.widthIn(width, width).clip(RoundedCornerShape(8.dp)).clickable { onServerClick(it) },
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 RadioButton(selected = it.selected, onClick = { onServerClick(it) })
