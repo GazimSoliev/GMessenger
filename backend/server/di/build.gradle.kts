@@ -1,17 +1,10 @@
 plugins {
     alias(libs.plugins.kotlinJvm)
 }
-
-group = "com.gazim.utils"
-version = "unspecified"
-
-repositories {
-    mavenCentral()
-}
+group = "com.gazim.gmessenger"
+version = "1.0.0"
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-
     // Koin
     implementation(libs.koin.ktor)
     implementation(libs.koin.logger)
@@ -21,9 +14,6 @@ dependencies {
     implementation(projects.backend.server.presentation)
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(8)
 }

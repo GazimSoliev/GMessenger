@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
+group = "com.gazim.gmessenger"
+version = "1.0.0"
+
 dependencies {
     implementation(libs.logback)
     implementation(libs.ktor.server.core)
@@ -33,4 +36,7 @@ dependencies {
 
     // Domain
     implementation(projects.backend.server.domain)
+}
+kotlin {
+    jvmToolchain(8)
 }

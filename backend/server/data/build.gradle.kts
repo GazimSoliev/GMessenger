@@ -1,16 +1,11 @@
 plugins {
-    kotlin("jvm")
+    alias(libs.plugins.kotlinJvm)
 }
 
 group = "com.gazim.gmessenger"
-version = "unspecified"
-
-repositories {
-    mavenCentral()
-}
+version = "1.0.0"
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
     implementation(projects.backend.server.domain)
 
     // Exposed
@@ -27,5 +22,5 @@ tasks.test {
     useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(8)
 }

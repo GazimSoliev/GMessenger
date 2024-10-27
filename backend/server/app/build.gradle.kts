@@ -21,3 +21,6 @@ dependencies {
     // Presentation
     implementation(projects.backend.server.presentation)
 }
+kotlin {
+    jvmToolchain(8)
+}
