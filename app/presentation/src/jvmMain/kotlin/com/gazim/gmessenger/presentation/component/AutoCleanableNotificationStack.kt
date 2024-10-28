@@ -37,7 +37,7 @@ fun <T> AutoCleanableNotificationStack(
     }
     NotificationStack(notifications, reverseLayout = false) {
         println("Rendering: $it")
-        Box(Modifier.animateItemPlacement()) {
+        Box(Modifier.animateItem()) {
             content(it)
         }
     }

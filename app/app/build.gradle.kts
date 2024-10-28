@@ -10,16 +10,6 @@ plugins {
 }
 
 kotlin {
-//    @OptIn(ExperimentalWasmDsl::class)
-//    wasmJs {
-//        moduleName = "composeApp"
-//        browser {
-//            commonWebpackConfig {
-//                outputFileName = "composeApp.js"
-//            }
-//        }
-//        binaries.executable()
-//    }
 
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -35,19 +25,20 @@ kotlin {
         val desktopMain by getting
 
         androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
 
             implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.components.resources)
+            implementation(compose.runtime)
 
             implementation(projects.app.presentation)
             implementation(projects.app.domain)
             implementation(projects.app.di)
 
             implementation(libs.koin.core)
+            implementation(libs.koin.compose.asProvider())
             implementation(libs.koin.logger)
         }
         desktopMain.dependencies {

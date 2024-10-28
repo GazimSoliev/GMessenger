@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package com.gazim.gmessenger.presentation.features.user
 
 import androidx.compose.ui.text.input.TextFieldValue
@@ -13,9 +15,10 @@ import com.gazim.gmessenger.presentation.features.user.UserSideEffect.PickPhoto
 import com.gazim.gmessenger.presentation.features.user.UserSideEffect.ToBack
 import com.gazim.gmessenger.presentation.model.UserUI
 import com.gazim.gmessenger.presentation.model.toUI
-import com.gazim.gmessenger.utils.toComposeBitmapImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.Syntax
 
@@ -54,11 +57,11 @@ class UserViewModel(
         }
     }
 
-    private suspend fun IntentScope.uploadProfilePhoto(bytes: Pair<String, ByteArray>) {
+    private fun IntentScope.uploadProfilePhoto(bytes: Pair<String, ByteArray>) {
         viewModelScope.launch(Dispatchers.IO) {
             val image = uploadProfilePhotoUseCase(bytes.first, bytes.second).getOrNull() ?: return@launch
             val byteArray = getImageContentUseCase(image.id).getOrNull() ?: return@launch
-            reduce { state.copy(imageBitmap = byteArray.toComposeBitmapImage()) }
+            reduce { state.copy(imageBitmap = byteArray.decodeToImageBitmap()) }
         }
     }
 
@@ -69,7 +72,7 @@ class UserViewModel(
             reduce { state.copy(nickname = user.nickname, username = "@${user.username}") }
             val image = u.photo ?: return@launch
             val byteArray = getImageContentUseCase(image.id).getOrNull() ?: return@launch
-            reduce { state.copy(imageBitmap = byteArray.toComposeBitmapImage()) }
+            reduce { state.copy(imageBitmap = byteArray.decodeToImageBitmap()) }
         }
     }
 

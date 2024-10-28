@@ -37,6 +37,7 @@ dependencies {
     // Domain
     implementation(projects.backend.server.domain)
 }
+
 kotlin {
     jvmToolchain(8)
 }

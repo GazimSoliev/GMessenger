@@ -11,7 +11,8 @@ androidx-espresso-core = "3.6.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
 compose = "1.7.4"
-compose-plugin = "1.6.11"
+compose-plugin = "1.7.0"
+filekitCompose = "0.8.7"
 junit = "4.13.2"
 kermit = "2.0.4"
 kotlin = "2.0.21"
@@ -31,6 +32,7 @@ navigation-compose = "2.7.0-alpha07"
 kotlinx-serialization-json = "1.7.1"
 
 [libraries]
+filekit-compose = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekitCompose" }
 jetbrains-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }

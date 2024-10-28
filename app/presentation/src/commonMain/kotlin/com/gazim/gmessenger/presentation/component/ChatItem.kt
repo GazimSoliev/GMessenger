@@ -17,12 +17,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.domain.usecase.GetImageContentUseCase
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
-import com.gazim.gmessenger.utils.toComposeBitmapImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.koin.compose.koinInject
 
 // todo: Rename a preview
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun ChatItem(
     chatName: String = "",
@@ -36,7 +38,7 @@ fun ChatItem(
         LaunchedEffect(image) {
             launch(Dispatchers.IO) {
                 getImageContentUseCase(image).onSuccess {
-                    bitmap = it.toComposeBitmapImage()
+                    bitmap = it.decodeToImageBitmap()
                 }
             }
         }

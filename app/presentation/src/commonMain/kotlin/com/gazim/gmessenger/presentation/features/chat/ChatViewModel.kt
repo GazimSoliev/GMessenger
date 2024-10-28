@@ -12,11 +12,12 @@ import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
 import com.gazim.gmessenger.presentation.model.toDomain
-import com.gazim.gmessenger.utils.toComposeBitmapImage
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.Syntax
 
@@ -57,13 +58,14 @@ class ChatViewModel(
         }
     }
 
+    @OptIn(ExperimentalResourceApi::class)
     private suspend fun IntentScope.loadChat(chat: IChat) {
         if (chat is PrivateChat) {
             viewModelScope.launch(Dispatchers.IO) {
                 val imageId = chat.user.photo?.id ?: return@launch
                 while (true) {
                     val image = getImageContentUseCase(imageId).getOrNull() ?: continue
-                    reduce { state.copy(imageBitmap = image.toComposeBitmapImage()) }
+                    reduce { state.copy(imageBitmap = image.decodeToImageBitmap()) }
                     break
                 }
             }

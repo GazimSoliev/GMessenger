@@ -18,9 +18,6 @@ dependencies {
     implementation(libs.mariaddb.java.client)
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
 kotlin {
     jvmToolchain(8)
 }

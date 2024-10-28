@@ -25,9 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import com.gazim.gmessenger.di.*
+import com.gazim.gmessenger.Application
 import com.gazim.gmessenger.domain.model.Notification
-import com.gazim.gmessenger.presentation.App
 import com.gazim.gmessenger.presentation.component.NotificationsWindow
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 import gmessenger.app.app.generated.resources.Icon
@@ -39,18 +38,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
-import org.koin.logger.SLF4JLogger
 
 val notificationsReceiver = MutableSharedFlow<Notification>()
 
 @DelicateCoroutinesApi
 fun main() {
-    startKoin {
-        logger(SLF4JLogger(level = Level.INFO))
-        modules(factoryModule, apiModule, serviceModule, useCaseModule, viewModelModule)
-    }
     application {
         val notifications = rememberSaveable(notificationsReceiver) { mutableStateListOf<Notification>() }
         val lazyListState = rememberLazyListState()
@@ -161,7 +153,7 @@ fun main() {
                                     }
                                 }
                             }
-                            App()
+                            Application()
                         }
                     }
                 }
