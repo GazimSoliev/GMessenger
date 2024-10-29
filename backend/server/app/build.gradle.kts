@@ -22,5 +22,5 @@ dependencies {
     implementation(projects.backend.server.presentation)
 }
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(11)
 }
