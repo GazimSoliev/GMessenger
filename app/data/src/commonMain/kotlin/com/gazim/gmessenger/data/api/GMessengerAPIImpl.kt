@@ -8,10 +8,12 @@ import com.gazim.gmessenger.data.model.toDomain
 import com.gazim.gmessenger.data.model.toNotificationWebSocketModel
 import com.gazim.gmessenger.domain.api.GMessengerAPI
 import com.gazim.gmessenger.domain.model.*
+import kotlin.uuid.ExperimentalUuidApi
 import com.gazim.gmessenger.api.GMessengerAPI as GMAPI
 import com.gazim.gmessenger.api.model.IChat as IChatAPI
 import com.gazim.gmessenger.api.model.User as UserAPI
 
+@OptIn(ExperimentalUuidApi::class)
 class GMessengerAPIImpl(
     host: String,
     isSecure: Boolean,

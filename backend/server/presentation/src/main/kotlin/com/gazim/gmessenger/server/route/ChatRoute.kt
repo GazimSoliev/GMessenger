@@ -13,13 +13,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.ktor.ext.inject
 import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 fun Route.chatRoute() {
     val sendMessageUseCase by inject<SendMessageUseCase>()
     val getMessageFlowUseCase by inject<GetMessageFlowUseCase>()
     webSocket<ChatRoute.Id> { params ->
         val userId = getUserId()
-        val chatId = UUID.fromString(params.id)
+        val chatId = Uuid.parse(params.id)
         launch(Dispatchers.IO) {
             getMessageFlowUseCase(userId, chatId)
                 .also { println("Sent: $it") }

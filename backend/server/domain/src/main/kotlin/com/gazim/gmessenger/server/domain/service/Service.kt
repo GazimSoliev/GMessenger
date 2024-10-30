@@ -1,22 +1,25 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.domain.service
 
 import com.gazim.gmessenger.server.domain.model.*
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 interface IUserService {
     suspend fun findUser(username: String): List<User>
 
-    suspend fun getUser(tokenId: UUID): User
+    suspend fun getUser(tokenId: Uuid): User
 
     suspend fun editProfile(
-        userId: UUID,
+        userId: Uuid,
         profileForm: ProfileForm,
     )
 
     suspend fun uploadProfilePhoto(
-        userId: UUID,
+        userId: Uuid,
         type: String,
         content: ByteArray,
     ): Image
@@ -34,48 +37,48 @@ interface IAuthorizationService {
 
 interface IChatService {
     suspend fun getChats(
-        userId: UUID,
+        userId: Uuid,
         limit: Int = 64,
         startFrom: Long? = null,
     ): List<IChat>
 
     suspend fun getMembers(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): List<User>
 
-    suspend fun createChat(userIds: List<UUID>): IChat?
+    suspend fun createChat(userIds: List<Uuid>): IChat?
 
     suspend fun getChat(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): IChat?
 }
 
 interface IMessagingService {
     suspend fun sendMessage(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
         messageForm: MessageForm,
     )
 
     suspend fun getMessages(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
         key: MessagePageKey?,
     ): MessagePage
 
     suspend fun getMessageFlow(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): Flow<Message>?
 }
 
 interface FileService {
-    suspend fun getImageContent(photoId: UUID): ByteArray
+    suspend fun getImageContent(photoId: Uuid): ByteArray
 
     suspend fun uploadImage(
-        userId: UUID,
+        userId: Uuid,
         type: String,
         content: ByteArray,
     ): Image

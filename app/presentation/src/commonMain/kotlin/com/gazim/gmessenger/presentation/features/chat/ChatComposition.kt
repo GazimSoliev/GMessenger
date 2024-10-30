@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.presentation.features.chat
 
 import androidx.compose.animation.AnimatedVisibility
@@ -46,6 +48,7 @@ import kotlinx.datetime.format.byUnicodePattern
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
 
 // todo: Rename preview and maybe change a composition
 @OptIn(ExperimentalMaterial3Api::class, FormatStringsInDatetimeFormats::class)

@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.presentation.model
 
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlin.uuid.ExperimentalUuidApi
 
 fun User.toUI() =
     UserUI(

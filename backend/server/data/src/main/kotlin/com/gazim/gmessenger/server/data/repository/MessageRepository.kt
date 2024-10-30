@@ -14,32 +14,36 @@ import org.jetbrains.exposed.sql.and
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+import kotlin.uuid.toJavaUuid
 
+@OptIn(ExperimentalUuidApi::class)
 class MessageRepository : IMessageRepository {
     override suspend fun sendMessage(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
         message: MessageForm,
     ): Message =
         dbQuery {
             MessageEntity
                 .new {
-                    chatEntity = ChatEntity[chatId]
+                    chatEntity = ChatEntity[chatId.toJavaUuid()]
                     this.message = message.message
-                    account = AccountEntity[userId]
+                    account = AccountEntity[userId.toJavaUuid()]
                     sentAt = LocalDateTime.now(ZoneOffset.UTC)
                 }.toMessage()
         }
 
     override suspend fun getMessages(
-        chatId: UUID,
+        chatId: Uuid,
         start: LocalDateTime,
         end: LocalDateTime,
     ): List<Message> =
         dbQuery {
             MessageEntity
                 .find {
-                    (MessageTable.idChat eq chatId) and
+                    (MessageTable.idChat eq chatId.toJavaUuid()) and
                         (MessageTable.createdAt less start) and
                         (MessageTable.createdAt greaterEq end)
                 }.orderBy(MessageTable.createdAt to SortOrder.DESC)
@@ -47,14 +51,14 @@ class MessageRepository : IMessageRepository {
         }
 
     override suspend fun nextPage(
-        chatId: UUID,
+        chatId: Uuid,
         offset: Long,
         start: LocalDateTime,
     ): LocalDateTime? =
         dbQuery {
             MessageEntity
                 .find {
-                    (MessageTable.idChat eq chatId) and
+                    (MessageTable.idChat eq chatId.toJavaUuid()) and
                         (MessageTable.createdAt less start)
                 }.orderBy(MessageTable.createdAt to SortOrder.ASC)
                 .limit(offset.toInt())
@@ -63,14 +67,14 @@ class MessageRepository : IMessageRepository {
         }
 
     override suspend fun prevPage(
-        chatId: UUID,
+        chatId: Uuid,
         offset: Long,
         end: LocalDateTime,
     ): LocalDateTime? =
         dbQuery {
             MessageEntity
                 .find {
-                    (MessageTable.idChat eq chatId) and
+                    (MessageTable.idChat eq chatId.toJavaUuid()) and
                         (MessageTable.createdAt greaterEq end)
                 }.orderBy(MessageTable.createdAt to SortOrder.ASC)
                 .limit(1, offset)

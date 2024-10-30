@@ -1,10 +1,12 @@
 package com.gazim.gmessenger.server.domain.usecase
 
 import com.gazim.gmessenger.server.domain.service.FileService
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class GetImageContentUseCaseImpl(
     private val fileService: FileService,
 ) : GetImageContentUseCase {
-    override suspend fun invoke(photoId: UUID): ByteArray = fileService.getImageContent(photoId)
+    override suspend fun invoke(photoId: Uuid): ByteArray = fileService.getImageContent(photoId)
 }

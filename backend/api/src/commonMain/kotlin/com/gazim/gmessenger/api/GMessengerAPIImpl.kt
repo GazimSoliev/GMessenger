@@ -23,7 +23,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.sync.Mutex
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class GMessengerAPIImpl(
     private val host: String,
     isSecure: Boolean,
@@ -52,32 +55,32 @@ class GMessengerAPIImpl(
             }
         }
 
-    private var _userId = ""
+    private var _userId: Uuid? = null
 
-    suspend fun getUserId(): String {
-        if (_userId.isNotBlank()) return _userId
+    suspend fun getUserId(): Uuid {
+        if (_userId != null) return _userId!!
         val mutex = Mutex()
         mutex.lock(this)
-        if (_userId.isNotBlank()) return _userId
+        if (_userId != null) return _userId!!
         val user = whoAmI()
         _userId = user.id
         mutex.unlock(this)
-        return _userId
+        return _userId!!
     }
 
     override suspend fun whoAmI(): User = httpClient.get(UserRoute()).body()
 
     override suspend fun getChats(): List<IChat> = httpClient.get(ChatsRoute()).body()
 
-    override suspend fun getChat(chatId: String): IChat = httpClient.get(GetChatRoute.Id(chatId)).body()
+    override suspend fun getChat(chatId: Uuid): IChat = httpClient.get(GetChatRoute.Id(chatId.toString())).body()
 
-    override suspend fun createChat(userID: String): Boolean =
+    override suspend fun createChat(userID: Uuid): Boolean =
         httpClient
             .post(CreateChatRoute()) {
                 setBody(UserID(userID))
             }.status == HttpStatusCode.OK
 
-    override fun getChatWebSocket(chatID: String): ChatWebSocket =
+    override fun getChatWebSocket(chatID: Uuid): ChatWebSocket =
         object : ChatWebSocket {
             val getter = MutableSharedFlow<IMessage>()
             val setter = MutableSharedFlow<MessageForm>()
@@ -88,7 +91,7 @@ class GMessengerAPIImpl(
             override suspend fun openConnection() {
                 coroutineScope {
                     httpClient.webSocket(
-                        resource = ChatRoute.Id(chatID),
+                        resource = ChatRoute.Id(chatID.toString()),
                         request = { url { protocol = wsProtocol } },
                     ) {
                         println(this.call.request.url)
@@ -154,13 +157,10 @@ class GMessengerAPIImpl(
             override suspend fun closeConnection() = job?.cancel() ?: Unit
         }
 
-    override suspend fun getMessages(
-        chatId: String,
-        key: MessagePageKey?,
-    ): MyMessagePage {
+    override suspend fun getMessages(chatId: Uuid, key: MessagePageKey?): MyMessagePage {
         val page =
             httpClient
-                .post(MessagesRoute.ChatId(chatId)) {
+                .post(MessagesRoute.ChatId(chatId.toString())) {
                     setBody(key)
                 }.body<MessagePage>()
         return page.toMyPage(getUserId())

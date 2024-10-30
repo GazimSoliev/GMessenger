@@ -25,6 +25,7 @@ import org.orbitmvi.orbit.syntax.Syntax
 private typealias IntentScope = Syntax<UserState, UserSideEffect>
 
 // todo: Take out actions
+@OptIn(kotlin.uuid.ExperimentalUuidApi::class)
 class UserViewModel(
     private val editProfileFormUseCase: EditProfileFormUseCase,
     private val getUserUseCase: GetOwnUser,

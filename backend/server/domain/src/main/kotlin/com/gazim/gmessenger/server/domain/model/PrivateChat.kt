@@ -1,9 +1,11 @@
 package com.gazim.gmessenger.server.domain.model
 
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 data class PrivateChat(
-    override val id: UUID,
+    override val id: Uuid,
     override val title: String,
     val user: User,
 ) : IChat

@@ -1,9 +1,11 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.extensions
 
 import com.gazim.gmessenger.server.domain.model.*
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
 import com.gazim.gmessenger.api.model.AuthenticationForm as AuthenticationFormAPI
 import com.gazim.gmessenger.api.model.Chat as ChatAPI
 import com.gazim.gmessenger.api.model.Image as ImageAPI
@@ -32,7 +34,7 @@ fun RegistrationFormAPI.toDomain() =
 
 fun User.toAPI() =
     UserAPI(
-        id = id.toString(),
+        id = id,
         nickname = nickname,
         username = username,
         photo = photo?.toAPI(),
@@ -40,7 +42,7 @@ fun User.toAPI() =
 
 fun UserAPI.toDomain() =
     User(
-        id = UUID.fromString(id),
+        id = id,
         nickname = nickname,
         username = username,
         // TODO: Solve it
@@ -50,13 +52,13 @@ fun UserAPI.toDomain() =
 fun IChat.toAPI() =
     if (this is PrivateChat) {
         PrivateChatAPI(
-            id = id.toString(),
+            id = id,
             title = title,
             user = user.toAPI(),
         )
     } else {
         ChatAPI(
-            id = id.toString(),
+            id = id,
             title = title,
         )
     }
@@ -65,7 +67,7 @@ fun MessageFormAPI.toDomain() = MessageForm(message = message)
 
 fun Message.toAPI() =
     MessageAPI(
-        id = id.toString(),
+        id = id,
         message = message,
         sentAt = sentAt.toKotlinLocalDateTime(),
         user = user.toAPI(),
@@ -98,6 +100,6 @@ fun ProfileFormAPI.toDomain() =
 
 fun Image.toAPI() =
     ImageAPI(
-        id = id.toString(),
+        id = id,
         type = type,
     )

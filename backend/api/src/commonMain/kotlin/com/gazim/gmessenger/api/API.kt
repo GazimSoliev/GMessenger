@@ -1,26 +1,30 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.api
 
 import com.gazim.gmessenger.api.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 interface GMessengerAPI : AutoCloseable {
     suspend fun whoAmI(): User
 
     suspend fun getChats(): List<IChat>
 
-    suspend fun getChat(chatId: String): IChat
+    suspend fun getChat(chatId: Uuid): IChat
 
-    suspend fun createChat(userID: String): Boolean
+    suspend fun createChat(userID: Uuid): Boolean
 
-    fun getChatWebSocket(chatID: String): ChatWebSocket
+    fun getChatWebSocket(chatID: Uuid): ChatWebSocket
 
     suspend fun findUser(username: String): List<User>
 
     suspend fun getNotifications(): NotificationSocket
 
     suspend fun getMessages(
-        chatId: String,
+        chatId: Uuid,
         key: MessagePageKey?,
     ): MyMessagePage
 

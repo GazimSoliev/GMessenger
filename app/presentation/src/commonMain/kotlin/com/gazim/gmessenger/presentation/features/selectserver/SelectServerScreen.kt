@@ -10,9 +10,7 @@ import com.gazim.gmessenger.presentation.common.sendAction
 import kotlinx.coroutines.cancel
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun SelectServerScreen(navController: NavHostController) {
     val viewModel = koinViewModel<SelectServerViewModel>()

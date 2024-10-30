@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class, ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.data.model
 
 import com.gazim.gmessenger.api.ChatWebSocket
@@ -10,6 +12,7 @@ import com.gazim.gmessenger.domain.model.MessagePageKey
 import com.gazim.gmessenger.domain.model.ProfileForm
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlin.uuid.ExperimentalUuidApi
 import com.gazim.gmessenger.api.model.Chat as ChatAPI
 import com.gazim.gmessenger.api.model.GMessengerServer as GMessengerServerAPI
 import com.gazim.gmessenger.api.model.IChat as IChatAPI

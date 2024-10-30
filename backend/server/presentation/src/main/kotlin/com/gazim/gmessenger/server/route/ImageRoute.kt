@@ -7,12 +7,14 @@ import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 fun Route.imageRoute() {
     val getImageContentUseCase by inject<GetImageContentUseCase>()
     get<ImageRoute.Id> { params ->
-        val imageId = UUID.fromString(params.id)
+        val imageId = Uuid.parse(params.id)
         val bytes = getImageContentUseCase(imageId)
         call.respondBytes(bytes)
     }

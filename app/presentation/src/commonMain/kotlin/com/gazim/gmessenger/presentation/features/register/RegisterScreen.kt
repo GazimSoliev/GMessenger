@@ -20,7 +20,6 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun RegisterScreen(navController: NavController) {
     val viewModel = koinViewModel<RegisterViewModel>()

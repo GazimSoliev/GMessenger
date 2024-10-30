@@ -10,18 +10,21 @@ import com.gazim.gmessenger.server.domain.repository.FileRepository
 import java.util.*
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+import kotlin.uuid.toJavaUuid
 
-@OptIn(ExperimentalEncodingApi::class)
+@OptIn(ExperimentalEncodingApi::class, ExperimentalUuidApi::class)
 class FileRepositoryImpl : FileRepository {
-    override suspend fun getImageContent(photoId: UUID): ByteArray = dbQuery { ImageEntity[photoId].content }.let { Base64.decode(it) }
+    override suspend fun getImageContent(photoId: Uuid): ByteArray = dbQuery { ImageEntity[photoId.toJavaUuid()].content }.let { Base64.decode(it) }
 
     override suspend fun uploadImage(
-        userId: UUID,
+        userId: Uuid,
         type: String,
         content: ByteArray,
     ): Image =
         dbQuery {
-            val account = AccountEntity[userId]
+            val account = AccountEntity[userId.toJavaUuid()]
             val image =
                 ImageEntity.new {
                     this.account = account

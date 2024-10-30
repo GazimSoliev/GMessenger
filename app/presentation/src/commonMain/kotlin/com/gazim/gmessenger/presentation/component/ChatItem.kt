@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.presentation.component
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
@@ -22,6 +24,8 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.koin.compose.koinInject
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 // todo: Rename a preview
 @OptIn(ExperimentalResourceApi::class)
@@ -29,7 +33,7 @@ import org.koin.compose.koinInject
 fun ChatItem(
     chatName: String = "",
     chatLink: String = "",
-    image: String? = null,
+    image: Uuid? = null,
     onClickChat: () -> Unit,
 ) {
     var bitmap by remember { mutableStateOf<ImageBitmap?>(null) }

@@ -9,7 +9,9 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.routing.Route
 import org.koin.ktor.ext.inject
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 fun Route.editProfileRoute() {
     val editProfileUseCase by inject<EditProfileUseCase>()
     post<EditProfileRoute> {

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.data.mapper
 
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
@@ -7,10 +9,13 @@ import com.gazim.gmessenger.server.data.database.model.MessageEntity
 import com.gazim.gmessenger.server.data.database.table.ImageTable
 import com.gazim.gmessenger.server.domain.model.*
 import org.jetbrains.exposed.sql.SortOrder
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.toJavaUuid
+import kotlin.uuid.toKotlinUuid
 
 fun AccountEntity.toUser() =
     User(
-        id = id.value,
+        id = id.value.toKotlinUuid(),
         nickname = nickname,
         username = username,
         photo =
@@ -21,13 +26,13 @@ fun AccountEntity.toUser() =
                 ?.toImage(),
     )
 
-fun User.toAccountEntity() = AccountEntity[id]
+fun User.toAccountEntity() = AccountEntity[id.toJavaUuid()]
 
-fun Image.toImageEntity() = ImageEntity[id]
+fun Image.toImageEntity() = ImageEntity[id.toJavaUuid()]
 
-fun ChatEntity.toChat(): IChat = Chat(id = id.value, title = title)
+fun ChatEntity.toChat(): IChat = Chat(id = id.value.toKotlinUuid(), title = title)
 
-fun ChatEntity.toPrivateChat(partner: AccountEntity): PrivateChat = PrivateChat(id = id.value, title = title, user = partner.toUser())
+fun ChatEntity.toPrivateChat(partner: AccountEntity): PrivateChat = PrivateChat(id = id.value.toKotlinUuid(), title = title, user = partner.toUser())
 
 fun ChatEntity.toChat(currentUser: AccountEntity): IChat =
     when (members.count().toInt()) {
@@ -38,7 +43,7 @@ fun ChatEntity.toChat(currentUser: AccountEntity): IChat =
 
 fun MessageEntity.toMessage() =
     Message(
-        id = id.value,
+        id = id.value.toKotlinUuid(),
         message = message,
         user = account.toUser(),
         sentAt = sentAt,
@@ -46,6 +51,6 @@ fun MessageEntity.toMessage() =
 
 fun ImageEntity.toImage() =
     Image(
-        id = id.value,
+        id = id.value.toKotlinUuid(),
         type = type,
     )

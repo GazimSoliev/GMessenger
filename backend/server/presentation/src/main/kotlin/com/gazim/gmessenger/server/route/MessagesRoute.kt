@@ -12,12 +12,15 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.Route
 import org.koin.ktor.ext.inject
 import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 fun Route.messagesRoute() {
     val getMessagesUseCase by inject<GetMessagesUseCase>()
     post<MessagesRoute.ChatId> { params ->
         val userId = getUserId()
-        val chatId = UUID.fromString(params.chatId)
+        val chatId = Uuid.parse(params.chatId)
         val key = call.receiveNullable<MessagePageKey?>()
         val page =
             getMessagesUseCase(

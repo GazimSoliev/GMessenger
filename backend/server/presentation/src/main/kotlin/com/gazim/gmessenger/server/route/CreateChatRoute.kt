@@ -11,11 +11,14 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.Route
 import org.koin.ktor.ext.inject
 import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 fun Route.createChatRoute() {
     val createChatUseCase by inject<CreateChatUseCase>()
     post<CreateChatRoute> {
-        val userId = UUID.fromString(call.receive<UserID>().id)
+        val userId = call.receive<UserID>().id
         val chat = createChatUseCase(getUserId(), listOf(userId))
         call.respondNullable(chat?.toAPI())
     }

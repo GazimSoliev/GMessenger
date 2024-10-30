@@ -15,18 +15,21 @@ import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.and
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+import kotlin.uuid.toJavaUuid
 
+@OptIn(ExperimentalUuidApi::class)
 class ChatRepository : IChatRepository {
-    override suspend fun getChats(userId: UUID): List<IChat> =
+    override suspend fun getChats(userId: Uuid): List<IChat> =
         dbQuery {
-            val accountEntity = AccountEntity[userId]
+            val accountEntity = AccountEntity[userId.toJavaUuid()]
             accountEntity.chats.map { it.toChat(accountEntity) }
         }
 
     override suspend fun getMembers(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): List<User> =
         dbQuery {
             getEntityChat(
@@ -35,16 +38,16 @@ class ChatRepository : IChatRepository {
             )?.members?.map(AccountEntity::toUser) ?: emptyList()
         }
 
-    override suspend fun createChat(userIds: List<UUID>): IChat? =
+    override suspend fun createChat(userIds: List<Uuid>): IChat? =
         dbQuery {
             val accounts =
                 AccountEntity.find {
-                    AccountTable.id.inList(userIds)
+                    AccountTable.id.inList(userIds.map { it.toJavaUuid() })
                 }
             if (accounts.count().toInt() != userIds.count()) return@dbQuery null
             val chat =
                 ChatEntity.new {
-                    title = userIds.joinToString { AccountEntity[it].username }
+                    title = userIds.joinToString { AccountEntity[it.toJavaUuid()].username }
                     createdAt = LocalDateTime.now(ZoneOffset.UTC)
                 }
             accounts.forEach {
@@ -58,11 +61,11 @@ class ChatRepository : IChatRepository {
         }
 
     override suspend fun getChat(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): IChat? =
         dbQuery {
-            val account = AccountEntity[userId]
+            val account = AccountEntity[userId.toJavaUuid()]
             getEntityChat(
                 userId = userId,
                 chatId = chatId,
@@ -70,8 +73,8 @@ class ChatRepository : IChatRepository {
         }
 
     override suspend fun existInChat(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): Boolean =
         dbQuery {
             !getChatAccountEntity(
@@ -81,8 +84,8 @@ class ChatRepository : IChatRepository {
         }
 
     private fun getEntityChat(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): ChatEntity? =
         getChatAccountEntity(
             userId = userId,
@@ -90,12 +93,12 @@ class ChatRepository : IChatRepository {
         ).singleOrNull()?.chatEntity
 
     private fun getChatAccountEntity(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): SizedIterable<ChatAccountEntity> {
-        val account = AccountEntity[userId]
+        val account = AccountEntity[userId.toJavaUuid()]
         return ChatAccountEntity.find {
-            (ChatAccountTable.idAccount eq account.id) and (ChatAccountTable.idChat eq chatId)
+            (ChatAccountTable.idAccount eq account.id) and (ChatAccountTable.idChat eq chatId.toJavaUuid())
         }
     }
 }
