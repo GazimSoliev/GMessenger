@@ -19,7 +19,9 @@ import io.ktor.server.routing.Route
 import org.koin.ktor.ext.inject
 import java.time.LocalDateTime
 import java.time.ZoneId
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 fun Route.loginRoute() {
     val loginUseCase by inject<LoginUseCase>()
     post<LoginRoute> {

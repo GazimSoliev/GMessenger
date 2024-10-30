@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun LoginScreen(navController: NavController) {
     val viewModel = koinViewModel<LoginViewModel>()

@@ -1,9 +1,11 @@
 package com.gazim.gmessenger.server.domain.model
 
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 data class User(
-    val id: UUID,
+    val id: Uuid,
     val nickname: String,
     val username: String,
     val photo: Image?,

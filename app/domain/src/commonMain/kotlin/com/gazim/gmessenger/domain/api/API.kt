@@ -1,7 +1,11 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.domain.api
 
 import com.gazim.gmessenger.domain.model.*
 import kotlin.time.Duration
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 interface GMessengerAuthAPI {
     suspend fun register(registrationForm: RegistrationForm): Boolean
@@ -34,7 +38,7 @@ interface GMessengerAPI : AutoCloseable {
         bytes: ByteArray,
     ): Image
 
-    suspend fun getImageContent(photoId: String): ByteArray
+    suspend fun getImageContent(photoId: Uuid): ByteArray
 }
 
 interface GMessengerConnectionAPI {

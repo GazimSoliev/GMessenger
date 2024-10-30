@@ -1,10 +1,14 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.api.model
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 interface IMessage {
-    val id: String
+    val id: Uuid
     val message: String
     val sentAt: LocalDateTime
     val user: User
@@ -12,7 +16,7 @@ interface IMessage {
 
 @Serializable
 sealed interface IChat {
-    val id: String
+    val id: Uuid
     val title: String
 }
 

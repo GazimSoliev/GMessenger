@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.presentation.features.chats
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
@@ -21,9 +23,11 @@ import com.gazim.gmessenger.presentation.model.IChatUI
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 import gmessenger.app.presentation.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 // todo: Rename a preview and change a composition
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalUuidApi::class)
 @Composable
 fun ChatsComposition(
     modifier: Modifier = Modifier,
@@ -88,7 +92,7 @@ fun ChatsCompositionPreview() {
         modifier = Modifier.fillMaxSize(),
         List(10) {
             ChatUI(
-                identifier = "identifier",
+                identifier = Uuid.random(),
                 title = "Chat name",
                 chatName = "Chat name",
                 chatLink = "@identifier",

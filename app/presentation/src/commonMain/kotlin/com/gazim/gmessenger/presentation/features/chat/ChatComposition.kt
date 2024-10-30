@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.presentation.features.chat
 
 import androidx.compose.animation.AnimatedVisibility
@@ -46,6 +48,8 @@ import kotlinx.datetime.format.byUnicodePattern
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 // todo: Rename preview and maybe change a composition
 @OptIn(ExperimentalMaterial3Api::class, FormatStringsInDatetimeFormats::class)
@@ -253,11 +257,11 @@ fun ChatCompositionPreview() {
                 PagingData.from(
                     List(3) {
                         MessageUI(
-                            id = UUID.randomUUID().toString(),
+                            id = Uuid.random(),
                             message = "Msg $it",
                             sentAt = Clock.System.now().toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()),
                             localSentAt = Clock.System.now().toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()),
-                            user = UserUI(id = "some id", nickname = "Test", username = "test"),
+                            user = UserUI(id = Uuid.random(), nickname = "Test", username = "test"),
                         )
                     },
                 ),

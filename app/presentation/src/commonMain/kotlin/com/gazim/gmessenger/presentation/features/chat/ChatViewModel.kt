@@ -20,10 +20,12 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.Syntax
+import kotlin.uuid.ExperimentalUuidApi
 
 private typealias IntentScope = Syntax<ChatState, ChatSideEffect>
 
 // todo: take out functions
+@OptIn(ExperimentalUuidApi::class)
 class ChatViewModel(
     private val getChatUseCase: GetChatUseCase,
     private val getMessages: GetMessagesUseCase,
@@ -118,7 +120,7 @@ class ChatViewModel(
         }.onFailure(Throwable::printStackTrace)
     }
 
-    private suspend fun IntentScope.openConnection() {
+    private fun IntentScope.openConnection() {
         viewModelScope.launch(
             CoroutineExceptionHandler { _, e ->
                 e.printStackTrace()

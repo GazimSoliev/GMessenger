@@ -10,7 +10,9 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.Route
 import io.ktor.util.*
 import org.koin.ktor.ext.inject
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 fun Route.uploadProfilePhotoRoute() {
     val uploadProfilePhotoUseCase by inject<UploadProfilePhotoUseCase>()
     post<UploadProfilePhotoRoute.Type> { params ->

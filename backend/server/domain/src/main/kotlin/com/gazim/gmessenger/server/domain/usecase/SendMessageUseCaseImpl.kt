@@ -2,16 +2,14 @@ package com.gazim.gmessenger.server.domain.usecase
 
 import com.gazim.gmessenger.server.domain.model.MessageForm
 import com.gazim.gmessenger.server.domain.service.IMessagingService
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class SendMessageUseCaseImpl(
     private val messagingService: IMessagingService,
 ) : SendMessageUseCase {
-    override suspend fun invoke(
-        userId: UUID,
-        chatId: UUID,
-        message: MessageForm,
-    ) = messagingService.sendMessage(
+    override suspend fun invoke(userId: Uuid, chatId: Uuid, message: MessageForm) = messagingService.sendMessage(
         userId = userId,
         chatId = chatId,
         messageForm = message,

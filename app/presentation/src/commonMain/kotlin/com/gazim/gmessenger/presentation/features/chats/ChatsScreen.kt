@@ -14,9 +14,7 @@ import com.gazim.gmessenger.presentation.navigation.Screen
 import com.gazim.gmessenger.presentation.navigation.navigate
 import com.gazim.gmessenger.presentation.navigation.replace
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun ChatsScreen(navController: NavController) {
     val viewModel = koinViewModel<ChatsViewModel>()

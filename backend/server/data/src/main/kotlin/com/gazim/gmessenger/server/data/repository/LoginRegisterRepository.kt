@@ -19,7 +19,10 @@ import org.jetbrains.exposed.sql.selectAll
 import java.security.MessageDigest
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.toKotlinUuid
 
+@OptIn(ExperimentalUuidApi::class)
 class LoginRegisterRepository : ILoginRegisterRepository {
     override suspend fun login(
         loginPassword: AuthenticationForm,
@@ -50,7 +53,7 @@ class LoginRegisterRepository : ILoginRegisterRepository {
                     this.account = accountEntity
                 }
             Token(
-                id = tokenEntity.id.value,
+                id = tokenEntity.id.value.toKotlinUuid(),
                 expiredAt = tokenEntity.expiredAt,
             )
         }

@@ -1,7 +1,10 @@
 package com.gazim.gmessenger.domain.service
 
 import com.gazim.gmessenger.domain.model.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class GMessengerSessionServiceImpl(
     private val sessionService: SessionService,
     private val gMessengerService: GMessengerService,
@@ -47,5 +50,5 @@ class GMessengerSessionServiceImpl(
         bytes: ByteArray,
     ) = gMessengerService.uploadProfilePhoto(config, type, bytes)
 
-    override suspend fun getImageContent(photoId: String) = gMessengerService.getImageContent(config, photoId)
+    override suspend fun getImageContent(photoId: Uuid): ByteArray = gMessengerService.getImageContent(config, photoId)
 }

@@ -4,7 +4,9 @@ import com.gazim.gmessenger.domain.service.*
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 val serviceModule =
     module {
         singleOf(::GMessengerAuthServiceImpl) bind GMessengerAuthService::class

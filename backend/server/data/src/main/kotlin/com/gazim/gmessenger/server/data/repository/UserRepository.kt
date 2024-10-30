@@ -11,8 +11,11 @@ import com.gazim.gmessenger.server.data.mapper.toUser
 import com.gazim.gmessenger.server.domain.model.ProfileForm
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.IUserRepository
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+import kotlin.uuid.toJavaUuid
 
+@OptIn(ExperimentalUuidApi::class)
 class UserRepository : IUserRepository {
 //    override suspend fun insert(user: User): Boolean {
 //        dbQuery {
@@ -37,26 +40,26 @@ class UserRepository : IUserRepository {
                 .map(AccountEntity::toUser)
         }
 
-    override suspend fun getUser(tokenId: UUID): User =
+    override suspend fun getUser(tokenId: Uuid): User =
         dbQuery {
-            TokenEntity[tokenId].account.toUser()
+            TokenEntity[tokenId.toJavaUuid()].account.toUser()
         }
 
     override suspend fun editProfile(
-        userId: UUID,
+        userId: Uuid,
         profileForm: ProfileForm,
     ) = dbQuery {
-        val account = AccountEntity[userId]
+        val account = AccountEntity[userId.toJavaUuid()]
         account.nickname = profileForm.nickname
         account.username = profileForm.username
     }
 
     override suspend fun setProfilePhoto(
-        userId: UUID,
-        imageId: UUID,
+        userId: Uuid,
+        imageId: Uuid,
     ) = dbQuery {
-        val accountEntity = AccountEntity[userId]
-        val imageEntity = ImageEntity[imageId]
+        val accountEntity = AccountEntity[userId.toJavaUuid()]
+        val imageEntity = ImageEntity[imageId.toJavaUuid()]
         ProfilePhotoEntity.new {
             this.account = accountEntity
             this.image = imageEntity

@@ -3,7 +3,10 @@ package com.gazim.gmessenger.domain.service
 import com.gazim.gmessenger.domain.api.GMessengerAPI
 import com.gazim.gmessenger.domain.factrory.GMessengerAPIFactory
 import com.gazim.gmessenger.domain.model.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@ExperimentalUuidApi
 class GMessengerServiceImpl(
     private val gMessengerAPIFactory: GMessengerAPIFactory,
 ) : GMessengerService {
@@ -57,10 +60,7 @@ class GMessengerServiceImpl(
         bytes: ByteArray,
     ) = getAPI(config).uploadProfilePhoto(type, bytes)
 
-    override suspend fun getImageContent(
-        config: APIConfig,
-        photoId: String,
-    ) = getAPI(config).getImageContent(photoId)
+    override suspend fun getImageContent(config: APIConfig, photoId: Uuid): ByteArray = getAPI(config).getImageContent(photoId)
 
     private fun getAPI(config: APIConfig) = mapApi.getValue(config)
 }

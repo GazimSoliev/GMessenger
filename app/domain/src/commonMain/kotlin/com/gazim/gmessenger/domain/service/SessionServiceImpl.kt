@@ -1,7 +1,9 @@
 package com.gazim.gmessenger.domain.service
 
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class SessionServiceImpl : SessionService {
     private var currentToken: String? = null
     private var currentSession: String? = null
@@ -12,7 +14,7 @@ class SessionServiceImpl : SessionService {
 
     override fun setSession(token: String) {
         currentToken = token
-        currentSession = UUID.randomUUID().toString()
+        currentSession = Uuid.random().toString()
     }
 
     override fun clearSession() {

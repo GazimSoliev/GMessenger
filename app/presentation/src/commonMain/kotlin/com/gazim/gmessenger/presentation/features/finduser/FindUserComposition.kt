@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.presentation.features.finduser
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
@@ -24,6 +26,7 @@ import gmessenger.app.presentation.generated.resources.Res
 import gmessenger.app.presentation.generated.resources.back
 import gmessenger.app.presentation.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
+import kotlin.uuid.ExperimentalUuidApi
 
 // todo: Rename a preview and change a composition?
 @OptIn(ExperimentalMaterial3Api::class)
@@ -89,7 +92,6 @@ fun FindUserCompositionPreview() {
         users =
             List(10) {
                 UserUI(
-                    id = "some",
                     nickname = "Name $it",
                     username = "Username $it",
                 )

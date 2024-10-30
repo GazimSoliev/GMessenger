@@ -1,30 +1,33 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.domain.usecase
 
 import com.gazim.gmessenger.server.domain.model.*
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 interface GetUserUseCase {
-    suspend operator fun invoke(tokenId: UUID): User
+    suspend operator fun invoke(tokenId: Uuid): User
 }
 
 interface GetChatsUseCase {
-    suspend operator fun invoke(userId: UUID): List<IChat>
+    suspend operator fun invoke(userId: Uuid): List<IChat>
 }
 
 interface SendMessageUseCase {
     suspend operator fun invoke(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
         message: MessageForm,
     )
 }
 
 interface GetMessageFlowUseCase {
     suspend operator fun invoke(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
         limit: Int = 64,
         startFrom: Long? = null,
     ): Flow<Message>?
@@ -48,15 +51,15 @@ interface FindUserUseCase {
 
 interface GetChatUseCase {
     suspend operator fun invoke(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): IChat?
 }
 
 interface CreateChatUseCase {
     suspend operator fun invoke(
-        ownerId: UUID,
-        userIds: List<UUID>,
+        ownerId: Uuid,
+        userIds: List<Uuid>,
     ): IChat?
 }
 
@@ -66,26 +69,26 @@ interface GetNotifications {
 
 interface GetMessagesUseCase {
     suspend operator fun invoke(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
         key: MessagePageKey?,
     ): MessagePage
 }
 
 interface EditProfileUseCase {
     suspend operator fun invoke(
-        userId: UUID,
+        userId: Uuid,
         profileForm: ProfileForm,
     )
 }
 
 interface GetImageContentUseCase {
-    suspend operator fun invoke(photoId: UUID): ByteArray
+    suspend operator fun invoke(photoId: Uuid): ByteArray
 }
 
 interface UploadProfilePhotoUseCase {
     suspend operator fun invoke(
-        userId: UUID,
+        userId: Uuid,
         type: String,
         content: ByteArray,
     ): Image

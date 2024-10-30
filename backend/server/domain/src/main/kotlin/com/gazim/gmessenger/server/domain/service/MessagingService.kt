@@ -11,19 +11,18 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+
+@OptIn(ExperimentalUuidApi::class)
 class MessagingService(
     private val messageRepository: IMessageRepository,
     private val chatRepository: IChatRepository,
 ) : IMessagingService {
-    private val chatsFlow = mutableMapOf<UUID, MutableSharedFlow<Message>>()
+    private val chatsFlow = mutableMapOf<Uuid, MutableSharedFlow<Message>>()
 
-    override suspend fun sendMessage(
-        userId: UUID,
-        chatId: UUID,
-        messageForm: MessageForm,
-    ) {
+    override suspend fun sendMessage(userId: Uuid, chatId: Uuid, messageForm: MessageForm) {
         val message =
             messageRepository.sendMessage(
                 userId = userId,
@@ -33,11 +32,7 @@ class MessagingService(
         chatsFlow[chatId]?.emit(message)
     }
 
-    override suspend fun getMessages(
-        userId: UUID,
-        chatId: UUID,
-        key: MessagePageKey?,
-    ): MessagePage {
+    override suspend fun getMessages(userId: Uuid, chatId: Uuid, key: MessagePageKey?): MessagePage {
         if (!chatRepository.existInChat(userId, chatId)) return MessagePage(emptyList())
         val start: LocalDateTime
         val end: LocalDateTime?
@@ -65,8 +60,8 @@ class MessagingService(
     }
 
     override suspend fun getMessageFlow(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): Flow<Message>? {
         if (
             !chatRepository.existInChat(

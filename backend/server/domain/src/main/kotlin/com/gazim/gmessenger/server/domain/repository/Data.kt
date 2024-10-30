@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.domain.repository
 
 import com.gazim.gmessenger.server.domain.model.*
 import java.time.LocalDateTime
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 interface IUserRepository {
 //    suspend fun insert(user: User): Boolean
@@ -12,16 +15,16 @@ interface IUserRepository {
         limit: Int,
     ): List<User>
 
-    suspend fun getUser(tokenId: UUID): User
+    suspend fun getUser(tokenId: Uuid): User
 
     suspend fun editProfile(
-        userId: UUID,
+        userId: Uuid,
         profileForm: ProfileForm,
     )
 
     suspend fun setProfilePhoto(
-        userId: UUID,
-        imageId: UUID,
+        userId: Uuid,
+        imageId: Uuid,
     )
 }
 
@@ -36,57 +39,57 @@ interface ILoginRegisterRepository {
 }
 
 interface IChatRepository {
-    suspend fun getChats(userId: UUID): List<IChat>
+    suspend fun getChats(userId: Uuid): List<IChat>
 
     suspend fun getMembers(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): List<User>
 
-    suspend fun createChat(userIds: List<UUID>): IChat?
+    suspend fun createChat(userIds: List<Uuid>): IChat?
 
     suspend fun getChat(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): IChat?
 
     suspend fun existInChat(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
     ): Boolean
 }
 
 interface IMessageRepository {
     suspend fun sendMessage(
-        userId: UUID,
-        chatId: UUID,
+        userId: Uuid,
+        chatId: Uuid,
         message: MessageForm,
     ): Message
 
     suspend fun getMessages(
-        chatId: UUID,
+        chatId: Uuid,
         start: LocalDateTime,
         end: LocalDateTime,
     ): List<Message>
 
     suspend fun nextPage(
-        chatId: UUID,
+        chatId: Uuid,
         offset: Long,
         start: LocalDateTime,
     ): LocalDateTime?
 
     suspend fun prevPage(
-        chatId: UUID,
+        chatId: Uuid,
         offset: Long,
         end: LocalDateTime,
     ): LocalDateTime?
 }
 
 interface FileRepository {
-    suspend fun getImageContent(photoId: UUID): ByteArray
+    suspend fun getImageContent(photoId: Uuid): ByteArray
 
     suspend fun uploadImage(
-        userId: UUID,
+        userId: Uuid,
         type: String,
         content: ByteArray,
     ): Image

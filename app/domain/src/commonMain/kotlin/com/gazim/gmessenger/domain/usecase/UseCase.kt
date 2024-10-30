@@ -1,8 +1,12 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.domain.usecase
 
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 fun interface LogOutUseCase {
     suspend operator fun invoke(): Result<Unit>
@@ -91,7 +95,7 @@ interface UploadProfilePhotoUseCase {
 }
 
 interface GetImageContentUseCase {
-    suspend operator fun invoke(photoId: String): Result<ByteArray>
+    suspend operator fun invoke(photoId: Uuid): Result<ByteArray>
 }
 
 interface GetAvailableServersUseCase {

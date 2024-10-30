@@ -1,8 +1,12 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.domain.service
 
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 interface SessionService {
     fun currentToken(): String?
@@ -67,7 +71,7 @@ interface GMessengerService {
 
     suspend fun getImageContent(
         config: APIConfig,
-        photoId: String,
+        photoId: Uuid,
     ): ByteArray
 }
 
@@ -100,7 +104,7 @@ interface GMessengerSessionService {
         bytes: ByteArray,
     ): Image
 
-    suspend fun getImageContent(photoId: String): ByteArray
+    suspend fun getImageContent(photoId: Uuid): ByteArray
 }
 
 interface GMessengerAuthService {

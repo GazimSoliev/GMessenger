@@ -8,13 +8,15 @@ import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
-import java.util.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 fun Route.getChatRoute() {
     val getChatUseCase by inject<GetChatUseCase>()
     get<GetChatRoute.Id> { params ->
         val userId = getUserId()
-        val chatId = UUID.fromString(params.id)
+        val chatId = Uuid.parse(params.id)
         val chat =
             getChatUseCase(
                 userId = userId,

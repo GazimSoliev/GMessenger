@@ -12,9 +12,7 @@ import com.gazim.gmessenger.presentation.features.finduser.FindUserAction.*
 import com.gazim.gmessenger.presentation.features.finduser.FindUserSideEffect.ToChatsScreen
 import kotlinx.coroutines.cancel
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun FindUserScreen(navController: NavHostController) {
     val viewModel = koinViewModel<FindUserViewModel>()
