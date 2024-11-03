@@ -28,7 +28,9 @@ fun Route.loginRoute() {
         val loginPassword = call.receive<AuthenticationForm>().toDomain()
         val createAt = LocalDateTime.now()
         val expiredAt = LocalDateTime.now().plusDays(7)
+        println("LoginPassword: $loginPassword")
         val tokenId = loginUseCase(loginPassword, createAt, expiredAt)
+        println("Token: $tokenId")
         val token = tokenId?.let { generateJWT(it.id.toString(), expiredAt) }
         call.respondNullable(Token(token))
     }

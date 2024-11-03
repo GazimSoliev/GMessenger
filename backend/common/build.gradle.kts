@@ -17,6 +17,8 @@ kotlin {
 
             // Resources
             implementation(libs.ktor.resources)
+
+            implementation(projects.serialization)
         }
     }
 }

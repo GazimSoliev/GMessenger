@@ -60,7 +60,8 @@ class UserViewModel(
 
     private fun IntentScope.uploadProfilePhoto(bytes: Pair<String, ByteArray>) {
         viewModelScope.launch(Dispatchers.IO) {
-            val image = uploadProfilePhotoUseCase(bytes.first, bytes.second).getOrNull() ?: return@launch
+            val type = bytes.first.split(".").last()
+            val image = uploadProfilePhotoUseCase(type, bytes.second).getOrNull() ?: return@launch
             val byteArray = getImageContentUseCase(image.id).getOrNull() ?: return@launch
             reduce { state.copy(imageBitmap = byteArray.decodeToImageBitmap()) }
         }

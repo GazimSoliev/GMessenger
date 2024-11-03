@@ -66,6 +66,8 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
 
             implementation(libs.filekit.compose)
+
+            implementation(projects.serialization)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
