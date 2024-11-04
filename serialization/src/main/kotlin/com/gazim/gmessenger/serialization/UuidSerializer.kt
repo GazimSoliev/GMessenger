@@ -17,7 +17,10 @@ class UuidSerializer : KSerializer<Uuid> {
         return Uuid.parse(str)
     }
 
-    override fun serialize(encoder: Encoder, value: Uuid) {
+    override fun serialize(
+        encoder: Encoder,
+        value: Uuid,
+    ) {
         val str = value.toString()
         encoder.encodeString(str)
     }

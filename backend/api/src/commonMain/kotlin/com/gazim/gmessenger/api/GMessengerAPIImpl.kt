@@ -157,7 +157,10 @@ class GMessengerAPIImpl(
             override suspend fun closeConnection() = job?.cancel() ?: Unit
         }
 
-    override suspend fun getMessages(chatId: Uuid, key: MessagePageKey?): MyMessagePage {
+    override suspend fun getMessages(
+        chatId: Uuid,
+        key: MessagePageKey?,
+    ): MyMessagePage {
         val page =
             httpClient
                 .post(MessagesRoute.ChatId(chatId.toString())) {
@@ -181,7 +184,8 @@ class GMessengerAPIImpl(
                 setBody(bytes)
             }.body()
 
-    override suspend fun getImageContent(photoId: Uuid): ByteArray = httpClient.get(ImageRoute.Id(photoId.toString())).bodyAsChannel().toByteArray()
+    override suspend fun getImageContent(photoId: Uuid): ByteArray =
+        httpClient.get(ImageRoute.Id(photoId.toString())).bodyAsChannel().toByteArray()
 
     override fun close() = httpClient.close()
 }

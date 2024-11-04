@@ -10,5 +10,10 @@ import kotlin.uuid.Uuid
 class GetMessageFlowUseCaseImpl(
     private val messagingService: IMessagingService,
 ) : GetMessageFlowUseCase {
-    override suspend fun invoke(userId: Uuid, chatId: Uuid, limit: Int, startFrom: Long?): Flow<Message>? = messagingService.getMessageFlow(userId, chatId)
+    override suspend fun invoke(
+        userId: Uuid,
+        chatId: Uuid,
+        limit: Int,
+        startFrom: Long?,
+    ): Flow<Message>? = messagingService.getMessageFlow(userId, chatId)
 }

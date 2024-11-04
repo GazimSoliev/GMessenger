@@ -13,7 +13,7 @@ fun Application() {
         application = {
             logger(SLF4JLogger(level = Level.INFO))
             modules(factoryModule, apiModule, serviceModule, useCaseModule, viewModelModule)
-        }
+        },
     ) {
         App()
     }

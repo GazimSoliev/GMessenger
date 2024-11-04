@@ -22,7 +22,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 import gmessenger.app.presentation.generated.resources.*
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
 // todo: Change this screen and rename preview

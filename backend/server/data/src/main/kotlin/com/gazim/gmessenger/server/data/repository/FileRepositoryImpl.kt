@@ -7,7 +7,6 @@ import com.gazim.gmessenger.server.data.extensions.nowInUTC
 import com.gazim.gmessenger.server.data.mapper.toImage
 import com.gazim.gmessenger.server.domain.model.Image
 import com.gazim.gmessenger.server.domain.repository.FileRepository
-import java.util.*
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.uuid.ExperimentalUuidApi
@@ -16,7 +15,8 @@ import kotlin.uuid.toJavaUuid
 
 @OptIn(ExperimentalEncodingApi::class, ExperimentalUuidApi::class)
 class FileRepositoryImpl : FileRepository {
-    override suspend fun getImageContent(photoId: Uuid): ByteArray = dbQuery { ImageEntity[photoId.toJavaUuid()].content }.let { Base64.decode(it) }
+    override suspend fun getImageContent(photoId: Uuid): ByteArray =
+        dbQuery { ImageEntity[photoId.toJavaUuid()].content }.let { Base64.decode(it) }
 
     override suspend fun uploadImage(
         userId: Uuid,

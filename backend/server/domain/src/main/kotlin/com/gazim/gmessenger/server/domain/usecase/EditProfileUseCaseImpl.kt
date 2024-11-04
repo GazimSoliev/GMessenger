@@ -9,5 +9,8 @@ import kotlin.uuid.Uuid
 class EditProfileUseCaseImpl(
     private val userService: IUserService,
 ) : EditProfileUseCase {
-    override suspend fun invoke(userId: Uuid, profileForm: ProfileForm) = userService.editProfile(userId, profileForm)
+    override suspend fun invoke(
+        userId: Uuid,
+        profileForm: ProfileForm,
+    ) = userService.editProfile(userId, profileForm)
 }

@@ -2,7 +2,6 @@ package com.gazim.gmessenger.server.domain.service
 
 import com.gazim.gmessenger.server.domain.model.Image
 import com.gazim.gmessenger.server.domain.repository.FileRepository
-import java.util.*
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -12,5 +11,9 @@ class FileServiceImpl(
 ) : FileService {
     override suspend fun getImageContent(photoId: Uuid): ByteArray = fileRepository.getImageContent(photoId)
 
-    override suspend fun uploadImage(userId: Uuid, type: String, content: ByteArray): Image = fileRepository.uploadImage(userId, type, content)
+    override suspend fun uploadImage(
+        userId: Uuid,
+        type: String,
+        content: ByteArray,
+    ): Image = fileRepository.uploadImage(userId, type, content)
 }

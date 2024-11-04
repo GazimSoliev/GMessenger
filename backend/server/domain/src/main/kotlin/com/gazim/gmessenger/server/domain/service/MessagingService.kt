@@ -14,7 +14,6 @@ import java.time.ZoneOffset
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-
 @OptIn(ExperimentalUuidApi::class)
 class MessagingService(
     private val messageRepository: IMessageRepository,
@@ -22,7 +21,11 @@ class MessagingService(
 ) : IMessagingService {
     private val chatsFlow = mutableMapOf<Uuid, MutableSharedFlow<Message>>()
 
-    override suspend fun sendMessage(userId: Uuid, chatId: Uuid, messageForm: MessageForm) {
+    override suspend fun sendMessage(
+        userId: Uuid,
+        chatId: Uuid,
+        messageForm: MessageForm,
+    ) {
         val message =
             messageRepository.sendMessage(
                 userId = userId,
@@ -32,7 +35,11 @@ class MessagingService(
         chatsFlow[chatId]?.emit(message)
     }
 
-    override suspend fun getMessages(userId: Uuid, chatId: Uuid, key: MessagePageKey?): MessagePage {
+    override suspend fun getMessages(
+        userId: Uuid,
+        chatId: Uuid,
+        key: MessagePageKey?,
+    ): MessagePage {
         if (!chatRepository.existInChat(userId, chatId)) return MessagePage(emptyList())
         val start: LocalDateTime
         val end: LocalDateTime?

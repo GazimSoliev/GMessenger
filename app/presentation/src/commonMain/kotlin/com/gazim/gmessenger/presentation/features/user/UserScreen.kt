@@ -24,16 +24,17 @@ fun UserScreen(navController: NavHostController) {
     val viewModel = koinViewModel<UserViewModel>()
     val state by viewModel.collectAsState()
     val scope = rememberCoroutineScope()
-    val launcher = rememberFilePickerLauncher(
-        type = PickerType.Image,
-        mode = PickerMode.Single
-    ) { file ->
-        file?.run {
-            scope.launch {
-                viewModel.sendAction(LoadProfileImage(name to readBytes()))
+    val launcher =
+        rememberFilePickerLauncher(
+            type = PickerType.Image,
+            mode = PickerMode.Single,
+        ) { file ->
+            file?.run {
+                scope.launch {
+                    viewModel.sendAction(LoadProfileImage(name to readBytes()))
+                }
             }
         }
-    }
     viewModel.handleSideEffect { sideEffect ->
         when (sideEffect) {
             is PickPhoto -> launcher.launch()

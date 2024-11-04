@@ -9,7 +9,11 @@ import kotlin.uuid.Uuid
 class SendMessageUseCaseImpl(
     private val messagingService: IMessagingService,
 ) : SendMessageUseCase {
-    override suspend fun invoke(userId: Uuid, chatId: Uuid, message: MessageForm) = messagingService.sendMessage(
+    override suspend fun invoke(
+        userId: Uuid,
+        chatId: Uuid,
+        message: MessageForm,
+    ) = messagingService.sendMessage(
         userId = userId,
         chatId = chatId,
         messageForm = message,

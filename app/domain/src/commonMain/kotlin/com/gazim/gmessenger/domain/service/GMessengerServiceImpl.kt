@@ -60,7 +60,10 @@ class GMessengerServiceImpl(
         bytes: ByteArray,
     ) = getAPI(config).uploadProfilePhoto(type, bytes)
 
-    override suspend fun getImageContent(config: APIConfig, photoId: Uuid): ByteArray = getAPI(config).getImageContent(photoId)
+    override suspend fun getImageContent(
+        config: APIConfig,
+        photoId: Uuid,
+    ): ByteArray = getAPI(config).getImageContent(photoId)
 
     private fun getAPI(config: APIConfig) = mapApi.getValue(config)
 }

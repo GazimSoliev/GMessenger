@@ -17,7 +17,6 @@ import com.gazim.gmessenger.presentation.navigation.navigate
 import com.gazim.gmessenger.presentation.navigation.replace
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 
 @Composable
 fun LoginScreen(navController: NavController) {

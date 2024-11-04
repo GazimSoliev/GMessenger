@@ -18,7 +18,6 @@ import gmessenger.app.presentation.generated.resources.unable_connect_to_server
 import kotlinx.coroutines.cancel
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 
 @Composable
 fun RegisterScreen(navController: NavController) {

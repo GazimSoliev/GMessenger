@@ -9,5 +9,8 @@ import kotlin.uuid.Uuid
 class GetChatUseCaseImpl(
     private val chatService: IChatService,
 ) : GetChatUseCase {
-    override suspend fun invoke(userId: Uuid, chatId: Uuid): IChat? = chatService.getChat(userId, chatId)
+    override suspend fun invoke(
+        userId: Uuid,
+        chatId: Uuid,
+    ): IChat? = chatService.getChat(userId, chatId)
 }

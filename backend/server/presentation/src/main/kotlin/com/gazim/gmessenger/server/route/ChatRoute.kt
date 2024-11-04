@@ -12,7 +12,6 @@ import io.ktor.server.websocket.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.ktor.ext.inject
-import java.util.*
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

@@ -14,8 +14,7 @@ import kotlin.uuid.Uuid
 
 suspend fun ApplicationCall.getTokenId() = scope.get<ISecurityUtils>().getUserTokenId(this)
 
-suspend fun PipelineContext<*, ApplicationCall>.getUser(): User =
-    call.scope.get<GetUserUseCase>().invoke(Uuid.parse(call.getTokenId()))
+suspend fun PipelineContext<*, ApplicationCall>.getUser(): User = call.scope.get<GetUserUseCase>().invoke(Uuid.parse(call.getTokenId()))
 
 @OptIn(ExperimentalUuidApi::class)
 suspend fun PipelineContext<*, ApplicationCall>.getUserId() = getUser().id

@@ -10,9 +10,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.Route
 import org.koin.ktor.ext.inject
-import java.util.*
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
 fun Route.createChatRoute() {

@@ -49,8 +49,13 @@ fun ChatItem(
     }
     ElevatedCard {
         Row(
-            modifier = Modifier.fillMaxWidth().clickable(onClick = onClickChat).padding(16.dp).height(IntrinsicSize.Min),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .clickable(onClick = onClickChat)
+                    .padding(16.dp)
+                    .height(IntrinsicSize.Min),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Surface(shape = CircleShape, modifier = Modifier.size(64.dp), border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline)) {
                 val imageBitmap = bitmap

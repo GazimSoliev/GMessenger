@@ -10,5 +10,9 @@ import kotlin.uuid.Uuid
 class GetMessagesUseCaseImpl(
     private val messagingService: IMessagingService,
 ) : GetMessagesUseCase {
-    override suspend fun invoke(userId: Uuid, chatId: Uuid, key: MessagePageKey?): MessagePage = messagingService.getMessages(userId, chatId, key)
+    override suspend fun invoke(
+        userId: Uuid,
+        chatId: Uuid,
+        key: MessagePageKey?,
+    ): MessagePage = messagingService.getMessages(userId, chatId, key)
 }

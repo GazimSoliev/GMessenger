@@ -47,7 +47,6 @@ import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
-import java.util.*
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -118,7 +117,8 @@ fun ChatComposition(
                                 AnimatedVisibility(visible = showReconnectScreen) {
                                     Text(
                                         text = "$strReconnectIn $reconnectionTimerSeconds",
-                                        style = typography.labelSmall, modifier = Modifier.padding(top = 4.dp)
+                                        style = typography.labelSmall,
+                                        modifier = Modifier.padding(top = 4.dp),
                                     )
                                 }
                             }

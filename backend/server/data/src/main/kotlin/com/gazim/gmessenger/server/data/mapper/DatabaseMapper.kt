@@ -32,7 +32,8 @@ fun Image.toImageEntity() = ImageEntity[id.toJavaUuid()]
 
 fun ChatEntity.toChat(): IChat = Chat(id = id.value.toKotlinUuid(), title = title)
 
-fun ChatEntity.toPrivateChat(partner: AccountEntity): PrivateChat = PrivateChat(id = id.value.toKotlinUuid(), title = title, user = partner.toUser())
+fun ChatEntity.toPrivateChat(partner: AccountEntity): PrivateChat =
+    PrivateChat(id = id.value.toKotlinUuid(), title = title, user = partner.toUser())
 
 fun ChatEntity.toChat(currentUser: AccountEntity): IChat =
     when (members.count().toInt()) {

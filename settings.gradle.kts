@@ -36,5 +36,5 @@ include(
     ":backend:server:presentation",
     ":backend:server:di",
     ":backend:server:app",
-    ":serialization"
+    ":serialization",
 )

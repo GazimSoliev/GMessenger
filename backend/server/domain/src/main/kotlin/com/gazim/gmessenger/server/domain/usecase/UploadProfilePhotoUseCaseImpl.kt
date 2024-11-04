@@ -9,5 +9,9 @@ import kotlin.uuid.Uuid
 class UploadProfilePhotoUseCaseImpl(
     private val userService: UserService,
 ) : UploadProfilePhotoUseCase {
-    override suspend fun invoke(userId: Uuid, type: String, content: ByteArray): Image = userService.uploadProfilePhoto(userId, type, content)
+    override suspend fun invoke(
+        userId: Uuid,
+        type: String,
+        content: ByteArray,
+    ): Image = userService.uploadProfilePhoto(userId, type, content)
 }
