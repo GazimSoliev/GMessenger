@@ -2,7 +2,8 @@ package com.gazim.gmessenger.presentation.features.chat
 
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
-import app.cash.paging.Pager
+import androidx.paging.Pager
+import androidx.paging.map
 import app.cash.paging.PagingConfig
 import app.cash.paging.cachedIn
 import app.cash.paging.insertSeparators
@@ -13,16 +14,12 @@ import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
+import com.gazim.gmessenger.presentation.model.GroupedMessagesDateUI
 import com.gazim.gmessenger.presentation.model.toDomain
 import com.gazim.gmessenger.presentation.model.toUI
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
+import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.orbitmvi.orbit.Container
@@ -110,10 +107,25 @@ class ChatViewModel(
                 },
             ).flow.cachedIn(viewModelScope)
             val mappedPageDataFlow = combine(pageDataFlow, ms) { page, messages ->
-                messages.fold(page) { data, mes ->
+                val newMessagesPage = messages.fold(page) { data, mes ->
                     data.insertSeparators { before, after ->
-                        if (before == null && after != mes) mes.toUI()
+                        if (before == null && after != mes) mes
                         else null
+                    }
+                }
+                val mappedNewMessagesPage = newMessagesPage.map { MessageContainer.Message(it) }
+                val datedMessagesPage = mappedNewMessagesPage.insertSeparators { before, after ->
+                    val sentBefore = before?.message?.sentAt?.date
+                    val sentAfter = after?.message?.sentAt?.date
+                    when (sentBefore) {
+                        sentAfter, null -> null
+                        else -> MessageContainer.GroupedMessagesDate(sentBefore)
+                    }
+                }
+                datedMessagesPage.map { messageContainer ->
+                    when (messageContainer) {
+                        is MessageContainer.Message -> messageContainer.message.toUI()
+                        is MessageContainer.GroupedMessagesDate -> GroupedMessagesDateUI(messageContainer.date)
                     }
                 }
             }
@@ -122,6 +134,14 @@ class ChatViewModel(
                 messages = mappedPageDataFlow,
             )
         }
+    }
+
+    private sealed interface MessageContainer {
+        @JvmInline
+        value class Message(val message: IMessage) : MessageContainer
+
+        @JvmInline
+        value class GroupedMessagesDate(val date: LocalDate) : MessageContainer
     }
 
     private fun IntentScope.launchCollectingMessages() {

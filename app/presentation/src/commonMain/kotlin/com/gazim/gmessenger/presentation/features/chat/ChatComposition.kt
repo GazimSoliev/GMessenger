@@ -58,7 +58,7 @@ fun ChatComposition(
     lazyListState: LazyListState,
     imageBitmap: ImageBitmap? = null,
     chatTitle: String,
-    messages: Flow<PagingData<IMessageItemUI>>,
+    messages: Flow<PagingData<MessageItemUI>>,
     message: TextFieldValue,
     showReconnectScreen: Boolean,
     reconnectionTimerSeconds: Int,
@@ -208,7 +208,7 @@ fun ChatComposition(
                     count = pagingMessages.itemCount,
                     key = {
                         when (val msg = pagingMessages[it]) {
-                            is IMessageUI -> msg.id
+                            is MessageUI -> msg.id
                             else -> msg.hashCode()
                         }
                     },
@@ -221,7 +221,7 @@ fun ChatComposition(
                             groupedDate,
                             modifier = Modifier.padding(16.dp),
                         )
-                    } else if (msg is IMessageUI) {
+                    } else if (msg is MessageUI) {
                         Box(Modifier.fillMaxWidth()) {
                             val msgModifier =
                                 if (msg is YourMessageUI) {
@@ -256,7 +256,7 @@ fun ChatCompositionPreview() {
             flowOf(
                 PagingData.from(
                     List(3) {
-                        MessageUI(
+                        TheirMessageUI(
                             id = Uuid.random(),
                             message = "Msg $it",
                             sentAt = Clock.System.now().toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()),

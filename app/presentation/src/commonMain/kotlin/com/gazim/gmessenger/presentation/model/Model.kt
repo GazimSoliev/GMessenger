@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-sealed interface IMessageItemUI
+sealed interface MessageItemUI
 
-sealed interface IMessageUI : IMessageItemUI {
+sealed interface MessageUI : MessageItemUI {
     val id: Uuid
     val message: String
     val sentAt: LocalDateTime

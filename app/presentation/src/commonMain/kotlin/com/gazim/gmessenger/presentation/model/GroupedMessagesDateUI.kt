@@ -5,4 +5,4 @@ import kotlinx.datetime.LocalDate
 @JvmInline
 value class GroupedMessagesDateUI(
     val date: LocalDate,
-) : IMessageItemUI
+) : MessageItemUI

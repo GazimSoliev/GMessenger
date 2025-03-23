@@ -7,14 +7,14 @@ import com.gazim.gmessenger.presentation.common.IAction
 import com.gazim.gmessenger.presentation.common.ISideEffect
 import com.gazim.gmessenger.presentation.common.IState
 import com.gazim.gmessenger.presentation.model.IChatUI
-import com.gazim.gmessenger.presentation.model.IMessageItemUI
+import com.gazim.gmessenger.presentation.model.MessageItemUI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 data class ChatState(
     val chatTitle: String = "",
     val imageBitmap: ImageBitmap? = null,
-    val messages: Flow<PagingData<IMessageItemUI>> = emptyFlow(),
+    val messages: Flow<PagingData<MessageItemUI>> = emptyFlow(),
     val message: TextFieldValue = TextFieldValue(),
     val showReconnectionTimer: Boolean = false,
     val reconnectionTimerSeconds: Int = 0,
