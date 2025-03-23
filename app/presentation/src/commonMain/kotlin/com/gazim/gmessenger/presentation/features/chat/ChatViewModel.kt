@@ -4,6 +4,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
+import app.cash.paging.cachedIn
+import app.cash.paging.insertSeparators
 import com.gazim.gmessenger.domain.model.*
 import com.gazim.gmessenger.domain.usecase.GetChatUseCase
 import com.gazim.gmessenger.domain.usecase.GetImageContentUseCase
@@ -12,10 +14,15 @@ import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
 import com.gazim.gmessenger.presentation.model.toDomain
+import com.gazim.gmessenger.presentation.model.toUI
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.orbitmvi.orbit.Container
@@ -35,7 +42,7 @@ class ChatViewModel(
     private lateinit var pagingSource: MessagePagerSource
     private var followMessage = false
     private val errors = MutableSharedFlow<Throwable>()
-    private val ms = Channel<IMessage>(Channel.UNLIMITED)
+    private val ms = MutableStateFlow(listOf<IMessage>())
     override val container: Container<ChatState, ChatSideEffect> = container(ChatState())
 
     override fun handleAction(action: ChatAction) {
@@ -91,24 +98,36 @@ class ChatViewModel(
             }
         }
         reduce {
+            val pageDataFlow = Pager(
+                config = PagingConfig(20),
+                pagingSourceFactory = {
+                    pagingSource = MessagePagerSource(
+                        chatModel = chat,
+                        getMessages = getMessages,
+                        errors = errors
+                    )
+                    pagingSource
+                },
+            ).flow.cachedIn(viewModelScope)
+            val mappedPageDataFlow = combine(pageDataFlow, ms) { page, messages ->
+                messages.fold(page) { data, mes ->
+                    data.insertSeparators { before, after ->
+                        if (before == null && after != mes) mes.toUI()
+                        else null
+                    }
+                }
+            }
             state.copy(
                 chatTitle = chatModel.chatName,
-                messages =
-                    Pager(
-                        config = PagingConfig(20),
-                        pagingSourceFactory = {
-                            pagingSource = MessagePagerSource(chat, getMessages, ms, errors)
-                            pagingSource
-                        },
-                    ).flow,
+                messages = mappedPageDataFlow,
             )
         }
     }
 
     private fun IntentScope.launchCollectingMessages() {
         viewModelScope.launch {
-            chatModel.messages.collect {
-                ms.send(it)
+            chatModel.messages.collect { newMessage ->
+                ms.update { messages -> messages + newMessage }
                 if (followMessage) postSideEffect(ChatSideEffect.FollowMessage)
             }
         }
