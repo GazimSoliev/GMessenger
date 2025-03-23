@@ -5,61 +5,34 @@ import app.cash.paging.PagingSourceLoadResultError
 import app.cash.paging.PagingSourceLoadResultPage
 import app.cash.paging.PagingState
 import com.gazim.gmessenger.domain.model.IChat
-import com.gazim.gmessenger.domain.model.IMessage
 import com.gazim.gmessenger.domain.model.MessagePageKey
 import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.presentation.model.IMessageItemUI
 import com.gazim.gmessenger.presentation.model.toUI
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.withContext
 
 class MessagePagerSource(
     private val chatModel: IChat,
     private val getMessages: GetMessagesUseCase,
-    private val ms: Channel<IMessage>,
-    private val errors: MutableSharedFlow<Throwable>,
-) : PagingSource<MessagePagerSource.Key, IMessageItemUI>() {
-    override fun getRefreshKey(state: PagingState<Key, IMessageItemUI>): Key? = null
+    private val errors: FlowCollector<Throwable>,
+) : PagingSource<MessagePageKey, IMessageItemUI>() {
+    override fun getRefreshKey(state: PagingState<MessagePageKey, IMessageItemUI>): MessagePageKey? = null
 
-    override suspend fun load(params: LoadParams<Key>): LoadResult<Key, IMessageItemUI> =
+    override suspend fun load(params: LoadParams<MessagePageKey>): LoadResult<MessagePageKey, IMessageItemUI> =
         withContext(Dispatchers.IO) {
             runCatching {
-                when (val currentKey = params.key) {
-                    is LiveKey -> {
-                        PagingSourceLoadResultPage<Key, IMessageItemUI>(
-                            data = listOf(ms.receive().toUI()),
-                            nextKey = if (currentKey.index == 0) PagedKey(null) else LiveKey(currentKey.index - 1),
-                            prevKey = LiveKey(currentKey.index + 1),
-                        )
-                    }
-
-                    else -> {
-                        val pagedKey = (currentKey as? PagedKey)
-                        val page = getMessages(chatModel, pagedKey?.key).getOrThrow()
-                        PagingSourceLoadResultPage<Key, IMessageItemUI>(
-                            data = page.data.toUI(),
-                            prevKey = if (pagedKey == null) LiveKey(0) else PagedKey(page.prev),
-                            nextKey = page.next?.let(::PagedKey),
-                        )
-                    }
-                }
+                val currentKey = params.key
+                val page = getMessages(chatModel, currentKey).getOrThrow()
+                PagingSourceLoadResultPage<MessagePageKey, IMessageItemUI>(
+                    data = page.data.toUI(),
+                    prevKey = page.prev,
+                    nextKey = page.next,
+                )
             }.getOrElse {
                 errors.emit(it)
                 PagingSourceLoadResultError(it)
             }
         }
-
-    sealed interface Key
-
-    @JvmInline
-    value class PagedKey(
-        val key: MessagePageKey?,
-    ) : Key
-
-    @JvmInline
-    value class LiveKey(
-        val index: Int,
-    ) : Key
 }
