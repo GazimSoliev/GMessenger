@@ -28,7 +28,7 @@ fun IMessage.toUI(timeZone: TimeZone = TimeZone.currentSystemDefault()) =
             user = user.toUI(),
         )
     } else {
-        MessageUI(
+        TheirMessageUI(
             id = id,
             message = message,
             sentAt = sentAt,

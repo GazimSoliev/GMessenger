@@ -11,4 +11,4 @@ data class YourMessageUI(
     override val sentAt: LocalDateTime,
     override val localSentAt: LocalDateTime,
     override val user: UserUI,
-) : IMessageUI
+) : MessageUI

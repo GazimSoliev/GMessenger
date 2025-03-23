@@ -5,10 +5,10 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-data class MessageUI(
+data class TheirMessageUI(
     override val id: Uuid,
     override val message: String,
     override val sentAt: LocalDateTime,
     override val localSentAt: LocalDateTime,
     override val user: UserUI,
-) : IMessageUI
+) : MessageUI
