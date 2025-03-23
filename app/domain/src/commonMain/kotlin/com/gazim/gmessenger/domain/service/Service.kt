@@ -47,7 +47,7 @@ interface GMessengerService {
 
     suspend fun createChat(
         config: APIConfig,
-        user: User,
+        userId: Uuid,
     )
 
     suspend fun getNotifications(config: APIConfig): INotificationWebSocketModel
@@ -88,7 +88,7 @@ interface GMessengerSessionService {
 
     suspend fun getMyOwnAccount(): User
 
-    suspend fun createChat(user: User)
+    suspend fun createChat(userId: Uuid)
 
     suspend fun getNotifications(): INotificationWebSocketModel
 

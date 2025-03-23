@@ -12,7 +12,9 @@ import com.gazim.gmessenger.presentation.features.finduser.FindUserAction.*
 import com.gazim.gmessenger.presentation.features.finduser.FindUserSideEffect.ToChatsScreen
 import kotlinx.coroutines.cancel
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun FindUserScreen(navController: NavHostController) {
     val viewModel = koinViewModel<FindUserViewModel>()
@@ -29,8 +31,8 @@ fun FindUserScreen(navController: NavHostController) {
         modifier = Modifier.fillMaxSize(),
         users = state.users,
         query = state.query,
-        onQueryChange = { viewModel.sendAction(OnFilterChange(it)) },
-        createChat = { viewModel.sendAction(OnUserClick(it)) },
+        onQueryChange = { query -> viewModel.sendAction(OnFilterChange(query)) },
+        createChat = { userId -> viewModel.sendAction(OnUserClick(userId)) },
         back = { viewModel.sendAction(OnBackClick) },
     )
 }

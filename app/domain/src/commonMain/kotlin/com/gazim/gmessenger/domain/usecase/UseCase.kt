@@ -41,7 +41,7 @@ fun interface GetOwnUser {
 }
 
 fun interface CreateChatUseCase {
-    suspend operator fun invoke(user: User): Result<Unit>
+    suspend operator fun invoke(userId: Uuid): Result<Unit>
 }
 
 fun interface ValidateLoginUseCase {

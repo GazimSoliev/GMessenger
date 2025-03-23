@@ -38,8 +38,8 @@ class GMessengerServiceImpl(
 
     override suspend fun createChat(
         config: APIConfig,
-        user: User,
-    ) = getAPI(config).createChat(user)
+        userId: Uuid,
+    ) = getAPI(config).createChat(userId)
 
     override suspend fun getNotifications(config: APIConfig) = getAPI(config).getNotifications()
 

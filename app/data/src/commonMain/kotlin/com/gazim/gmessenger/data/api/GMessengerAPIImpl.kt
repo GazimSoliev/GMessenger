@@ -33,8 +33,8 @@ class GMessengerAPIImpl(
 
     override suspend fun getMyOwnAccount(): User = gMessengerAPI.whoAmI().toDomain()
 
-    override suspend fun createChat(user: User) {
-        gMessengerAPI.createChat(user.toAPI().id)
+    override suspend fun createChat(userId: Uuid) {
+        gMessengerAPI.createChat(userId)
     }
 
     override suspend fun getNotifications(): INotificationWebSocketModel = gMessengerAPI.getNotifications().toNotificationWebSocketModel()

@@ -22,7 +22,7 @@ interface GMessengerAPI : AutoCloseable {
 
     suspend fun getMyOwnAccount(): User
 
-    suspend fun createChat(user: User)
+    suspend fun createChat(userId: Uuid)
 
     suspend fun getNotifications(): INotificationWebSocketModel
 

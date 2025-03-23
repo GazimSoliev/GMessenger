@@ -34,7 +34,7 @@ class GMessengerSessionServiceImpl(
 
     override suspend fun getMyOwnAccount() = gMessengerService.getMyOwnAccount(config)
 
-    override suspend fun createChat(user: User) = gMessengerService.createChat(config, user)
+    override suspend fun createChat(userId: Uuid) = gMessengerService.createChat(config, userId)
 
     override suspend fun getNotifications() = gMessengerService.getNotifications(config)
 
