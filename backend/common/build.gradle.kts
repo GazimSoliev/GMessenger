@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -17,8 +17,6 @@ kotlin {
 
             // Resources
             implementation(libs.ktor.resources)
-
-            implementation(projects.serialization)
         }
     }
 }

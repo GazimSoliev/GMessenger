@@ -2,11 +2,11 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -45,12 +45,6 @@ kotlin {
 //            implementation(libs.orbit.compose)
 //            implementation(libs.orbit.viewmodel)
 
-            // Voyager
-            implementation(libs.voyager.navigator)
-            implementation(libs.voyager.transitions)
-            implementation(libs.voyager.screenmodel)
-            implementation(libs.voyager.koin)
-
             // Utils
             implementation(projects.utils)
 
@@ -66,8 +60,6 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
 
             implementation(libs.filekit.compose)
-
-            implementation(projects.serialization)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -79,12 +71,12 @@ kotlin {
 android {
     namespace = "com.gazim.gmessenger.presentation"
     compileSdk =
-        libs.versions.android.compileSdk
+        libs.versions.android.compile.sdk
             .get()
             .toInt()
     defaultConfig {
         minSdk =
-            libs.versions.android.minSdk
+            libs.versions.android.min.sdk
                 .get()
                 .toInt()
     }

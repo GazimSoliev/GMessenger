@@ -185,7 +185,7 @@ class GMessengerAPIImpl(
             }.body()
 
     override suspend fun getImageContent(photoId: Uuid): ByteArray =
-        httpClient.get(ImageRoute.Id(photoId.toString())).bodyAsChannel().toByteArray()
+        httpClient.get(ImageRoute.Id(photoId.toString())).bodyAsBytes()
 
     override fun close() = httpClient.close()
 }

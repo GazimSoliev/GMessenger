@@ -18,3 +18,4 @@ TODO:
 8. Local database
 9. Voice messages
 10. Use Docker
+11. Rename models

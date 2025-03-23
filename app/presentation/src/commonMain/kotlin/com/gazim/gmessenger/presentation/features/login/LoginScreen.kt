@@ -12,8 +12,9 @@ import com.gazim.gmessenger.presentation.common.handleSideEffect
 import com.gazim.gmessenger.presentation.common.sendAction
 import com.gazim.gmessenger.presentation.features.login.LoginAction.*
 import com.gazim.gmessenger.presentation.features.login.LoginSideEffect.*
-import com.gazim.gmessenger.presentation.navigation.Screen
-import com.gazim.gmessenger.presentation.navigation.navigate
+import com.gazim.gmessenger.presentation.navigation.ChatsRoute
+import com.gazim.gmessenger.presentation.navigation.RegistrationRoute
+import com.gazim.gmessenger.presentation.navigation.SelectServerRoute
 import com.gazim.gmessenger.presentation.navigation.replace
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -34,9 +35,9 @@ fun LoginScreen(navController: NavController) {
                 launch {
                     snackBarHostState.showSnackbar("Wrong login or password")
                 }
-            is ToChatsScreen -> navController.replace(Screen.Chats)
-            is ToRegisterScreen -> navController.navigate(Screen.Registration)
-            is ToSelectServerScreen -> navController.navigate(Screen.SelectServer)
+            is ToChatsScreen -> navController.replace(ChatsRoute())
+            is ToRegisterScreen -> navController.navigate(RegistrationRoute())
+            is ToSelectServerScreen -> navController.navigate(SelectServerRoute())
         }
     }
     LoginComposition(

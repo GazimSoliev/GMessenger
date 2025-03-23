@@ -10,8 +10,10 @@ import com.gazim.gmessenger.presentation.common.handleSideEffect
 import com.gazim.gmessenger.presentation.common.sendAction
 import com.gazim.gmessenger.presentation.features.chats.ChatsAction.*
 import com.gazim.gmessenger.presentation.features.chats.ChatsSideEffect.*
-import com.gazim.gmessenger.presentation.navigation.Screen
-import com.gazim.gmessenger.presentation.navigation.navigate
+import com.gazim.gmessenger.presentation.navigation.ChatRoute
+import com.gazim.gmessenger.presentation.navigation.FindUserRoute
+import com.gazim.gmessenger.presentation.navigation.LoginRoute
+import com.gazim.gmessenger.presentation.navigation.UserRoute
 import com.gazim.gmessenger.presentation.navigation.replace
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -21,10 +23,10 @@ fun ChatsScreen(navController: NavController) {
     val state by viewModel.collectAsState()
     viewModel.handleSideEffect { sideEffect ->
         when (sideEffect) {
-            is ToChatScreen -> navController.navigate(Screen.Chat, sideEffect.chat)
-            is ToFindUser -> navController.navigate(Screen.FindUser)
-            is ToAccountInfoScreen -> navController.navigate(Screen.User)
-            is ToLoginScreen -> navController.replace(Screen.Login)
+            is ToChatScreen -> navController.navigate(ChatRoute(sideEffect.chat))
+            is ToFindUser -> navController.navigate(FindUserRoute())
+            is ToAccountInfoScreen -> navController.navigate(UserRoute())
+            is ToLoginScreen -> navController.replace(LoginRoute())
         }
     }
     ChatsComposition(

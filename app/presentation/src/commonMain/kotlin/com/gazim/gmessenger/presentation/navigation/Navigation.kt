@@ -1,9 +1,11 @@
 package com.gazim.gmessenger.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.gazim.gmessenger.domain.usecase.PassAuthUseCase
 import com.gazim.gmessenger.presentation.features.chat.ChatScreen
 import com.gazim.gmessenger.presentation.features.chats.ChatsScreen
@@ -12,50 +14,74 @@ import com.gazim.gmessenger.presentation.features.login.LoginScreen
 import com.gazim.gmessenger.presentation.features.register.RegisterScreen
 import com.gazim.gmessenger.presentation.features.selectserver.SelectServerScreen
 import com.gazim.gmessenger.presentation.features.user.UserScreen
+import com.gazim.gmessenger.presentation.model.IChatUI
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
-enum class Screen(
-    override val argument: String = "",
-) : Route {
-    Chat("chatId"),
-    Chats,
-    FindUser,
-    Login,
-    Registration,
-    SelectServer,
-    User,
-    ;
+@Serializable
+data class ChatRoute(
+    val jsonChat : String
+)
 
-    override val routeName: String get() = name
-}
+fun ChatRoute(chat: IChatUI) = ChatRoute(Json.encodeToString(chat))
+
+val ChatRoute.chat get() = Json.decodeFromString<IChatUI>(jsonChat)
+
+@Serializable
+class ChatsRoute
+
+@Serializable
+class FindUserRoute
+
+@Serializable
+class LoginRoute
+
+@Serializable
+class RegistrationRoute
+
+@Serializable
+class SelectServerRoute
+
+@Serializable
+class UserRoute
 
 @Composable
 fun Navigation(passAuthUseCase: PassAuthUseCase) {
-    val startDestination = (if (passAuthUseCase()) Screen.Chats else Screen.Login).route
+    val startDestination = if (passAuthUseCase()) ChatsRoute() else LoginRoute()
     val navController = rememberNavController()
     NavHost(
         navController = navController,
         startDestination = startDestination,
     ) {
-        composable(Screen.Chat.route) {
-            ChatScreen(navController, it.getObject(Screen.Chat.argument))
+        composable<ChatRoute> { navBack ->
+            val route = navBack.toRoute<ChatRoute>()
+            println(route)
+            ChatScreen(navController, route.chat)
         }
-        composable(Screen.Chats.route) {
+        composable<ChatsRoute> {
             ChatsScreen(navController)
         }
-        composable(Screen.FindUser.route) {
+        composable<FindUserRoute> {
             FindUserScreen(navController)
         }
-        composable(Screen.Login.route) {
+        composable<LoginRoute> {
             LoginScreen(navController)
         }
-        composable(Screen.Registration.route) {
+        composable<RegistrationRoute> {
             RegisterScreen(navController)
         }
-        composable(Screen.SelectServer.route) {
+        composable<SelectServerRoute> {
             SelectServerScreen(navController)
         }
-        composable(Screen.User.route) {
+        composable<UserRoute> {
             UserScreen(navController)
         }
+    }
+}
+
+fun <T: Any> NavController.replace(route: T) {
+    val currentRoute = currentDestination!!.route!!
+    navigate(route) {
+        popUpTo(currentRoute) { inclusive = true }
     }
 }

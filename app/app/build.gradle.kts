@@ -3,9 +3,9 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -52,7 +52,7 @@ kotlin {
 android {
     namespace = "com.gazim.gmessenger"
     compileSdk =
-        libs.versions.android.compileSdk
+        libs.versions.android.compile.sdk
             .get()
             .toInt()
 
@@ -63,13 +63,11 @@ android {
     defaultConfig {
         applicationId = "com.gazim.gmessenger"
         minSdk =
-            libs.versions.android.minSdk
-                .get()
-                .toInt()
+            libs.versions.android.min.sdk
+                .get().toInt()
         targetSdk =
-            libs.versions.android.targetSdk
-                .get()
-                .toInt()
+            libs.versions.android.target.sdk
+                .get().toInt()
         versionCode = 1
         versionName = "1.0"
     }

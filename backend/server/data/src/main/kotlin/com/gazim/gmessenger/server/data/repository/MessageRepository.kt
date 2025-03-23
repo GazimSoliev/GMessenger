@@ -76,7 +76,8 @@ class MessageRepository : IMessageRepository {
                     (MessageTable.idChat eq chatId.toJavaUuid()) and
                         (MessageTable.createdAt greaterEq end)
                 }.orderBy(MessageTable.createdAt to SortOrder.ASC)
-                .limit(1, offset)
+                .limit(1)
+                .offset(offset)
                 .singleOrNull()
                 ?.sentAt
         }
