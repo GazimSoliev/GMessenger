@@ -14,7 +14,9 @@ import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
+import com.gazim.gmessenger.presentation.model.ChatUI
 import com.gazim.gmessenger.presentation.model.GroupedMessagesDateUI
+import com.gazim.gmessenger.presentation.model.PrivateChatUI
 import com.gazim.gmessenger.presentation.model.toDomain
 import com.gazim.gmessenger.presentation.model.toUI
 import kotlinx.coroutines.*
@@ -25,6 +27,7 @@ import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.Syntax
 import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 private typealias IntentScope = Syntax<ChatState, ChatSideEffect>
 
@@ -45,7 +48,7 @@ class ChatViewModel(
     override fun handleAction(action: ChatAction) {
         intent {
             when (action) {
-                is OnStart -> loadChat(action.chat.toDomain())
+                is OnStart -> loadChat(action.chat)
                 is OnStop -> viewModelScope.launch { chatModel.close() }
                 is OnMessageChange -> reduce { state.copy(message = action.message) }
                 is OnSendMessage -> {
@@ -65,8 +68,9 @@ class ChatViewModel(
     }
 
     @OptIn(ExperimentalResourceApi::class)
-    private suspend fun IntentScope.loadChat(chat: IChat) {
-        if (chat is PrivateChat) {
+    private suspend fun IntentScope.loadChat(chat: ChatUI) {
+        reduce { state.copy(chatTitle = chat.chatName) }
+        if (chat is PrivateChatUI) {
             viewModelScope.launch(Dispatchers.IO) {
                 val imageId = chat.user.photo?.id ?: return@launch
                 while (true) {
@@ -76,17 +80,17 @@ class ChatViewModel(
                 }
             }
         }
-        defineValues(chat)
-        setPaging(chat)
+        defineValues(chat.identifier)
+        setPaging(chat.identifier)
         launchCollectingMessages()
         openConnection()
     }
 
-    private suspend fun defineValues(chat: IChat) {
-        getChatUseCase(chat).onSuccess { chatModel = it }
+    private suspend fun defineValues(chatId: Uuid) {
+        getChatUseCase(chatId).onSuccess { chatModel = it }
     }
 
-    private suspend fun IntentScope.setPaging(chat: IChat) {
+    private suspend fun IntentScope.setPaging(chatId: Uuid) {
         viewModelScope.launch {
             errors.collectLatest { e ->
                 e.printStackTrace()
@@ -99,7 +103,7 @@ class ChatViewModel(
                 config = PagingConfig(20),
                 pagingSourceFactory = {
                     pagingSource = MessagePagerSource(
-                        chatModel = chat,
+                        chatId = chatId,
                         getMessages = getMessages,
                         errors = errors
                     )
@@ -130,7 +134,6 @@ class ChatViewModel(
                 }
             }
             state.copy(
-                chatTitle = chatModel.chatName,
                 messages = mappedPageDataFlow,
             )
         }

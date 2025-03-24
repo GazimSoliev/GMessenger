@@ -25,10 +25,7 @@ class ChatsViewModel(
         intent {
             when (action) {
                 is OnStart -> getChats()
-                is OnItemClick -> {
-                    postSideEffect(ToChatScreen(action.chat))
-                }
-
+                is OnItemClick -> postSideEffect(ToChatScreen(action.chat))
                 is OnCreateNewChat -> postSideEffect(ToFindUser)
                 is OnAccountInfoClick -> postSideEffect(ToAccountInfoScreen)
                 is OnLogOutClick -> {

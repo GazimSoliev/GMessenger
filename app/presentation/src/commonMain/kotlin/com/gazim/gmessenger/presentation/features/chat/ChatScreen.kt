@@ -14,7 +14,7 @@ import com.gazim.gmessenger.presentation.common.sendAction
 import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.FollowMessage
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
-import com.gazim.gmessenger.presentation.model.IChatUI
+import com.gazim.gmessenger.presentation.model.ChatUI
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
@@ -24,7 +24,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @Composable
 fun ChatScreen(
     navController: NavController,
-    chat: IChatUI,
+    chat: ChatUI,
 ) {
     val viewModel = koinViewModel<ChatViewModel>()
     val state by viewModel.collectAsState()

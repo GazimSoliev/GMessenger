@@ -30,7 +30,7 @@ class GMessengerSessionServiceImpl(
 
     override suspend fun filterUsers(query: String) = gMessengerService.filterUsers(config, query)
 
-    override suspend fun getChat(chatModel: IChat) = gMessengerService.getChat(config, chatModel)
+    override suspend fun getChat(chatUi: Uuid) = gMessengerService.getChat(config, chatUi)
 
     override suspend fun getMyOwnAccount() = gMessengerService.getMyOwnAccount(config)
 
@@ -39,9 +39,9 @@ class GMessengerSessionServiceImpl(
     override suspend fun getNotifications() = gMessengerService.getNotifications(config)
 
     override suspend fun getMessages(
-        chatModel: IChat,
+        chatId: Uuid,
         key: MessagePageKey?,
-    ) = gMessengerService.getMessages(config, chatModel, key)
+    ) = gMessengerService.getMessages(config, chatId, key)
 
     override suspend fun editProfile(profileForm: ProfileForm) = gMessengerService.editProfile(config, profileForm)
 

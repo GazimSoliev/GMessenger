@@ -6,10 +6,10 @@ import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
 @Serializable
-data class ChatUI(
+data class ConversationUI(
     override val identifier: Uuid,
     override val title: String,
     override val chatName: String,
     override val chatLink: String,
     override val image: Uuid?,
-) : IChatUI
+) : ChatUI

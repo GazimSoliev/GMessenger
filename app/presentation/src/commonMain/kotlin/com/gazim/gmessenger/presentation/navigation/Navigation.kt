@@ -14,7 +14,7 @@ import com.gazim.gmessenger.presentation.features.login.LoginScreen
 import com.gazim.gmessenger.presentation.features.register.RegisterScreen
 import com.gazim.gmessenger.presentation.features.selectserver.SelectServerScreen
 import com.gazim.gmessenger.presentation.features.user.UserScreen
-import com.gazim.gmessenger.presentation.model.IChatUI
+import com.gazim.gmessenger.presentation.model.ChatUI
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -23,9 +23,9 @@ data class ChatRoute(
     val jsonChat : String
 )
 
-fun ChatRoute(chat: IChatUI) = ChatRoute(Json.encodeToString(chat))
+fun ChatRoute(chat: ChatUI) = ChatRoute(Json.encodeToString(chat))
 
-val ChatRoute.chat get() = Json.decodeFromString<IChatUI>(jsonChat)
+val ChatRoute.chat get() = Json.decodeFromString<ChatUI>(jsonChat)
 
 @Serializable
 class ChatsRoute

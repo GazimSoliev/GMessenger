@@ -26,10 +26,10 @@ class GMessengerAPIImpl(
 
     override suspend fun filterUsers(query: String): List<User> = gMessengerAPI.findUser(query).map(UserAPI::toDomain)
 
-    override suspend fun getChat(chatModel: IChat): IChatWebSocketModel =
+    override suspend fun getChat(chatUi: Uuid): IChatWebSocketModel =
         gMessengerAPI
-            .getChatWebSocket(chatModel.toAPI().id)
-            .toChatWebSocketModel((if (chatModel is PrivateChat) chatModel.user.nickname else chatModel.title))
+            .getChatWebSocket(chatUi)
+            .toChatWebSocketModel()
 
     override suspend fun getMyOwnAccount(): User = gMessengerAPI.whoAmI().toDomain()
 
@@ -40,9 +40,9 @@ class GMessengerAPIImpl(
     override suspend fun getNotifications(): INotificationWebSocketModel = gMessengerAPI.getNotifications().toNotificationWebSocketModel()
 
     override suspend fun getMessages(
-        chatModel: IChat,
+        chatId: Uuid,
         key: MessagePageKey?,
-    ): MessagePage = gMessengerAPI.getMessages(chatModel.toAPI().id, key?.toAPI()).toDomain()
+    ): MessagePage = gMessengerAPI.getMessages(chatId, key?.toAPI()).toDomain()
 
     override suspend fun editProfile(profileForm: ProfileForm) = gMessengerAPI.editProfile(profileForm.toAPI())
 

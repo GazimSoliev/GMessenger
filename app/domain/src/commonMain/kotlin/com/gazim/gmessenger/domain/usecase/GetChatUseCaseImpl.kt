@@ -1,13 +1,15 @@
 package com.gazim.gmessenger.domain.usecase
 
-import com.gazim.gmessenger.domain.model.IChat
 import com.gazim.gmessenger.domain.service.GMessengerSessionService
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class GetChatUseCaseImpl(
     private val gMessengerSessionService: GMessengerSessionService,
 ) : GetChatUseCase {
-    override suspend fun invoke(chat: IChat) =
+    @OptIn(ExperimentalUuidApi::class)
+    override suspend fun invoke(chatUi: Uuid) =
         runCatching {
-            gMessengerSessionService.getChat(chat)
+            gMessengerSessionService.getChat(chatUi)
         }
 }

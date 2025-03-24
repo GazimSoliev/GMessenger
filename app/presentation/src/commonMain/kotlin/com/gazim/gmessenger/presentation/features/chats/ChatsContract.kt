@@ -3,15 +3,15 @@ package com.gazim.gmessenger.presentation.features.chats
 import com.gazim.gmessenger.presentation.common.IAction
 import com.gazim.gmessenger.presentation.common.ISideEffect
 import com.gazim.gmessenger.presentation.common.IState
-import com.gazim.gmessenger.presentation.model.IChatUI
+import com.gazim.gmessenger.presentation.model.ChatUI
 
 data class ChatsState(
-    val list: List<IChatUI> = emptyList(),
+    val list: List<ChatUI> = emptyList(),
 ) : IState
 
 sealed interface ChatsSideEffect : ISideEffect {
     data class ToChatScreen(
-        val chat: IChatUI,
+        val chat: ChatUI,
     ) : ChatsSideEffect
 
     data object ToFindUser : ChatsSideEffect
@@ -23,7 +23,7 @@ sealed interface ChatsSideEffect : ISideEffect {
 
 sealed interface ChatsAction : IAction {
     data class OnItemClick(
-        val chat: IChatUI,
+        val chat: ChatUI,
     ) : ChatsAction
 
     data object OnCreateNewChat : ChatsAction

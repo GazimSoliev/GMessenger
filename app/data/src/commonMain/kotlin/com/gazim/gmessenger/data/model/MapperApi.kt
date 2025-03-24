@@ -87,10 +87,8 @@ fun ProfileForm.toAPI() =
 
 fun SentMessage.toAPI() = MessageForm(message = message)
 
-fun ChatWebSocket.toChatWebSocketModel(chatName: String) =
+fun ChatWebSocket.toChatWebSocketModel() =
     object : IChatWebSocketModel {
-        override val chatName: String = chatName
-
         override val messages: Flow<IMessage> =
             this@toChatWebSocketModel.messages.map { it.toDomain() }
 
