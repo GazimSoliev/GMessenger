@@ -41,7 +41,7 @@ fun interface GetOwnUser {
 }
 
 fun interface CreateChatUseCase {
-    suspend operator fun invoke(user: User): Result<Unit>
+    suspend operator fun invoke(userId: Uuid): Result<Unit>
 }
 
 fun interface ValidateLoginUseCase {
@@ -73,12 +73,12 @@ fun interface GetNotificationsUseCase {
 }
 
 fun interface GetChatUseCase {
-    suspend operator fun invoke(chat: IChat): Result<IChatWebSocketModel>
+    suspend operator fun invoke(chatUi: Uuid): Result<IChatWebSocketModel>
 }
 
 interface GetMessagesUseCase {
     suspend operator fun invoke(
-        chat: IChat,
+        chatId: Uuid,
         key: MessagePageKey?,
     ): Result<MessagePage>
 }

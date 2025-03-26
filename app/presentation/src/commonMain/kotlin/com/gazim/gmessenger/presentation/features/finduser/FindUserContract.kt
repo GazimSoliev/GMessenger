@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.presentation.features.finduser
 
 import androidx.compose.ui.text.input.TextFieldValue
@@ -5,6 +7,8 @@ import com.gazim.gmessenger.presentation.common.IAction
 import com.gazim.gmessenger.presentation.common.ISideEffect
 import com.gazim.gmessenger.presentation.common.IState
 import com.gazim.gmessenger.presentation.model.UserUI
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 data class FindUserState(
     val query: TextFieldValue = TextFieldValue(),
@@ -21,7 +25,7 @@ sealed interface FindUserAction : IAction {
     ) : FindUserAction
 
     data class OnUserClick(
-        val user: UserUI,
+        val userId: Uuid,
     ) : FindUserAction
 
     data object OnBackClick : FindUserAction

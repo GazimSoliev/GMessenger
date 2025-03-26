@@ -13,4 +13,4 @@ class PrivateChatUI(
     override val chatLink: String,
     override val image: Uuid?,
     val user: UserUI,
-) : IChatUI
+) : ChatUI

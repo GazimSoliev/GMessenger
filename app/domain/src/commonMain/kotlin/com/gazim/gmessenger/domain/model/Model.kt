@@ -22,7 +22,6 @@ sealed interface IChat {
 }
 
 interface IChatWebSocketModel {
-    val chatName: String
     val messages: Flow<IMessage>
 
     suspend fun sendMessage(msg: SentMessage)

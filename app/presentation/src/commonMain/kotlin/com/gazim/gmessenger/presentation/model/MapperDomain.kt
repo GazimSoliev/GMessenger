@@ -50,7 +50,7 @@ fun IChat.toUI() =
             image = user.photo?.id,
         )
     } else {
-        ChatUI(
+        ConversationUI(
             identifier = id,
             title = title,
             chatName = title,
@@ -73,7 +73,7 @@ fun UserUI.toDomain() =
         photo = photo?.toDomain(),
     )
 
-fun IChatUI.toDomain() =
+fun ChatUI.toDomain() =
     if (this is PrivateChatUI) {
         PrivateChat(
             id = identifier,

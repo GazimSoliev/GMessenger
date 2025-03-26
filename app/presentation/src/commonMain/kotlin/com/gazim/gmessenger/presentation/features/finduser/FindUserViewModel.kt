@@ -1,15 +1,17 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.presentation.features.finduser
 
-import com.gazim.gmessenger.domain.model.User
 import com.gazim.gmessenger.domain.usecase.CreateChatUseCase
 import com.gazim.gmessenger.domain.usecase.FilterUsersUseCase
 import com.gazim.gmessenger.presentation.common.BaseViewModel
 import com.gazim.gmessenger.presentation.features.finduser.FindUserAction.*
 import com.gazim.gmessenger.presentation.features.finduser.FindUserSideEffect.ToChatsScreen
-import com.gazim.gmessenger.presentation.model.toDomain
 import com.gazim.gmessenger.presentation.model.toUI
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.Syntax
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 // todo: Take out actions
 class FindUserViewModel(
@@ -23,7 +25,7 @@ class FindUserViewModel(
         intent {
             when (action) {
                 is OnFilterChange -> findUser(action.query.also { reduce { state.copy(query = it) } }.text)
-                is OnUserClick -> createChat(action.user.toDomain())
+                is OnUserClick -> createChat(action.userId)
                 is OnBackClick -> {
                     postSideEffect(ToChatsScreen)
                 }
@@ -38,8 +40,8 @@ class FindUserViewModel(
             }.onFailure(Throwable::printStackTrace)
     }
 
-    private suspend fun Syntax<FindUserState, FindUserSideEffect>.createChat(user: User) {
-        createChatUseCase(user)
+    private suspend fun Syntax<FindUserState, FindUserSideEffect>.createChat(userId: Uuid) {
+        createChatUseCase(userId)
             .onSuccess {
                 postSideEffect(ToChatsScreen)
             }.onFailure(Throwable::printStackTrace)

@@ -18,8 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.presentation.component.ChatItem
+import com.gazim.gmessenger.presentation.model.ConversationUI
 import com.gazim.gmessenger.presentation.model.ChatUI
-import com.gazim.gmessenger.presentation.model.IChatUI
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 import gmessenger.app.presentation.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
@@ -31,8 +31,8 @@ import kotlin.uuid.Uuid
 @Composable
 fun ChatsComposition(
     modifier: Modifier = Modifier,
-    chats: List<IChatUI>,
-    nextToChat: (IChatUI) -> Unit,
+    chats: List<ChatUI>,
+    nextToChat: (ChatUI) -> Unit,
     createNewChat: () -> Unit,
     lookAtMyAccount: () -> Unit,
     logOut: () -> Unit,
@@ -91,7 +91,7 @@ fun ChatsCompositionPreview() {
     ChatsComposition(
         modifier = Modifier.fillMaxSize(),
         List(10) {
-            ChatUI(
+            ConversationUI(
                 identifier = Uuid.random(),
                 title = "Chat name",
                 chatName = "Chat name",

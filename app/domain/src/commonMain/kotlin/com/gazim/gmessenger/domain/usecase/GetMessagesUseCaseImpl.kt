@@ -3,14 +3,17 @@ package com.gazim.gmessenger.domain.usecase
 import com.gazim.gmessenger.domain.model.IChat
 import com.gazim.gmessenger.domain.model.MessagePageKey
 import com.gazim.gmessenger.domain.service.GMessengerSessionService
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class GetMessagesUseCaseImpl(
     private val gMessengerSessionService: GMessengerSessionService,
 ) : GetMessagesUseCase {
+    @OptIn(ExperimentalUuidApi::class)
     override suspend fun invoke(
-        chat: IChat,
+        chatId: Uuid,
         key: MessagePageKey?,
     ) = runCatching {
-        gMessengerSessionService.getMessages(chat, key)
+        gMessengerSessionService.getMessages(chatId, key)
     }
 }

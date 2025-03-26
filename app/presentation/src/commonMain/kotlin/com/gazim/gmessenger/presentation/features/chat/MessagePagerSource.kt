@@ -9,9 +9,12 @@ import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.withContext
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class MessagePagerSource(
-    private val chatModel: IChat,
+    private val chatId: Uuid,
     private val getMessages: GetMessagesUseCase,
     private val errors: FlowCollector<Throwable>,
 ) : PagingSource<MessagePageKey, IMessage>() {
@@ -21,7 +24,7 @@ class MessagePagerSource(
         withContext(Dispatchers.IO) {
             runCatching {
                 val currentKey = params.key
-                val page = getMessages(chatModel, currentKey).getOrThrow()
+                val page = getMessages(chatId, currentKey).getOrThrow()
                 LoadResult.Page<MessagePageKey, IMessage>(
                     data = page.data,
                     prevKey = page.prev,

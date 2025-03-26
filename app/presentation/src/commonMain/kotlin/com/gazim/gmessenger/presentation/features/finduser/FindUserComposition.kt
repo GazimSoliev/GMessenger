@@ -27,6 +27,7 @@ import gmessenger.app.presentation.generated.resources.back
 import gmessenger.app.presentation.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
 import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 // todo: Rename a preview and change a composition?
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,7 +37,7 @@ fun FindUserComposition(
     users: List<UserUI>,
     query: TextFieldValue,
     onQueryChange: (TextFieldValue) -> Unit,
-    createChat: (UserUI) -> Unit,
+    createChat: (Uuid) -> Unit,
     back: () -> Unit,
 ) {
     val strBack = stringResource(Res.string.back)
@@ -51,8 +52,8 @@ fun FindUserComposition(
                         modifier = Modifier.fillMaxWidth(),
                         textStyle = typography.bodyLarge.copy(color = colorScheme.onBackground),
                         cursorBrush = SolidColor(colorScheme.onBackground),
-                    ) {
-                        it()
+                    ) { textField ->
+                        textField()
                         if (query.text.isEmpty()) {
                             Text(
                                 text = strSearch,
@@ -72,12 +73,14 @@ fun FindUserComposition(
                 modifier = Modifier.fillMaxSize().padding(paddingValues).padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                items(users) {
+                items(users) { user ->
                     ChatItem(
-                        chatName = it.nickname,
-                        chatLink = it.username,
-                        image = it.photo?.id,
-                    ) { createChat(it) }
+                        chatName = user.nickname,
+                        chatLink = user.username,
+                        image = user.photo?.id,
+                    ) {
+                        createChat(user.id)
+                    }
                 }
             }
         }

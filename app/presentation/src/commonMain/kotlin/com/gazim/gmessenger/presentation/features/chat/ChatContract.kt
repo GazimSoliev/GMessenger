@@ -6,7 +6,7 @@ import app.cash.paging.PagingData
 import com.gazim.gmessenger.presentation.common.IAction
 import com.gazim.gmessenger.presentation.common.ISideEffect
 import com.gazim.gmessenger.presentation.common.IState
-import com.gazim.gmessenger.presentation.model.IChatUI
+import com.gazim.gmessenger.presentation.model.ChatUI
 import com.gazim.gmessenger.presentation.model.MessageItemUI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -36,7 +36,7 @@ sealed interface ChatAction : IAction {
     data object OnBack : ChatAction
 
     data class OnStart(
-        val chat: IChatUI,
+        val chat: ChatUI,
     ) : ChatAction
 
     data object OnStop : ChatAction

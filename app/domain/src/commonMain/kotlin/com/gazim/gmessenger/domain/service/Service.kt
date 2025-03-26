@@ -40,21 +40,21 @@ interface GMessengerService {
 
     suspend fun getChat(
         config: APIConfig,
-        chatModel: IChat,
+        chatUi: Uuid,
     ): IChatWebSocketModel
 
     suspend fun getMyOwnAccount(config: APIConfig): User
 
     suspend fun createChat(
         config: APIConfig,
-        user: User,
+        userId: Uuid,
     )
 
     suspend fun getNotifications(config: APIConfig): INotificationWebSocketModel
 
     suspend fun getMessages(
         config: APIConfig,
-        chatModel: IChat,
+        chatId: Uuid,
         key: MessagePageKey?,
     ): MessagePage
 
@@ -84,16 +84,16 @@ interface GMessengerSessionService {
 
     suspend fun filterUsers(query: String): List<User>
 
-    suspend fun getChat(chatModel: IChat): IChatWebSocketModel
+    suspend fun getChat(chatUi: Uuid): IChatWebSocketModel
 
     suspend fun getMyOwnAccount(): User
 
-    suspend fun createChat(user: User)
+    suspend fun createChat(userId: Uuid)
 
     suspend fun getNotifications(): INotificationWebSocketModel
 
     suspend fun getMessages(
-        chatModel: IChat,
+        chatId: Uuid,
         key: MessagePageKey?,
     ): MessagePage
 

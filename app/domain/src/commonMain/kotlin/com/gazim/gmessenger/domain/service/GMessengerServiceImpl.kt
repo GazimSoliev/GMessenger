@@ -31,23 +31,23 @@ class GMessengerServiceImpl(
 
     override suspend fun getChat(
         config: APIConfig,
-        chatModel: IChat,
-    ) = getAPI(config).getChat(chatModel)
+        chatUi: Uuid,
+    ) = getAPI(config).getChat(chatUi)
 
     override suspend fun getMyOwnAccount(config: APIConfig) = getAPI(config).getMyOwnAccount()
 
     override suspend fun createChat(
         config: APIConfig,
-        user: User,
-    ) = getAPI(config).createChat(user)
+        userId: Uuid,
+    ) = getAPI(config).createChat(userId)
 
     override suspend fun getNotifications(config: APIConfig) = getAPI(config).getNotifications()
 
     override suspend fun getMessages(
         config: APIConfig,
-        chatModel: IChat,
+        chatId: Uuid,
         key: MessagePageKey?,
-    ) = getAPI(config).getMessages(chatModel, key)
+    ) = getAPI(config).getMessages(chatId, key)
 
     override suspend fun editProfile(
         config: APIConfig,
