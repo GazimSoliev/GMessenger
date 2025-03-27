@@ -10,7 +10,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -47,42 +50,49 @@ fun ChatItem(
             }
         }
     }
-    ElevatedCard {
-        Row(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .clickable(onClick = onClickChat)
-                    .padding(16.dp)
-                    .height(IntrinsicSize.Min),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+    Row(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClickChat)
+                .padding(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        Surface(
+            shape = CircleShape,
+            modifier = Modifier.padding(vertical = 2.dp).size(48.dp),
+            border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline)
         ) {
-            Surface(shape = CircleShape, modifier = Modifier.size(64.dp), border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline)) {
-                val imageBitmap = bitmap
-                if (imageBitmap != null) {
-                    Image(
-                        bitmap = imageBitmap,
-                        modifier = Modifier.fillMaxSize().blur(1.dp),
-                        contentScale = ContentScale.Crop,
-                        contentDescription = null,
-                    )
-                    Image(
-                        bitmap = imageBitmap,
-                        modifier = Modifier.fillMaxSize(),
-                        contentDescription = null,
-                    )
-                } else {
-                    Icon(
-                        imageVector = Icons.Rounded.AccountCircle,
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                }
+            val imageBitmap = bitmap
+            if (imageBitmap != null) {
+                Image(
+                    bitmap = imageBitmap,
+                    modifier = Modifier.fillMaxSize().blur(1.dp),
+                    contentScale = ContentScale.Crop,
+                    contentDescription = null,
+                )
+                Image(
+                    bitmap = imageBitmap,
+                    modifier = Modifier.fillMaxSize(),
+                    contentDescription = null,
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Rounded.AccountCircle,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
-            Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceEvenly) {
-                Text(chatName)
-                Text(chatLink)
-            }
+        }
+        Column(modifier = Modifier) {
+            Text(
+                text = chatName,
+                style = MaterialTheme.typography.labelLarge
+            )
+            Text(
+                text = chatLink,
+                style = MaterialTheme.typography.labelSmall
+            )
         }
     }
 }
