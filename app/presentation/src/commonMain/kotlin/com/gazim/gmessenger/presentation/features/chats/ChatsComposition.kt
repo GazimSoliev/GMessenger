@@ -3,26 +3,23 @@
 package com.gazim.gmessenger.presentation.features.chats
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.Chat
-import androidx.compose.material.icons.automirrored.rounded.Logout
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.presentation.component.ChatItem
+import com.gazim.gmessenger.presentation.component.ProfileIcon
 import com.gazim.gmessenger.presentation.model.ChatUI
 import com.gazim.gmessenger.presentation.model.ConversationUI
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
@@ -40,7 +37,7 @@ import kotlin.uuid.Uuid
 fun ChatsComposition(
     modifier: Modifier = Modifier,
     accountImage: Painter? = null,
-    userFirstLetterOfName: String = "",
+    firstNameLetter: Char = ' ',
     chats: List<ChatUI> = emptyList(),
     nextToChat: (ChatUI) -> Unit = {},
     createNewChat: () -> Unit = {},
@@ -58,32 +55,28 @@ fun ChatsComposition(
                 TopAppBar(
                     title = { Text("GMessenger") },
                     navigationIcon = {
-                        Box(
+                        ProfileIcon(
                             modifier = Modifier
-                                .padding(horizontal = 24.dp)
-                                .size(24.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.tertiary)
-                                .clickable { lookAtMyAccount() },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            if (accountImage != null) {
-                                Image(
-                                    painter = accountImage,
-                                    contentDescription = strAccountInfo,
-                                )
-                            } else {
-                                Text(
-                                    text = userFirstLetterOfName,
-                                    color = MaterialTheme.colorScheme.tertiaryContainer,
-                                    style = MaterialTheme.typography.labelSmall
-                                )
-                            }
-                        }
+                                .padding(horizontal = 24.dp),
+                            image = accountImage,
+                            firstNameLetter = firstNameLetter,
+                            size = 24.dp,
+                            textStyle = MaterialTheme.typography.labelSmall,
+                            onClick = lookAtMyAccount
+                        )
                     },
                     actions = {
-                        IconButton(onClick = logOut) {
-                            Icon(imageVector = Icons.AutoMirrored.Rounded.Logout, contentDescription = strLogOut)
+                        IconButton(onClick = {}) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = strLogOut
+                            )
+                        }
+                        IconButton(onClick = {}) {
+                            Icon(
+                                imageVector = Icons.Default.MoreVert,
+                                contentDescription = strLogOut
+                            )
                         }
                     },
                 )
@@ -125,7 +118,7 @@ fun ChatsCompositionPreview() {
                 image = null,
             )
         },
-        userFirstLetterOfName = "G",
+        firstNameLetter = 'G',
     )
 }
 
