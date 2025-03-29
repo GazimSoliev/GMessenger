@@ -18,10 +18,10 @@ sealed interface MessageUI : MessageItemUI {
 }
 
 @Serializable
-sealed interface ChatUI {
-    val identifier: Uuid
-    val title: String
-    val chatName: String
-    val chatLink: String
+data class ChatUI(
+    val identifier: Uuid,
+    val title: String,
+    val firstLetter: Char,
+    val link: String,
     val image: Uuid?
-}
+)

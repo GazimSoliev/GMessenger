@@ -7,7 +7,9 @@ import androidx.paging.map
 import app.cash.paging.PagingConfig
 import app.cash.paging.cachedIn
 import app.cash.paging.insertSeparators
-import com.gazim.gmessenger.domain.model.*
+import com.gazim.gmessenger.domain.model.IChatWebSocketModel
+import com.gazim.gmessenger.domain.model.IMessage
+import com.gazim.gmessenger.domain.model.SentMessage
 import com.gazim.gmessenger.domain.usecase.GetChatUseCase
 import com.gazim.gmessenger.domain.usecase.GetImageContentUseCase
 import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase
@@ -16,8 +18,6 @@ import com.gazim.gmessenger.presentation.features.chat.ChatAction.*
 import com.gazim.gmessenger.presentation.features.chat.ChatSideEffect.ToBack
 import com.gazim.gmessenger.presentation.model.ChatUI
 import com.gazim.gmessenger.presentation.model.GroupedMessagesDateUI
-import com.gazim.gmessenger.presentation.model.PrivateChatUI
-import com.gazim.gmessenger.presentation.model.toDomain
 import com.gazim.gmessenger.presentation.model.toUI
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -69,15 +69,13 @@ class ChatViewModel(
 
     @OptIn(ExperimentalResourceApi::class)
     private suspend fun IntentScope.loadChat(chat: ChatUI) {
-        reduce { state.copy(chatTitle = chat.chatName) }
-        if (chat is PrivateChatUI) {
-            viewModelScope.launch(Dispatchers.IO) {
-                val imageId = chat.user.photo?.id ?: return@launch
-                while (true) {
-                    val image = getImageContentUseCase(imageId).getOrNull() ?: continue
-                    reduce { state.copy(imageBitmap = image.decodeToImageBitmap()) }
-                    break
-                }
+        reduce { state.copy(chatTitle = chat.title) }
+        viewModelScope.launch(Dispatchers.IO) {
+            val imageId = chat.image ?: return@launch
+            while (true) {
+                val image = getImageContentUseCase(imageId).getOrNull() ?: continue
+                reduce { state.copy(imageBitmap = image.decodeToImageBitmap()) }
+                break
             }
         }
         defineValues(chat.identifier)

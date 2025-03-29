@@ -21,10 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.presentation.component.ChatItem
 import com.gazim.gmessenger.presentation.component.ProfileIcon
 import com.gazim.gmessenger.presentation.model.ChatUI
-import com.gazim.gmessenger.presentation.model.ConversationUI
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 import gmessenger.app.presentation.generated.resources.Res
-import gmessenger.app.presentation.generated.resources.account_info
 import gmessenger.app.presentation.generated.resources.log_out
 import gmessenger.app.presentation.generated.resources.new_chat
 import org.jetbrains.compose.resources.stringResource
@@ -36,18 +34,17 @@ import kotlin.uuid.Uuid
 @Composable
 fun ChatsComposition(
     modifier: Modifier = Modifier,
-    accountImage: Painter? = null,
+    profileImage: Painter? = null,
     firstNameLetter: Char = ' ',
     chats: List<ChatUI> = emptyList(),
-    nextToChat: (ChatUI) -> Unit = {},
+    openChat: (ChatUI) -> Unit = {},
     createNewChat: () -> Unit = {},
     lookAtMyAccount: () -> Unit = {},
     logOut: () -> Unit = {},
+    getChatImage: suspend (Uuid) -> Painter? = { null },
 ) {
-//    val strChats = stringResource(Res.string.chats)
     val strNewChat = stringResource(Res.string.new_chat)
     val strLogOut = stringResource(Res.string.log_out)
-    val strAccountInfo = stringResource(Res.string.account_info)
     Surface {
         Scaffold(
             modifier = modifier,
@@ -58,7 +55,7 @@ fun ChatsComposition(
                         ProfileIcon(
                             modifier = Modifier
                                 .padding(horizontal = 24.dp),
-                            image = accountImage,
+                            image = profileImage,
                             firstNameLetter = firstNameLetter,
                             size = 24.dp,
                             textStyle = MaterialTheme.typography.labelSmall,
@@ -92,12 +89,15 @@ fun ChatsComposition(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(8.dp),
             ) {
-                items(chats) {
+                items(chats) { chat ->
                     ChatItem(
-                        chatName = it.chatName,
-                        chatLink = it.chatLink,
-                        image = it.image,
-                    ) { nextToChat(it) }
+                        title = chat.title,
+                        link = chat.link,
+                        image = chat.image,
+                        firstNameLetter = chat.firstLetter,
+                        onClickChat = { openChat(chat) },
+                        getImage = getChatImage
+                    )
                 }
             }
         }
@@ -110,12 +110,12 @@ fun ChatsCompositionPreview() {
     ChatsComposition(
         modifier = Modifier.fillMaxSize(),
         chats = List(10) {
-            ConversationUI(
+            ChatUI(
                 identifier = Uuid.random(),
                 title = "Chat name",
-                chatName = "Chat name",
-                chatLink = "@identifier",
+                link = "@identifier",
                 image = null,
+                firstLetter = 'C'
             )
         },
         firstNameLetter = 'G',
