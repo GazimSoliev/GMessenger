@@ -6,9 +6,14 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DoneAll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
@@ -26,6 +31,7 @@ import kotlin.uuid.Uuid
 fun ChatItem(
     title: String = "",
     link: String = "",
+    lastMessage: String = "",
     image: Uuid? = null,
     firstNameLetter: Char = ' ',
     onClickChat: () -> Unit = {},
@@ -39,6 +45,7 @@ fun ChatItem(
             }
         }
     }
+    val opacity = 0.8f
     Row(
         modifier =
             Modifier
@@ -53,15 +60,36 @@ fun ChatItem(
             image = chatImage,
             firstNameLetter = firstNameLetter,
         )
-        Column(modifier = Modifier) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.labelLarge
-            )
-            Text(
-                text = link,
-                style = MaterialTheme.typography.labelSmall
-            )
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.labelLarge
+                )
+                Text(
+                    text = "27 Mar",
+                    style = MaterialTheme.typography.labelSmall
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = lastMessage,
+                    style = MaterialTheme.typography.labelSmall
+                )
+                Icon(
+                    modifier = Modifier.size(16.dp),
+                    imageVector = Icons.Default.DoneAll,
+                    contentDescription = null
+                )
+            }
         }
     }
 }
@@ -69,24 +97,27 @@ fun ChatItem(
 @Preview
 @Composable
 fun ChatItemPreview() {
-    Column {
-        ChatItem(
-            title = "GMessenger",
-            link = "@gmessenger",
-            firstNameLetter = 'G'
-        )
-        Spacer(Modifier.height(32.dp))
-        ChatItem(
-            title = "Messenger",
-            firstNameLetter = 'M'
-        )
+    Surface {
+        Column {
+            ChatItem(
+                title = "GMessenger",
+                link = "@gmessenger",
+                lastMessage = "Hello, how are you?",
+                firstNameLetter = 'G'
+            )
+            Spacer(Modifier.height(32.dp))
+            ChatItem(
+                title = "Messenger",
+                firstNameLetter = 'M'
+            )
+        }
     }
 }
 
 @Preview
 @Composable
 fun ChatItemPreviewWithTheme() {
-    GMessengerTheme {
+    GMessengerTheme(true) {
         ChatItemPreview()
     }
 }
