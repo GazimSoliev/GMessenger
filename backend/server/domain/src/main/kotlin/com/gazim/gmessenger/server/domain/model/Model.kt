@@ -7,4 +7,5 @@ import kotlin.uuid.Uuid
 interface IChat {
     val id: Uuid
     val title: String
+    val lastMessage: Message?
 }

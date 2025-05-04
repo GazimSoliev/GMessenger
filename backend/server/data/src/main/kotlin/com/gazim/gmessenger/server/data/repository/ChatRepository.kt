@@ -4,14 +4,17 @@ import com.gazim.gmessenger.server.data.database.GMessengerDatabase.dbQuery
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.ChatAccountEntity
 import com.gazim.gmessenger.server.data.database.model.ChatEntity
+import com.gazim.gmessenger.server.data.database.model.MessageEntity
 import com.gazim.gmessenger.server.data.database.table.AccountTable
 import com.gazim.gmessenger.server.data.database.table.ChatAccountTable
+import com.gazim.gmessenger.server.data.database.table.MessageTable
 import com.gazim.gmessenger.server.data.mapper.toChat
 import com.gazim.gmessenger.server.data.mapper.toUser
 import com.gazim.gmessenger.server.domain.model.IChat
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.IChatRepository
 import org.jetbrains.exposed.sql.SizedIterable
+import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -24,7 +27,10 @@ class ChatRepository : IChatRepository {
     override suspend fun getChats(userId: Uuid): List<IChat> =
         dbQuery {
             val accountEntity = AccountEntity[userId.toJavaUuid()]
-            accountEntity.chats.map { it.toChat(accountEntity) }
+            accountEntity.chats.map { chatEntity ->
+                val lastMessage = chatEntity.getLastMessage()
+                chatEntity.toChat(currentUser = accountEntity, lastMessage = lastMessage)
+            }
         }
 
     override suspend fun getMembers(
@@ -57,7 +63,7 @@ class ChatRepository : IChatRepository {
                     createdAt = LocalDateTime.now(ZoneOffset.UTC)
                 }
             }
-            return@dbQuery chat.toChat()
+            return@dbQuery chat.toChat(lastMessage = null)
         }
 
     override suspend fun getChat(
@@ -66,10 +72,12 @@ class ChatRepository : IChatRepository {
     ): IChat? =
         dbQuery {
             val account = AccountEntity[userId.toJavaUuid()]
-            getEntityChat(
+            val chatEntity = getEntityChat(
                 userId = userId,
                 chatId = chatId,
-            )?.toChat(account)
+            )
+            val lastMessage = chatEntity?.getLastMessage()
+            chatEntity?.toChat(currentUser = account, lastMessage = lastMessage)
         }
 
     override suspend fun existInChat(
@@ -82,6 +90,13 @@ class ChatRepository : IChatRepository {
                 chatId = chatId,
             ).empty()
         }
+
+    private fun ChatEntity.getLastMessage(
+
+    ): MessageEntity? {
+        return MessageEntity.find { MessageTable.idChat eq this@getLastMessage.id }
+            .orderBy(MessageTable.createdAt to SortOrder.DESC).firstOrNull()
+    }
 
     private fun getEntityChat(
         userId: Uuid,

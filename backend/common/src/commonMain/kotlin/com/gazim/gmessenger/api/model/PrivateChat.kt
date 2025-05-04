@@ -12,4 +12,5 @@ data class PrivateChat(
     override val id: Uuid,
     override val title: String,
     val user: User,
+    override val lastMessage: Message?,
 ) : IChat

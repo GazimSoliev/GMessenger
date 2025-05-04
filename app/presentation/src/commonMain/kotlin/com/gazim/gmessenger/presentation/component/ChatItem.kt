@@ -35,6 +35,7 @@ fun ChatItem(
     lastMessage: String = "",
     image: Uuid? = null,
     firstNameLetter: Char = ' ',
+    lastMessageDateTime: String = "",
     onClickChat: () -> Unit = {},
     getImage: suspend (Uuid) -> Painter? = { null },
 ) {
@@ -76,7 +77,7 @@ fun ChatItem(
                 )
                 Text(
                     modifier = modifierWithOpacity,
-                    text = "27 Mar",
+                    text = lastMessageDateTime,
                     style = MaterialTheme.typography.labelSmall
                 )
             }
@@ -108,12 +109,13 @@ fun ChatItemPreview() {
                 title = "GMessenger",
                 link = "@gmessenger",
                 lastMessage = "Hello, how are you?",
-                firstNameLetter = 'G'
+                firstNameLetter = 'G',
+                lastMessageDateTime = "27 Mar"
             )
             Spacer(Modifier.height(32.dp))
             ChatItem(
                 title = "Messenger",
-                firstNameLetter = 'M'
+                firstNameLetter = 'M',
             )
         }
     }

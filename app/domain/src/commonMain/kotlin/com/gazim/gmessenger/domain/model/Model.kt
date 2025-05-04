@@ -19,6 +19,7 @@ sealed interface Notification
 sealed interface IChat {
     val id: Uuid
     val title: String
+    val lastMessage: IMessage?
 }
 
 interface IChatWebSocketModel {

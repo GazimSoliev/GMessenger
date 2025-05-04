@@ -5,7 +5,6 @@ import com.gazim.gmessenger.api.route.MessagesRoute
 import com.gazim.gmessenger.server.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.server.extensions.toAPI
 import com.gazim.gmessenger.server.extensions.toDomain
-import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*

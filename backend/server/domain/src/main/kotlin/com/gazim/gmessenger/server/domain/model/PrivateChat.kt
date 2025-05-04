@@ -7,5 +7,6 @@ import kotlin.uuid.Uuid
 data class PrivateChat(
     override val id: Uuid,
     override val title: String,
+    override val lastMessage: Message?,
     val user: User,
 ) : IChat

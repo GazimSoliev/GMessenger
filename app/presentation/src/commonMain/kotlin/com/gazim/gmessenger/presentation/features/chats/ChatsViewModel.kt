@@ -69,7 +69,7 @@ class ChatsViewModel(
         getChatsUseCase().onSuccess { chats ->
             reduce {
                 state.copy(
-                    list = chats.map(IChat::toUI)
+                    list = chats.toUI()
                 )
             }
         }.onFailure(Throwable::printStackTrace)

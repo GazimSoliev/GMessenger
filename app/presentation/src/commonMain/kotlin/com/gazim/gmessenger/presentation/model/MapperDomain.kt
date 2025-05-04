@@ -3,7 +3,10 @@
 package com.gazim.gmessenger.presentation.model
 
 import com.gazim.gmessenger.domain.model.*
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format.DateTimeFormat
+import kotlinx.datetime.format.char
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
@@ -40,7 +43,22 @@ fun IMessage.toUI(timeZone: TimeZone = TimeZone.currentSystemDefault()) =
 
 fun Iterable<IMessage>.toUI(timeZone: TimeZone = TimeZone.currentSystemDefault()) = map { it.toUI(timeZone) }
 
-fun IChat.toUI(): ChatUI {
+// TODO
+val messageSentAtFormatter by lazy { LocalDateTime.Format {
+    hour()
+    char(':')
+    minute()
+    char(' ')
+    dayOfMonth()
+    char('.')
+    monthNumber()
+    char('.')
+    year()
+} }
+
+fun IChat.toUI(
+    timeZone: TimeZone = TimeZone.currentSystemDefault()
+): ChatUI {
     val title: String
     val link: String
     val image: Uuid?
@@ -53,13 +71,22 @@ fun IChat.toUI(): ChatUI {
         link = ""
         image = null
     }
+    val lastMessageSentAt =  lastMessage?.sentAt?.toInstant(TimeZone.UTC)?.toLocalDateTime(timeZone)
     return ChatUI(
         identifier = id,
         title = title,
         link = link,
         image = image,
         firstLetter = title.firstOrNull()?.uppercaseChar() ?: ' ',
+        lastMessage = lastMessage?.message ?: "",
+        lastMessageDateTime = lastMessageSentAt?.let { messageSentAtFormatter.format(it) } ?: ""
     )
+}
+
+fun List<IChat>.toUI(
+    timeZone: TimeZone = TimeZone.currentSystemDefault()
+): List<ChatUI> = map { chat ->
+    chat.toUI(timeZone)
 }
 
 fun ImageUI.toDomain() =

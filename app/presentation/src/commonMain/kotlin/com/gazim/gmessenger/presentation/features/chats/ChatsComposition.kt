@@ -94,7 +94,9 @@ fun ChatsComposition(
                         title = chat.title,
                         link = chat.link,
                         image = chat.image,
+                        lastMessage = chat.lastMessage,
                         firstNameLetter = chat.firstLetter,
+                        lastMessageDateTime = chat.lastMessageDateTime,
                         onClickChat = { openChat(chat) },
                         getImage = getChatImage
                     )
@@ -115,7 +117,9 @@ fun ChatsCompositionPreview() {
                 title = "Chat name",
                 link = "@identifier",
                 image = null,
-                firstLetter = 'C'
+                lastMessage = "Hello!",
+                firstLetter = 'C',
+                lastMessageDateTime = "27 Mar"
             )
         },
         firstNameLetter = 'G',

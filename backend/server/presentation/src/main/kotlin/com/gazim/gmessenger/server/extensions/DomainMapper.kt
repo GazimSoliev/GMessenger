@@ -55,11 +55,13 @@ fun IChat.toAPI() =
             id = id,
             title = title,
             user = user.toAPI(),
+            lastMessage = lastMessage?.toAPI()
         )
     } else {
         ChatAPI(
             id = id,
             title = title,
+            lastMessage = lastMessage?.toAPI()
         )
     }
 
