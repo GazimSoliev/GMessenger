@@ -58,7 +58,7 @@ fun IChat.toUI(): ChatUI {
         title = title,
         link = link,
         image = image,
-        firstLetter = title.firstOrNull() ?: ' ',
+        firstLetter = title.firstOrNull()?.uppercaseChar() ?: ' ',
     )
 }
 

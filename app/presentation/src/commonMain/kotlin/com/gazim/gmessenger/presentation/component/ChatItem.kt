@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
@@ -46,6 +47,9 @@ fun ChatItem(
         }
     }
     val opacity = 0.8f
+    val modifierWithOpacity = Modifier.graphicsLayer {
+        alpha = opacity
+    }
     Row(
         modifier =
             Modifier
@@ -71,12 +75,13 @@ fun ChatItem(
                     style = MaterialTheme.typography.labelLarge
                 )
                 Text(
+                    modifier = modifierWithOpacity,
                     text = "27 Mar",
                     style = MaterialTheme.typography.labelSmall
                 )
             }
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().then(modifierWithOpacity),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {

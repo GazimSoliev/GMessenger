@@ -59,7 +59,7 @@ class ChatsViewModel(
             reduce {
                 state.copy(
                     profileImage = image,
-                    firstNameLetter = user.username.firstOrNull() ?: ' ',
+                    firstNameLetter = user.username.firstOrNull()?.uppercaseChar() ?: ' ',
                 )
             }
         }.onFailure(Throwable::printStackTrace)
