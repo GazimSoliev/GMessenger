@@ -5,7 +5,6 @@ package com.gazim.gmessenger.presentation.model
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.format.DateTimeFormat
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime

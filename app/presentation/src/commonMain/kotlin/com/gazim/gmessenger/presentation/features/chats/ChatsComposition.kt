@@ -14,7 +14,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
@@ -69,10 +69,20 @@ fun ChatsComposition(
                                 contentDescription = strLogOut
                             )
                         }
-                        IconButton(onClick = {}) {
-                            Icon(
-                                imageVector = Icons.Default.MoreVert,
-                                contentDescription = strLogOut
+                        var expanded by remember { mutableStateOf(false) }
+                        IconButton(onClick = { expanded = !expanded }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = "More options")
+                        }
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(strLogOut) },
+                                onClick = {
+                                    expanded = false
+                                    logOut()
+                                }
                             )
                         }
                     },
