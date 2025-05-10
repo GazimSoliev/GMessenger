@@ -2,6 +2,9 @@
 
 package com.gazim.gmessenger.server.data.repository
 
+import com.gazim.gmessenger.server.domain.model.AuthenticationForm
+import com.gazim.gmessenger.server.domain.model.RegistrationForm
+import com.gazim.gmessenger.server.domain.model.Token
 import com.gazim.gmessenger.server.data.database.GMessengerDatabase.dbQuery
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.LoginEntity
@@ -10,15 +13,12 @@ import com.gazim.gmessenger.server.data.database.model.TokenEntity
 import com.gazim.gmessenger.server.data.database.table.AccountTable
 import com.gazim.gmessenger.server.data.database.table.LoginTable
 import com.gazim.gmessenger.server.data.database.table.PasswordTable
-import com.gazim.gmessenger.server.domain.model.AuthenticationForm
-import com.gazim.gmessenger.server.domain.model.RegistrationForm
-import com.gazim.gmessenger.server.domain.model.Token
+import com.gazim.gmessenger.server.domain.extensions.nowInUTC
 import com.gazim.gmessenger.server.domain.repository.ILoginRegisterRepository
+import kotlinx.datetime.LocalDateTime
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.selectAll
 import java.security.MessageDigest
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.toKotlinUuid
 
@@ -70,17 +70,17 @@ class LoginRegisterRepository : ILoginRegisterRepository {
                 AccountEntity.new {
                     nickname = account.nickname
                     username = account.username
-                    createdAt = LocalDateTime.now(ZoneOffset.UTC)
+                    createdAt = nowInUTC()
                 }
             LoginEntity.new {
                 this.login = login
                 this.account = accountEntity
-                createdAt = LocalDateTime.now(ZoneOffset.UTC)
+                createdAt = nowInUTC()
             }
             PasswordEntity.new {
                 this.password = password
                 this.account = accountEntity
-                createdAt = LocalDateTime.now(ZoneOffset.UTC)
+                createdAt = nowInUTC()
             }
             true
         }

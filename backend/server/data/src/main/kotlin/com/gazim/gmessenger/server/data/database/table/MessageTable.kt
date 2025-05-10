@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.server.data.database.table
 
 import org.jetbrains.exposed.dao.id.UUIDTable
-import org.jetbrains.exposed.sql.javatime.datetime
+import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
 object MessageTable : UUIDTable("message") {
     val idChat = reference("id_chat", ChatTable)

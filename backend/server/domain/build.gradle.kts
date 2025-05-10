@@ -1,12 +1,15 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-}
-group = "com.gazim.gmessenger"
-version = "1.0.0"
-dependencies {
-    implementation(libs.kotlinx.coroutines.core)
+    alias(libs.plugins.kotlin.multiplatform)
 }
 
 kotlin {
     jvmToolchain(8)
+    jvm()
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.kotlinx.coroutines.core)
+            api(libs.kotlinx.datetime)
+        }
+    }
 }

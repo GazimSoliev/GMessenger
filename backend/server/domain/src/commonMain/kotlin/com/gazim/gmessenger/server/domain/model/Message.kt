@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.server.domain.model
 
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.server.domain.model
 
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
 
 data class MessagePageKey(
     val start: LocalDateTime,

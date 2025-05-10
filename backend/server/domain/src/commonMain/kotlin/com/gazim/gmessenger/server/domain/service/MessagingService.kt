@@ -4,13 +4,13 @@ import com.gazim.gmessenger.server.domain.model.Message
 import com.gazim.gmessenger.server.domain.model.MessageForm
 import com.gazim.gmessenger.server.domain.model.MessagePage
 import com.gazim.gmessenger.server.domain.model.MessagePageKey
+import com.gazim.gmessenger.server.domain.extensions.nowInUTC
 import com.gazim.gmessenger.server.domain.repository.IChatRepository
 import com.gazim.gmessenger.server.domain.repository.IMessageRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import kotlinx.datetime.LocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -47,7 +47,7 @@ class MessagingService(
             start = key.start
             end = key.end
         } else {
-            start = LocalDateTime.now(ZoneOffset.UTC)
+            start = nowInUTC()
             end = messageRepository.nextPage(chatId, 63, start)
         }
         val prev = messageRepository.prevPage(chatId, 64, start)

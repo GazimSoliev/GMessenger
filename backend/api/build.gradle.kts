@@ -36,7 +36,7 @@ kotlin {
             // Resources
             implementation(libs.ktor.client.resources)
 
-            // Models and Route names
+            // Route names
             api(projects.backend.common)
         }
     }

@@ -4,7 +4,7 @@ import com.gazim.gmessenger.server.domain.model.AuthenticationForm
 import com.gazim.gmessenger.server.domain.model.RegistrationForm
 import com.gazim.gmessenger.server.domain.model.Token
 import com.gazim.gmessenger.server.domain.repository.ILoginRegisterRepository
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
 
 class AuthorizationService(
     private val loginPasswordRepository: ILoginRegisterRepository,
