@@ -10,18 +10,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.Chat
-import androidx.compose.material.icons.automirrored.rounded.Logout
-import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.presentation.component.ChatItem
-import com.gazim.gmessenger.presentation.model.ConversationUI
+import com.gazim.gmessenger.presentation.component.ProfileIcon
 import com.gazim.gmessenger.presentation.model.ChatUI
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
-import gmessenger.app.presentation.generated.resources.*
+import gmessenger.app.presentation.generated.resources.Res
+import gmessenger.app.presentation.generated.resources.log_out
+import gmessenger.app.presentation.generated.resources.new_chat
 import org.jetbrains.compose.resources.stringResource
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -31,41 +34,64 @@ import kotlin.uuid.Uuid
 @Composable
 fun ChatsComposition(
     modifier: Modifier = Modifier,
-    chats: List<ChatUI>,
-    nextToChat: (ChatUI) -> Unit,
-    createNewChat: () -> Unit,
-    lookAtMyAccount: () -> Unit,
-    logOut: () -> Unit,
+    profileImage: Painter? = null,
+    firstNameLetter: Char = ' ',
+    chats: List<ChatUI> = emptyList(),
+    openChat: (ChatUI) -> Unit = {},
+    createNewChat: () -> Unit = {},
+    lookAtMyAccount: () -> Unit = {},
+    logOut: () -> Unit = {},
+    getChatImage: suspend (Uuid) -> Painter? = { null },
 ) {
-    val strChats = stringResource(Res.string.chats)
     val strNewChat = stringResource(Res.string.new_chat)
     val strLogOut = stringResource(Res.string.log_out)
-    val strAccountInfo = stringResource(Res.string.account_info)
     Surface {
         Scaffold(
             modifier = modifier,
             topBar = {
-                CenterAlignedTopAppBar(
-                    title = { Text(strChats) },
+                TopAppBar(
+                    title = { Text("GMessenger") },
                     navigationIcon = {
-                        IconButton(onClick = lookAtMyAccount) {
-                            Icon(
-                                imageVector = Icons.Rounded.Person,
-                                contentDescription = strAccountInfo,
-                            )
-                        }
+                        ProfileIcon(
+                            modifier = Modifier
+                                .padding(horizontal = 24.dp),
+                            image = profileImage,
+                            firstNameLetter = firstNameLetter,
+                            size = 24.dp,
+                            textStyle = MaterialTheme.typography.labelSmall,
+                            onClick = lookAtMyAccount
+                        )
                     },
                     actions = {
-                        IconButton(onClick = logOut) {
-                            Icon(imageVector = Icons.AutoMirrored.Rounded.Logout, contentDescription = strLogOut)
+                        IconButton(onClick = {}) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = strLogOut
+                            )
+                        }
+                        var expanded by remember { mutableStateOf(false) }
+                        IconButton(onClick = { expanded = !expanded }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = "More options")
+                        }
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(strLogOut) },
+                                onClick = {
+                                    expanded = false
+                                    logOut()
+                                }
+                            )
                         }
                     },
                 )
             },
             floatingActionButton = {
-                ExtendedFloatingActionButton(onClick = { createNewChat() }, icon = {
-                    Icon(imageVector = Icons.AutoMirrored.Rounded.Chat, contentDescription = strNewChat)
-                }, text = { Text(strNewChat) })
+                FloatingActionButton(onClick = { createNewChat() }) {
+                    Icon(imageVector = Icons.Default.Edit, contentDescription = strNewChat)
+                }
             },
         ) { paddingValues ->
             LazyColumn(
@@ -73,12 +99,17 @@ fun ChatsComposition(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(8.dp),
             ) {
-                items(chats) {
+                items(chats) { chat ->
                     ChatItem(
-                        chatName = it.chatName,
-                        chatLink = it.chatLink,
-                        image = it.image,
-                    ) { nextToChat(it) }
+                        title = chat.title,
+                        link = chat.link,
+                        image = chat.image,
+                        lastMessage = chat.lastMessage,
+                        firstNameLetter = chat.firstLetter,
+                        lastMessageDateTime = chat.lastMessageDateTime,
+                        onClickChat = { openChat(chat) },
+                        getImage = getChatImage
+                    )
                 }
             }
         }
@@ -90,19 +121,18 @@ fun ChatsComposition(
 fun ChatsCompositionPreview() {
     ChatsComposition(
         modifier = Modifier.fillMaxSize(),
-        List(10) {
-            ConversationUI(
+        chats = List(10) {
+            ChatUI(
                 identifier = Uuid.random(),
                 title = "Chat name",
-                chatName = "Chat name",
-                chatLink = "@identifier",
+                link = "@identifier",
                 image = null,
+                lastMessage = "Hello!",
+                firstLetter = 'C',
+                lastMessageDateTime = "27 Mar"
             )
         },
-        {},
-        {},
-        {},
-        {},
+        firstNameLetter = 'G',
     )
 }
 

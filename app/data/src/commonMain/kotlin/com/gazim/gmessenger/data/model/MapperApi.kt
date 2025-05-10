@@ -48,16 +48,18 @@ fun User.toAPI() = UserAPI(id = id, nickname = nickname, username = username, ph
 
 fun IChatAPI.toDomain() =
     if (this is PrivateChatAPI) {
-        PrivateChat(id = id, title = title, user = user.toDomain())
+        PrivateChat(
+            id = id,
+            title = title,
+            user = user.toDomain(),
+            lastMessage = lastMessage?.toDomain()
+        )
     } else {
-        Chat(id = id, title = title)
-    }
-
-fun IChat.toAPI() =
-    if (this is PrivateChat) {
-        PrivateChatAPI(id = id, title = title, user = user.toAPI())
-    } else {
-        ChatAPI(id = id, title = title)
+        Chat(
+            id = id,
+            title = title,
+            lastMessage = lastMessage?.toDomain()
+        )
     }
 
 fun IMessageAPI.toDomain() =

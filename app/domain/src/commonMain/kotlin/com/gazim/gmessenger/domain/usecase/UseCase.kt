@@ -20,10 +20,6 @@ fun interface RegisterUseCase {
     suspend operator fun invoke(account: RegistrationForm): Result<Boolean>
 }
 
-fun interface GetOwnAccountUseCase {
-    suspend operator fun invoke(): Result<User>
-}
-
 fun interface FilterUsersUseCase {
     suspend operator fun invoke(query: String): Result<List<User>>
 }

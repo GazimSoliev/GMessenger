@@ -3,27 +3,26 @@
 package com.gazim.gmessenger.presentation.component
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AccountCircle
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.DoneAll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import com.gazim.gmessenger.domain.usecase.GetImageContentUseCase
 import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.decodeToImageBitmap
-import org.koin.compose.koinInject
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -31,57 +30,71 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun ChatItem(
-    chatName: String = "",
-    chatLink: String = "",
+    title: String = "",
+    link: String = "",
+    lastMessage: String = "",
     image: Uuid? = null,
-    onClickChat: () -> Unit,
+    firstNameLetter: Char = ' ',
+    lastMessageDateTime: String = "",
+    onClickChat: () -> Unit = {},
+    getImage: suspend (Uuid) -> Painter? = { null },
 ) {
-    var bitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+    var chatImage by remember { mutableStateOf<Painter?>(null) }
     if (image != null) {
-        val getImageContentUseCase = koinInject<GetImageContentUseCase>()
         LaunchedEffect(image) {
             launch(Dispatchers.IO) {
-                getImageContentUseCase(image).onSuccess {
-                    bitmap = it.decodeToImageBitmap()
-                }
+                chatImage = getImage(image) ?: return@launch
             }
         }
     }
-    ElevatedCard {
-        Row(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .clickable(onClick = onClickChat)
-                    .padding(16.dp)
-                    .height(IntrinsicSize.Min),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Surface(shape = CircleShape, modifier = Modifier.size(64.dp), border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline)) {
-                val imageBitmap = bitmap
-                if (imageBitmap != null) {
-                    Image(
-                        bitmap = imageBitmap,
-                        modifier = Modifier.fillMaxSize().blur(1.dp),
-                        contentScale = ContentScale.Crop,
-                        contentDescription = null,
-                    )
-                    Image(
-                        bitmap = imageBitmap,
-                        modifier = Modifier.fillMaxSize(),
-                        contentDescription = null,
-                    )
-                } else {
-                    Icon(
-                        imageVector = Icons.Rounded.AccountCircle,
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                }
+    val opacity = 0.8f
+    val modifierWithOpacity = Modifier.graphicsLayer {
+        alpha = opacity
+    }
+    Row(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .clickable(onClick = onClickChat)
+                .padding(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        ProfileIcon(
+            modifier = Modifier.padding(vertical = 4.dp),
+            image = chatImage,
+            firstNameLetter = firstNameLetter,
+        )
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.labelLarge
+                )
+                Text(
+                    modifier = modifierWithOpacity,
+                    text = lastMessageDateTime,
+                    style = MaterialTheme.typography.labelSmall
+                )
             }
-            Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceEvenly) {
-                Text(chatName)
-                Text(chatLink)
+            Row(
+                modifier = Modifier.fillMaxWidth().then(modifierWithOpacity),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = lastMessage,
+                    style = MaterialTheme.typography.labelSmall
+                )
+                Icon(
+                    modifier = Modifier.size(16.dp),
+                    imageVector = Icons.Default.DoneAll,
+                    contentDescription = null
+                )
             }
         }
     }
@@ -90,17 +103,28 @@ fun ChatItem(
 @Preview
 @Composable
 fun ChatItemPreview() {
-    Column {
-        ChatItem("Chat name", "@identifier") {}
-        Spacer(Modifier.height(32.dp))
-        ChatItem("Chat name", "") {}
+    Surface {
+        Column {
+            ChatItem(
+                title = "GMessenger",
+                link = "@gmessenger",
+                lastMessage = "Hello, how are you?",
+                firstNameLetter = 'G',
+                lastMessageDateTime = "27 Mar"
+            )
+            Spacer(Modifier.height(32.dp))
+            ChatItem(
+                title = "Messenger",
+                firstNameLetter = 'M',
+            )
+        }
     }
 }
 
 @Preview
 @Composable
 fun ChatItemPreviewWithTheme() {
-    GMessengerTheme {
+    GMessengerTheme(true) {
         ChatItemPreview()
     }
 }

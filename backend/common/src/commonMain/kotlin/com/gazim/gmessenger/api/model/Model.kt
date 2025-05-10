@@ -18,6 +18,7 @@ interface IMessage {
 sealed interface IChat {
     val id: Uuid
     val title: String
+    val lastMessage: Message?
 }
 
 interface Page<Key, Data> {

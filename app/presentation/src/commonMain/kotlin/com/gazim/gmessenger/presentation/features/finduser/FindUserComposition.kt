@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gazim.gmessenger.presentation.component.ChatItem
@@ -37,6 +38,7 @@ fun FindUserComposition(
     users: List<UserUI>,
     query: TextFieldValue,
     onQueryChange: (TextFieldValue) -> Unit,
+    getProfileImage: suspend (Uuid) -> Painter? = { null },
     createChat: (Uuid) -> Unit,
     back: () -> Unit,
 ) {
@@ -75,12 +77,12 @@ fun FindUserComposition(
             ) {
                 items(users) { user ->
                     ChatItem(
-                        chatName = user.nickname,
-                        chatLink = user.username,
+                        title = user.nickname,
+                        link = user.username,
                         image = user.photo?.id,
-                    ) {
-                        createChat(user.id)
-                    }
+                        getImage = getProfileImage,
+                        onClickChat = { createChat(user.id) },
+                    )
                 }
             }
         }

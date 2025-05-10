@@ -30,16 +30,16 @@ fun User.toAccountEntity() = AccountEntity[id.toJavaUuid()]
 
 fun Image.toImageEntity() = ImageEntity[id.toJavaUuid()]
 
-fun ChatEntity.toChat(): IChat = Chat(id = id.value.toKotlinUuid(), title = title)
+fun ChatEntity.toChat(lastMessage: MessageEntity?): IChat = Chat(id = id.value.toKotlinUuid(), title = title, lastMessage = lastMessage?.toMessage())
 
-fun ChatEntity.toPrivateChat(partner: AccountEntity): PrivateChat =
-    PrivateChat(id = id.value.toKotlinUuid(), title = title, user = partner.toUser())
+fun ChatEntity.toPrivateChat(partner: AccountEntity, lastMessage: MessageEntity?): PrivateChat =
+    PrivateChat(id = id.value.toKotlinUuid(), title = title, user = partner.toUser(), lastMessage = lastMessage?.toMessage())
 
-fun ChatEntity.toChat(currentUser: AccountEntity): IChat =
+fun ChatEntity.toChat(currentUser: AccountEntity, lastMessage: MessageEntity?): IChat =
     when (members.count().toInt()) {
-        1 -> toPrivateChat(currentUser)
-        2 -> toPrivateChat(members.single { it != currentUser })
-        else -> toChat()
+        1 -> toPrivateChat(partner = currentUser, lastMessage = lastMessage)
+        2 -> toPrivateChat(partner = members.single { it != currentUser }, lastMessage = lastMessage)
+        else -> toChat(lastMessage = lastMessage)
     }
 
 fun MessageEntity.toMessage() =

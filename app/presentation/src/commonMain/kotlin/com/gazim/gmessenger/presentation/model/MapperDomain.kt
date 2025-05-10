@@ -3,10 +3,13 @@
 package com.gazim.gmessenger.presentation.model
 
 import com.gazim.gmessenger.domain.model.*
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format.char
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 fun User.toUI() =
     UserUI(
@@ -39,25 +42,51 @@ fun IMessage.toUI(timeZone: TimeZone = TimeZone.currentSystemDefault()) =
 
 fun Iterable<IMessage>.toUI(timeZone: TimeZone = TimeZone.currentSystemDefault()) = map { it.toUI(timeZone) }
 
-fun IChat.toUI() =
+// TODO
+val messageSentAtFormatter by lazy { LocalDateTime.Format {
+    hour()
+    char(':')
+    minute()
+    char(' ')
+    dayOfMonth()
+    char('.')
+    monthNumber()
+    char('.')
+    year()
+} }
+
+fun IChat.toUI(
+    timeZone: TimeZone = TimeZone.currentSystemDefault()
+): ChatUI {
+    val title: String
+    val link: String
+    val image: Uuid?
     if (this is PrivateChat) {
-        PrivateChatUI(
-            identifier = id,
-            title = title,
-            chatName = user.nickname,
-            chatLink = "@${user.username}",
-            user = user.toUI(),
-            image = user.photo?.id,
-        )
+        title = user.nickname
+        link = "@${user.username}"
+        image = user.photo?.id
     } else {
-        ConversationUI(
-            identifier = id,
-            title = title,
-            chatName = title,
-            chatLink = "",
-            image = null,
-        )
+        title = this@toUI.title
+        link = ""
+        image = null
     }
+    val lastMessageSentAt =  lastMessage?.sentAt?.toInstant(TimeZone.UTC)?.toLocalDateTime(timeZone)
+    return ChatUI(
+        identifier = id,
+        title = title,
+        link = link,
+        image = image,
+        firstLetter = title.firstOrNull()?.uppercaseChar() ?: ' ',
+        lastMessage = lastMessage?.message ?: "",
+        lastMessageDateTime = lastMessageSentAt?.let { messageSentAtFormatter.format(it) } ?: ""
+    )
+}
+
+fun List<IChat>.toUI(
+    timeZone: TimeZone = TimeZone.currentSystemDefault()
+): List<ChatUI> = map { chat ->
+    chat.toUI(timeZone)
+}
 
 fun ImageUI.toDomain() =
     Image(
@@ -72,20 +101,6 @@ fun UserUI.toDomain() =
         username = username,
         photo = photo?.toDomain(),
     )
-
-fun ChatUI.toDomain() =
-    if (this is PrivateChatUI) {
-        PrivateChat(
-            id = identifier,
-            title = title,
-            user = user.toDomain(),
-        )
-    } else {
-        Chat(
-            id = identifier,
-            title = title,
-        )
-    }
 
 fun List<GMessengerServer>.toUI() =
     mapIndexed { i, it ->
