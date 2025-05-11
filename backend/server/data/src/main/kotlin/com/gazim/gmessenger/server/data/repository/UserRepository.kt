@@ -1,15 +1,16 @@
 package com.gazim.gmessenger.server.data.repository
 
+import com.gazim.gmessenger.server.domain.model.ProfileForm
+import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.data.database.GMessengerDatabase.dbQuery
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.ImageEntity
 import com.gazim.gmessenger.server.data.database.model.ProfilePhotoEntity
 import com.gazim.gmessenger.server.data.database.model.TokenEntity
 import com.gazim.gmessenger.server.data.database.table.AccountTable
-import com.gazim.gmessenger.server.data.extensions.nowInUTC
+import com.gazim.gmessenger.server.data.extensions.get
+import com.gazim.gmessenger.server.domain.extensions.nowInUTC
 import com.gazim.gmessenger.server.data.mapper.toUser
-import com.gazim.gmessenger.server.domain.model.ProfileForm
-import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.IUserRepository
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -42,7 +43,7 @@ class UserRepository : IUserRepository {
 
     override suspend fun getUser(tokenId: Uuid): User =
         dbQuery {
-            TokenEntity[tokenId.toJavaUuid()].account.toUser()
+            TokenEntity[tokenId].account.toUser()
         }
 
     override suspend fun editProfile(

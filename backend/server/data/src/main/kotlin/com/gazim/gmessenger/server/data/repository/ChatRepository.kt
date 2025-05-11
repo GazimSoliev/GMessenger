@@ -1,5 +1,7 @@
 package com.gazim.gmessenger.server.data.repository
 
+import com.gazim.gmessenger.server.domain.model.IChat
+import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.data.database.GMessengerDatabase.dbQuery
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.ChatAccountEntity
@@ -8,16 +10,14 @@ import com.gazim.gmessenger.server.data.database.model.MessageEntity
 import com.gazim.gmessenger.server.data.database.table.AccountTable
 import com.gazim.gmessenger.server.data.database.table.ChatAccountTable
 import com.gazim.gmessenger.server.data.database.table.MessageTable
+import com.gazim.gmessenger.server.data.extensions.get
+import com.gazim.gmessenger.server.domain.extensions.nowInUTC
 import com.gazim.gmessenger.server.data.mapper.toChat
 import com.gazim.gmessenger.server.data.mapper.toUser
-import com.gazim.gmessenger.server.domain.model.IChat
-import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.IChatRepository
 import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toJavaUuid
@@ -26,7 +26,7 @@ import kotlin.uuid.toJavaUuid
 class ChatRepository : IChatRepository {
     override suspend fun getChats(userId: Uuid): List<IChat> =
         dbQuery {
-            val accountEntity = AccountEntity[userId.toJavaUuid()]
+            val accountEntity = AccountEntity[userId]
             accountEntity.chats.map { chatEntity ->
                 val lastMessage = chatEntity.getLastMessage()
                 chatEntity.toChat(currentUser = accountEntity, lastMessage = lastMessage)
@@ -53,14 +53,14 @@ class ChatRepository : IChatRepository {
             if (accounts.count().toInt() != userIds.count()) return@dbQuery null
             val chat =
                 ChatEntity.new {
-                    title = userIds.joinToString { AccountEntity[it.toJavaUuid()].username }
-                    createdAt = LocalDateTime.now(ZoneOffset.UTC)
+                    title = userIds.joinToString { AccountEntity[it].username }
+                    createdAt = nowInUTC()
                 }
             accounts.forEach {
                 ChatAccountEntity.new {
                     account = it
                     chatEntity = chat
-                    createdAt = LocalDateTime.now(ZoneOffset.UTC)
+                    createdAt = nowInUTC()
                 }
             }
             return@dbQuery chat.toChat(lastMessage = null)

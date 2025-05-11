@@ -1,8 +1,7 @@
 package com.gazim.gmessenger.server.domain.model
 
-data class RegistrationForm(
+
+data class ProfileForm(
     val nickname: String,
     val username: String,
-    val login: String,
-    val password: String,
 )

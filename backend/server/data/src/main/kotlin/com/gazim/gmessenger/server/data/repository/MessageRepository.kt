@@ -1,18 +1,18 @@
 package com.gazim.gmessenger.server.data.repository
 
+import com.gazim.gmessenger.server.domain.model.Message
+import com.gazim.gmessenger.server.domain.model.MessageForm
 import com.gazim.gmessenger.server.data.database.GMessengerDatabase.dbQuery
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.ChatEntity
 import com.gazim.gmessenger.server.data.database.model.MessageEntity
 import com.gazim.gmessenger.server.data.database.table.MessageTable
+import com.gazim.gmessenger.server.domain.extensions.nowInUTC
 import com.gazim.gmessenger.server.data.mapper.toMessage
-import com.gazim.gmessenger.server.domain.model.Message
-import com.gazim.gmessenger.server.domain.model.MessageForm
 import com.gazim.gmessenger.server.domain.repository.IMessageRepository
+import kotlinx.datetime.LocalDateTime
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toJavaUuid
@@ -30,7 +30,7 @@ class MessageRepository : IMessageRepository {
                     chatEntity = ChatEntity[chatId.toJavaUuid()]
                     this.message = message.message
                     account = AccountEntity[userId.toJavaUuid()]
-                    sentAt = LocalDateTime.now(ZoneOffset.UTC)
+                    sentAt = nowInUTC()
                 }.toMessage()
         }
 

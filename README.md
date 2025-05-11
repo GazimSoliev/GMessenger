@@ -19,4 +19,4 @@ TODO:
 9. Voice messages
 10. Use Docker
 11. Rename models
-12. Make common models for server, api, and client
+12. Move logic from repository to Service in server application
