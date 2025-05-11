@@ -46,8 +46,6 @@ interface GetMessageFlowUseCase {
 interface LoginUseCase {
     suspend operator fun invoke(
         loginPassword: AuthenticationForm,
-        createdAt: LocalDateTime,
-        expiredAt: LocalDateTime,
     ): Token?
 }
 

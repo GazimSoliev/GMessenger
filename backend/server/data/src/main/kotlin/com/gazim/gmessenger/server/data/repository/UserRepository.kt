@@ -17,7 +17,7 @@ import kotlin.uuid.Uuid
 import kotlin.uuid.toJavaUuid
 
 @OptIn(ExperimentalUuidApi::class)
-class UserRepository : IUserRepository {
+class IUserRepositoryImpl : IUserRepository {
 //    override suspend fun insert(user: User): Boolean {
 //        dbQuery {
 //            AccountEntity.new {

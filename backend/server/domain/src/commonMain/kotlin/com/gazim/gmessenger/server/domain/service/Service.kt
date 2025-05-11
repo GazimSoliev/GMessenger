@@ -14,7 +14,6 @@ import com.gazim.gmessenger.server.domain.model.RegistrationForm
 import com.gazim.gmessenger.server.domain.model.Token
 import com.gazim.gmessenger.server.domain.model.User
 import kotlinx.coroutines.flow.Flow
-import kotlinx.datetime.LocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -35,11 +34,9 @@ interface IUserService {
     ): Image
 }
 
-interface IAuthorizationService {
+interface AuthorizationService {
     suspend fun login(
         loginPassword: AuthenticationForm,
-        createdAt: LocalDateTime,
-        expiredAt: LocalDateTime,
     ): Token?
 
     suspend fun register(account: RegistrationForm): Boolean
@@ -92,4 +89,8 @@ interface FileService {
         type: String,
         content: ByteArray,
     ): Image
+}
+
+interface SHA256Service {
+    fun encode(bytes: ByteArray): ByteArray
 }
