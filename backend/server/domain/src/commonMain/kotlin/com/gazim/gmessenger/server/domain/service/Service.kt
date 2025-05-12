@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-interface IUserService {
+interface UserService {
     suspend fun findUser(username: String): List<User>
 
     suspend fun getUser(tokenId: Uuid): User

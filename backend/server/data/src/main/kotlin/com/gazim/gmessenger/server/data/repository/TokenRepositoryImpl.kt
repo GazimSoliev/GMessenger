@@ -30,4 +30,7 @@ class TokenRepositoryImpl : TokenRepository {
             expiredAt = tokenEntity.expiredAt.toInstant(TimeZone.UTC),
         )
     }
+
+    override suspend fun getUserId(tokenId: Uuid) =
+        TokenEntity[tokenId].account.id.value.toKotlinUuid()
 }

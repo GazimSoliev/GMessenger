@@ -2,11 +2,12 @@
 
 package com.gazim.gmessenger.server.domain.repository
 
+import com.gazim.gmessenger.server.domain.model.Image
 import com.gazim.gmessenger.server.domain.model.Token
+import com.gazim.gmessenger.server.domain.model.User
 import kotlinx.datetime.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-
 
 
 interface UserRepository {
@@ -22,6 +23,24 @@ interface UserRepository {
         login: ByteArray,
         password: ByteArray
     ): Uuid?
+
+    suspend fun findByUsername(
+        username: String,
+        limit: Int,
+    ): List<User>
+
+    suspend fun editProfile(
+        userId: Uuid,
+        nickname: String,
+        username: String,
+    )
+
+    suspend fun setProfilePhoto(
+        userId: Uuid,
+        imageId: Uuid,
+    )
+
+    suspend fun getUserById(userId: Uuid): User
 }
 
 interface LoginRepository {
@@ -46,4 +65,17 @@ interface TokenRepository {
         expiredAt: Instant,
         userId: Uuid,
     ) : Token
+
+    suspend fun getUserId(tokenId: Uuid): Uuid
+}
+
+interface FileRepository {
+    suspend fun getBase64Image(photoId: Uuid): String
+
+    suspend fun uploadAndGetImage(
+        userId: Uuid,
+        type: String,
+        base64Image: String,
+        createdAt: Instant
+    ): Image
 }

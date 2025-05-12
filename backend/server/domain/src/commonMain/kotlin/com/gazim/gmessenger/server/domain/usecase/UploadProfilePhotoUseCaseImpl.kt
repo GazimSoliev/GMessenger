@@ -1,13 +1,13 @@
 package com.gazim.gmessenger.server.domain.usecase
 
 import com.gazim.gmessenger.server.domain.model.Image
-import com.gazim.gmessenger.server.domain.service.UserService
+import com.gazim.gmessenger.server.domain.service.UserServiceImpl
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
 class UploadProfilePhotoUseCaseImpl(
-    private val userService: UserService,
+    private val userService: UserServiceImpl,
 ) : UploadProfilePhotoUseCase {
     override suspend fun invoke(
         userId: Uuid,

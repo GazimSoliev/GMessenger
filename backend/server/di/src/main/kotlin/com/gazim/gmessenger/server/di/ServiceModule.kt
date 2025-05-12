@@ -11,7 +11,7 @@ val serviceModule =
         singleOf(::AuthorizationServiceImpl) bind AuthorizationService::class
         singleOf(::ChatService) bind IChatService::class
         singleOf(::MessagingService) bind IMessagingService::class
-        singleOf(::UserService) bind IUserService::class
+        singleOf(::UserServiceImpl) bind UserService::class
         singleOf(::FileServiceImpl) bind FileService::class
         singleOf(::SHA256ServiceImpl) bind SHA256Service::class
     }

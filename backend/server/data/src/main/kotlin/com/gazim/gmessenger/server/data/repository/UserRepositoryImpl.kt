@@ -1,9 +1,17 @@
 package com.gazim.gmessenger.server.data.repository
 
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
+import com.gazim.gmessenger.server.data.database.model.ImageEntity
+import com.gazim.gmessenger.server.data.database.model.ProfilePhotoEntity
+import com.gazim.gmessenger.server.data.database.model.TokenEntity
 import com.gazim.gmessenger.server.data.database.table.AccountTable
 import com.gazim.gmessenger.server.data.database.table.LoginTable
 import com.gazim.gmessenger.server.data.database.table.PasswordTable
+import com.gazim.gmessenger.server.data.extensions.get
+import com.gazim.gmessenger.server.data.mapper.toUser
+import com.gazim.gmessenger.server.domain.extensions.nowInUTC
+import com.gazim.gmessenger.server.domain.model.ProfileForm
+import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.UserRepository
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -47,4 +55,39 @@ class UserRepositoryImpl : UserRepository {
         ?.let { resultRow ->
             resultRow[AccountTable.id].value.toKotlinUuid()
         }
+
+    override suspend fun findByUsername(
+        username: String,
+        limit: Int,
+    ) = AccountEntity
+        .find {
+            AccountTable.username like "%$username%"
+        }.limit(limit)
+        .map(AccountEntity::toUser)
+
+    override suspend fun editProfile(
+        userId: Uuid,
+        nickname: String,
+        username: String
+    ) {
+        val account = AccountEntity[userId]
+        account.nickname = nickname
+        account.username = username
+    }
+
+    override suspend fun setProfilePhoto(
+        userId: Uuid,
+        imageId: Uuid,
+    ) {
+        val accountEntity = AccountEntity[userId]
+        val imageEntity = ImageEntity[imageId]
+        ProfilePhotoEntity.new {
+            this.account = accountEntity
+            this.image = imageEntity
+            createdAt = nowInUTC()
+        }
+    }
+
+    override suspend fun getUserById(userId: Uuid) =
+        AccountEntity[userId].toUser()
 }

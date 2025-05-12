@@ -3,35 +3,12 @@
 package com.gazim.gmessenger.server.domain.repository
 
 import com.gazim.gmessenger.server.domain.model.IChat
-import com.gazim.gmessenger.server.domain.model.Image
 import com.gazim.gmessenger.server.domain.model.Message
 import com.gazim.gmessenger.server.domain.model.MessageForm
-import com.gazim.gmessenger.server.domain.model.ProfileForm
 import com.gazim.gmessenger.server.domain.model.User
 import kotlinx.datetime.LocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-
-interface IUserRepository {
-//    suspend fun insert(user: User): Boolean
-
-    suspend fun findByUsername(
-        username: String,
-        limit: Int,
-    ): List<User>
-
-    suspend fun getUser(tokenId: Uuid): User
-
-    suspend fun editProfile(
-        userId: Uuid,
-        profileForm: ProfileForm,
-    )
-
-    suspend fun setProfilePhoto(
-        userId: Uuid,
-        imageId: Uuid,
-    )
-}
 
 interface IChatRepository {
     suspend fun getChats(userId: Uuid): List<IChat>
@@ -80,12 +57,3 @@ interface IMessageRepository {
     ): LocalDateTime?
 }
 
-interface FileRepository {
-    suspend fun getImageContent(photoId: Uuid): ByteArray
-
-    suspend fun uploadImage(
-        userId: Uuid,
-        type: String,
-        content: ByteArray,
-    ): Image
-}

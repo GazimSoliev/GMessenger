@@ -11,7 +11,6 @@ val repositoryModule =
         singleOf(::DatabaseTransactionImpl) bind DatabaseTransaction::class
         singleOf(::ChatRepository) bind IChatRepository::class
         singleOf(::MessageRepository) bind IMessageRepository::class
-        singleOf(::IUserRepositoryImpl) bind IUserRepository::class
         singleOf(::FileRepositoryImpl) bind FileRepository::class
         singleOf(::LoginRepositoryImpl) bind LoginRepository::class
         singleOf(::PasswordRepositoryImpl) bind PasswordRepository::class
