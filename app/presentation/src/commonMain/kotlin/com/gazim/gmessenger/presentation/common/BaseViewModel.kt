@@ -20,7 +20,7 @@ abstract class BaseViewModel<STATE : IState, SIDE_EFFECT : ISideEffect, ACTION :
     fun container(
         initialState: STATE,
         buildSettings: SettingsBuilder.() -> Unit = {},
-        onCreate: (suspend Syntax<STATE, SIDE_EFFECT>.() -> Unit)? = null
+        onCreate: (suspend Syntax<STATE, SIDE_EFFECT>.() -> Unit)? = null,
     ) = viewModelScope.container<STATE, SIDE_EFFECT>(
         initialState = initialState,
         buildSettings = buildSettings,

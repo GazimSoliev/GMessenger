@@ -1,13 +1,13 @@
 package com.gazim.gmessenger.server.domain.usecase
 
 import com.gazim.gmessenger.server.domain.model.IChat
-import com.gazim.gmessenger.server.domain.service.IChatService
+import com.gazim.gmessenger.server.domain.service.ChatService
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
 class CreateChatUseCaseImpl(
-    private val chatService: IChatService,
+    private val chatService: ChatService,
 ) : CreateChatUseCase {
     override suspend fun invoke(
         ownerId: Uuid,

@@ -7,13 +7,9 @@ import com.gazim.gmessenger.api.NotificationSocket
 import com.gazim.gmessenger.api.model.MessageForm
 import com.gazim.gmessenger.api.model.MessageNotification
 import com.gazim.gmessenger.domain.model.*
-import com.gazim.gmessenger.domain.model.IMessage
-import com.gazim.gmessenger.domain.model.MessagePageKey
-import com.gazim.gmessenger.domain.model.ProfileForm
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.uuid.ExperimentalUuidApi
-import com.gazim.gmessenger.api.model.Chat as ChatAPI
 import com.gazim.gmessenger.api.model.GMessengerServer as GMessengerServerAPI
 import com.gazim.gmessenger.api.model.IChat as IChatAPI
 import com.gazim.gmessenger.api.model.IMessage as IMessageAPI
@@ -52,13 +48,13 @@ fun IChatAPI.toDomain() =
             id = id,
             title = title,
             user = user.toDomain(),
-            lastMessage = lastMessage?.toDomain()
+            lastMessage = lastMessage?.toDomain(),
         )
     } else {
         Chat(
             id = id,
             title = title,
-            lastMessage = lastMessage?.toDomain()
+            lastMessage = lastMessage?.toDomain(),
         )
     }
 

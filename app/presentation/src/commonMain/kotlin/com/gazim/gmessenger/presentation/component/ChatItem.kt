@@ -48,9 +48,10 @@ fun ChatItem(
         }
     }
     val opacity = 0.8f
-    val modifierWithOpacity = Modifier.graphicsLayer {
-        alpha = opacity
-    }
+    val modifierWithOpacity =
+        Modifier.graphicsLayer {
+            alpha = opacity
+        }
     Row(
         modifier =
             Modifier
@@ -69,31 +70,31 @@ fun ChatItem(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.labelLarge,
                 )
                 Text(
                     modifier = modifierWithOpacity,
                     text = lastMessageDateTime,
-                    style = MaterialTheme.typography.labelSmall
+                    style = MaterialTheme.typography.labelSmall,
                 )
             }
             Row(
                 modifier = Modifier.fillMaxWidth().then(modifierWithOpacity),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = lastMessage,
-                    style = MaterialTheme.typography.labelSmall
+                    style = MaterialTheme.typography.labelSmall,
                 )
                 Icon(
                     modifier = Modifier.size(16.dp),
                     imageVector = Icons.Default.DoneAll,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
         }
@@ -110,7 +111,7 @@ fun ChatItemPreview() {
                 link = "@gmessenger",
                 lastMessage = "Hello, how are you?",
                 firstNameLetter = 'G',
-                lastMessageDateTime = "27 Mar"
+                lastMessageDateTime = "27 Mar",
             )
             Spacer(Modifier.height(32.dp))
             ChatItem(

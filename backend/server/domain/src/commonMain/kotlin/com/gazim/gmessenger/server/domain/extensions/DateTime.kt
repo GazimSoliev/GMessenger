@@ -4,5 +4,4 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-
 fun nowInUTC() = Clock.System.now().toLocalDateTime(TimeZone.UTC)

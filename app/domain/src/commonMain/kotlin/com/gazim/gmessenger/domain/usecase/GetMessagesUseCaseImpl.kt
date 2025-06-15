@@ -1,6 +1,5 @@
 package com.gazim.gmessenger.domain.usecase
 
-import com.gazim.gmessenger.domain.model.IChat
 import com.gazim.gmessenger.domain.model.MessagePageKey
 import com.gazim.gmessenger.domain.service.GMessengerSessionService
 import kotlin.uuid.ExperimentalUuidApi

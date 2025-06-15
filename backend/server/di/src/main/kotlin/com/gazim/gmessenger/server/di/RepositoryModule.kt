@@ -8,9 +8,12 @@ import org.koin.dsl.module
 
 val repositoryModule =
     module {
-        singleOf(::ChatRepository) bind IChatRepository::class
-        singleOf(::LoginRegisterRepository) bind ILoginRegisterRepository::class
-        singleOf(::MessageRepository) bind IMessageRepository::class
-        singleOf(::UserRepository) bind IUserRepository::class
+        singleOf(::DatabaseTransactionImpl) bind DatabaseTransaction::class
+        singleOf(::ChatRepositoryImpl) bind ChatRepository::class
+        singleOf(::MessageRepositoryImpl) bind MessageRepository::class
         singleOf(::FileRepositoryImpl) bind FileRepository::class
+        singleOf(::LoginRepositoryImpl) bind LoginRepository::class
+        singleOf(::PasswordRepositoryImpl) bind PasswordRepository::class
+        singleOf(::TokenRepositoryImpl) bind TokenRepository::class
+        singleOf(::UserRepositoryImpl) bind UserRepository::class
     }

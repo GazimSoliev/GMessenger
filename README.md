@@ -19,4 +19,7 @@ TODO:
 9. Voice messages
 10. Use Docker
 11. Rename models
-12. Move logic from repository to Service in server application
+12. Replace all LocalDateTime to Instant
+13. Maybe rename database entities
+14. Add get chats by last message sorting
+15. Remove last message from Chat entity

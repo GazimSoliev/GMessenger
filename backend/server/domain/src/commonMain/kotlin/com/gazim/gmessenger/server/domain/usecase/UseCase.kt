@@ -2,19 +2,8 @@
 
 package com.gazim.gmessenger.server.domain.usecase
 
-import com.gazim.gmessenger.server.domain.model.AuthenticationForm
-import com.gazim.gmessenger.server.domain.model.IChat
-import com.gazim.gmessenger.server.domain.model.Image
-import com.gazim.gmessenger.server.domain.model.Message
-import com.gazim.gmessenger.server.domain.model.MessageForm
-import com.gazim.gmessenger.server.domain.model.MessagePage
-import com.gazim.gmessenger.server.domain.model.MessagePageKey
-import com.gazim.gmessenger.server.domain.model.ProfileForm
-import com.gazim.gmessenger.server.domain.model.RegistrationForm
-import com.gazim.gmessenger.server.domain.model.Token
-import com.gazim.gmessenger.server.domain.model.User
+import com.gazim.gmessenger.server.domain.model.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.datetime.LocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -44,11 +33,7 @@ interface GetMessageFlowUseCase {
 }
 
 interface LoginUseCase {
-    suspend operator fun invoke(
-        loginPassword: AuthenticationForm,
-        createdAt: LocalDateTime,
-        expiredAt: LocalDateTime,
-    ): Token?
+    suspend operator fun invoke(loginPassword: AuthenticationForm): Token?
 }
 
 interface RegisterUseCase {

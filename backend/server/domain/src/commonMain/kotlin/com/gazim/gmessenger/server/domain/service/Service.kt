@@ -2,23 +2,12 @@
 
 package com.gazim.gmessenger.server.domain.service
 
-import com.gazim.gmessenger.server.domain.model.AuthenticationForm
-import com.gazim.gmessenger.server.domain.model.IChat
-import com.gazim.gmessenger.server.domain.model.Image
-import com.gazim.gmessenger.server.domain.model.Message
-import com.gazim.gmessenger.server.domain.model.MessageForm
-import com.gazim.gmessenger.server.domain.model.MessagePage
-import com.gazim.gmessenger.server.domain.model.MessagePageKey
-import com.gazim.gmessenger.server.domain.model.ProfileForm
-import com.gazim.gmessenger.server.domain.model.RegistrationForm
-import com.gazim.gmessenger.server.domain.model.Token
-import com.gazim.gmessenger.server.domain.model.User
+import com.gazim.gmessenger.server.domain.model.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.datetime.LocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-interface IUserService {
+interface UserService {
     suspend fun findUser(username: String): List<User>
 
     suspend fun getUser(tokenId: Uuid): User
@@ -35,21 +24,17 @@ interface IUserService {
     ): Image
 }
 
-interface IAuthorizationService {
-    suspend fun login(
-        loginPassword: AuthenticationForm,
-        createdAt: LocalDateTime,
-        expiredAt: LocalDateTime,
-    ): Token?
+interface AuthorizationService {
+    suspend fun login(loginPassword: AuthenticationForm): Token?
 
     suspend fun register(account: RegistrationForm): Boolean
 }
 
-interface IChatService {
+interface ChatService {
     suspend fun getChats(
         userId: Uuid,
-        limit: Int = 64,
-        startFrom: Long? = null,
+        size: Int,
+        page: Int,
     ): List<IChat>
 
     suspend fun getMembers(
@@ -65,7 +50,7 @@ interface IChatService {
     ): IChat?
 }
 
-interface IMessagingService {
+interface MessagingService {
     suspend fun sendMessage(
         userId: Uuid,
         chatId: Uuid,
@@ -92,4 +77,8 @@ interface FileService {
         type: String,
         content: ByteArray,
     ): Image
+}
+
+interface SHA256Service {
+    fun encode(bytes: ByteArray): ByteArray
 }
