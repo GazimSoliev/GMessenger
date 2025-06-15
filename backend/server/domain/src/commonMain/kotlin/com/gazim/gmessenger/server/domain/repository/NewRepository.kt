@@ -2,6 +2,7 @@
 
 package com.gazim.gmessenger.server.domain.repository
 
+import com.gazim.gmessenger.server.domain.model.IChat
 import com.gazim.gmessenger.server.domain.model.Image
 import com.gazim.gmessenger.server.domain.model.Token
 import com.gazim.gmessenger.server.domain.model.User
@@ -78,4 +79,31 @@ interface FileRepository {
         base64Image: String,
         createdAt: Instant
     ): Image
+}
+
+interface ChatRepository {
+    suspend fun getChatsByUser(
+        userId: Uuid,
+        size: Int,
+        page: Int,
+    ): List<IChat>
+
+    suspend fun getMembers(chatId: Uuid): List<User>
+
+    suspend fun createChat(
+        title: String,
+        createdAt: Instant,
+    ): IChat?
+
+    suspend fun getChat(chatId: Uuid): IChat?
+
+    suspend fun existInChat(
+        userId: Uuid,
+        chatId: Uuid,
+    ): Boolean
+
+    suspend fun addUserInChat(
+        userId: Uuid,
+        chatId: Uuid
+    )
 }

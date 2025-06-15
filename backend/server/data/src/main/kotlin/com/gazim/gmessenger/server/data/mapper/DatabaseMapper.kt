@@ -47,9 +47,9 @@ fun ChatEntity.toPrivateChat(partner: AccountEntity, lastMessage: MessageEntity?
     )
 
 fun ChatEntity.toChat(currentUser: AccountEntity, lastMessage: MessageEntity?): IChat =
-    when (members.count().toInt()) {
-        1 -> toPrivateChat(partner = currentUser, lastMessage = lastMessage)
-        2 -> toPrivateChat(partner = members.single { it != currentUser }, lastMessage = lastMessage)
+    when (members.count()) {
+        1L -> toPrivateChat(partner = currentUser, lastMessage = lastMessage)
+        2L -> toPrivateChat(partner = members.single { it != currentUser }, lastMessage = lastMessage)
         else -> toChat(lastMessage = lastMessage)
     }
 

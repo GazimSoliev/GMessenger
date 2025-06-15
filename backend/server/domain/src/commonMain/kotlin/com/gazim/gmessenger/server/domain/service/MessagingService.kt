@@ -1,12 +1,14 @@
 package com.gazim.gmessenger.server.domain.service
 
+import com.gazim.gmessenger.server.domain.extensions.nowInUTC
 import com.gazim.gmessenger.server.domain.model.Message
 import com.gazim.gmessenger.server.domain.model.MessageForm
 import com.gazim.gmessenger.server.domain.model.MessagePage
 import com.gazim.gmessenger.server.domain.model.MessagePageKey
-import com.gazim.gmessenger.server.domain.extensions.nowInUTC
-import com.gazim.gmessenger.server.domain.repository.IChatRepository
+import com.gazim.gmessenger.server.domain.repository.ChatRepository
+import com.gazim.gmessenger.server.domain.repository.DatabaseTransaction
 import com.gazim.gmessenger.server.domain.repository.IMessageRepository
+import com.gazim.gmessenger.server.domain.repository.invoke
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -17,7 +19,8 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 class MessagingService(
     private val messageRepository: IMessageRepository,
-    private val chatRepository: IChatRepository,
+    private val chatRepository: ChatRepository,
+    private val databaseTransaction: DatabaseTransaction
 ) : IMessagingService {
     private val chatsFlow = mutableMapOf<Uuid, MutableSharedFlow<Message>>()
 
@@ -40,7 +43,13 @@ class MessagingService(
         chatId: Uuid,
         key: MessagePageKey?,
     ): MessagePage {
-        if (!chatRepository.existInChat(userId, chatId)) return MessagePage(emptyList())
+        val existInChat = databaseTransaction {
+            chatRepository.existInChat(
+                userId = userId,
+                chatId = chatId
+            )
+        }
+        if (!existInChat) return MessagePage(emptyList())
         val start: LocalDateTime
         val end: LocalDateTime?
         if (key != null) {
@@ -70,14 +79,13 @@ class MessagingService(
         userId: Uuid,
         chatId: Uuid,
     ): Flow<Message>? {
-        if (
-            !chatRepository.existInChat(
+        val existInChat = databaseTransaction {
+            chatRepository.existInChat(
                 userId = userId,
-                chatId = chatId,
+                chatId = chatId
             )
-        ) {
-            return null
         }
+        if (!existInChat) return null
         val flow = chatsFlow[chatId] ?: MutableSharedFlow<Message>().also { chatsFlow[chatId] = it }
         return flow.asSharedFlow()
     }

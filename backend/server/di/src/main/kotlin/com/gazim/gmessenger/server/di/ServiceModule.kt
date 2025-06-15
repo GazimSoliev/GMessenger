@@ -9,7 +9,7 @@ import org.koin.dsl.module
 val serviceModule =
     module {
         singleOf(::AuthorizationServiceImpl) bind AuthorizationService::class
-        singleOf(::ChatService) bind IChatService::class
+        singleOf(::ChatServiceImpl) bind ChatService::class
         singleOf(::MessagingService) bind IMessagingService::class
         singleOf(::UserServiceImpl) bind UserService::class
         singleOf(::FileServiceImpl) bind FileService::class

@@ -42,11 +42,11 @@ interface AuthorizationService {
     suspend fun register(account: RegistrationForm): Boolean
 }
 
-interface IChatService {
+interface ChatService {
     suspend fun getChats(
         userId: Uuid,
-        limit: Int = 64,
-        startFrom: Long? = null,
+        size: Int,
+        page: Int
     ): List<IChat>
 
     suspend fun getMembers(
