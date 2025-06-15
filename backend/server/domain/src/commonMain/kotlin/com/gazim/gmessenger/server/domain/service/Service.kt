@@ -62,7 +62,7 @@ interface ChatService {
     ): IChat?
 }
 
-interface IMessagingService {
+interface MessagingService {
     suspend fun sendMessage(
         userId: Uuid,
         chatId: Uuid,

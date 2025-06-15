@@ -10,7 +10,7 @@ val repositoryModule =
     module {
         singleOf(::DatabaseTransactionImpl) bind DatabaseTransaction::class
         singleOf(::ChatRepositoryImpl) bind ChatRepository::class
-        singleOf(::MessageRepository) bind IMessageRepository::class
+        singleOf(::MessageRepositoryImpl) bind MessageRepository::class
         singleOf(::FileRepositoryImpl) bind FileRepository::class
         singleOf(::LoginRepositoryImpl) bind LoginRepository::class
         singleOf(::PasswordRepositoryImpl) bind PasswordRepository::class

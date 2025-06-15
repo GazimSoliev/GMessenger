@@ -4,6 +4,7 @@ package com.gazim.gmessenger.server.domain.repository
 
 import com.gazim.gmessenger.server.domain.model.IChat
 import com.gazim.gmessenger.server.domain.model.Image
+import com.gazim.gmessenger.server.domain.model.Message
 import com.gazim.gmessenger.server.domain.model.Token
 import com.gazim.gmessenger.server.domain.model.User
 import kotlinx.datetime.Instant
@@ -106,4 +107,32 @@ interface ChatRepository {
         userId: Uuid,
         chatId: Uuid
     )
+}
+
+
+interface MessageRepository {
+    suspend fun sendMessage(
+        userId: Uuid,
+        chatId: Uuid,
+        message: String,
+        sentAt: Instant,
+    ): Message
+
+    suspend fun getMessages(
+        chatId: Uuid,
+        start: Instant,
+        end: Instant,
+    ): List<Message>
+
+    suspend fun nextPage(
+        chatId: Uuid,
+        offset: Long,
+        start: Instant,
+    ): Instant?
+
+    suspend fun prevPage(
+        chatId: Uuid,
+        offset: Long,
+        end: Instant,
+    ): Instant?
 }

@@ -10,7 +10,7 @@ val serviceModule =
     module {
         singleOf(::AuthorizationServiceImpl) bind AuthorizationService::class
         singleOf(::ChatServiceImpl) bind ChatService::class
-        singleOf(::MessagingService) bind IMessagingService::class
+        singleOf(::MessagingServiceImpl) bind MessagingService::class
         singleOf(::UserServiceImpl) bind UserService::class
         singleOf(::FileServiceImpl) bind FileService::class
         singleOf(::SHA256ServiceImpl) bind SHA256Service::class
