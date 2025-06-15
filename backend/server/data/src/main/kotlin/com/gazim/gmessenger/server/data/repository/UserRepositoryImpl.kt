@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.data.repository
 
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
@@ -8,17 +10,13 @@ import com.gazim.gmessenger.server.data.database.table.LoginTable
 import com.gazim.gmessenger.server.data.database.table.PasswordTable
 import com.gazim.gmessenger.server.data.extensions.get
 import com.gazim.gmessenger.server.data.mapper.toUser
-import com.gazim.gmessenger.server.domain.extensions.nowInUTC
 import com.gazim.gmessenger.server.domain.repository.UserRepository
 import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.exposed.sql.and
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toKotlinUuid
 
-@OptIn(ExperimentalUuidApi::class)
 class UserRepositoryImpl : UserRepository {
     override suspend fun insertAndGetId(
         nickname: String,
@@ -29,7 +27,7 @@ class UserRepositoryImpl : UserRepository {
             AccountEntity.new {
                 this.nickname = nickname
                 this.username = username
-                this.createdAt = createdAt.toLocalDateTime(TimeZone.UTC)
+                this.createdAt = createdAt
             }
         return accountEntity.id.value.toKotlinUuid()
     }
@@ -75,13 +73,14 @@ class UserRepositoryImpl : UserRepository {
     override suspend fun setProfilePhoto(
         userId: Uuid,
         imageId: Uuid,
+        createdAt: Instant,
     ) {
         val accountEntity = AccountEntity[userId]
         val imageEntity = ImageEntity[imageId]
         ProfilePhotoEntity.new {
             this.account = accountEntity
             this.image = imageEntity
-            createdAt = nowInUTC()
+            this.createdAt = createdAt
         }
     }
 

@@ -22,6 +22,8 @@ import com.gazim.gmessenger.presentation.model.toUI
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.orbitmvi.orbit.Container
@@ -125,11 +127,14 @@ class ChatViewModel(
                     val mappedNewMessagesPage = newMessagesPage.map { MessageContainer.Message(it) }
                     val datedMessagesPage =
                         mappedNewMessagesPage.insertSeparators { before, after ->
-                            val sentBefore = before?.message?.sentAt?.date
-                            val sentAfter = after?.message?.sentAt?.date
-                            when (sentBefore) {
-                                sentAfter, null -> null
-                                else -> MessageContainer.GroupedMessagesDate(sentBefore)
+                            val sentBefore = before?.message?.sentAt
+                            val sentAfter = after?.message?.sentAt
+                            val currentTimeZone = TimeZone.currentSystemDefault()
+                            val sentBeforeLocalDate = sentBefore?.toLocalDateTime(currentTimeZone)?.date
+                            val sentAfterLocalDate = sentAfter?.toLocalDateTime(currentTimeZone)?.date
+                            when (sentBeforeLocalDate) {
+                                sentAfterLocalDate, null -> null
+                                else -> MessageContainer.GroupedMessagesDate(sentBeforeLocalDate)
                             }
                         }
                     datedMessagesPage.map { messageContainer ->

@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.api.model
 
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -8,6 +8,6 @@ import kotlin.uuid.Uuid
 data class MyMessage(
     override val id: Uuid,
     override val message: String,
-    override val sentAt: LocalDateTime,
+    override val sentAt: Instant,
     override val user: User,
 ) : IMessage

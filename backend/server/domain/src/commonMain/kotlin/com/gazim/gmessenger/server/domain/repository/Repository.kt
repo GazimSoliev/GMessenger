@@ -35,6 +35,7 @@ interface UserRepository {
     suspend fun setProfilePhoto(
         userId: Uuid,
         imageId: Uuid,
+        createdAt: Instant,
     )
 
     suspend fun getUserById(userId: Uuid): User
@@ -101,6 +102,7 @@ interface ChatRepository {
     suspend fun addUserInChat(
         userId: Uuid,
         chatId: Uuid,
+        createdAt: Instant,
     )
 }
 
