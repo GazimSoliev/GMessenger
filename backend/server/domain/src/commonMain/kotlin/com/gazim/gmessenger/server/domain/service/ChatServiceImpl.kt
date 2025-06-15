@@ -57,6 +57,7 @@ class ChatServiceImpl(
                 chatRepository.addUserInChat(
                     userId = userId,
                     chatId = chat.id,
+                    createdAt = createdAt,
                 )
             }
             chat

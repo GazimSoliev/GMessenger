@@ -19,7 +19,8 @@ TODO:
 9. Voice messages
 10. Use Docker
 11. Rename models
-12. Replace all LocalDateTime to Instant
-13. Maybe rename database entities
-14. Add get chats by last message sorting
-15. Remove last message from Chat entity
+12. Maybe rename database entities
+13. Add get chats by last message sorting
+14. Remove last message from Chat entity
+15. Delete MessageForm in domain
+16. Review localSentAt in MessageUI

@@ -2,7 +2,7 @@
 
 package com.gazim.gmessenger.api.model
 
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -10,7 +10,7 @@ import kotlin.uuid.Uuid
 interface IMessage {
     val id: Uuid
     val message: String
-    val sentAt: LocalDateTime
+    val sentAt: Instant
     val user: User
 }
 

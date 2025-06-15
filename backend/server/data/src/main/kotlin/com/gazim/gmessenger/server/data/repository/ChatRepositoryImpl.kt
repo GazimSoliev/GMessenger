@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.data.repository
 
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
@@ -13,15 +15,12 @@ import com.gazim.gmessenger.server.domain.model.IChat
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.ChatRepository
 import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toJavaUuid
 
-@OptIn(ExperimentalUuidApi::class)
 class ChatRepositoryImpl : ChatRepository {
     override suspend fun getMembers(chatId: Uuid): List<User> {
         val chatEntity = ChatEntity[chatId]
@@ -36,7 +35,7 @@ class ChatRepositoryImpl : ChatRepository {
         val chatEntity =
             ChatEntity.new {
                 this.title = title
-                this.createdAt = createdAt.toLocalDateTime(TimeZone.UTC)
+                this.createdAt = createdAt
             }
         return chatEntity.toChat(lastMessage = null)
     }
@@ -76,12 +75,14 @@ class ChatRepositoryImpl : ChatRepository {
     override suspend fun addUserInChat(
         userId: Uuid,
         chatId: Uuid,
+        createdAt: Instant,
     ) {
         val userEntity = AccountEntity[userId]
         val chatEntity = ChatEntity[chatId]
         ChatAccountEntity.new {
             this.account = userEntity
             this.chatEntity = chatEntity
+            this.createdAt = createdAt
         }
     }
 

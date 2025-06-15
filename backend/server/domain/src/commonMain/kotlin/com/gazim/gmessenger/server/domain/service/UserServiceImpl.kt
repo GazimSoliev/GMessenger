@@ -57,6 +57,7 @@ class UserServiceImpl(
         userRepository.setProfilePhoto(
             userId = userId,
             imageId = image.id,
+            createdAt = createdAt,
         )
         image
     }

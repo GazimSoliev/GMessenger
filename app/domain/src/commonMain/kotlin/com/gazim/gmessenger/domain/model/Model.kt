@@ -3,7 +3,7 @@
 package com.gazim.gmessenger.domain.model
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -11,7 +11,7 @@ sealed interface IMessage {
     val id: Uuid
     val message: String
     val user: User
-    val sentAt: LocalDateTime
+    val sentAt: Instant
 }
 
 sealed interface Notification

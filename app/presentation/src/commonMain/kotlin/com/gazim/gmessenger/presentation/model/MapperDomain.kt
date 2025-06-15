@@ -6,7 +6,6 @@ import com.gazim.gmessenger.domain.model.*
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format.char
-import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -26,16 +25,16 @@ fun IMessage.toUI(timeZone: TimeZone = TimeZone.currentSystemDefault()) =
         YourMessageUI(
             id = id,
             message = message,
-            sentAt = sentAt,
-            localSentAt = sentAt.toInstant(TimeZone.UTC).toLocalDateTime(timeZone),
+            sentAt = sentAt.toLocalDateTime(timeZone),
+            localSentAt = sentAt.toLocalDateTime(timeZone),
             user = user.toUI(),
         )
     } else {
         TheirMessageUI(
             id = id,
             message = message,
-            sentAt = sentAt,
-            localSentAt = sentAt.toInstant(TimeZone.UTC).toLocalDateTime(timeZone),
+            sentAt = sentAt.toLocalDateTime(timeZone),
+            localSentAt = sentAt.toLocalDateTime(timeZone),
             user = user.toUI(),
         )
     }
@@ -70,7 +69,7 @@ fun IChat.toUI(timeZone: TimeZone = TimeZone.currentSystemDefault()): ChatUI {
         link = ""
         image = null
     }
-    val lastMessageSentAt = lastMessage?.sentAt?.toInstant(TimeZone.UTC)?.toLocalDateTime(timeZone)
+    val lastMessageSentAt = lastMessage?.sentAt?.toLocalDateTime(timeZone)
     return ChatUI(
         identifier = id,
         title = title,
