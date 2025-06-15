@@ -2,28 +2,23 @@
 
 package com.gazim.gmessenger.server.domain.repository
 
-import com.gazim.gmessenger.server.domain.model.IChat
-import com.gazim.gmessenger.server.domain.model.Image
-import com.gazim.gmessenger.server.domain.model.Message
-import com.gazim.gmessenger.server.domain.model.Token
-import com.gazim.gmessenger.server.domain.model.User
+import com.gazim.gmessenger.server.domain.model.*
 import kotlinx.datetime.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-
 
 interface UserRepository {
     suspend fun insertAndGetId(
         nickname: String,
         username: String,
-        createdAt: Instant
-    ) : Uuid
+        createdAt: Instant,
+    ): Uuid
 
     suspend fun checkUserExist(username: String): Boolean
 
     suspend fun findUserByLoginAndPassword(
         login: ByteArray,
-        password: ByteArray
+        password: ByteArray,
     ): Uuid?
 
     suspend fun findByUsername(
@@ -49,7 +44,7 @@ interface LoginRepository {
     suspend fun insert(
         login: ByteArray,
         userId: Uuid,
-        createdAt: Instant
+        createdAt: Instant,
     )
 }
 
@@ -57,7 +52,7 @@ interface PasswordRepository {
     suspend fun insert(
         password: ByteArray,
         userId: Uuid,
-        createdAt: Instant
+        createdAt: Instant,
     )
 }
 
@@ -66,7 +61,7 @@ interface TokenRepository {
         createdAt: Instant,
         expiredAt: Instant,
         userId: Uuid,
-    ) : Token
+    ): Token
 
     suspend fun getUserId(tokenId: Uuid): Uuid
 }
@@ -78,7 +73,7 @@ interface FileRepository {
         userId: Uuid,
         type: String,
         base64Image: String,
-        createdAt: Instant
+        createdAt: Instant,
     ): Image
 }
 
@@ -105,10 +100,9 @@ interface ChatRepository {
 
     suspend fun addUserInChat(
         userId: Uuid,
-        chatId: Uuid
+        chatId: Uuid,
     )
 }
-
 
 interface MessageRepository {
     suspend fun sendMessage(

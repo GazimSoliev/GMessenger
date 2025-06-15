@@ -25,66 +25,69 @@ class MessageRepositoryImpl : MessageRepository {
         userId: Uuid,
         chatId: Uuid,
         message: String,
-        sentAt: Instant
+        sentAt: Instant,
     ): Message {
-        val accountEntity = AccountEntity[userId]
-        val chatEntity = ChatEntity[chatId]
-        val messageEntity = MessageEntity.new {
-            this.account = accountEntity
-            this.chatEntity = chatEntity
-            this.message = message
-            this.sentAt = sentAt.toLocalDateTime(TimeZone.UTC)
-        }
+        val accountEntity = AccountEntity.Companion[userId]
+        val chatEntity = ChatEntity.Companion[chatId]
+        val messageEntity =
+            MessageEntity.Companion.new {
+                this.account = accountEntity
+                this.chatEntity = chatEntity
+                this.message = message
+                this.sentAt = sentAt.toLocalDateTime(TimeZone.Companion.UTC)
+            }
         return messageEntity.toMessage()
     }
 
     override suspend fun getMessages(
         chatId: Uuid,
         start: Instant,
-        end: Instant
+        end: Instant,
     ): List<Message> {
-        val startDateTime = start.toLocalDateTime(TimeZone.UTC)
-        val endDateTime = end.toLocalDateTime(TimeZone.UTC)
-        val messageEntities = MessageEntity.find {
-            (MessageTable.idChat eq chatId.toJavaUuid()) and
-                    (MessageTable.createdAt less startDateTime) and
-                    (MessageTable.createdAt greaterEq endDateTime)
-        }.orderBy(MessageTable.createdAt to SortOrder.DESC)
+        val startDateTime = start.toLocalDateTime(TimeZone.Companion.UTC)
+        val endDateTime = end.toLocalDateTime(TimeZone.Companion.UTC)
+        val messageEntities =
+            MessageEntity.Companion
+                .find {
+                    (MessageTable.idChat eq chatId.toJavaUuid()) and
+                        (MessageTable.createdAt less startDateTime) and
+                        (MessageTable.createdAt greaterEq endDateTime)
+                }.orderBy(MessageTable.createdAt to SortOrder.DESC)
         return messageEntities.map(MessageEntity::toMessage)
     }
 
     override suspend fun nextPage(
         chatId: Uuid,
         offset: Long,
-        start: Instant
+        start: Instant,
     ): Instant? {
-        val startDateTime = start.toLocalDateTime(TimeZone.UTC)
-        return MessageEntity
+        val startDateTime = start.toLocalDateTime(TimeZone.Companion.UTC)
+        return MessageEntity.Companion
             .find {
                 (MessageTable.idChat eq chatId.toJavaUuid()) and
-                        (MessageTable.createdAt less startDateTime)
+                    (MessageTable.createdAt less startDateTime)
             }.orderBy(MessageTable.createdAt to SortOrder.ASC)
             .limit(offset.toInt())
             .firstOrNull()
             ?.sentAt
-            ?.toInstant(TimeZone.UTC)
+            ?.toInstant(TimeZone.Companion.UTC)
     }
 
     override suspend fun prevPage(
         chatId: Uuid,
         offset: Long,
-        end: Instant
+        end: Instant,
     ): Instant? {
-        val endDateTime = end.toLocalDateTime(TimeZone.UTC)
-        return MessageEntity
+        val endDateTime = end.toLocalDateTime(TimeZone.Companion.UTC)
+        return MessageEntity.Companion
             .find {
                 (MessageTable.idChat eq chatId.toJavaUuid()) and
-                        (MessageTable.createdAt greaterEq endDateTime)
+                    (MessageTable.createdAt greaterEq endDateTime)
             }.orderBy(MessageTable.createdAt to SortOrder.ASC)
             .limit(1)
             .offset(offset)
             .singleOrNull()
             ?.sentAt
-            ?.toInstant(TimeZone.UTC)
+            ?.toInstant(TimeZone.Companion.UTC)
     }
 }

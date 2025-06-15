@@ -17,7 +17,6 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.*
-import io.ktor.util.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -184,8 +183,7 @@ class GMessengerAPIImpl(
                 setBody(bytes)
             }.body()
 
-    override suspend fun getImageContent(photoId: Uuid): ByteArray =
-        httpClient.get(ImageRoute.Id(photoId.toString())).bodyAsBytes()
+    override suspend fun getImageContent(photoId: Uuid): ByteArray = httpClient.get(ImageRoute.Id(photoId.toString())).bodyAsBytes()
 
     override fun close() = httpClient.close()
 }

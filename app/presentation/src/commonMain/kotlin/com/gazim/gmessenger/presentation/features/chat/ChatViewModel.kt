@@ -97,40 +97,48 @@ class ChatViewModel(
             }
         }
         reduce {
-            val pageDataFlow = Pager(
-                config = PagingConfig(20),
-                pagingSourceFactory = {
-                    pagingSource = MessagePagerSource(
-                        chatId = chatId,
-                        getMessages = getMessages,
-                        errors = errors
-                    )
-                    pagingSource
-                },
-            ).flow.cachedIn(viewModelScope)
-            val mappedPageDataFlow = combine(pageDataFlow, ms) { page, messages ->
-                val newMessagesPage = messages.fold(page) { data, mes ->
-                    data.insertSeparators { before, after ->
-                        if (before == null && after != mes) mes
-                        else null
+            val pageDataFlow =
+                Pager(
+                    config = PagingConfig(20),
+                    pagingSourceFactory = {
+                        pagingSource =
+                            MessagePagerSource(
+                                chatId = chatId,
+                                getMessages = getMessages,
+                                errors = errors,
+                            )
+                        pagingSource
+                    },
+                ).flow.cachedIn(viewModelScope)
+            val mappedPageDataFlow =
+                combine(pageDataFlow, ms) { page, messages ->
+                    val newMessagesPage =
+                        messages.fold(page) { data, mes ->
+                            data.insertSeparators { before, after ->
+                                if (before == null && after != mes) {
+                                    mes
+                                } else {
+                                    null
+                                }
+                            }
+                        }
+                    val mappedNewMessagesPage = newMessagesPage.map { MessageContainer.Message(it) }
+                    val datedMessagesPage =
+                        mappedNewMessagesPage.insertSeparators { before, after ->
+                            val sentBefore = before?.message?.sentAt?.date
+                            val sentAfter = after?.message?.sentAt?.date
+                            when (sentBefore) {
+                                sentAfter, null -> null
+                                else -> MessageContainer.GroupedMessagesDate(sentBefore)
+                            }
+                        }
+                    datedMessagesPage.map { messageContainer ->
+                        when (messageContainer) {
+                            is MessageContainer.Message -> messageContainer.message.toUI()
+                            is MessageContainer.GroupedMessagesDate -> GroupedMessagesDateUI(messageContainer.date)
+                        }
                     }
                 }
-                val mappedNewMessagesPage = newMessagesPage.map { MessageContainer.Message(it) }
-                val datedMessagesPage = mappedNewMessagesPage.insertSeparators { before, after ->
-                    val sentBefore = before?.message?.sentAt?.date
-                    val sentAfter = after?.message?.sentAt?.date
-                    when (sentBefore) {
-                        sentAfter, null -> null
-                        else -> MessageContainer.GroupedMessagesDate(sentBefore)
-                    }
-                }
-                datedMessagesPage.map { messageContainer ->
-                    when (messageContainer) {
-                        is MessageContainer.Message -> messageContainer.message.toUI()
-                        is MessageContainer.GroupedMessagesDate -> GroupedMessagesDateUI(messageContainer.date)
-                    }
-                }
-            }
             state.copy(
                 messages = mappedPageDataFlow,
             )
@@ -139,10 +147,14 @@ class ChatViewModel(
 
     private sealed interface MessageContainer {
         @JvmInline
-        value class Message(val message: IMessage) : MessageContainer
+        value class Message(
+            val message: IMessage,
+        ) : MessageContainer
 
         @JvmInline
-        value class GroupedMessagesDate(val date: LocalDate) : MessageContainer
+        value class GroupedMessagesDate(
+            val date: LocalDate,
+        ) : MessageContainer
     }
 
     private fun IntentScope.launchCollectingMessages() {

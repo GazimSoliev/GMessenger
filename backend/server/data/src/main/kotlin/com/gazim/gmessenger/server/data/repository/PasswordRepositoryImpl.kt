@@ -14,7 +14,7 @@ class PasswordRepositoryImpl : PasswordRepository {
     override suspend fun insert(
         password: ByteArray,
         userId: Uuid,
-        createdAt: Instant
+        createdAt: Instant,
     ) {
         PasswordEntity.new {
             this.password = password

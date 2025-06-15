@@ -28,14 +28,15 @@ class FileServiceImpl(
     ): Image {
         val base64Image = Base64.encode(content)
         val createdAt = Clock.System.now()
-        val image = databaseTransaction {
-            fileRepository.uploadAndGetImage(
-                userId = userId,
-                type = type,
-                base64Image = base64Image,
-                createdAt = createdAt,
-            )
-        }
+        val image =
+            databaseTransaction {
+                fileRepository.uploadAndGetImage(
+                    userId = userId,
+                    type = type,
+                    base64Image = base64Image,
+                    createdAt = createdAt,
+                )
+            }
         return image
     }
 }

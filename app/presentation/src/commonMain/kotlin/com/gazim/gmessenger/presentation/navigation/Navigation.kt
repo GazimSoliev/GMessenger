@@ -20,7 +20,7 @@ import kotlinx.serialization.json.Json
 
 @Serializable
 data class ChatRoute(
-    val jsonChat : String
+    val jsonChat: String,
 )
 
 fun ChatRoute(chat: ChatUI) = ChatRoute(Json.encodeToString(chat))
@@ -79,7 +79,7 @@ fun Navigation(passAuthUseCase: PassAuthUseCase) {
     }
 }
 
-fun <T: Any> NavController.replace(route: T) {
+fun <T : Any> NavController.replace(route: T) {
     val currentRoute = currentDestination!!.route!!
     navigate(route) {
         popUpTo(currentRoute) { inclusive = true }

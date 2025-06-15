@@ -53,20 +53,21 @@ fun ChatsComposition(
                     title = { Text("GMessenger") },
                     navigationIcon = {
                         ProfileIcon(
-                            modifier = Modifier
-                                .padding(horizontal = 24.dp),
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = 24.dp),
                             image = profileImage,
                             firstNameLetter = firstNameLetter,
                             size = 24.dp,
                             textStyle = MaterialTheme.typography.labelSmall,
-                            onClick = lookAtMyAccount
+                            onClick = lookAtMyAccount,
                         )
                     },
                     actions = {
                         IconButton(onClick = {}) {
                             Icon(
                                 imageVector = Icons.Default.Search,
-                                contentDescription = strLogOut
+                                contentDescription = strLogOut,
                             )
                         }
                         var expanded by remember { mutableStateOf(false) }
@@ -75,14 +76,14 @@ fun ChatsComposition(
                         }
                         DropdownMenu(
                             expanded = expanded,
-                            onDismissRequest = { expanded = false }
+                            onDismissRequest = { expanded = false },
                         ) {
                             DropdownMenuItem(
                                 text = { Text(strLogOut) },
                                 onClick = {
                                     expanded = false
                                     logOut()
-                                }
+                                },
                             )
                         }
                     },
@@ -108,7 +109,7 @@ fun ChatsComposition(
                         firstNameLetter = chat.firstLetter,
                         lastMessageDateTime = chat.lastMessageDateTime,
                         onClickChat = { openChat(chat) },
-                        getImage = getChatImage
+                        getImage = getChatImage,
                     )
                 }
             }
@@ -121,17 +122,18 @@ fun ChatsComposition(
 fun ChatsCompositionPreview() {
     ChatsComposition(
         modifier = Modifier.fillMaxSize(),
-        chats = List(10) {
-            ChatUI(
-                identifier = Uuid.random(),
-                title = "Chat name",
-                link = "@identifier",
-                image = null,
-                lastMessage = "Hello!",
-                firstLetter = 'C',
-                lastMessageDateTime = "27 Mar"
-            )
-        },
+        chats =
+            List(10) {
+                ChatUI(
+                    identifier = Uuid.random(),
+                    title = "Chat name",
+                    link = "@identifier",
+                    image = null,
+                    lastMessage = "Hello!",
+                    firstLetter = 'C',
+                    lastMessageDateTime = "27 Mar",
+                )
+            },
         firstNameLetter = 'G',
     )
 }

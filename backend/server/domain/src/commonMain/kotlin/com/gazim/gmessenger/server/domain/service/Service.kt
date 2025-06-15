@@ -2,17 +2,7 @@
 
 package com.gazim.gmessenger.server.domain.service
 
-import com.gazim.gmessenger.server.domain.model.AuthenticationForm
-import com.gazim.gmessenger.server.domain.model.IChat
-import com.gazim.gmessenger.server.domain.model.Image
-import com.gazim.gmessenger.server.domain.model.Message
-import com.gazim.gmessenger.server.domain.model.MessageForm
-import com.gazim.gmessenger.server.domain.model.MessagePage
-import com.gazim.gmessenger.server.domain.model.MessagePageKey
-import com.gazim.gmessenger.server.domain.model.ProfileForm
-import com.gazim.gmessenger.server.domain.model.RegistrationForm
-import com.gazim.gmessenger.server.domain.model.Token
-import com.gazim.gmessenger.server.domain.model.User
+import com.gazim.gmessenger.server.domain.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -35,9 +25,7 @@ interface UserService {
 }
 
 interface AuthorizationService {
-    suspend fun login(
-        loginPassword: AuthenticationForm,
-    ): Token?
+    suspend fun login(loginPassword: AuthenticationForm): Token?
 
     suspend fun register(account: RegistrationForm): Boolean
 }
@@ -46,7 +34,7 @@ interface ChatService {
     suspend fun getChats(
         userId: Uuid,
         size: Int,
-        page: Int
+        page: Int,
     ): List<IChat>
 
     suspend fun getMembers(

@@ -2,7 +2,6 @@ package com.gazim.gmessenger.presentation.features.chat
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.gazim.gmessenger.domain.model.IChat
 import com.gazim.gmessenger.domain.model.IMessage
 import com.gazim.gmessenger.domain.model.MessagePageKey
 import com.gazim.gmessenger.domain.usecase.GetMessagesUseCase

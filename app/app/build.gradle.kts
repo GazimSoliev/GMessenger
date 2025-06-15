@@ -64,10 +64,12 @@ android {
         applicationId = "com.gazim.gmessenger"
         minSdk =
             libs.versions.android.min.sdk
-                .get().toInt()
+                .get()
+                .toInt()
         targetSdk =
             libs.versions.android.target.sdk
-                .get().toInt()
+                .get()
+                .toInt()
         versionCode = 1
         versionName = "1.0"
     }

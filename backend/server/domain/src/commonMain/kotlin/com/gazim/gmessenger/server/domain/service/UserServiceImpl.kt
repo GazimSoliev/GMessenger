@@ -1,11 +1,7 @@
 package com.gazim.gmessenger.server.domain.service
 
 import com.gazim.gmessenger.server.domain.model.ProfileForm
-import com.gazim.gmessenger.server.domain.repository.DatabaseTransaction
-import com.gazim.gmessenger.server.domain.repository.FileRepository
-import com.gazim.gmessenger.server.domain.repository.TokenRepository
-import com.gazim.gmessenger.server.domain.repository.UserRepository
-import com.gazim.gmessenger.server.domain.repository.invoke
+import com.gazim.gmessenger.server.domain.repository.*
 import kotlinx.datetime.Clock
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -17,19 +13,21 @@ class UserServiceImpl(
     private val userRepository: UserRepository,
     private val fileRepository: FileRepository,
     private val tokenRepository: TokenRepository,
-    private val transaction: DatabaseTransaction
+    private val transaction: DatabaseTransaction,
 ) : UserService {
-    override suspend fun findUser(username: String) = transaction {
-        userRepository.findByUsername(
-            username = username,
-            limit = 50
-        )
-    }
+    override suspend fun findUser(username: String) =
+        transaction {
+            userRepository.findByUsername(
+                username = username,
+                limit = 50,
+            )
+        }
 
-    override suspend fun getUser(tokenId: Uuid) = transaction {
-        val userId = tokenRepository.getUserId(tokenId)
-        userRepository.getUserById(userId)
-    }
+    override suspend fun getUser(tokenId: Uuid) =
+        transaction {
+            val userId = tokenRepository.getUserId(tokenId)
+            userRepository.getUserById(userId)
+        }
 
     override suspend fun editProfile(
         userId: Uuid,
@@ -38,7 +36,7 @@ class UserServiceImpl(
         userRepository.editProfile(
             userId = userId,
             nickname = profileForm.nickname,
-            username = profileForm.username
+            username = profileForm.username,
         )
     }
 
@@ -49,15 +47,16 @@ class UserServiceImpl(
     ) = transaction {
         val base64Image = Base64.encode(content)
         val createdAt = Clock.System.now()
-        val image = fileRepository.uploadAndGetImage(
-            userId = userId,
-            type = type,
-            base64Image = base64Image,
-            createdAt = createdAt
-        )
+        val image =
+            fileRepository.uploadAndGetImage(
+                userId = userId,
+                type = type,
+                base64Image = base64Image,
+                createdAt = createdAt,
+            )
         userRepository.setProfilePhoto(
             userId = userId,
-            imageId = image.id
+            imageId = image.id,
         )
         image
     }

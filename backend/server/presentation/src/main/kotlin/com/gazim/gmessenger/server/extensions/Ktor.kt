@@ -46,17 +46,18 @@ fun <T : Any> Route.handle(
     protocol: String? = null,
     body: suspend DefaultWebSocketServerSession.(T) -> Unit,
 ) {
-    val plugin = createRouteScopedPlugin("ResourceInstancePlugin") {
-        onCall { call ->
-            val resources = call.application.plugin(Resources)
-            try {
-                val resource = resources.resourcesFormat.decodeFromParameters(serializer, call.parameters) as Any
-                call.attributes.put(ResourceInstanceKey, resource)
-            } catch (cause: Throwable) {
-                throw BadRequestException("Can't transform call to resource", cause)
+    val plugin =
+        createRouteScopedPlugin("ResourceInstancePlugin") {
+            onCall { call ->
+                val resources = call.application.plugin(Resources)
+                try {
+                    val resource = resources.resourcesFormat.decodeFromParameters(serializer, call.parameters) as Any
+                    call.attributes.put(ResourceInstanceKey, resource)
+                } catch (cause: Throwable) {
+                    throw BadRequestException("Can't transform call to resource", cause)
+                }
             }
         }
-    }
     install(plugin)
 
     webSocket(protocol = protocol) {

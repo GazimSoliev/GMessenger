@@ -4,7 +4,6 @@ import com.gazim.gmessenger.api.model.ProfileForm
 import com.gazim.gmessenger.api.route.EditProfileRoute
 import com.gazim.gmessenger.server.domain.usecase.EditProfileUseCase
 import com.gazim.gmessenger.server.extensions.toDomain
-import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.routing.Route

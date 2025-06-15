@@ -12,39 +12,46 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 class ChatServiceImpl(
     private val chatRepository: ChatRepository,
-    private val databaseTransaction: DatabaseTransaction
+    private val databaseTransaction: DatabaseTransaction,
 ) : ChatService {
     override suspend fun getChats(
         userId: Uuid,
         size: Int,
-        page: Int
-    ): List<IChat> = databaseTransaction {
-        chatRepository.getChatsByUser(
-            userId = userId,
-            size = size,
-            page = page
-        )
-    }
+        page: Int,
+    ): List<IChat> =
+        databaseTransaction {
+            chatRepository.getChatsByUser(
+                userId = userId,
+                size = size,
+                page = page,
+            )
+        }
 
     override suspend fun getMembers(
         userId: Uuid,
         chatId: Uuid,
-    ): List<User> = databaseTransaction {
-        val userExistInChat = chatRepository.existInChat(
-            userId = userId,
-            chatId = chatId
-        )
-        if (userExistInChat) chatRepository.getMembers(userId)
-        else emptyList()
-    }
+    ): List<User> =
+        databaseTransaction {
+            val userExistInChat =
+                chatRepository.existInChat(
+                    userId = userId,
+                    chatId = chatId,
+                )
+            if (userExistInChat) {
+                chatRepository.getMembers(userId)
+            } else {
+                emptyList()
+            }
+        }
 
     override suspend fun createChat(userIds: List<Uuid>): IChat? {
         val createdAt = Clock.System.now()
         return databaseTransaction {
-            val chat = chatRepository.createChat(
-                title = "",
-                createdAt = createdAt,
-            )
+            val chat =
+                chatRepository.createChat(
+                    title = "",
+                    createdAt = createdAt,
+                )
             if (chat == null) return@databaseTransaction null
             userIds.forEach { userId ->
                 chatRepository.addUserInChat(
@@ -59,9 +66,10 @@ class ChatServiceImpl(
     override suspend fun getChat(
         userId: Uuid,
         chatId: Uuid,
-    ): IChat? = databaseTransaction {
-        val existInChat = chatRepository.existInChat(userId, chatId)
-        if (existInChat) return@databaseTransaction null
-        chatRepository.getChat(chatId)
-    }
+    ): IChat? =
+        databaseTransaction {
+            val existInChat = chatRepository.existInChat(userId, chatId)
+            if (existInChat) return@databaseTransaction null
+            chatRepository.getChat(chatId)
+        }
 }

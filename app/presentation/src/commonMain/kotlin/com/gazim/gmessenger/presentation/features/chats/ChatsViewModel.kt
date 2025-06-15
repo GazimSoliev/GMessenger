@@ -3,7 +3,6 @@
 package com.gazim.gmessenger.presentation.features.chats
 
 import androidx.lifecycle.viewModelScope
-import com.gazim.gmessenger.domain.model.IChat
 import com.gazim.gmessenger.domain.usecase.GetChatsUseCase
 import com.gazim.gmessenger.domain.usecase.GetImageContentUseCase
 import com.gazim.gmessenger.domain.usecase.GetOwnUser
@@ -53,25 +52,27 @@ class ChatsViewModel(
     }
 
     private suspend fun Syntax<ChatsState, ChatsSideEffect>.loadProfile() {
-        getOwnAccountUseCase().onSuccess { user ->
-            val imageUuid = user.photo?.id
-            val image = imageUuid?.let { imageId -> getImageContentUseCase.getPainter(imageId) }
-            reduce {
-                state.copy(
-                    profileImage = image,
-                    firstNameLetter = user.username.firstOrNull()?.uppercaseChar() ?: ' ',
-                )
-            }
-        }.onFailure(Throwable::printStackTrace)
+        getOwnAccountUseCase()
+            .onSuccess { user ->
+                val imageUuid = user.photo?.id
+                val image = imageUuid?.let { imageId -> getImageContentUseCase.getPainter(imageId) }
+                reduce {
+                    state.copy(
+                        profileImage = image,
+                        firstNameLetter = user.username.firstOrNull()?.uppercaseChar() ?: ' ',
+                    )
+                }
+            }.onFailure(Throwable::printStackTrace)
     }
 
     private suspend fun Syntax<ChatsState, ChatsSideEffect>.loadChats() {
-        getChatsUseCase().onSuccess { chats ->
-            reduce {
-                state.copy(
-                    list = chats.toUI()
-                )
-            }
-        }.onFailure(Throwable::printStackTrace)
+        getChatsUseCase()
+            .onSuccess { chats ->
+                reduce {
+                    state.copy(
+                        list = chats.toUI(),
+                    )
+                }
+            }.onFailure(Throwable::printStackTrace)
     }
 }

@@ -1,6 +1,8 @@
 package com.gazim.gmessenger.domain.service
 
-import com.gazim.gmessenger.domain.model.*
+import com.gazim.gmessenger.domain.model.APIConfig
+import com.gazim.gmessenger.domain.model.MessagePageKey
+import com.gazim.gmessenger.domain.model.ProfileForm
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

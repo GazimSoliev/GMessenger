@@ -15,14 +15,13 @@ import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalEncodingApi::class, ExperimentalUuidApi::class)
 class FileRepositoryImpl : FileRepository {
-    override suspend fun getBase64Image(photoId: Uuid) =
-        ImageEntity[photoId].content
+    override suspend fun getBase64Image(photoId: Uuid) = ImageEntity[photoId].content
 
     override suspend fun uploadAndGetImage(
         userId: Uuid,
         type: String,
         base64Image: String,
-        createdAt: Instant
+        createdAt: Instant,
     ): Image {
         val account = AccountEntity[userId]
         val image =

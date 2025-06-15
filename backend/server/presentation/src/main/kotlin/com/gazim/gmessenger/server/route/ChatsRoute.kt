@@ -4,7 +4,6 @@ import com.gazim.gmessenger.api.route.ChatsRoute
 import com.gazim.gmessenger.server.domain.model.IChat
 import com.gazim.gmessenger.server.domain.usecase.GetChatsUseCase
 import com.gazim.gmessenger.server.extensions.toAPI
-import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*

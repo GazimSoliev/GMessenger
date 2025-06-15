@@ -3,15 +3,12 @@ package com.gazim.gmessenger.server.data.repository
 import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.ImageEntity
 import com.gazim.gmessenger.server.data.database.model.ProfilePhotoEntity
-import com.gazim.gmessenger.server.data.database.model.TokenEntity
 import com.gazim.gmessenger.server.data.database.table.AccountTable
 import com.gazim.gmessenger.server.data.database.table.LoginTable
 import com.gazim.gmessenger.server.data.database.table.PasswordTable
 import com.gazim.gmessenger.server.data.extensions.get
 import com.gazim.gmessenger.server.data.mapper.toUser
 import com.gazim.gmessenger.server.domain.extensions.nowInUTC
-import com.gazim.gmessenger.server.domain.model.ProfileForm
-import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.UserRepository
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -26,31 +23,31 @@ class UserRepositoryImpl : UserRepository {
     override suspend fun insertAndGetId(
         nickname: String,
         username: String,
-        createdAt: Instant
+        createdAt: Instant,
     ): Uuid {
-        val accountEntity = AccountEntity.new {
-            this.nickname = nickname
-            this.username = username
-            this.createdAt = createdAt.toLocalDateTime(TimeZone.UTC)
-        }
+        val accountEntity =
+            AccountEntity.new {
+                this.nickname = nickname
+                this.username = username
+                this.createdAt = createdAt.toLocalDateTime(TimeZone.UTC)
+            }
         return accountEntity.id.value.toKotlinUuid()
     }
 
-    override suspend fun checkUserExist(username: String) =
-        AccountEntity.find { AccountTable.username eq username }.empty()
+    override suspend fun checkUserExist(username: String) = AccountEntity.find { AccountTable.username eq username }.empty()
 
     override suspend fun findUserByLoginAndPassword(
         login: ByteArray,
-        password: ByteArray
+        password: ByteArray,
     ) = AccountTable
         .innerJoin(LoginTable)
         .innerJoin(PasswordTable)
         .select(AccountTable.id)
         .where {
             (AccountTable.id eq LoginTable.idAccount) and
-                    (AccountTable.id eq PasswordTable.idAccount) and
-                    (LoginTable.login eq login) and
-                    (PasswordTable.password eq password)
+                (AccountTable.id eq PasswordTable.idAccount) and
+                (LoginTable.login eq login) and
+                (PasswordTable.password eq password)
         }.singleOrNull()
         ?.let { resultRow ->
             resultRow[AccountTable.id].value.toKotlinUuid()
@@ -68,7 +65,7 @@ class UserRepositoryImpl : UserRepository {
     override suspend fun editProfile(
         userId: Uuid,
         nickname: String,
-        username: String
+        username: String,
     ) {
         val account = AccountEntity[userId]
         account.nickname = nickname
@@ -88,6 +85,5 @@ class UserRepositoryImpl : UserRepository {
         }
     }
 
-    override suspend fun getUserById(userId: Uuid) =
-        AccountEntity[userId].toUser()
+    override suspend fun getUserById(userId: Uuid) = AccountEntity[userId].toUser()
 }

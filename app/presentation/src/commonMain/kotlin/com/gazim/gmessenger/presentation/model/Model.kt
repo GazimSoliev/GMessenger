@@ -25,5 +25,5 @@ data class ChatUI(
     val lastMessage: String,
     val lastMessageDateTime: String,
     val link: String,
-    val image: Uuid?
+    val image: Uuid?,
 )

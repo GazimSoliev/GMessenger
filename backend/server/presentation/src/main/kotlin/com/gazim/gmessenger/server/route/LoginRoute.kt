@@ -28,8 +28,12 @@ fun Route.loginRoute() {
         println("LoginPassword: $loginPassword")
         val token = loginUseCase(loginPassword)
         println("Token: $token")
-        val jwtToken = if (token == null) null
-        else generateJWT(token.id.toString(), token.expiredAt)
+        val jwtToken =
+            if (token == null) {
+                null
+            } else {
+                generateJWT(token.id.toString(), token.expiredAt)
+            }
         call.respondNullable(Token(jwtToken))
     }
 }

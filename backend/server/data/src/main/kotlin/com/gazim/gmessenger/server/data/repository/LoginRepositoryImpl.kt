@@ -15,7 +15,7 @@ class LoginRepositoryImpl : LoginRepository {
     override suspend fun insert(
         login: ByteArray,
         userId: Uuid,
-        createdAt: Instant
+        createdAt: Instant,
     ) {
         LoginEntity.new {
             this.login = login

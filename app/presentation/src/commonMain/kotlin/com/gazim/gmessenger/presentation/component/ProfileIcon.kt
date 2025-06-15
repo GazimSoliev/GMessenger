@@ -33,12 +33,13 @@ fun ProfileIcon(
 ) {
     val clickableModifier = if (onClick == null) Modifier else Modifier.clickable(onClick = onClick)
     Box(
-        modifier = modifier
-            .size(size)
-            .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.tertiary)
-            .then(clickableModifier),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .size(size)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.tertiary)
+                .then(clickableModifier),
+        contentAlignment = Alignment.Center,
     ) {
         if (image != null) {
             Image(
@@ -56,7 +57,7 @@ fun ProfileIcon(
             Text(
                 text = firstNameLetter.toString(),
                 color = MaterialTheme.colorScheme.tertiaryContainer,
-                style = textStyle
+                style = textStyle,
             )
         }
     }
@@ -67,7 +68,7 @@ fun ProfileIcon(
 fun ProfileIconPreview() {
     GMessengerTheme {
         ProfileIcon(
-            firstNameLetter = 'G'
+            firstNameLetter = 'G',
         )
     }
 }

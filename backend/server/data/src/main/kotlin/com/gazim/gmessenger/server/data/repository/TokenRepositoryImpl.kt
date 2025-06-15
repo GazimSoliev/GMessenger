@@ -18,13 +18,14 @@ class TokenRepositoryImpl : TokenRepository {
     override suspend fun insertAndGetToken(
         createdAt: Instant,
         expiredAt: Instant,
-        userId: Uuid
+        userId: Uuid,
     ): Token {
-        val tokenEntity = TokenEntity.new {
-            this.createdAt = createdAt.toLocalDateTime(TimeZone.UTC)
-            this.expiredAt = expiredAt.toLocalDateTime(TimeZone.UTC)
-            this.account = AccountEntity[userId]
-        }
+        val tokenEntity =
+            TokenEntity.new {
+                this.createdAt = createdAt.toLocalDateTime(TimeZone.UTC)
+                this.expiredAt = expiredAt.toLocalDateTime(TimeZone.UTC)
+                this.account = AccountEntity[userId]
+            }
         return Token(
             id = tokenEntity.id.value.toKotlinUuid(),
             expiredAt = tokenEntity.expiredAt.toInstant(TimeZone.UTC),
@@ -32,5 +33,7 @@ class TokenRepositoryImpl : TokenRepository {
     }
 
     override suspend fun getUserId(tokenId: Uuid) =
-        TokenEntity[tokenId].account.id.value.toKotlinUuid()
+        TokenEntity[tokenId]
+            .account.id.value
+            .toKotlinUuid()
 }

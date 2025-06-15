@@ -23,10 +23,7 @@ import kotlin.uuid.toJavaUuid
 
 @OptIn(ExperimentalUuidApi::class)
 class ChatRepositoryImpl : ChatRepository {
-
-    override suspend fun getMembers(
-        chatId: Uuid,
-    ): List<User> {
+    override suspend fun getMembers(chatId: Uuid): List<User> {
         val chatEntity = ChatEntity[chatId]
         val members = chatEntity.members
         return members.map { accountEntity -> accountEntity.toUser() }
@@ -34,12 +31,13 @@ class ChatRepositoryImpl : ChatRepository {
 
     override suspend fun createChat(
         title: String,
-        createdAt: Instant
+        createdAt: Instant,
     ): IChat? {
-        val chatEntity = ChatEntity.new {
-            this.title = title
-            this.createdAt = createdAt.toLocalDateTime(TimeZone.UTC)
-        }
+        val chatEntity =
+            ChatEntity.new {
+                this.title = title
+                this.createdAt = createdAt.toLocalDateTime(TimeZone.UTC)
+            }
         return chatEntity.toChat(lastMessage = null)
     }
 
@@ -52,13 +50,14 @@ class ChatRepositoryImpl : ChatRepository {
     override suspend fun getChatsByUser(
         userId: Uuid,
         size: Int,
-        page: Int
+        page: Int,
     ): List<IChat> {
         val accountEntity = AccountEntity[userId]
-        val chats = accountEntity.chats.map { chatEntity ->
-            val lastMessage = chatEntity.getLastMessage()
-            chatEntity.toChat(currentUser = accountEntity, lastMessage = lastMessage)
-        }
+        val chats =
+            accountEntity.chats.map { chatEntity ->
+                val lastMessage = chatEntity.getLastMessage()
+                chatEntity.toChat(currentUser = accountEntity, lastMessage = lastMessage)
+            }
         return chats
     }
 
@@ -66,14 +65,18 @@ class ChatRepositoryImpl : ChatRepository {
         userId: Uuid,
         chatId: Uuid,
     ): Boolean {
-        val chatEntities = ChatAccountEntity.find {
-            (ChatAccountTable.idAccount eq userId.toJavaUuid()) and
+        val chatEntities =
+            ChatAccountEntity.find {
+                (ChatAccountTable.idAccount eq userId.toJavaUuid()) and
                     (ChatAccountTable.idChat eq chatId.toJavaUuid())
-        }
+            }
         return chatEntities.count() == 1L
     }
 
-    override suspend fun addUserInChat(userId: Uuid, chatId: Uuid) {
+    override suspend fun addUserInChat(
+        userId: Uuid,
+        chatId: Uuid,
+    ) {
         val userEntity = AccountEntity[userId]
         val chatEntity = ChatEntity[chatId]
         ChatAccountEntity.new {
@@ -82,8 +85,9 @@ class ChatRepositoryImpl : ChatRepository {
         }
     }
 
-    private fun ChatEntity.getLastMessage(): MessageEntity? {
-        return MessageEntity.find { MessageTable.idChat eq this@getLastMessage.id }
-            .orderBy(MessageTable.createdAt to SortOrder.DESC).firstOrNull()
-    }
+    private fun ChatEntity.getLastMessage(): MessageEntity? =
+        MessageEntity
+            .find { MessageTable.idChat eq this@getLastMessage.id }
+            .orderBy(MessageTable.createdAt to SortOrder.DESC)
+            .firstOrNull()
 }

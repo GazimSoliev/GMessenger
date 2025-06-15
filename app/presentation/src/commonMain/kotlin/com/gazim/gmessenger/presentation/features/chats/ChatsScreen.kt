@@ -36,7 +36,7 @@ fun ChatsScreen(navController: NavController) {
         profileImage = state.profileImage,
         firstNameLetter = state.firstNameLetter,
         chats = state.list,
-        openChat = { chat ->viewModel.sendAction(OnItemClick(chat)) },
+        openChat = { chat -> viewModel.sendAction(OnItemClick(chat)) },
         logOut = { viewModel.sendAction(OnLogOutClick) },
         createNewChat = { viewModel.sendAction(OnCreateNewChat) },
         lookAtMyAccount = { viewModel.sendAction(OnAccountInfoClick) },

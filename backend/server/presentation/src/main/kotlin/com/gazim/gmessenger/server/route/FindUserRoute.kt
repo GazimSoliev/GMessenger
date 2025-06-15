@@ -4,7 +4,6 @@ import com.gazim.gmessenger.api.route.FindUserRoute
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.usecase.FindUserUseCase
 import com.gazim.gmessenger.server.extensions.toAPI
-import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
