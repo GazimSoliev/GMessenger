@@ -54,7 +54,7 @@ interface MessagingService {
     suspend fun sendMessage(
         userId: Uuid,
         chatId: Uuid,
-        messageForm: MessageForm,
+        message: String,
     )
 
     suspend fun getMessages(

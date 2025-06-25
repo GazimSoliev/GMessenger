@@ -22,5 +22,4 @@ TODO:
 12. Maybe rename database entities
 13. Add get chats by last message sorting
 14. Remove last message from Chat entity
-15. Delete MessageForm in domain
-16. Review localSentAt in MessageUI
+15. Review localSentAt in MessageUI

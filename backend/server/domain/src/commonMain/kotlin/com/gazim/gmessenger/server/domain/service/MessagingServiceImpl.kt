@@ -3,7 +3,6 @@
 package com.gazim.gmessenger.server.domain.service
 
 import com.gazim.gmessenger.server.domain.model.Message
-import com.gazim.gmessenger.server.domain.model.MessageForm
 import com.gazim.gmessenger.server.domain.model.MessagePage
 import com.gazim.gmessenger.server.domain.model.MessagePageKey
 import com.gazim.gmessenger.server.domain.repository.ChatRepository
@@ -28,7 +27,7 @@ class MessagingServiceImpl(
     override suspend fun sendMessage(
         userId: Uuid,
         chatId: Uuid,
-        messageForm: MessageForm,
+        message: String,
     ) {
         val sentAt = Clock.System.now()
         val message =
@@ -36,7 +35,7 @@ class MessagingServiceImpl(
                 messageRepository.sendMessage(
                     userId = userId,
                     chatId = chatId,
-                    message = messageForm.message,
+                    message = message,
                     sentAt = sentAt,
                 )
             }
