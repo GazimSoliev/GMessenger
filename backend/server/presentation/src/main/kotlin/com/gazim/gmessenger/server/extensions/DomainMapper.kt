@@ -8,7 +8,6 @@ import com.gazim.gmessenger.api.model.AuthenticationForm as AuthenticationFormAP
 import com.gazim.gmessenger.api.model.Chat as ChatAPI
 import com.gazim.gmessenger.api.model.Image as ImageAPI
 import com.gazim.gmessenger.api.model.Message as MessageAPI
-import com.gazim.gmessenger.api.model.MessageForm as MessageFormAPI
 import com.gazim.gmessenger.api.model.MessagePage as MessagePageAPI
 import com.gazim.gmessenger.api.model.MessagePageKey as MessagePageKeyAPI
 import com.gazim.gmessenger.api.model.PrivateChat as PrivateChatAPI
@@ -62,8 +61,6 @@ fun IChat.toAPI() =
             lastMessage = lastMessage?.toAPI(),
         )
     }
-
-fun MessageFormAPI.toDomain() = MessageForm(message = message)
 
 fun Message.toAPI() =
     MessageAPI(

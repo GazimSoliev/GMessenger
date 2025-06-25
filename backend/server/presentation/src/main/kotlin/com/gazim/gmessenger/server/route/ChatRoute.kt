@@ -5,7 +5,6 @@ import com.gazim.gmessenger.api.route.ChatRoute
 import com.gazim.gmessenger.server.domain.usecase.GetMessageFlowUseCase
 import com.gazim.gmessenger.server.domain.usecase.SendMessageUseCase
 import com.gazim.gmessenger.server.extensions.toAPI
-import com.gazim.gmessenger.server.extensions.toDomain
 import com.gazim.gmessenger.server.extensions.webSocket
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
@@ -32,7 +31,11 @@ fun Route.chatRoute() {
         }
         while (true) {
             val message = receiveDeserialized<MessageForm>()
-            sendMessageUseCase(userId, chatId, message.toDomain())
+            sendMessageUseCase(
+                userId = userId,
+                chatId = chatId,
+                message = message.message,
+            )
         }
     }
 }

@@ -19,7 +19,7 @@ interface SendMessageUseCase {
     suspend operator fun invoke(
         userId: Uuid,
         chatId: Uuid,
-        message: MessageForm,
+        message: String,
     )
 }
 
