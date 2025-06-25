@@ -23,3 +23,4 @@ TODO:
 13. Add get chats by last message sorting
 14. Remove last message from Chat entity
 15. Review localSentAt in MessageUI
+16. Try to use XChaCha20-Poly1305 for messaging and Ed25519
