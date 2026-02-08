@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.server.route
 
-import com.gazim.gmessenger.api.model.MessageForm
-import com.gazim.gmessenger.api.route.ChatRoute
+import com.gazim.gmessenger.core.model.MessageForm
+import com.gazim.gmessenger.core.route.ChatRoute
 import com.gazim.gmessenger.server.domain.usecase.GetMessageFlowUseCase
 import com.gazim.gmessenger.server.domain.usecase.SendMessageUseCase
 import com.gazim.gmessenger.server.extensions.toAPI

@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.server.route
 
-import com.gazim.gmessenger.api.model.MessagePageKey
-import com.gazim.gmessenger.api.route.MessagesRoute
+import com.gazim.gmessenger.core.model.MessagePageKey
+import com.gazim.gmessenger.core.route.MessagesRoute
 import com.gazim.gmessenger.server.domain.usecase.GetMessagesUseCase
 import com.gazim.gmessenger.server.extensions.toAPI
 import com.gazim.gmessenger.server.extensions.toDomain

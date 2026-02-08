@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.server.route
 
-import com.gazim.gmessenger.api.model.UserID
-import com.gazim.gmessenger.api.route.CreateChatRoute
+import com.gazim.gmessenger.core.model.UserID
+import com.gazim.gmessenger.core.route.CreateChatRoute
 import com.gazim.gmessenger.server.domain.usecase.CreateChatUseCase
 import com.gazim.gmessenger.server.extensions.toAPI
 import io.ktor.server.request.*

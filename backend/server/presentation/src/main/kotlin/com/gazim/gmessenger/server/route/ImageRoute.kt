@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.server.route
 
-import com.gazim.gmessenger.api.route.ImageRoute
+import com.gazim.gmessenger.core.route.ImageRoute
 import com.gazim.gmessenger.server.domain.usecase.GetImageContentUseCase
 import io.ktor.server.resources.*
 import io.ktor.server.response.*

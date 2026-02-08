@@ -10,9 +10,9 @@ import com.gazim.gmessenger.domain.api.GMessengerAPI
 import com.gazim.gmessenger.domain.model.*
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-import com.gazim.gmessenger.api.GMessengerAPI as GMAPI
-import com.gazim.gmessenger.api.model.IChat as IChatAPI
-import com.gazim.gmessenger.api.model.User as UserAPI
+import com.gazim.gmessenger.core.GMessengerAPI as GMAPI
+import com.gazim.gmessenger.core.model.IChat as IChatAPI
+import com.gazim.gmessenger.core.model.User as UserAPI
 
 @OptIn(ExperimentalUuidApi::class)
 class GMessengerAPIImpl(

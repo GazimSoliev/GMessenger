@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.server.route
 
-import com.gazim.gmessenger.api.route.ChatsRoute
+import com.gazim.gmessenger.core.route.ChatsRoute
 import com.gazim.gmessenger.server.domain.model.IChat
 import com.gazim.gmessenger.server.domain.usecase.GetChatsUseCase
 import com.gazim.gmessenger.server.extensions.toAPI

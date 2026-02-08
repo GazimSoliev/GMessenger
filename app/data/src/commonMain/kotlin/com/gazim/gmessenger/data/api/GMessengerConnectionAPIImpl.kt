@@ -6,8 +6,8 @@ import com.gazim.gmessenger.data.model.toDomain
 import com.gazim.gmessenger.domain.api.GMessengerConnectionAPI
 import com.gazim.gmessenger.domain.model.GMessengerServer
 import kotlin.time.Duration
-import com.gazim.gmessenger.api.GMessengerAPIConnection as GMCAPI
-import com.gazim.gmessenger.api.model.GMessengerServer as GMessengerServerAPI
+import com.gazim.gmessenger.core.GMessengerAPIConnection as GMCAPI
+import com.gazim.gmessenger.core.model.GMessengerServer as GMessengerServerAPI
 
 class GMessengerConnectionAPIImpl : GMessengerConnectionAPI {
     private val gMessengerConnectionAPI = GMCAPI()

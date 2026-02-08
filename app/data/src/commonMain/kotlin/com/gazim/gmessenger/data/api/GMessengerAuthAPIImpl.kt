@@ -2,11 +2,11 @@
 
 package com.gazim.gmessenger.data.api
 
-import com.gazim.gmessenger.api.model.AuthenticationForm
+import com.gazim.gmessenger.core.model.AuthenticationForm
 import com.gazim.gmessenger.domain.api.GMessengerAuthAPI
 import com.gazim.gmessenger.domain.model.RegistrationForm
-import com.gazim.gmessenger.api.GMessengerAuthAPI as GMAAPI
-import com.gazim.gmessenger.api.model.RegistrationForm as RegistrationFormAPI
+import com.gazim.gmessenger.core.GMessengerAuthAPI as GMAAPI
+import com.gazim.gmessenger.core.model.RegistrationForm as RegistrationFormAPI
 import com.gazim.gmessenger.domain.model.AuthenticationForm as AuthenticationFormAPI
 
 class GMessengerAuthAPIImpl(

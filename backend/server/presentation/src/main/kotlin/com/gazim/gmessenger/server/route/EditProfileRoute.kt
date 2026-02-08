@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.server.route
 
-import com.gazim.gmessenger.api.model.ProfileForm
-import com.gazim.gmessenger.api.route.EditProfileRoute
+import com.gazim.gmessenger.core.model.ProfileForm
+import com.gazim.gmessenger.core.route.EditProfileRoute
 import com.gazim.gmessenger.server.domain.usecase.EditProfileUseCase
 import com.gazim.gmessenger.server.extensions.toDomain
 import io.ktor.server.request.*

@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.server.route
 
-import com.gazim.gmessenger.api.model.RegistrationForm
-import com.gazim.gmessenger.api.route.RegistrationRoute
+import com.gazim.gmessenger.core.model.RegistrationForm
+import com.gazim.gmessenger.core.route.RegistrationRoute
 import com.gazim.gmessenger.server.domain.usecase.RegisterUseCase
 import com.gazim.gmessenger.server.extensions.toDomain
 import io.ktor.server.request.*

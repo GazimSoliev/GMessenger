@@ -37,7 +37,7 @@ kotlin {
             implementation(libs.ktor.client.resources)
 
             // Route names
-            api(projects.backend.common)
+            api(projects.backend.core)
         }
     }
 }

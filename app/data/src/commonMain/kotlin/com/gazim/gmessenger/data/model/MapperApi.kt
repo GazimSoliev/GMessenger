@@ -2,24 +2,24 @@
 
 package com.gazim.gmessenger.data.model
 
-import com.gazim.gmessenger.api.ChatWebSocket
-import com.gazim.gmessenger.api.NotificationSocket
-import com.gazim.gmessenger.api.model.MessageForm
-import com.gazim.gmessenger.api.model.MessageNotification
+import com.gazim.gmessenger.core.ChatWebSocket
+import com.gazim.gmessenger.core.NotificationSocket
+import com.gazim.gmessenger.core.model.MessageForm
+import com.gazim.gmessenger.core.model.MessageNotification
 import com.gazim.gmessenger.domain.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.uuid.ExperimentalUuidApi
-import com.gazim.gmessenger.api.model.GMessengerServer as GMessengerServerAPI
-import com.gazim.gmessenger.api.model.IChat as IChatAPI
-import com.gazim.gmessenger.api.model.IMessage as IMessageAPI
-import com.gazim.gmessenger.api.model.Image as ImageAPI
-import com.gazim.gmessenger.api.model.MessagePageKey as MessagePageKeyAPI
-import com.gazim.gmessenger.api.model.MyMessage as MyMessageAPI
-import com.gazim.gmessenger.api.model.MyMessagePage as MessagePageAPI
-import com.gazim.gmessenger.api.model.PrivateChat as PrivateChatAPI
-import com.gazim.gmessenger.api.model.ProfileForm as ProfileFormAPI
-import com.gazim.gmessenger.api.model.User as UserAPI
+import com.gazim.gmessenger.core.model.GMessengerServer as GMessengerServerAPI
+import com.gazim.gmessenger.core.model.IChat as IChatAPI
+import com.gazim.gmessenger.core.model.IMessage as IMessageAPI
+import com.gazim.gmessenger.core.model.Image as ImageAPI
+import com.gazim.gmessenger.core.model.MessagePageKey as MessagePageKeyAPI
+import com.gazim.gmessenger.core.model.MyMessage as MyMessageAPI
+import com.gazim.gmessenger.core.model.MyMessagePage as MessagePageAPI
+import com.gazim.gmessenger.core.model.PrivateChat as PrivateChatAPI
+import com.gazim.gmessenger.core.model.ProfileForm as ProfileFormAPI
+import com.gazim.gmessenger.core.model.User as UserAPI
 
 fun MessagePageAPI.toDomain() =
     MessagePage(

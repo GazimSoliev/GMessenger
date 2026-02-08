@@ -4,16 +4,16 @@ package com.gazim.gmessenger.server.extensions
 
 import com.gazim.gmessenger.server.domain.model.*
 import kotlin.uuid.ExperimentalUuidApi
-import com.gazim.gmessenger.api.model.AuthenticationForm as AuthenticationFormAPI
-import com.gazim.gmessenger.api.model.Chat as ChatAPI
-import com.gazim.gmessenger.api.model.Image as ImageAPI
-import com.gazim.gmessenger.api.model.Message as MessageAPI
-import com.gazim.gmessenger.api.model.MessagePage as MessagePageAPI
-import com.gazim.gmessenger.api.model.MessagePageKey as MessagePageKeyAPI
-import com.gazim.gmessenger.api.model.PrivateChat as PrivateChatAPI
-import com.gazim.gmessenger.api.model.ProfileForm as ProfileFormAPI
-import com.gazim.gmessenger.api.model.RegistrationForm as RegistrationFormAPI
-import com.gazim.gmessenger.api.model.User as UserAPI
+import com.gazim.gmessenger.core.model.AuthenticationForm as AuthenticationFormAPI
+import com.gazim.gmessenger.core.model.Chat as ChatAPI
+import com.gazim.gmessenger.core.model.Image as ImageAPI
+import com.gazim.gmessenger.core.model.Message as MessageAPI
+import com.gazim.gmessenger.core.model.MessagePage as MessagePageAPI
+import com.gazim.gmessenger.core.model.MessagePageKey as MessagePageKeyAPI
+import com.gazim.gmessenger.core.model.PrivateChat as PrivateChatAPI
+import com.gazim.gmessenger.core.model.ProfileForm as ProfileFormAPI
+import com.gazim.gmessenger.core.model.RegistrationForm as RegistrationFormAPI
+import com.gazim.gmessenger.core.model.User as UserAPI
 
 fun AuthenticationFormAPI.toDomain(): AuthenticationForm =
     AuthenticationForm(

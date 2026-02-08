@@ -32,7 +32,7 @@ dependencies {
     implementation(libs.koin.logger)
 
     // Models and Route names
-    implementation(projects.backend.common)
+    implementation(projects.backend.core)
 
     // Domain
     implementation(projects.backend.server.domain)

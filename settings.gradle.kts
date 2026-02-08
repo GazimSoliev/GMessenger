@@ -29,7 +29,7 @@ include(
     ":app:di",
     ":app:presentation",
     ":utils",
-    ":backend:common",
+    ":backend:core",
     ":backend:server:domain",
     ":backend:server:data",
     ":backend:server:presentation",

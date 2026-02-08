@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.server.route
 
-import com.gazim.gmessenger.api.route.NotificationsRoute
+import com.gazim.gmessenger.core.route.NotificationsRoute
 import com.gazim.gmessenger.server.domain.usecase.GetNotifications
 import com.gazim.gmessenger.server.extensions.toAPI
 import com.gazim.gmessenger.server.extensions.webSocket

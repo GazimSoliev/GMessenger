@@ -1,6 +1,6 @@
 package com.gazim.gmessenger.server.route
 
-import com.gazim.gmessenger.api.route.FindUserRoute
+import com.gazim.gmessenger.core.route.FindUserRoute
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.usecase.FindUserUseCase
 import com.gazim.gmessenger.server.extensions.toAPI
