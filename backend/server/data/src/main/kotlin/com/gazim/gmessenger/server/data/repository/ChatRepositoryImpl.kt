@@ -14,9 +14,10 @@ import com.gazim.gmessenger.server.data.mapper.toUser
 import com.gazim.gmessenger.server.domain.model.IChat
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.ChatRepository
-import kotlinx.datetime.Instant
-import org.jetbrains.exposed.sql.SortOrder
-import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.v1.core.SortOrder
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toJavaUuid

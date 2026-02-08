@@ -4,7 +4,7 @@ import com.gazim.gmessenger.server.domain.model.AuthenticationForm
 import com.gazim.gmessenger.server.domain.model.RegistrationForm
 import com.gazim.gmessenger.server.domain.model.Token
 import com.gazim.gmessenger.server.domain.repository.*
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.uuid.ExperimentalUuidApi
 

@@ -5,7 +5,7 @@ import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.ChatRepository
 import com.gazim.gmessenger.server.domain.repository.DatabaseTransaction
 import com.gazim.gmessenger.server.domain.repository.invoke
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

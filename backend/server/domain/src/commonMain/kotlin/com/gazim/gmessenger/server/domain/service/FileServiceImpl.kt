@@ -4,9 +4,9 @@ import com.gazim.gmessenger.server.domain.model.Image
 import com.gazim.gmessenger.server.domain.repository.DatabaseTransaction
 import com.gazim.gmessenger.server.domain.repository.FileRepository
 import com.gazim.gmessenger.server.domain.repository.invoke
-import kotlinx.datetime.Clock
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
+import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

@@ -11,8 +11,11 @@ import com.gazim.gmessenger.server.data.database.table.PasswordTable
 import com.gazim.gmessenger.server.data.extensions.get
 import com.gazim.gmessenger.server.data.mapper.toUser
 import com.gazim.gmessenger.server.domain.repository.UserRepository
-import kotlinx.datetime.Instant
-import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.core.like
+import org.jetbrains.exposed.v1.jdbc.select
+import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toKotlinUuid

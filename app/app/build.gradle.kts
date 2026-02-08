@@ -30,8 +30,8 @@ kotlin {
             implementation(libs.koin.android)
         }
         commonMain.dependencies {
-            implementation(compose.components.resources)
-            implementation(compose.runtime)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.runtime)
 
             implementation(projects.app.presentation)
             implementation(projects.app.domain)
@@ -43,8 +43,8 @@ kotlin {
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
+            implementation(libs.material3)
+            implementation(libs.compose.material.icons.extended)
         }
     }
 }

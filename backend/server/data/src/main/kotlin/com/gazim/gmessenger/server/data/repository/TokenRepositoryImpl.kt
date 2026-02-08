@@ -7,7 +7,7 @@ import com.gazim.gmessenger.server.data.database.model.TokenEntity
 import com.gazim.gmessenger.server.data.extensions.get
 import com.gazim.gmessenger.server.domain.model.Token
 import com.gazim.gmessenger.server.domain.repository.TokenRepository
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toKotlinUuid

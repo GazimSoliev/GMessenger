@@ -10,9 +10,8 @@ import com.gazim.gmessenger.server.data.extensions.get
 import com.gazim.gmessenger.server.data.mapper.toMessage
 import com.gazim.gmessenger.server.domain.model.Message
 import com.gazim.gmessenger.server.domain.repository.MessageRepository
-import kotlinx.datetime.Instant
-import org.jetbrains.exposed.sql.SortOrder
-import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.v1.core.*
+import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toJavaUuid

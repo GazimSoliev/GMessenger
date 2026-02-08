@@ -8,7 +8,7 @@ import com.gazim.gmessenger.server.data.database.model.ImageEntity
 import com.gazim.gmessenger.server.data.database.model.MessageEntity
 import com.gazim.gmessenger.server.data.database.table.ImageTable
 import com.gazim.gmessenger.server.domain.model.*
-import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.v1.core.SortOrder
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.toJavaUuid
 import kotlin.uuid.toKotlinUuid

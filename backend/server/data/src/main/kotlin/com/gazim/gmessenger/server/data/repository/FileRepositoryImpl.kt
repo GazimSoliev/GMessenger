@@ -8,7 +8,7 @@ import com.gazim.gmessenger.server.data.extensions.get
 import com.gazim.gmessenger.server.data.mapper.toImage
 import com.gazim.gmessenger.server.domain.model.Image
 import com.gazim.gmessenger.server.domain.repository.FileRepository
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

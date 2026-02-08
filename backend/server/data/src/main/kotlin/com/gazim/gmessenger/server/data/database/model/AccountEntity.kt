@@ -3,9 +3,9 @@ package com.gazim.gmessenger.server.data.database.model
 import com.gazim.gmessenger.server.data.database.table.AccountTable
 import com.gazim.gmessenger.server.data.database.table.ChatAccountTable
 import com.gazim.gmessenger.server.data.database.table.ProfilePhotoTable
-import org.jetbrains.exposed.dao.UUIDEntity
-import org.jetbrains.exposed.dao.UUIDEntityClass
-import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.v1.core.dao.id.EntityID
+import org.jetbrains.exposed.v1.dao.java.UUIDEntity
+import org.jetbrains.exposed.v1.dao.java.UUIDEntityClass
 import java.util.*
 
 class AccountEntity(

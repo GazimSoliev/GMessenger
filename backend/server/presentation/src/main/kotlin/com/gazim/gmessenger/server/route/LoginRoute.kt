@@ -15,9 +15,9 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.Route
-import kotlinx.datetime.Instant
-import kotlinx.datetime.toJavaInstant
 import org.koin.ktor.ext.inject
+import kotlin.time.Instant
+import kotlin.time.toJavaInstant
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)

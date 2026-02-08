@@ -12,8 +12,8 @@ import com.gazim.gmessenger.server.domain.repository.invoke
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -29,7 +29,7 @@ class MessagingServiceImpl(
         chatId: Uuid,
         message: String,
     ) {
-        val sentAt = Clock.System.now()
+        val sentAt = kotlin.time.Clock.System.now()
         val message =
             databaseTransaction {
                 messageRepository.sendMessage(

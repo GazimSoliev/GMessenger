@@ -6,7 +6,7 @@ import com.gazim.gmessenger.server.data.database.model.AccountEntity
 import com.gazim.gmessenger.server.data.database.model.PasswordEntity
 import com.gazim.gmessenger.server.data.extensions.get
 import com.gazim.gmessenger.server.domain.repository.PasswordRepository
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

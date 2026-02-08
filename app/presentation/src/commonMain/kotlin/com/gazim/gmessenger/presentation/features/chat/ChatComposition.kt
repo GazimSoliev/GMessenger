@@ -40,13 +40,13 @@ import com.gazim.gmessenger.presentation.theme.GMessengerTheme
 import gmessenger.app.presentation.generated.resources.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
