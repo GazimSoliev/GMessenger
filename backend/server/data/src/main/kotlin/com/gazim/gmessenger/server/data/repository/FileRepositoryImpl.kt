@@ -12,8 +12,8 @@ import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class FileRepositoryImpl : FileRepository {
-    override suspend fun getBase64Image(photoId: Uuid) = ImageEntity[photoId].content
+public class FileRepositoryImpl : FileRepository {
+    override suspend fun getBase64Image(photoId: Uuid): String = ImageEntity[photoId].content
 
     override suspend fun uploadAndGetImage(
         userId: Uuid,

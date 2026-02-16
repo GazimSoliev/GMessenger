@@ -7,7 +7,7 @@ import org.jetbrains.exposed.v1.dao.java.UUIDEntity
 import org.jetbrains.exposed.v1.dao.java.UUIDEntityClass
 import java.util.*
 
-class ChatEntity(
+internal class ChatEntity(
     id: EntityID<UUID>,
 ) : UUIDEntity(id) {
     companion object : UUIDEntityClass<ChatEntity>(ChatTable)

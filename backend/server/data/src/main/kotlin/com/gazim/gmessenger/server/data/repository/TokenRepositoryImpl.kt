@@ -12,7 +12,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toKotlinUuid
 
-class TokenRepositoryImpl : TokenRepository {
+public class TokenRepositoryImpl : TokenRepository {
     override suspend fun insertAndGetToken(
         createdAt: Instant,
         expiredAt: Instant,
@@ -30,7 +30,7 @@ class TokenRepositoryImpl : TokenRepository {
         )
     }
 
-    override suspend fun getUserId(tokenId: Uuid) =
+    override suspend fun getUserId(tokenId: Uuid): Uuid =
         TokenEntity[tokenId]
             .account.id.value
             .toKotlinUuid()

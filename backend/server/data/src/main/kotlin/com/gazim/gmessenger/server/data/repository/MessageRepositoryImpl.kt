@@ -16,7 +16,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toJavaUuid
 
-class MessageRepositoryImpl : MessageRepository {
+public class MessageRepositoryImpl : MessageRepository {
     override suspend fun sendMessage(
         userId: Uuid,
         chatId: Uuid,
@@ -52,7 +52,7 @@ class MessageRepositoryImpl : MessageRepository {
         chatId: Uuid,
         offset: Long,
         start: Instant,
-    ) = MessageEntity
+    ): Instant? = MessageEntity
         .find {
             (MessageTable.idChat eq chatId.toJavaUuid()) and
                 (MessageTable.createdAt less start)
@@ -65,7 +65,7 @@ class MessageRepositoryImpl : MessageRepository {
         chatId: Uuid,
         offset: Long,
         end: Instant,
-    ) = MessageEntity
+    ): Instant? = MessageEntity
         .find {
             (MessageTable.idChat eq chatId.toJavaUuid()) and
                 (MessageTable.createdAt greaterEq end)

@@ -10,6 +10,7 @@ import com.gazim.gmessenger.server.data.database.table.LoginTable
 import com.gazim.gmessenger.server.data.database.table.PasswordTable
 import com.gazim.gmessenger.server.data.extensions.get
 import com.gazim.gmessenger.server.data.mapper.toUser
+import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.UserRepository
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.eq
@@ -20,7 +21,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toKotlinUuid
 
-class UserRepositoryImpl : UserRepository {
+public class UserRepositoryImpl : UserRepository {
     override suspend fun insertAndGetId(
         nickname: String,
         username: String,
@@ -35,12 +36,12 @@ class UserRepositoryImpl : UserRepository {
         return accountEntity.id.value.toKotlinUuid()
     }
 
-    override suspend fun checkUserExist(username: String) = AccountEntity.find { AccountTable.username eq username }.empty()
+    override suspend fun checkUserExist(username: String): Boolean = AccountEntity.find { AccountTable.username eq username }.empty()
 
     override suspend fun findUserByLoginAndPassword(
         login: ByteArray,
         password: ByteArray,
-    ) = AccountTable
+    ): Uuid? = AccountTable
         .innerJoin(LoginTable)
         .innerJoin(PasswordTable)
         .select(AccountTable.id)
@@ -57,7 +58,7 @@ class UserRepositoryImpl : UserRepository {
     override suspend fun findByUsername(
         username: String,
         limit: Int,
-    ) = AccountEntity
+    ): List<User> = AccountEntity
         .find {
             AccountTable.username like "%$username%"
         }.limit(limit)
@@ -87,5 +88,5 @@ class UserRepositoryImpl : UserRepository {
         }
     }
 
-    override suspend fun getUserById(userId: Uuid) = AccountEntity[userId].toUser()
+    override suspend fun getUserById(userId: Uuid): User = AccountEntity[userId].toUser()
 }

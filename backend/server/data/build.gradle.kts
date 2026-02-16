@@ -19,5 +19,9 @@ dependencies {
 }
 
 kotlin {
+    explicitApi()
+    compilerOptions {
+        allWarningsAsErrors = true
+    }
     jvmToolchain(8)
 }

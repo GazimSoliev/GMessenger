@@ -22,7 +22,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toJavaUuid
 
-class ChatRepositoryImpl : ChatRepository {
+public class ChatRepositoryImpl : ChatRepository {
     override suspend fun getMembers(chatId: Uuid): List<User> {
         val chatEntity = ChatEntity[chatId]
         val members = chatEntity.members

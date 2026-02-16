@@ -6,7 +6,7 @@ import org.jetbrains.exposed.v1.dao.java.UUIDEntity
 import org.jetbrains.exposed.v1.dao.java.UUIDEntityClass
 import java.util.*
 
-class ProfilePhotoEntity(
+internal class ProfilePhotoEntity(
     id: EntityID<UUID>,
 ) : UUIDEntity(id) {
     companion object : UUIDEntityClass<ProfilePhotoEntity>(ProfilePhotoTable)

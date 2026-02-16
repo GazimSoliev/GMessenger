@@ -7,8 +7,8 @@ import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
-object GMessengerDatabase {
-    fun init() {
+public object GMessengerDatabase {
+    public fun init() {
         val driverClassName = "org.mariadb.jdbc.Driver"
         val jdbcURL = "jdbc:mariadb://localhost:3306/gmessenger_db"
         val database =
@@ -26,5 +26,5 @@ object GMessengerDatabase {
         }
     }
 
-    suspend fun <T> dbQuery(block: suspend Transaction.() -> T): T = suspendTransaction(statement = block)
+    internal suspend fun <T> dbQuery(block: suspend Transaction.() -> T): T = suspendTransaction(statement = block)
 }

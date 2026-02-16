@@ -6,7 +6,7 @@ import org.jetbrains.exposed.v1.dao.java.UUIDEntity
 import org.jetbrains.exposed.v1.dao.java.UUIDEntityClass
 import java.util.*
 
-class TokenEntity(
+internal class TokenEntity(
     id: EntityID<UUID>,
 ) : UUIDEntity(id) {
     companion object : UUIDEntityClass<TokenEntity>(TokenTable)

@@ -13,7 +13,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.toJavaUuid
 import kotlin.uuid.toKotlinUuid
 
-fun AccountEntity.toUser() =
+internal fun AccountEntity.toUser(): User =
     User(
         id = id.value.toKotlinUuid(),
         nickname = nickname,
@@ -26,14 +26,14 @@ fun AccountEntity.toUser() =
                 ?.toImage(),
     )
 
-fun User.toAccountEntity() = AccountEntity[id.toJavaUuid()]
+internal fun User.toAccountEntity(): AccountEntity = AccountEntity[id.toJavaUuid()]
 
-fun Image.toImageEntity() = ImageEntity[id.toJavaUuid()]
+internal fun Image.toImageEntity(): ImageEntity = ImageEntity[id.toJavaUuid()]
 
-fun ChatEntity.toChat(lastMessage: MessageEntity?): IChat =
+internal fun ChatEntity.toChat(lastMessage: MessageEntity?): IChat =
     Chat(id = id.value.toKotlinUuid(), title = title, lastMessage = lastMessage?.toMessage())
 
-fun ChatEntity.toPrivateChat(
+internal fun ChatEntity.toPrivateChat(
     partner: AccountEntity,
     lastMessage: MessageEntity?,
 ): PrivateChat =
@@ -44,7 +44,7 @@ fun ChatEntity.toPrivateChat(
         lastMessage = lastMessage?.toMessage(),
     )
 
-fun ChatEntity.toChat(
+internal fun ChatEntity.toChat(
     currentUser: AccountEntity,
     lastMessage: MessageEntity?,
 ): IChat =
@@ -54,7 +54,7 @@ fun ChatEntity.toChat(
         else -> toChat(lastMessage = lastMessage)
     }
 
-fun MessageEntity.toMessage() =
+internal fun MessageEntity.toMessage(): Message =
     Message(
         id = id.value.toKotlinUuid(),
         message = message,
@@ -62,7 +62,7 @@ fun MessageEntity.toMessage() =
         sentAt = sentAt,
     )
 
-fun ImageEntity.toImage() =
+internal fun ImageEntity.toImage(): Image =
     Image(
         id = id.value.toKotlinUuid(),
         type = type,

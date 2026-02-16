@@ -10,7 +10,7 @@ import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class PasswordRepositoryImpl : PasswordRepository {
+public class PasswordRepositoryImpl : PasswordRepository {
     override suspend fun insert(
         password: ByteArray,
         userId: Uuid,
