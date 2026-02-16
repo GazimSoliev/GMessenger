@@ -1,6 +1,5 @@
 package com.gazim.gmessenger.presentation.features.login
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Visibility
@@ -13,6 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import gmessenger.app.presentation.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
@@ -47,9 +47,9 @@ fun LoginComposition(
     Surface {
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) },
-        ) {
+        ) { paddingValues ->
             Column(
-                modifier = modifier,
+                modifier = modifier.padding(paddingValues),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {

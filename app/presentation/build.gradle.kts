@@ -13,7 +13,7 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget = JvmTarget.JVM_1_8
+            jvmTarget = JvmTarget.JVM_11
         }
     }
 
@@ -25,9 +25,9 @@ kotlin {
             implementation(libs.compose.foundation)
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
-
             implementation(libs.compose.material3)
             implementation(libs.compose.material.icons.extended)
+            implementation(libs.compose.preview)
 
             implementation(projects.app.domain)
 
@@ -43,9 +43,6 @@ kotlin {
             implementation(libs.orbit.core)
 //            implementation(libs.orbit.compose)
 //            implementation(libs.orbit.viewmodel)
-
-            // Utils
-            implementation(projects.utils)
 
             implementation(libs.paging.common)
             implementation(libs.paging.compose.common)
@@ -79,4 +76,8 @@ android {
                 .get()
                 .toInt()
     }
+}
+
+dependencies {
+    debugImplementation(libs.compose.ui.tooling)
 }
