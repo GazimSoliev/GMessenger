@@ -10,9 +10,13 @@ import org.koin.ktor.ext.inject
 
 fun Route.notificationRoute() {
     val getNotifications by inject<GetNotifications>()
+
     webSocket<NotificationsRoute> {
         val user = getUser()
         val notifications = getNotifications(user)
-        notifications.collect { sendSerialized(it.toAPI()) }
+        notifications.collect { notification ->
+            val notificationApi = notification.toAPI()
+            sendSerialized(notificationApi)
+        }
     }
 }

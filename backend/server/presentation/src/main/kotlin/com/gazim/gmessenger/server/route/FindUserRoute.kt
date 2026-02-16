@@ -11,9 +11,11 @@ import org.koin.ktor.ext.inject
 
 fun Route.findUserRoute() {
     val findUserUseCase by inject<FindUserUseCase>()
+
     get<FindUserRoute.Query> { params ->
         val filterRequest = params.query
         val users = findUserUseCase(filterRequest)
-        call.respond(users.map(User::toAPI))
+        val userApis = users.map(User::toAPI)
+        call.respond(userApis)
     }
 }

@@ -9,6 +9,7 @@ import io.ktor.server.routing.*
 fun Route.userRoute() {
     get<UserRoute> {
         val user = getUser()
-        call.respond(user.toAPI())
+        val userApi = user.toAPI()
+        call.respond(userApi)
     }
 }

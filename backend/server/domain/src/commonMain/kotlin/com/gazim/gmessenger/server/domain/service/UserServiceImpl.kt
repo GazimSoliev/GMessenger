@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.domain.service
 
 import com.gazim.gmessenger.server.domain.model.Image
@@ -5,12 +7,10 @@ import com.gazim.gmessenger.server.domain.model.ProfileForm
 import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.*
 import kotlin.io.encoding.Base64
-import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-@OptIn(ExperimentalUuidApi::class, ExperimentalEncodingApi::class)
 public class UserServiceImpl(
     private val userRepository: UserRepository,
     private val fileRepository: FileRepository,

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.route
 
 import com.auth0.jwt.JWT
@@ -20,21 +22,23 @@ import kotlin.time.Instant
 import kotlin.time.toJavaInstant
 import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Route.loginRoute() {
     val loginUseCase by inject<LoginUseCase>()
+
     post<LoginRoute> {
-        val loginPassword = call.receive<AuthenticationForm>().toDomain()
-        println("LoginPassword: $loginPassword")
-        val token = loginUseCase(loginPassword)
+        val authenticationFormApi = call.receive<AuthenticationForm>()
+        val authenticationForm = authenticationFormApi.toDomain()
+        println("AuthenticationForm: $authenticationFormApi")
+        val token = loginUseCase(authenticationForm)
         println("Token: $token")
         val jwtToken =
-            if (token == null) {
-                null
-            } else {
+            if (token != null) {
                 generateJWT(token.id.toString(), token.expiredAt)
+            } else {
+                null
             }
-        call.respondNullable(Token(jwtToken))
+        val tokenApi = Token(jwtToken)
+        call.respondNullable(tokenApi)
     }
 }
 

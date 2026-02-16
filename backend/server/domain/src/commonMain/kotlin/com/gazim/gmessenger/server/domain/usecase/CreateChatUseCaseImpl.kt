@@ -12,5 +12,5 @@ public class CreateChatUseCaseImpl(
     override suspend fun invoke(
         ownerId: Uuid,
         userIds: List<Uuid>,
-    ): IChat? = chatService.createChat(userIds + ownerId)
+    ): IChat = chatService.createChat(userIds + ownerId)
 }

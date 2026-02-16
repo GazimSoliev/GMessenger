@@ -29,7 +29,7 @@ public class MessagingServiceImpl(
         chatId: Uuid,
         message: String,
     ) {
-        val sentAt = kotlin.time.Clock.System.now()
+        val sentAt = Clock.System.now()
         val message =
             databaseTransaction {
                 messageRepository.sendMessage(
@@ -83,7 +83,7 @@ public class MessagingServiceImpl(
     override suspend fun getMessageFlow(
         userId: Uuid,
         chatId: Uuid,
-    ): Flow<Message>? {
+    ): Flow<Message> {
         val existInChat =
             databaseTransaction {
                 chatRepository.existInChat(
@@ -91,8 +91,13 @@ public class MessagingServiceImpl(
                     chatId = chatId,
                 )
             }
-        if (!existInChat) return null
-        val flow = chatsFlow[chatId] ?: MutableSharedFlow<Message>().also { chatsFlow[chatId] = it }
-        return flow.asSharedFlow()
+        if (!existInChat) error("This chat $userId doesn't exist for user $userId")
+        val chatFlow = chatsFlow[chatId]
+        if (chatFlow == null) {
+            val newFlow = MutableSharedFlow<Message>()
+            chatsFlow[chatId] = newFlow
+            return newFlow.asSharedFlow()
+        }
+        return chatFlow.asSharedFlow()
     }
 }

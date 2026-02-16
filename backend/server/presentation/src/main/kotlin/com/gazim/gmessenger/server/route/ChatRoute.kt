@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.route
 
 import com.gazim.gmessenger.core.model.MessageForm
@@ -8,26 +10,24 @@ import com.gazim.gmessenger.server.extensions.toAPI
 import com.gazim.gmessenger.server.extensions.webSocket
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.ktor.ext.inject
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
-@OptIn(ExperimentalUuidApi::class)
 fun Route.chatRoute() {
     val sendMessageUseCase by inject<SendMessageUseCase>()
     val getMessageFlowUseCase by inject<GetMessageFlowUseCase>()
+
     webSocket<ChatRoute.Id> { params ->
         val userId = getUserId()
-        val chatId = Uuid.parse(params.id)
-        launch(Dispatchers.IO) {
-            getMessageFlowUseCase(userId, chatId)
-                .also { println("Sent: $it") }
-                ?.collect {
-                    it.also { println("Sent: $it") }
-                    sendSerialized(it.toAPI())
-                }
+        val chatId = params.id
+        val messageFlow = getMessageFlowUseCase(userId, chatId)
+
+        launch {
+            messageFlow.collect { message ->
+                println("Sent: $message")
+                sendSerialized(message.toAPI())
+            }
         }
         while (true) {
             val message = receiveDeserialized<MessageForm>()

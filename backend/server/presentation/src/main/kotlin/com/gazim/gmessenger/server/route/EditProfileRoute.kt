@@ -13,6 +13,7 @@ import kotlin.uuid.ExperimentalUuidApi
 @OptIn(ExperimentalUuidApi::class)
 fun Route.editProfileRoute() {
     val editProfileUseCase by inject<EditProfileUseCase>()
+
     post<EditProfileRoute> {
         val profileForm = call.receive<ProfileForm>()
         val userId = getUserId()

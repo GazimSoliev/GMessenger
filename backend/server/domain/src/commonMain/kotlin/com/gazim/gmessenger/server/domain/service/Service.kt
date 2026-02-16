@@ -42,12 +42,12 @@ public interface ChatService {
         chatId: Uuid,
     ): List<User>
 
-    public suspend fun createChat(userIds: List<Uuid>): IChat?
+    public suspend fun createChat(userIds: List<Uuid>): IChat
 
     public suspend fun getChat(
         userId: Uuid,
         chatId: Uuid,
-    ): IChat?
+    ): IChat
 }
 
 public interface MessagingService {
@@ -66,7 +66,7 @@ public interface MessagingService {
     public suspend fun getMessageFlow(
         userId: Uuid,
         chatId: Uuid,
-    ): Flow<Message>?
+    ): Flow<Message>
 }
 
 public interface FileService {

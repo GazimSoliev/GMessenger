@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.domain.service
 
 import com.gazim.gmessenger.server.domain.model.AuthenticationForm
@@ -8,7 +10,6 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 public class AuthorizationServiceImpl(
     private val shA256Service: SHA256Service,
     private val transaction: DatabaseTransaction,

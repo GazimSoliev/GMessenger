@@ -44,7 +44,7 @@ public class ChatServiceImpl(
             }
         }
 
-    override suspend fun createChat(userIds: List<Uuid>): IChat? {
+    override suspend fun createChat(userIds: List<Uuid>): IChat {
         val createdAt = Clock.System.now()
         return databaseTransaction {
             val chat =
@@ -52,7 +52,6 @@ public class ChatServiceImpl(
                     title = "",
                     createdAt = createdAt,
                 )
-            if (chat == null) return@databaseTransaction null
             userIds.forEach { userId ->
                 chatRepository.addUserInChat(
                     userId = userId,
@@ -67,10 +66,10 @@ public class ChatServiceImpl(
     override suspend fun getChat(
         userId: Uuid,
         chatId: Uuid,
-    ): IChat? =
+    ): IChat =
         databaseTransaction {
             val existInChat = chatRepository.existInChat(userId, chatId)
-            if (existInChat) return@databaseTransaction null
+            if (existInChat) error("Chat with id $chatId not found")
             chatRepository.getChat(chatId)
         }
 }

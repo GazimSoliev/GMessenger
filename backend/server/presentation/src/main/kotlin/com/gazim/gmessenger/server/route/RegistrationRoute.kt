@@ -12,6 +12,7 @@ import org.koin.ktor.ext.inject
 
 fun Route.registrationRoute() {
     val registerUseCase by inject<RegisterUseCase>()
+
     post<RegistrationRoute> {
         val account = call.receive<RegistrationForm>()
         val isSuccessful = registerUseCase(account.toDomain())

@@ -8,17 +8,28 @@ import com.gazim.gmessenger.server.utils.ISecurityUtils
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
-import org.koin.ktor.plugin.scope
+import org.koin.ktor.ext.get
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-suspend fun ApplicationCall.getTokenId() = scope.get<ISecurityUtils>().getUserTokenId(this)
+suspend fun ApplicationCall.getTokenId(): String {
+    val securityUtils = get<ISecurityUtils>()
+    val tokenId = securityUtils.getUserTokenId(this)
+    return tokenId
+}
 
-suspend fun RoutingContext.getUser(): User = call.scope.get<GetUserUseCase>().invoke(Uuid.parse(call.getTokenId()))
+suspend fun ApplicationCall.getUser(): User {
+    val getUserUseCase = get<GetUserUseCase>()
+    val tokenId = getTokenId()
+    val tokenUuid = Uuid.parse(tokenId)
+    val user = getUserUseCase(tokenUuid)
+    return user
+}
 
-@OptIn(ExperimentalUuidApi::class)
+suspend fun RoutingContext.getUser(): User = call.getUser()
+
 suspend fun RoutingContext.getUserId() = getUser().id
 
-suspend fun WebSocketServerSession.getUser(): User = call.scope.get<GetUserUseCase>().invoke(Uuid.parse(call.getTokenId()))
+suspend fun WebSocketServerSession.getUser() = call.getUser()
 
 suspend fun WebSocketServerSession.getUserId() = getUser().id

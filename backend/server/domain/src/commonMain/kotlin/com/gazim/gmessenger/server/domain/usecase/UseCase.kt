@@ -29,7 +29,7 @@ public interface GetMessageFlowUseCase {
         chatId: Uuid,
         limit: Int = 64,
         startFrom: Long? = null,
-    ): Flow<Message>?
+    ): Flow<Message>
 }
 
 public interface LoginUseCase {
@@ -48,14 +48,14 @@ public interface GetChatUseCase {
     public suspend operator fun invoke(
         userId: Uuid,
         chatId: Uuid,
-    ): IChat?
+    ): IChat
 }
 
 public interface CreateChatUseCase {
     public suspend operator fun invoke(
         ownerId: Uuid,
         userIds: List<Uuid>,
-    ): IChat?
+    ): IChat
 }
 
 public interface GetNotifications {

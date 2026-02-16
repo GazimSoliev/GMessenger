@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package com.gazim.gmessenger.server.route
 
 import com.gazim.gmessenger.core.route.ChatsRoute
@@ -10,11 +12,13 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Route.chatsRoute() {
     val getChatsUseCase by inject<GetChatsUseCase>()
+
     get<ChatsRoute> {
-        val chats = getChatsUseCase(getUserId())
-        call.respond(chats.map(IChat::toAPI))
+        val userId = getUserId()
+        val chats = getChatsUseCase(userId)
+        val chatAPIs = chats.map(IChat::toAPI)
+        call.respond(chatAPIs)
     }
 }

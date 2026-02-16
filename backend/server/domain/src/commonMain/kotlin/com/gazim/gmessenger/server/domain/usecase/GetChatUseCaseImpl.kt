@@ -12,5 +12,5 @@ public class GetChatUseCaseImpl(
     override suspend fun invoke(
         userId: Uuid,
         chatId: Uuid,
-    ): IChat? = chatService.getChat(userId, chatId)
+    ): IChat = chatService.getChat(userId, chatId)
 }

@@ -90,9 +90,9 @@ public interface ChatRepository {
     public suspend fun createChat(
         title: String,
         createdAt: Instant,
-    ): IChat?
+    ): IChat
 
-    public suspend fun getChat(chatId: Uuid): IChat?
+    public suspend fun getChat(chatId: Uuid): IChat
 
     public suspend fun existInChat(
         userId: Uuid,

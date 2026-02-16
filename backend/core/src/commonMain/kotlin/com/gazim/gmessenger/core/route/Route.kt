@@ -1,14 +1,16 @@
-@file:Suppress("unused")
+@file:OptIn(ExperimentalUuidApi::class)
 
 package com.gazim.gmessenger.core.route
 
 import io.ktor.resources.*
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 @Resource("/chat")
 public class ChatRoute {
     @Resource("{id}")
     public class Id(
-        public val id: String,
+        public val id: Uuid,
         public val parent: ChatRoute = ChatRoute(),
     )
 }
@@ -17,7 +19,7 @@ public class ChatRoute {
 public class GetChatRoute {
     @Resource("{id}")
     public class Id(
-        public val id: String,
+        public val id: Uuid,
         public val parent: GetChatRoute = GetChatRoute(),
     )
 }
@@ -55,7 +57,7 @@ public class UserRoute
 public class MessagesRoute {
     @Resource("{chatId}")
     public class ChatId(
-        public val chatId: String,
+        public val chatId: Uuid,
         public val parent: MessagesRoute = MessagesRoute(),
     )
 }
@@ -76,7 +78,7 @@ public class UploadProfilePhotoRoute {
 public class ImageRoute {
     @Resource("{id}")
     public class Id(
-        public val id: String,
+        public val id: Uuid,
         public val parent: ImageRoute = ImageRoute(),
     )
 }

@@ -15,5 +15,5 @@ public class GetMessageFlowUseCaseImpl(
         chatId: Uuid,
         limit: Int,
         startFrom: Long?,
-    ): Flow<Message>? = messagingService.getMessageFlow(userId, chatId)
+    ): Flow<Message> = messagingService.getMessageFlow(userId, chatId)
 }

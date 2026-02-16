@@ -32,7 +32,7 @@ public class ChatRepositoryImpl : ChatRepository {
     override suspend fun createChat(
         title: String,
         createdAt: Instant,
-    ): IChat? {
+    ): IChat {
         val chatEntity =
             ChatEntity.new {
                 this.title = title
@@ -41,7 +41,7 @@ public class ChatRepositoryImpl : ChatRepository {
         return chatEntity.toChat(lastMessage = null)
     }
 
-    override suspend fun getChat(chatId: Uuid): IChat? {
+    override suspend fun getChat(chatId: Uuid): IChat {
         val chatEntity = ChatEntity[chatId]
         val lastMessage = chatEntity.getLastMessage()
         return chatEntity.toChat(lastMessage = lastMessage)
