@@ -71,7 +71,7 @@ class GMessengerAPIImpl(
 
     override suspend fun getChats(): List<IChat> = httpClient.get(ChatsRoute()).body()
 
-    override suspend fun getChat(chatId: Uuid): IChat = httpClient.get(GetChatRoute.Id(chatId.toString())).body()
+    override suspend fun getChat(chatId: Uuid): IChat = httpClient.get(GetChatRoute.Id(chatId)).body()
 
     override suspend fun createChat(userID: Uuid): Boolean =
         httpClient
@@ -90,7 +90,7 @@ class GMessengerAPIImpl(
             override suspend fun openConnection() {
                 coroutineScope {
                     httpClient.webSocket(
-                        resource = ChatRoute.Id(chatID.toString()),
+                        resource = ChatRoute.Id(chatID),
                         request = { url { protocol = wsProtocol } },
                     ) {
                         println(this.call.request.url)
@@ -162,7 +162,7 @@ class GMessengerAPIImpl(
     ): MyMessagePage {
         val page =
             httpClient
-                .post(MessagesRoute.ChatId(chatId.toString())) {
+                .post(MessagesRoute.ChatId(chatId)) {
                     setBody(key)
                 }.body<MessagePage>()
         return page.toMyPage(getUserId())
@@ -183,7 +183,7 @@ class GMessengerAPIImpl(
                 setBody(bytes)
             }.body()
 
-    override suspend fun getImageContent(photoId: Uuid): ByteArray = httpClient.get(ImageRoute.Id(photoId.toString())).bodyAsBytes()
+    override suspend fun getImageContent(photoId: Uuid): ByteArray = httpClient.get(ImageRoute.Id(photoId)).bodyAsBytes()
 
     override fun close() = httpClient.close()
 }
