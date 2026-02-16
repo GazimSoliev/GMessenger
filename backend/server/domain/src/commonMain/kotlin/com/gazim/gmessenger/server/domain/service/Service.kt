@@ -7,78 +7,78 @@ import kotlinx.coroutines.flow.Flow
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-interface UserService {
-    suspend fun findUser(username: String): List<User>
+public interface UserService {
+    public suspend fun findUser(username: String): List<User>
 
-    suspend fun getUser(tokenId: Uuid): User
+    public suspend fun getUser(tokenId: Uuid): User
 
-    suspend fun editProfile(
+    public suspend fun editProfile(
         userId: Uuid,
         profileForm: ProfileForm,
     )
 
-    suspend fun uploadProfilePhoto(
+    public suspend fun uploadProfilePhoto(
         userId: Uuid,
         type: String,
         content: ByteArray,
     ): Image
 }
 
-interface AuthorizationService {
-    suspend fun login(loginPassword: AuthenticationForm): Token?
+public interface AuthorizationService {
+    public suspend fun login(loginPassword: AuthenticationForm): Token?
 
-    suspend fun register(account: RegistrationForm): Boolean
+    public suspend fun register(account: RegistrationForm): Boolean
 }
 
-interface ChatService {
-    suspend fun getChats(
+public interface ChatService {
+    public suspend fun getChats(
         userId: Uuid,
         size: Int,
         page: Int,
     ): List<IChat>
 
-    suspend fun getMembers(
+    public suspend fun getMembers(
         userId: Uuid,
         chatId: Uuid,
     ): List<User>
 
-    suspend fun createChat(userIds: List<Uuid>): IChat?
+    public suspend fun createChat(userIds: List<Uuid>): IChat?
 
-    suspend fun getChat(
+    public suspend fun getChat(
         userId: Uuid,
         chatId: Uuid,
     ): IChat?
 }
 
-interface MessagingService {
-    suspend fun sendMessage(
+public interface MessagingService {
+    public suspend fun sendMessage(
         userId: Uuid,
         chatId: Uuid,
         message: String,
     )
 
-    suspend fun getMessages(
+    public suspend fun getMessages(
         userId: Uuid,
         chatId: Uuid,
         key: MessagePageKey?,
     ): MessagePage
 
-    suspend fun getMessageFlow(
+    public suspend fun getMessageFlow(
         userId: Uuid,
         chatId: Uuid,
     ): Flow<Message>?
 }
 
-interface FileService {
-    suspend fun getImageContent(photoId: Uuid): ByteArray
+public interface FileService {
+    public suspend fun getImageContent(photoId: Uuid): ByteArray
 
-    suspend fun uploadImage(
+    public suspend fun uploadImage(
         userId: Uuid,
         type: String,
         content: ByteArray,
     ): Image
 }
 
-interface SHA256Service {
-    fun encode(bytes: ByteArray): ByteArray
+public interface SHA256Service {
+    public fun encode(bytes: ByteArray): ByteArray
 }

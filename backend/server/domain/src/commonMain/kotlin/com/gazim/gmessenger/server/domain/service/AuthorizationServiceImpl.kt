@@ -9,7 +9,7 @@ import kotlin.time.Duration.Companion.days
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
-class AuthorizationServiceImpl(
+public class AuthorizationServiceImpl(
     private val shA256Service: SHA256Service,
     private val transaction: DatabaseTransaction,
     private val userRepository: UserRepository,

@@ -6,11 +6,13 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-class EditProfileUseCaseImpl(
+public class EditProfileUseCaseImpl(
     private val userService: UserService,
 ) : EditProfileUseCase {
     override suspend fun invoke(
         userId: Uuid,
         profileForm: ProfileForm,
-    ) = userService.editProfile(userId, profileForm)
+    ) {
+        userService.editProfile(userId, profileForm)
+    }
 }

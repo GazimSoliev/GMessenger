@@ -7,24 +7,24 @@ import kotlinx.coroutines.flow.Flow
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-interface GetUserUseCase {
-    suspend operator fun invoke(tokenId: Uuid): User
+public interface GetUserUseCase {
+    public suspend operator fun invoke(tokenId: Uuid): User
 }
 
-interface GetChatsUseCase {
-    suspend operator fun invoke(userId: Uuid): List<IChat>
+public interface GetChatsUseCase {
+    public suspend operator fun invoke(userId: Uuid): List<IChat>
 }
 
-interface SendMessageUseCase {
-    suspend operator fun invoke(
+public interface SendMessageUseCase {
+    public suspend operator fun invoke(
         userId: Uuid,
         chatId: Uuid,
         message: String,
     )
 }
 
-interface GetMessageFlowUseCase {
-    suspend operator fun invoke(
+public interface GetMessageFlowUseCase {
+    public suspend operator fun invoke(
         userId: Uuid,
         chatId: Uuid,
         limit: Int = 64,
@@ -32,57 +32,57 @@ interface GetMessageFlowUseCase {
     ): Flow<Message>?
 }
 
-interface LoginUseCase {
-    suspend operator fun invoke(loginPassword: AuthenticationForm): Token?
+public interface LoginUseCase {
+    public suspend operator fun invoke(loginPassword: AuthenticationForm): Token?
 }
 
-interface RegisterUseCase {
-    suspend operator fun invoke(account: RegistrationForm): Boolean
+public interface RegisterUseCase {
+    public suspend operator fun invoke(account: RegistrationForm): Boolean
 }
 
-interface FindUserUseCase {
-    suspend operator fun invoke(username: String): List<User>
+public interface FindUserUseCase {
+    public suspend operator fun invoke(username: String): List<User>
 }
 
-interface GetChatUseCase {
-    suspend operator fun invoke(
+public interface GetChatUseCase {
+    public suspend operator fun invoke(
         userId: Uuid,
         chatId: Uuid,
     ): IChat?
 }
 
-interface CreateChatUseCase {
-    suspend operator fun invoke(
+public interface CreateChatUseCase {
+    public suspend operator fun invoke(
         ownerId: Uuid,
         userIds: List<Uuid>,
     ): IChat?
 }
 
-interface GetNotifications {
-    operator fun invoke(user: User): Flow<Message>
+public interface GetNotifications {
+    public operator fun invoke(user: User): Flow<Message>
 }
 
-interface GetMessagesUseCase {
-    suspend operator fun invoke(
+public interface GetMessagesUseCase {
+    public suspend operator fun invoke(
         userId: Uuid,
         chatId: Uuid,
         key: MessagePageKey?,
     ): MessagePage
 }
 
-interface EditProfileUseCase {
-    suspend operator fun invoke(
+public interface EditProfileUseCase {
+    public suspend operator fun invoke(
         userId: Uuid,
         profileForm: ProfileForm,
     )
 }
 
-interface GetImageContentUseCase {
-    suspend operator fun invoke(photoId: Uuid): ByteArray
+public interface GetImageContentUseCase {
+    public suspend operator fun invoke(photoId: Uuid): ByteArray
 }
 
-interface UploadProfilePhotoUseCase {
-    suspend operator fun invoke(
+public interface UploadProfilePhotoUseCase {
+    public suspend operator fun invoke(
         userId: Uuid,
         type: String,
         content: ByteArray,

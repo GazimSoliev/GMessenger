@@ -5,7 +5,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-class GetImageContentUseCaseImpl(
+public class GetImageContentUseCaseImpl(
     private val fileService: FileService,
 ) : GetImageContentUseCase {
     override suspend fun invoke(photoId: Uuid): ByteArray = fileService.getImageContent(photoId)

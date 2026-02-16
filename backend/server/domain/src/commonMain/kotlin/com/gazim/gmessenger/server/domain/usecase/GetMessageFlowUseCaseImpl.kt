@@ -7,7 +7,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-class GetMessageFlowUseCaseImpl(
+public class GetMessageFlowUseCaseImpl(
     private val messagingService: MessagingService,
 ) : GetMessageFlowUseCase {
     override suspend fun invoke(

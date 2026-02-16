@@ -17,7 +17,7 @@ import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class MessagingServiceImpl(
+public class MessagingServiceImpl(
     private val messageRepository: MessageRepository,
     private val chatRepository: ChatRepository,
     private val databaseTransaction: DatabaseTransaction,

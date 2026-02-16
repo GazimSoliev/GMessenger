@@ -1,8 +1,8 @@
 package com.gazim.gmessenger.server.domain.model
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
-data class MessagePageKey(
+public data class MessagePageKey(
     val start: Instant,
     val end: Instant,
 )

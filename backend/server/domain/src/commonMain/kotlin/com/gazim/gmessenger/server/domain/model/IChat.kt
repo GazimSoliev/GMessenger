@@ -5,8 +5,8 @@ package com.gazim.gmessenger.server.domain.model
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-interface IChat {
-    val id: Uuid
-    val title: String
-    val lastMessage: Message?
+public interface IChat {
+    public val id: Uuid
+    public val title: String
+    public val lastMessage: Message?
 }

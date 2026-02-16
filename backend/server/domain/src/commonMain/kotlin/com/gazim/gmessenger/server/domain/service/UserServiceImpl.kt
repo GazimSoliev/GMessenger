@@ -1,6 +1,8 @@
 package com.gazim.gmessenger.server.domain.service
 
+import com.gazim.gmessenger.server.domain.model.Image
 import com.gazim.gmessenger.server.domain.model.ProfileForm
+import com.gazim.gmessenger.server.domain.model.User
 import com.gazim.gmessenger.server.domain.repository.*
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -9,13 +11,13 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class, ExperimentalEncodingApi::class)
-class UserServiceImpl(
+public class UserServiceImpl(
     private val userRepository: UserRepository,
     private val fileRepository: FileRepository,
     private val tokenRepository: TokenRepository,
     private val transaction: DatabaseTransaction,
 ) : UserService {
-    override suspend fun findUser(username: String) =
+    override suspend fun findUser(username: String): List<User> =
         transaction {
             userRepository.findByUsername(
                 username = username,
@@ -23,7 +25,7 @@ class UserServiceImpl(
             )
         }
 
-    override suspend fun getUser(tokenId: Uuid) =
+    override suspend fun getUser(tokenId: Uuid): User =
         transaction {
             val userId = tokenRepository.getUserId(tokenId)
             userRepository.getUserById(userId)
@@ -32,19 +34,21 @@ class UserServiceImpl(
     override suspend fun editProfile(
         userId: Uuid,
         profileForm: ProfileForm,
-    ) = transaction {
-        userRepository.editProfile(
-            userId = userId,
-            nickname = profileForm.nickname,
-            username = profileForm.username,
-        )
+    ) {
+        transaction {
+            userRepository.editProfile(
+                userId = userId,
+                nickname = profileForm.nickname,
+                username = profileForm.username,
+            )
+        }
     }
 
     override suspend fun uploadProfilePhoto(
         userId: Uuid,
         type: String,
         content: ByteArray,
-    ) = transaction {
+    ): Image = transaction {
         val base64Image = Base64.encode(content)
         val createdAt = Clock.System.now()
         val image =

@@ -26,7 +26,7 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
 
-            implementation(libs.material3)
+            implementation(libs.compose.material3)
             implementation(libs.compose.material.icons.extended)
 
             implementation(projects.app.domain)
@@ -54,7 +54,7 @@ kotlin {
             implementation(libs.lifecycle.viewmodel)
 
             // Navigation
-            implementation(libs.navigation.compose)
+            implementation(libs.compose.navigation)
 
             implementation(libs.kotlinx.serialization.json)
 

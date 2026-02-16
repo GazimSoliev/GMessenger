@@ -6,7 +6,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-class GetChatUseCaseImpl(
+public class GetChatUseCaseImpl(
     private val chatService: ChatService,
 ) : GetChatUseCase {
     override suspend fun invoke(

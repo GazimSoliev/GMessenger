@@ -2,11 +2,11 @@
 
 package com.gazim.gmessenger.server.domain.model
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-data class Token(
+public data class Token(
     val id: Uuid,
     val expiredAt: Instant,
 )

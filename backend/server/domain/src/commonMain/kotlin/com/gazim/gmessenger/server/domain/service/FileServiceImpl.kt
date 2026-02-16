@@ -11,7 +11,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class, ExperimentalEncodingApi::class)
-class FileServiceImpl(
+public class FileServiceImpl(
     private val fileRepository: FileRepository,
     private val databaseTransaction: DatabaseTransaction,
 ) : FileService {

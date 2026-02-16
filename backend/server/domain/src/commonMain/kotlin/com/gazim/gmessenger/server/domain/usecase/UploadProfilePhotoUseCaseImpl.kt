@@ -6,7 +6,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-class UploadProfilePhotoUseCaseImpl(
+public class UploadProfilePhotoUseCaseImpl(
     private val userService: UserServiceImpl,
 ) : UploadProfilePhotoUseCase {
     override suspend fun invoke(

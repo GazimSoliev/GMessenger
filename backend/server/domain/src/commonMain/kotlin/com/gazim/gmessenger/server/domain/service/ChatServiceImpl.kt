@@ -10,7 +10,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-class ChatServiceImpl(
+public class ChatServiceImpl(
     private val chatRepository: ChatRepository,
     private val databaseTransaction: DatabaseTransaction,
 ) : ChatService {

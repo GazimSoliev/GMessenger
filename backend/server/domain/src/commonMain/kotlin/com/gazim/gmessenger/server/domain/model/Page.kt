@@ -1,7 +1,7 @@
 package com.gazim.gmessenger.server.domain.model
 
-interface Page<Key, Data> {
-    val data: Data
-    val next: Key?
-    val prev: Key?
+public interface Page<Key, Data> {
+    public val data: Data
+    public val next: Key?
+    public val prev: Key?
 }

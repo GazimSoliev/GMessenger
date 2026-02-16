@@ -43,7 +43,7 @@ kotlin {
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(libs.material3)
+            implementation(libs.compose.material3)
             implementation(libs.compose.material.icons.extended)
         }
     }

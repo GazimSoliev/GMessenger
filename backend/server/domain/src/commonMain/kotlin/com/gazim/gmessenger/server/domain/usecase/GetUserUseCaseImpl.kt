@@ -6,7 +6,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-class GetUserUseCaseImpl(
+public class GetUserUseCaseImpl(
     private val userService: UserService,
 ) : GetUserUseCase {
     override suspend fun invoke(tokenId: Uuid): User = userService.getUser(tokenId)
